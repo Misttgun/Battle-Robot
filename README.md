@@ -2,6 +2,6 @@
 Repo du projet annuel des 3A 3DJV ESGI
 
 ## Participants
-GIRARDOT Vincent
-RAKOTOASIMBOLA Manasseh
-SAGBO Maurel
+- GIRARDOT Vincent
+- RAKOTOASIMBOLA Manasseh
+- SAGBO Maurel
