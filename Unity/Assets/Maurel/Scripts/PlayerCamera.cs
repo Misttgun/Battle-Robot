@@ -1,25 +1,11 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PlayerCamera.cs" company="Exit Games GmbH">
-//   Part of: Photon Unity Networking Demos
-// </copyright>
-// <summary>
-//  Used in DemoAnimator to deal with the Camera work to follow the player
-// </summary>
-// <author>developer@exitgames.com</author>
-// --------------------------------------------------------------------------------------------------------------------
-
 using UnityEngine;
-using System.Collections;
 
-namespace ExitGames.Demos.DemoAnimator
+namespace Maurel.BattleRobo.Player
 {
-	/// <summary>
-	/// Camera work. Follow a target
-	/// </summary>
-	public class CameraWork : MonoBehaviour
+	public class PlayerCamera : MonoBehaviour
 	{
 
-		#region Public Properties
+		#region Public Variables
 
 		[Tooltip("The distance in the local x-z plane to the target")]
 	    public float distance = 7.0f;
@@ -34,32 +20,32 @@ namespace ExitGames.Demos.DemoAnimator
 		public Vector3 centerOffset = Vector3.zero;
 
 		[Tooltip("Set this as false if a component of a prefab being instanciated by Photon Network, and manually call OnStartFollowing() when and if needed.")]
-		public bool followOnStart = false;
+		public bool followOnStart;
 
 		#endregion
 		
-		#region Private Properties
+		#region Private Variables
 
 		// cached transform of the target
-		Transform cameraTransform;
+		private Transform cameraTransform;
 
 		// maintain a flag internally to reconnect if target is lost or camera is switched
-		bool isFollowing;
+		private bool isFollowing;
 
 		// Represents the current velocity, this value is modified by SmoothDamp() every time you call it.
-		private float heightVelocity = 0.0f;
+		private float heightVelocity;
 
 		// Represents the position we are trying to reach using SmoothDamp()
 		private float targetHeight = 100000.0f;
 
 		#endregion
 
-		#region MonoBehaviour Messages
+		#region MonoBehaviour Callbacks
 		
 		/// <summary>
 		/// MonoBehaviour method called on GameObject by Unity during initialization phase
 		/// </summary>
-		void Start()
+		private void Start()
 		{
 			// Start following the target if wanted.
 			if (followOnStart)
@@ -72,7 +58,7 @@ namespace ExitGames.Demos.DemoAnimator
 		/// <summary>
 		/// MonoBehaviour method called after all Update functions have been called. This is useful to order script execution. For example a follow camera should always be implemented in LateUpdate because it tracks objects that might have moved inside Update.
 		/// </summary>
-		void LateUpdate()
+		private void LateUpdate()
 		{
 			// The transform target may not destroy on level load, 
 			// so we need to cover corner cases where the Main Camera is different everytime we load a new scene, and reconnect when that happens
@@ -110,18 +96,17 @@ namespace ExitGames.Demos.DemoAnimator
 		/// <summary>
 		/// Follow the target smoothly
 		/// </summary>
-		void Apply()
+		private void Apply()
 	    {
 			Vector3 targetCenter = transform.position + centerOffset;
 
 	        // Calculate the current & target rotation angles
 			float originalTargetAngle = transform.eulerAngles.y;
-	        float currentAngle = cameraTransform.eulerAngles.y;
 
-	        // Adjust real target angle when camera is locked
+		    // Adjust real target angle when camera is locked
 	        float targetAngle = originalTargetAngle;
 
-			currentAngle = targetAngle;
+			var currentAngle = targetAngle;
 
 	        targetHeight = targetCenter.y + height;
 	        
@@ -148,7 +133,7 @@ namespace ExitGames.Demos.DemoAnimator
 		/// <summary>
 		/// Directly position the camera to a the specified Target and center.
 		/// </summary>
-		void Cut( )
+		private void Cut( )
 	    {
 	        float oldHeightSmooth = heightSmoothLag;
 	        heightSmoothLag = 0.001f;
@@ -162,7 +147,7 @@ namespace ExitGames.Demos.DemoAnimator
 		/// Sets up the rotation of the camera to always be behind the target
 		/// </summary>
 		/// <param name="centerPos">Center position.</param>
-	    void SetUpRotation( Vector3 centerPos )
+		private void SetUpRotation( Vector3 centerPos )
 	    {
 	        Vector3 cameraPos = cameraTransform.position;
 	        Vector3 offsetToCenter = centerPos - cameraPos;

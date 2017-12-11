@@ -31,7 +31,7 @@ namespace ExitGames.Demos.DemoAnimator
         [Tooltip("The Beams GameObject to control")]
         public GameObject Beams;
 
-        [Tooltip("The current Health of our player")]
+        [Tooltip("The current health of our player")]
         public float Health = 1f;
 
         [Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
@@ -90,7 +90,7 @@ namespace ExitGames.Demos.DemoAnimator
             }
             else
             {
-                Debug.LogError("<Color=Red><b>Missing</b></Color> CameraWork Component on player Prefab.", this);
+                Debug.LogError("<Color=Red><b>Missing</b></Color> PlayerCamera Component on player Prefab.", this);
             }
 
             // Create the UI
@@ -146,7 +146,7 @@ namespace ExitGames.Demos.DemoAnimator
 
         /// <summary>
         /// MonoBehaviour method called when the Collider 'other' enters the trigger.
-        /// Affect Health of the Player if the collider is a beam
+        /// Affect health of the Player if the collider is a beam
         /// Note: when jumping and firing at the same, you'll find that the player's own beam intersects with itself
         /// One could move the collider further away to prevent this or check if the beam belongs to the player.
         /// </summary>
@@ -273,13 +273,13 @@ namespace ExitGames.Demos.DemoAnimator
 			{
 				// We own this player: send the others our data
 				stream.SendNext(IsFiring);
-				stream.SendNext(Health);
+				stream.SendNext(health);
 			}
             else
             {
 				// Network player, receive data
 				this.IsFiring = (bool)stream.ReceiveNext();
-				this.Health = (float)stream.ReceiveNext();
+				this.health = (float)stream.ReceiveNext();
 			}
 		}
 

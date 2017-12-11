@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Maurel/_Scenes/Launcher.unity
+    guid: 430aaeadf8f19d34a8c9efd306159049
+  - enabled: 1
+    path: Assets/Maurel/_Scenes/StartScene.unity
+    guid: 96f5f01de6c0e944d85dfd4a4d00b67e
+  - enabled: 1
     path: Assets/Maurel/_Scenes/Scene1.unity
     guid: 60662f3411a725746ac121e8fff9b27b
   - enabled: 1

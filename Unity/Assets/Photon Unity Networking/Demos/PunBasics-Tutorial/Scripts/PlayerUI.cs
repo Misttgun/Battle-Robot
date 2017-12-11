@@ -30,7 +30,7 @@ namespace ExitGames.Demos.DemoAnimator
 		[Tooltip("UI Text to display Player's Name")]
 		public Text PlayerNameText;
 
-		[Tooltip("UI Slider to display Player's Health")]
+		[Tooltip("UI Slider to display Player's health")]
 		public Slider PlayerHealthSlider;
 
 		#endregion
@@ -72,7 +72,7 @@ namespace ExitGames.Demos.DemoAnimator
 			}
 
 
-			// Reflect the Player Health
+			// Reflect the Player health
 			if (PlayerHealthSlider != null) {
 				PlayerHealthSlider.value = _target.Health;
 			}
