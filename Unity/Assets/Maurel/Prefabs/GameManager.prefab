@@ -51,4 +51,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 400cae17834347c4d9927994f3ac7282, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quitPanel: {fileID: 0}
+  playerPrefab: {fileID: 1371510571685482, guid: 1f5311a5c96bce04aaf7ff5ac0d27650,
+    type: 2}
+  positions:
+  - sceneId: 1
+    sceneTransform: {fileID: 4656873452087186, guid: 91c4ada77373c164ab97618b294e23cb,
+      type: 2}
+  - sceneId: 2
+    sceneTransform: {fileID: 4146989719784484, guid: 71fea0aed58f78c45a85fa7ec0223ebe,
+      type: 2}
+  - sceneId: 3
+    sceneTransform: {fileID: 4768904149408944, guid: 7f9497ab7226858498544a619ccdd270,
+      type: 2}
+  - sceneId: 4
+    sceneTransform: {fileID: 4120025396427276, guid: 4d8477a0c8c2e4c468f564bb00418586,
+      type: 2}
+  - sceneId: 5
+    sceneTransform: {fileID: 4595453586414738, guid: b33cdf04cc1f9fb4a873cbb8e360feab,
+      type: 2}
+  - sceneId: 6
+    sceneTransform: {fileID: 4039280863711098, guid: f0d6e36d46ce39047857fbeb86864d80,
+      type: 2}
+  - sceneId: 7
+    sceneTransform: {fileID: 4602463665533708, guid: be89d2a7e0dc7bc418d08554587824b9,
+      type: 2}
+  - sceneId: 8
+    sceneTransform: {fileID: 4132968555754828, guid: 6bcd1f62e7a5a10478ad71e85420f2db,
+      type: 2}
+  - sceneId: 9
+    sceneTransform: {fileID: 4935596019649166, guid: bb3381fedaed3d248bddfc9e6d902358,
+      type: 2}
+  - sceneId: 10
+    sceneTransform: {fileID: 4190391687336910, guid: df7c217c507f462419dedae91d3a96f6,
+      type: 2}
+  - sceneId: 11
+    sceneTransform: {fileID: 4074129177737444, guid: b7ef92c85f9a859468310639a48d2393,
+      type: 2}
+  - sceneId: 12
+    sceneTransform: {fileID: 4540593327191654, guid: 852e844b7a55faa42b68350e3ecf0c87,
+      type: 2}
+  numberOfScenes: 12

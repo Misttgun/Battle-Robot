@@ -112,53 +112,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &243194072
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4692584906261246, guid: ed1176434d187e84dbc8a0e189407567, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4692584906261246, guid: ed1176434d187e84dbc8a0e189407567, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4692584906261246, guid: ed1176434d187e84dbc8a0e189407567, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4692584906261246, guid: ed1176434d187e84dbc8a0e189407567, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4692584906261246, guid: ed1176434d187e84dbc8a0e189407567, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4692584906261246, guid: ed1176434d187e84dbc8a0e189407567, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4692584906261246, guid: ed1176434d187e84dbc8a0e189407567, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4692584906261246, guid: ed1176434d187e84dbc8a0e189407567, type: 2}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114132748824988262, guid: ed1176434d187e84dbc8a0e189407567,
-        type: 2}
-      propertyPath: quitPanel
-      value: 
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: ed1176434d187e84dbc8a0e189407567, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &281439591
 GameObject:
   m_ObjectHideFlags: 0

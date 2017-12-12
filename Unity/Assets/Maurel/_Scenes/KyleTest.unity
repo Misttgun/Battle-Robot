@@ -382,37 +382,15 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 4953479623285844, guid: 1f5311a5c96bce04aaf7ff5ac0d27650, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0.5511755
+    - target: {fileID: 114767254128449598, guid: 1f5311a5c96bce04aaf7ff5ac0d27650,
+        type: 2}
+      propertyPath: viewIdField
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4953479623285844, guid: 1f5311a5c96bce04aaf7ff5ac0d27650, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0.44295108
-      objectReference: {fileID: 0}
-    - target: {fileID: 4953479623285844, guid: 1f5311a5c96bce04aaf7ff5ac0d27650, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0.5511755
-      objectReference: {fileID: 0}
-    - target: {fileID: 4953479623285844, guid: 1f5311a5c96bce04aaf7ff5ac0d27650, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.44295108
-      objectReference: {fileID: 0}
-    - target: {fileID: 4049724719935200, guid: 1f5311a5c96bce04aaf7ff5ac0d27650, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0.5511755
-      objectReference: {fileID: 0}
-    - target: {fileID: 4049724719935200, guid: 1f5311a5c96bce04aaf7ff5ac0d27650, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0.44295108
-      objectReference: {fileID: 0}
-    - target: {fileID: 4049724719935200, guid: 1f5311a5c96bce04aaf7ff5ac0d27650, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0.5511755
-      objectReference: {fileID: 0}
-    - target: {fileID: 4049724719935200, guid: 1f5311a5c96bce04aaf7ff5ac0d27650, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.44295108
+    - target: {fileID: 114767254128449598, guid: 1f5311a5c96bce04aaf7ff5ac0d27650,
+        type: 2}
+      propertyPath: instantiationId
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1f5311a5c96bce04aaf7ff5ac0d27650, type: 2}
