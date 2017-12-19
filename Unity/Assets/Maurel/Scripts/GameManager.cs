@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Maurel.BattleRobo.Player;
-using Maurel.BattleRobo.SceneStreaming;
+﻿using Maurel.BattleRobo.Player;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Random = UnityEngine.Random;
 
 namespace Maurel.BattleRobo.Networking
 {
@@ -21,54 +17,13 @@ namespace Maurel.BattleRobo.Networking
         
         #region Private Variables
         
-        [Serializable]
-        private struct ScenesPosition
-        {
-            public int sceneId;
-            public Transform sceneTransform;
-        }
-
-        /// <summary>
-        /// Array of Scenes Transform which will be converted in a Dictionnary for fast access.
-        /// </summary>
-        [SerializeField]
-        [Tooltip("Add scenes name and scenes id.")]
-        private ScenesPosition[] positions;
-
-        private int startSceneId;
-
-        private Dictionary<int, Transform> scenePos = new Dictionary<int, Transform>();
-        
-        /// <summary>
-        /// The number of the scenes
-        /// </summary>
-        [SerializeField] private int numberOfScenes;
-        
         #endregion
 
         #region Monobehaviour Callbacks
 
-        private void Awake()
-        {
-            foreach (var pos in positions)
-            {
-                scenePos.Add(pos.sceneId, pos.sceneTransform);
-            }
-        }
-
         private void Start()
         {
             Instance = this;
-            
-            // generate a random number between 1 and the current number of scenes
-            var rng = Random.Range(0, numberOfScenes) + 1;
-            
-            // set the current scene to the random scene
-            SceneStreamer.SetCurrentScene(rng);
-            
-            // get the random scene tranfsorm
-            Transform rngTransform;
-            scenePos.TryGetValue(rng, out rngTransform);
 
             if (playerPrefab == null)
             {
@@ -80,7 +35,7 @@ namespace Maurel.BattleRobo.Networking
                 {
                     Debug.Log("We are Instantiating LocalPlayer from " + Application.loadedLevelName);
                     // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                    PhotonNetwork.Instantiate(playerPrefab.name, rngTransform.position, Quaternion.identity, 0);
+                    PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0, 2, 0), Quaternion.identity, 0);
                 }
                 else
                 {
