@@ -112,6 +112,58 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &171079446
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 171079448}
+  - component: {fileID: 171079447}
+  m_Layer: 0
+  m_Name: Map Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &171079447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 171079446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa2e4b931c5fb0428da4b32a12a6664, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabsToLoad:
+  - {fileID: 1938777647071162, guid: e85c1aa023a35e84c9000b9d1904fa33, type: 2}
+  - {fileID: 1784370438371160, guid: bc447c714035dd840a115111e8a47518, type: 2}
+  - {fileID: 1394856680251560, guid: fae344e6daade6744b3a65ed22a263f7, type: 2}
+  - {fileID: 1938509340277386, guid: 845cecfa91cc7e34682f3b3529ba58a0, type: 2}
+  - {fileID: 1993607874882238, guid: b5d1b9a95774a414ba325efc1cb6cd5b, type: 2}
+  - {fileID: 1734292414781092, guid: a31c86e74e82bf54bac1e2ef83ac89ab, type: 2}
+  - {fileID: 1280154036493686, guid: 919354803d49a0245a67b8d9d554675e, type: 2}
+  - {fileID: 1873594903311196, guid: 5c7f2a1d88dde4c47a59dba3f2d8f358, type: 2}
+  - {fileID: 1938141069808922, guid: 9b42d51e6a26d6c4dbab26050637ea4a, type: 2}
+  - {fileID: 1900932402872766, guid: f5d75a944aae449478f60a64ceef42ad, type: 2}
+  mapSize: 20
+--- !u!4 &171079448
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 171079446}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &302323971
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,7 +246,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!23 &799541431
 MeshRenderer:
   m_ObjectHideFlags: 0
