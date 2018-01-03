@@ -1,42 +1,33 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
-namespace Maurel.BattleRobo.Networking
+namespace BattleRobo.Networking
 {
-    public class Launcher : Photon.PunBehaviour
+    public class StartMenuScript : Photon.PunBehaviour
     {
         #region Public Variables
 
-        /// <summary>
-        /// The maximum number of players per room.
-        /// </summary>   
-        [Tooltip(
-            "The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created")]
-        public byte maxPlayersPerRoom = 20;
+        // The maximum number of players per room.
+        public byte maxPlayersPerRoom = 8;
 
-        [Tooltip("The Ui Panel to let the user enter name, connect and play")]
+        // The Ui Panel to let the user enter name, connect and play
         public GameObject controlPanel;
 
-        [Tooltip("The UI Label to inform the user that the connection is in progress")]
+        // The UI Label to inform the user that the connection is in progress"
         public GameObject progressLabel;
 
-        /// <summary>
-        /// The PUN loglevel. 
-        /// </summary>
+        // The PUN loglevel. 
         public PhotonLogLevel loglevel = PhotonLogLevel.Informational;
 
         #endregion
 
         #region Private Variables
 
-        /// <summary>
-        /// This client's version number. Users are separated from each other by gameversion.
-        /// </summary>
+        // This client's version number. Users are separated from each other by gameversion.
         private const string GameVersion = "0.1";
 
-        /// <summary>
-        /// This is used to make sure that we can quit the game.
-        /// </summary>
-        bool isConnecting;
+        // This is used to make sure that we can quit the game.
+        private bool isConnecting;
 
         #endregion
 
@@ -44,10 +35,10 @@ namespace Maurel.BattleRobo.Networking
 
         private void Awake()
         {
-            // #Critical: We don't join the lobby. There is no need to join a lobby to get the list of rooms.
+            // We don't join the lobby. There is no need to join a lobby to get the list of rooms.
             PhotonNetwork.autoJoinLobby = false;
 
-            // #Critical: All clients in the same room sync their level automaticaly.
+            // All clients in the same room sync their level automaticaly.
             PhotonNetwork.automaticallySyncScene = true;
 
             // #NotImportant: Force LogLevel
@@ -68,10 +59,9 @@ namespace Maurel.BattleRobo.Networking
         {
             Debug.Log("BattleRobo/Launcher: OnConnectedToMaster() was called by PUN");
 
-            // we don't want to do anything if we are not attempting to join a room. 
+            // We don't want to do anything if we are not attempting to join a room. 
             if (isConnecting)
             {
-                // #Critical: We try to join a potential existing room. If there is, good, else, we'll be called back with OnPhotonRandomJoinFailed()  
                 PhotonNetwork.JoinRandomRoom();
             }
         }
@@ -86,25 +76,30 @@ namespace Maurel.BattleRobo.Networking
         public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
         {
             Debug.Log(
-                "BattleRobo/Launcher: OnPhotonRandomJoinFailed() was called by PUN. No random room available, so we create one.");
+                "BattleRobo/Launcher: OnPhotonRandomJoinFailed() was called by PUN");
 
-            // #Critical: We failed to join a random room, we create a new room.
+            // We failed to join a random room, we create a new room.
             PhotonNetwork.CreateRoom(null, new RoomOptions {MaxPlayers = maxPlayersPerRoom}, null);
         }
 
         public override void OnJoinedRoom()
         {
-            Debug.Log("BattleRobo/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
+            Debug.Log("BattleRobo/Launcher: OnJoinedRoom() called by PUN");
 
-            // #Critical: We only load if we are the first player, else we rely on PhotonNetwork.automaticallySyncScene to sync our instance scene.
+            // We only load if we are the first player, else we rely on PhotonNetwork.automaticallySyncScene to sync our instance scene.
             if (PhotonNetwork.room.PlayerCount == 1)
             {
-                Debug.Log("We load the Start Scene ");
-
-
-                // #Critical: Load the Room Level. 
+                // Load the Room Level. 
                 PhotonNetwork.LoadLevel("StartScene");
             }
+        }
+        
+        /// <summary>
+        /// Called when the local player left the room. We need to load the launcher scene.
+        /// </summary>
+        public override void OnLeftRoom()
+        {
+            Application.Quit();
         }
 
         #endregion
@@ -124,16 +119,22 @@ namespace Maurel.BattleRobo.Networking
             progressLabel.SetActive(true);
             controlPanel.SetActive(false);
 
-            // we check if we are connected or not, we join if we are , else we initiate the connection to the server.
+            // We check if we are connected or not, we join if we are, else we initiate the connection to the server.
             if (PhotonNetwork.connected)
             {
-                // #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnPhotonRandomJoinFailed() and we'll create one.
                 PhotonNetwork.JoinRandomRoom();
             }
             else
             {
-                // #Critical, we must first and foremost connect to Photon Online Server.
                 PhotonNetwork.ConnectUsingSettings(GameVersion);
+            }
+        }
+
+        public void Quit()
+        {
+            if (PhotonNetwork.connected)
+            {
+                PhotonNetwork.LeaveRoom();
             }
         }
 

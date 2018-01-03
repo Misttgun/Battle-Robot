@@ -6,44 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Maurel/_Scenes/Launcher.unity
+    path: Assets/BattleRobo/_Scenes/Launcher.unity
     guid: 430aaeadf8f19d34a8c9efd306159049
   - enabled: 1
-    path: Assets/Maurel/_Scenes/StartScene.unity
-    guid: 96f5f01de6c0e944d85dfd4a4d00b67e
-  - enabled: 1
-    path: Assets/Maurel/_Scenes/Scene1.unity
-    guid: 60662f3411a725746ac121e8fff9b27b
-  - enabled: 1
-    path: Assets/Maurel/_Scenes/Scene2.unity
-    guid: 126c8475f14e8e048b9dc953a203a228
-  - enabled: 1
-    path: Assets/Maurel/_Scenes/Scene3.unity
-    guid: 48061d06cd641a049bac9641e7521860
-  - enabled: 1
-    path: Assets/Maurel/_Scenes/Scene4.unity
-    guid: 522787cffad364c4483ac58f28ea650c
-  - enabled: 1
-    path: Assets/Maurel/_Scenes/Scene5.unity
-    guid: dab627578b8146f498b123dee41fb24e
-  - enabled: 1
-    path: Assets/Maurel/_Scenes/Scene6.unity
-    guid: 88636fb51299ecb4093f28db476d5a2f
-  - enabled: 1
-    path: Assets/Maurel/_Scenes/Scene7.unity
-    guid: 5e51b35b221c8d54aacdc9bda6fa4e43
-  - enabled: 1
-    path: Assets/Maurel/_Scenes/Scene8.unity
-    guid: a43a784a85cd99d4386850e29bca5212
-  - enabled: 1
-    path: Assets/Maurel/_Scenes/Scene9.unity
-    guid: d4118a0f60f4551429b6daa6b422c645
-  - enabled: 1
-    path: Assets/Maurel/_Scenes/Scene10.unity
-    guid: cef009ec2594e1048982e63167f283e2
-  - enabled: 1
-    path: Assets/Maurel/_Scenes/Scene11.unity
-    guid: 4bb85aa6057076b43a7d24a547129344
-  - enabled: 1
-    path: Assets/Maurel/_Scenes/Scene12.unity
-    guid: 1c34b8d081190d148951cd83daf645a4
+    path: Assets/BattleRobo/_Scenes/StartScene.unity
+    guid: 0418eaa01a25a97448d48a1835770ebe

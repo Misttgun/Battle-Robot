@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using WebSocketSharp;
 
-namespace Maurel.Scripts
+namespace BattleRobo.Utilities
 {
     [RequireComponent(typeof(InputField))]
     public class PlayerNameInputField : MonoBehaviour
     {
         #region Private Variables
 
+        [SerializeField] 
+        private Button connectButton;
+
         // Store the PlayerPref Key to avoid typos
-        static string playerNamePrefKey = "PlayerName";
+        private static string playerNamePrefKey = "PlayerName";
 
         #endregion
 
@@ -29,7 +33,6 @@ namespace Maurel.Scripts
                 }
             }
 
-
             PhotonNetwork.playerName = defaultName;
         }
 
@@ -44,10 +47,11 @@ namespace Maurel.Scripts
         /// <param name="value">The name of the Player</param>
         public void SetPlayerName(string value)
         {
-            // #Important: Force a trailing space string in case value is an empty string, else playerName would not be updated.
+            connectButton.interactable = !value.Trim().IsNullOrEmpty();
+            
+            // Force a trailing space string in case value is an empty string, else playerName would not be updated.
             PhotonNetwork.playerName = value + " ";
-
-
+            
             PlayerPrefs.SetString(playerNamePrefKey, value);
         }
 
