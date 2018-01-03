@@ -27,8 +27,8 @@ namespace BattleRobo.Networking
 
         [SerializeField]
         private Text loadingMessageLabel;
-
-        private int countDown;
+        
+        private bool isMoreThanTwo;
 
         #endregion
 
@@ -44,14 +44,19 @@ namespace BattleRobo.Networking
 
         private void Update()
         {
-            // Set the number of player on the loading screen
-            SetPlayerNumbersLabel(PhotonNetwork.room.PlayerCount);
-
-            // We get out of this loop when we have 2 or more players
-            if (PhotonNetwork.room.PlayerCount >= 2)
+            if (PhotonNetwork.inRoom)
             {
-                // Change the loading message
-                loadingMessageLabel.text = "The game is starting...";
+                // Set the number of player on the loading screen
+                SetPlayerNumbersLabel(PhotonNetwork.room.PlayerCount);
+
+                // We get out of this loop when we have 2 or more players
+                if (PhotonNetwork.room.PlayerCount >= 2)
+                {
+                    // Change the loading message
+                    loadingMessageLabel.text = "The game is starting...";
+
+                    isMoreThanTwo = true;
+                }
             }
         }
 
@@ -75,20 +80,9 @@ namespace BattleRobo.Networking
             startMenuCanvas.SetActive(false);
             loadingScreenCanvas.SetActive(true);
 
-            if (PhotonNetwork.isMasterClient)
+            if (PhotonNetwork.isMasterClient && isMoreThanTwo)
             {
-                Hashtable roomPopertties = new Hashtable {{"CountDown", 10}};
-                PhotonNetwork.room.SetCustomProperties(roomPopertties);
-
                 StartCoroutine(LoadGame());
-            }
-        }
-
-        public override void OnPhotonCustomRoomPropertiesChanged(Hashtable propertiesThatChanged)
-        {
-            if (propertiesThatChanged.ContainsKey("CountDown"))
-            {
-                countDown = (int) propertiesThatChanged["CountDown"];
             }
         }
 
@@ -125,7 +119,8 @@ namespace BattleRobo.Networking
 
         private IEnumerator LoadGame()
         {
-            // We wait the countdown in the room to reach zero 
+            // We wait 10 seconds
+            int countDown = 10;
             while (countDown > 0)
             {
                 // We stop the countdown when the room is full
