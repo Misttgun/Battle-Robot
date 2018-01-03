@@ -1,10 +1,8 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
 namespace BattleRobo.Networking
 {
-    public class Launcher : Photon.PunBehaviour
+    public class LauncherScript : Photon.PunBehaviour
     {
         #region Public Variable
 
@@ -46,13 +44,6 @@ namespace BattleRobo.Networking
         #endregion
 
         #region Photon.PunBehaviour Callbacks
-
-        public override void OnConnectedToMaster()
-        {
-            Debug.Log("BattleRobo/Launcher: OnConnectedToMaster() was called by PUN");
-
-            PhotonNetwork.automaticallySyncScene = false;
-        }
 
         public override void OnJoinedLobby()
         {

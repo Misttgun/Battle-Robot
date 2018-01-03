@@ -1,5 +1,7 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace BattleRobo.Networking
 {
@@ -7,76 +9,59 @@ namespace BattleRobo.Networking
     {
         #region Public Variables
 
-        // The maximum number of players per room.
-        public byte maxPlayersPerRoom = 8;
-
-        // The Ui Panel to let the user enter name, connect and play
-        public GameObject controlPanel;
-
-        // The UI Label to inform the user that the connection is in progress"
-        public GameObject progressLabel;
-
-        // The PUN loglevel. 
-        public PhotonLogLevel loglevel = PhotonLogLevel.Informational;
-
         #endregion
 
         #region Private Variables
 
-        // This client's version number. Users are separated from each other by gameversion.
-        private const string GameVersion = "0.1";
+        // The maximum number of players per room.
+        private const byte maxPlayersPerRoom = 8;
 
-        // This is used to make sure that we can quit the game.
-        private bool isConnecting;
+        [SerializeField]
+        private GameObject startMenuCanvas;
+
+        [SerializeField]
+        private GameObject loadingScreenCanvas;
+
+        [SerializeField]
+        private Text playerNumbersLabel;
+
+        [SerializeField]
+        private Text loadingMessageLabel;
+
+        private int countDown;
 
         #endregion
 
         #region Monobehaviour Callbacks
 
-        private void Awake()
-        {
-            // We don't join the lobby. There is no need to join a lobby to get the list of rooms.
-            PhotonNetwork.autoJoinLobby = false;
-
-            // All clients in the same room sync their level automaticaly.
-            PhotonNetwork.automaticallySyncScene = true;
-
-            // #NotImportant: Force LogLevel
-            PhotonNetwork.logLevel = loglevel;
-        }
-
         private void Start()
         {
-            progressLabel.SetActive(false);
-            controlPanel.SetActive(true);
+            startMenuCanvas.SetActive(true);
+            loadingScreenCanvas.SetActive(false);
+
+            PhotonNetwork.automaticallySyncScene = true;
+        }
+
+        private void Update()
+        {
+            // Set the number of player on the loading screen
+            SetPlayerNumbersLabel(PhotonNetwork.room.PlayerCount);
+
+            // We get out of this loop when we have 2 or more players
+            if (PhotonNetwork.room.PlayerCount >= 2)
+            {
+                // Change the loading message
+                loadingMessageLabel.text = "The game is starting...";
+            }
         }
 
         #endregion
 
         #region Photon.PunBehaviour Callbacks
 
-        public override void OnConnectedToMaster()
-        {
-            Debug.Log("BattleRobo/Launcher: OnConnectedToMaster() was called by PUN");
-
-            // We don't want to do anything if we are not attempting to join a room. 
-            if (isConnecting)
-            {
-                PhotonNetwork.JoinRandomRoom();
-            }
-        }
-
-        public override void OnDisconnectedFromPhoton()
-        {
-            Debug.LogWarning("BattleRobo/Launcher: OnDisconnectedFromPhoton() was called by PUN");
-            progressLabel.SetActive(false);
-            controlPanel.SetActive(true);
-        }
-
         public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
         {
-            Debug.Log(
-                "BattleRobo/Launcher: OnPhotonRandomJoinFailed() was called by PUN");
+            Debug.Log("BattleRobo/Launcher: OnPhotonRandomJoinFailed() was called by PUN");
 
             // We failed to join a random room, we create a new room.
             PhotonNetwork.CreateRoom(null, new RoomOptions {MaxPlayers = maxPlayersPerRoom}, null);
@@ -86,17 +71,27 @@ namespace BattleRobo.Networking
         {
             Debug.Log("BattleRobo/Launcher: OnJoinedRoom() called by PUN");
 
-            // We only load if we are the first player, else we rely on PhotonNetwork.automaticallySyncScene to sync our instance scene.
-            if (PhotonNetwork.room.PlayerCount == 1)
+            // Show the loading screen
+            startMenuCanvas.SetActive(false);
+            loadingScreenCanvas.SetActive(true);
+
+            if (PhotonNetwork.isMasterClient)
             {
-                // Load the Room Level. 
-                PhotonNetwork.LoadLevel("StartScene");
+                Hashtable roomPopertties = new Hashtable {{"CountDown", 10}};
+                PhotonNetwork.room.SetCustomProperties(roomPopertties);
+
+                StartCoroutine(LoadGame());
             }
         }
-        
-        /// <summary>
-        /// Called when the local player left the room. We need to load the launcher scene.
-        /// </summary>
+
+        public override void OnPhotonCustomRoomPropertiesChanged(Hashtable propertiesThatChanged)
+        {
+            if (propertiesThatChanged.ContainsKey("CountDown"))
+            {
+                countDown = (int) propertiesThatChanged["CountDown"];
+            }
+        }
+
         public override void OnLeftRoom()
         {
             Application.Quit();
@@ -107,35 +102,53 @@ namespace BattleRobo.Networking
         #region Public Methods
 
         /// <summary>
-        /// Start the connection process.
-        /// - If already connected, we attempt to join a random room.
-        /// - Esle, connect this application instance to Photon Cloud Network
+        /// Start a new match.
         /// </summary>
-        public void Connect()
+        public void Play()
         {
-            // keep track of the will to join a room
-            isConnecting = true;
-
-            progressLabel.SetActive(true);
-            controlPanel.SetActive(false);
-
-            // We check if we are connected or not, we join if we are, else we initiate the connection to the server.
-            if (PhotonNetwork.connected)
-            {
-                PhotonNetwork.JoinRandomRoom();
-            }
-            else
-            {
-                PhotonNetwork.ConnectUsingSettings(GameVersion);
-            }
+            // We try to join a random room
+            PhotonNetwork.JoinRandomRoom();
         }
 
+        /// <summary>
+        /// Quit the game
+        /// </summary>
         public void Quit()
         {
-            if (PhotonNetwork.connected)
+            // We leave the room
+            PhotonNetwork.LeaveRoom();
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private IEnumerator LoadGame()
+        {
+            // We wait the countdown in the room to reach zero 
+            while (countDown > 0)
             {
-                PhotonNetwork.LeaveRoom();
+                // We stop the countdown when the room is full
+                if (PhotonNetwork.room.PlayerCount == maxPlayersPerRoom)
+                {
+                    break;
+                }
+
+                countDown--;
+                yield return new WaitForSeconds(1f);
             }
+
+            // Close the room so that a new player can not join the game
+            PhotonNetwork.room.IsOpen = false;
+            PhotonNetwork.room.IsVisible = false;
+
+            // We load the game
+            PhotonNetwork.LoadLevel(2);
+        }
+
+        private void SetPlayerNumbersLabel(int number)
+        {
+            playerNumbersLabel.text = "Numbers of players : " + number;
         }
 
         #endregion
