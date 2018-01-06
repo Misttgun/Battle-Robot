@@ -1,0 +1,273 @@
+fileFormatVersion: 2
+guid: ac759f6ee766c9d44a1210d3bbfef116
+timeCreated: 1513652909
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Armature
+    100002: Bone
+    100004: Bone_001
+    100006: Bone_002
+    100008: Bone_013
+    100010: Bone_014
+    100012: Bone_015
+    100014: chest
+    100016: chest_002_L
+    100018: chest_002_L_001
+    100020: chest_002_R
+    100022: chest_002_R_001
+    100024: Cube
+    100026: Cube_001
+    100028: Cube_002
+    100030: Cube_003
+    100032: Cube_004
+    100034: finger_L
+    100036: finger_L_001
+    100038: finger_L_002
+    100040: finger_L_003
+    100042: finger_L_004
+    100044: finger_L_005
+    100046: finger_L_006
+    100048: finger_L_007
+    100050: finger_L_008
+    100052: finger_L_009
+    100054: finger_L_010
+    100056: finger_L_011
+    100058: finger_R
+    100060: finger_R_001
+    100062: finger_R_002
+    100064: finger_R_003
+    100066: finger_R_004
+    100068: finger_R_005
+    100070: finger_R_006
+    100072: finger_R_007
+    100074: finger_R_008
+    100076: finger_R_009
+    100078: finger_R_010
+    100080: finger_R_011
+    100082: head
+    100084: L_arm_L
+    100086: L_arm_R
+    100088: palm_L
+    100090: palm_R
+    100092: //RootNode
+    100094: torso
+    100096: torso_001
+    100098: torso_002
+    100100: torso_003
+    100102: torso_004
+    100104: U_arm_L
+    100106: U_arm_R
+    100108: roboMesh
+    100110: roboMesh_001
+    100112: roboMesh_002
+    100114: roboMesh_003
+    100116: roboMesh_004
+    100118: Armature_001
+    100120: torso_005
+    100122: cover1
+    100124: cover2
+    100126: L_leg
+    100128: U_leg
+    100130: wheel
+    100132: RoboBody
+    400000: Armature
+    400002: Bone
+    400004: Bone_001
+    400006: Bone_002
+    400008: Bone_013
+    400010: Bone_014
+    400012: Bone_015
+    400014: chest
+    400016: chest_002_L
+    400018: chest_002_L_001
+    400020: chest_002_R
+    400022: chest_002_R_001
+    400024: Cube
+    400026: Cube_001
+    400028: Cube_002
+    400030: Cube_003
+    400032: Cube_004
+    400034: finger_L
+    400036: finger_L_001
+    400038: finger_L_002
+    400040: finger_L_003
+    400042: finger_L_004
+    400044: finger_L_005
+    400046: finger_L_006
+    400048: finger_L_007
+    400050: finger_L_008
+    400052: finger_L_009
+    400054: finger_L_010
+    400056: finger_L_011
+    400058: finger_R
+    400060: finger_R_001
+    400062: finger_R_002
+    400064: finger_R_003
+    400066: finger_R_004
+    400068: finger_R_005
+    400070: finger_R_006
+    400072: finger_R_007
+    400074: finger_R_008
+    400076: finger_R_009
+    400078: finger_R_010
+    400080: finger_R_011
+    400082: head
+    400084: L_arm_L
+    400086: L_arm_R
+    400088: palm_L
+    400090: palm_R
+    400092: //RootNode
+    400094: torso
+    400096: torso_001
+    400098: torso_002
+    400100: torso_003
+    400102: torso_004
+    400104: U_arm_L
+    400106: U_arm_R
+    400108: roboMesh
+    400110: roboMesh_001
+    400112: roboMesh_002
+    400114: roboMesh_003
+    400116: roboMesh_004
+    400118: Armature_001
+    400120: torso_005
+    400122: cover1
+    400124: cover2
+    400126: L_leg
+    400128: U_leg
+    400130: wheel
+    400132: RoboBody
+    2300000: Cube
+    2300002: Cube_001
+    2300004: Cube_002
+    2300006: Cube_003
+    2300008: Cube_004
+    2300010: roboMesh
+    3300000: Cube
+    3300002: Cube_001
+    3300004: Cube_002
+    3300006: Cube_003
+    3300008: Cube_004
+    3300010: roboMesh
+    4300000: Cube_003
+    4300002: Cube_004
+    4300004: Cube
+    4300006: Cube_002
+    4300008: Cube_001
+    4300010: roboMesh
+    4300012: roboMesh_004
+    4300014: roboMesh_003
+    4300016: roboMesh_002
+    4300018: roboMesh_001
+    4300020: RoboBody
+    7400000: Default Take
+    7400002: landing
+    7400004: run_robot
+    7400006: stand_pose
+    7400008: walk_robot
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: Cube
+    13700002: Cube_001
+    13700004: Cube_002
+    13700006: Cube_003
+    13700008: Cube_004
+    13700010: roboMesh
+    13700012: roboMesh_001
+    13700014: roboMesh_002
+    13700016: roboMesh_003
+    13700018: roboMesh_004
+    13700020: RoboBody
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: e9229f8eb4e85c548b08da91a28440ab, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material__RobotAO2
+    second: {fileID: 2100000, guid: a38a97a30f271d04caa2c3c55bb6c6d3, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths:
+    - Armature
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: Armature
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
