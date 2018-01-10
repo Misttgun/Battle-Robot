@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +22,7 @@ namespace BattleRobo.Networking
 
         [SerializeField] private Text playerNumbersLabel;
 
-        [SerializeField] private Text loadingMessageLabel;
+        [SerializeField] private Text loadingMessageLabel; 
 
         private bool isMoreThanTwo;
 
@@ -114,6 +115,7 @@ namespace BattleRobo.Networking
 
         private IEnumerator LoadGame()
         {
+            // TODO Delete while true and find a better way
             // Waiting for one more player
             while (true)
             {
