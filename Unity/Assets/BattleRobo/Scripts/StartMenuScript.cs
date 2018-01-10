@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace BattleRobo.Networking
 {
@@ -14,20 +13,16 @@ namespace BattleRobo.Networking
         #region Private Variables
 
         // The maximum number of players per room.
-        private const byte maxPlayersPerRoom = 8;
+        private const byte maxPlayersPerRoom = 4;
 
-        [SerializeField]
-        private GameObject startMenuCanvas;
+        [SerializeField] private GameObject startMenuCanvas;
 
-        [SerializeField]
-        private GameObject loadingScreenCanvas;
+        [SerializeField] private GameObject loadingScreenCanvas;
 
-        [SerializeField]
-        private Text playerNumbersLabel;
+        [SerializeField] private Text playerNumbersLabel;
 
-        [SerializeField]
-        private Text loadingMessageLabel;
-        
+        [SerializeField] private Text loadingMessageLabel;
+
         private bool isMoreThanTwo;
 
         #endregion
@@ -54,8 +49,13 @@ namespace BattleRobo.Networking
                 {
                     // Change the loading message
                     loadingMessageLabel.text = "The game is starting...";
-
                     isMoreThanTwo = true;
+                }
+                else
+                {
+                    // Change the loading message
+                    loadingMessageLabel.text = "Waiting for more players...";
+                    isMoreThanTwo = false;
                 }
             }
         }
@@ -80,15 +80,10 @@ namespace BattleRobo.Networking
             startMenuCanvas.SetActive(false);
             loadingScreenCanvas.SetActive(true);
 
-            if (PhotonNetwork.isMasterClient && isMoreThanTwo)
+            if (PhotonNetwork.isMasterClient)
             {
                 StartCoroutine(LoadGame());
             }
-        }
-
-        public override void OnLeftRoom()
-        {
-            Application.Quit();
         }
 
         #endregion
@@ -109,8 +104,8 @@ namespace BattleRobo.Networking
         /// </summary>
         public void Quit()
         {
-            // We leave the room
-            PhotonNetwork.LeaveRoom();
+            // We quit the application
+            Application.Quit();
         }
 
         #endregion
@@ -119,6 +114,16 @@ namespace BattleRobo.Networking
 
         private IEnumerator LoadGame()
         {
+            // Waiting for one more player
+            while (true)
+            {
+                if (isMoreThanTwo)
+                {
+                    break;
+                }
+                yield return null;
+            }
+
             // We wait 10 seconds
             int countDown = 10;
             while (countDown > 0)
@@ -128,7 +133,7 @@ namespace BattleRobo.Networking
                 {
                     break;
                 }
-
+                
                 countDown--;
                 yield return new WaitForSeconds(1f);
             }
@@ -137,6 +142,7 @@ namespace BattleRobo.Networking
             PhotonNetwork.room.IsOpen = false;
             PhotonNetwork.room.IsVisible = false;
 
+            Debug.Log("Load level");
             // We load the game
             PhotonNetwork.LoadLevel(2);
         }
