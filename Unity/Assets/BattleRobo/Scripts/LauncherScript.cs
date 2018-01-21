@@ -3,7 +3,7 @@
 namespace BattleRobo.Networking
 {
     public class LauncherScript : Photon.PunBehaviour
-    {
+    {  
         #region Public Variable
 
         // The Ui Panel to let the user enter name, connect and play
