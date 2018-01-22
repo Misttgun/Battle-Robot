@@ -74,7 +74,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1093093294849992
 GameObject:
   m_ObjectHideFlags: 1
@@ -422,7 +422,6 @@ GameObject:
   - component: {fileID: 54398295926710080}
   - component: {fileID: 114244585512611482}
   - component: {fileID: 114029348033527886}
-  - component: {fileID: 114785030413242332}
   - component: {fileID: 114363086492391836}
   - component: {fileID: 114031052276474638}
   - component: {fileID: 114408051669784080}
@@ -1644,7 +1643,7 @@ Camera:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1078210566569598}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -1993,9 +1992,9 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 4768160429350574}
-  - {fileID: 54398295926710080}
-  - {fileID: 4741395834278024}
+  - {fileID: 114408051669784080}
+  - {fileID: 0}
+  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -2018,6 +2017,10 @@ MonoBehaviour:
   flyForce: 1000
   fuelDecreaseSpeed: 0.1
   fuelRegenSpeed: 0.05
+  roboWheel: {fileID: 4832457041672172}
+  roboChest: {fileID: 4774530503098802}
+  roboRb: {fileID: 54398295926710080}
+  cam: {fileID: 1078210566569598}
 --- !u!114 &114408051669784080
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2033,9 +2036,9 @@ MonoBehaviour:
     SynchronizeEnabled: 1
     TeleportEnabled: 1
     TeleportIfDistanceGreaterThan: 3
-    InterpolateOption: 2
+    InterpolateOption: 4
     InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 1
+    InterpolateLerpSpeed: 10
     InterpolateMoveTowardsAcceleration: 2
     InterpolateMoveTowardsDeceleration: 2
     InterpolateSpeedCurve:
@@ -2083,21 +2086,6 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
---- !u!114 &114785030413242332
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1519587368310384}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a421b2af83d83945b8b0829faade506, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  roboWheel: {fileID: 4768160429350574}
-  roboChest: {fileID: 4774530503098802}
-  roboRb: {fileID: 54398295926710080}
-  cam: {fileID: 20165561545285092}
 --- !u!124 &124186864850320022
 Behaviour:
   m_ObjectHideFlags: 1

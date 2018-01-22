@@ -1,84 +1,124 @@
 ﻿using UnityEngine;
 
-public class NetworkRoboControllerScript : Photon.PunBehaviour {
-
-	[SerializeField]
+public class NetworkRoboControllerScript : Photon.PunBehaviour
+{
+    [SerializeField]
     private float roboSpeed = 4f;
+
     [SerializeField]
     private float aimSensitivity = 5f;
+
     [SerializeField]
-    private float aimSensitivityY =10f;
+    private float aimSensitivityY = 10f;
+
     [SerializeField]
     private float flyForce = 1000f;
+
     [SerializeField]
     private float fuelDecreaseSpeed = 0.1f;
+
     [SerializeField]
     private float fuelRegenSpeed = 0.05f;
-    /*[SerializeField]
-    RectTransform fuelFill;*/
 
-    private NetworkRoboMotorScript motor;
+    //[SerializeField]
+    //RectTransform fuelFill;
+
+    [SerializeField]
+    private Transform roboWheel;
+
+    [SerializeField]
+    private Transform roboChest;
+
+    [SerializeField]
+    private Rigidbody roboRb;
+
+    [SerializeField]
+    private GameObject cam;
+
     private float fuelAmount = 1f;
+    private Vector3 roboVelocity;
+    private Vector3 roboRotY;
+
+    private float roboRotUD;
+    private float currentRot;
 
     private void Start()
     {
-        motor = GetComponent < NetworkRoboMotorScript>();
-        motor.toggleCursorState();
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = false;
+
+        if (cam != null)
+        {
+            if (photonView.isMine)
+            {
+                cam.SetActive(true);
+            }
+        }
     }
+
     private void Update()
     {
-
         // Mouvemment (Z,Q,S,D)
-        if (photonView.isMine)
+        if (!photonView.isMine && PhotonNetwork.connected) return;
+
+        // Cursor lock
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            float xMov = Input.GetAxisRaw("Horizontal");
-            float yMov = Input.GetAxisRaw("Vertical");
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
 
-            Vector3 movX = transform.right * xMov;
-            Vector3 movY = transform.forward * yMov;
-
-            Vector3 roboVelocity = (movX + movY).normalized * roboSpeed;
-
-            motor.roboMove(roboVelocity);
-
-            // Souris (Aim)
-
-            float yRot = Input.GetAxisRaw("Mouse X");
-            float rot = Input.GetAxisRaw("Mouse Y");
-
-            Vector3 rotY = Vector3.up * yRot * aimSensitivityY * aimSensitivity;
-            float rotUpDown = (rot) * aimSensitivity;
-
-            motor.roboRotate(rotY, rotUpDown);
-
-            //Fly
-            Vector3 fly = Vector3.zero;
-            if (Input.GetButton("Jump") && fuelAmount > 0f)
+        //Fly
+        Vector3 fly = Vector3.zero;
+        if (Input.GetButton("Jump") && fuelAmount > 0f)
+        {
+            fuelAmount -= fuelDecreaseSpeed * Time.deltaTime;
+            if (fuelAmount >= 0.04f)
             {
-                fuelAmount -= fuelDecreaseSpeed * Time.deltaTime;
-                if (fuelAmount >= 0.04f)
-                {
-                    fly = Vector3.up * flyForce;
-                }
-
+                fly = Vector3.up * flyForce;
             }
-            else
-            {
-                fuelAmount += fuelRegenSpeed * Time.deltaTime;
-            }
+        }
+        else
+        {
+            fuelAmount += fuelRegenSpeed * Time.deltaTime;
+        }
 
-            fuelAmount = Mathf.Clamp(fuelAmount, 0f, 1f);
-            motor.roboJump(fly);
+        fuelAmount = Mathf.Clamp(fuelAmount, 0f, 1f);
 
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                motor.toggleCursorState();
-            }
-
-            motor.lockOrUnlockCursor();
+        if (fly != Vector3.zero)
+        {
+            roboRb.AddForce(fly * Time.fixedDeltaTime, ForceMode.Acceleration);
         }
 
         //fuelFill.localScale = new Vector3(1f, fuelAmount, 1f);
+    }
+
+    private void FixedUpdate()
+    {
+        if (!photonView.isMine && PhotonNetwork.connected) return;
+
+        Vector3 movX = transform.right * Input.GetAxisRaw("Horizontal");
+        Vector3 movY = transform.forward * Input.GetAxisRaw("Vertical");
+
+        roboVelocity = (movX + movY).normalized * roboSpeed;
+
+        // Souris (Aim)
+        //roboRotY = Vector3.up * Input.GetAxisRaw("Mouse X") * aimSensitivityY;
+        roboRotUD = Input.GetAxisRaw("Mouse Y") * aimSensitivity;
+
+        if (roboVelocity != Vector3.zero)
+        {
+            roboRb.MovePosition(roboRb.position + roboVelocity * Time.deltaTime);
+        }
+
+        roboRb.MoveRotation(roboRb.rotation * Quaternion.Euler(0,
+                                Input.GetAxisRaw("Mouse X") * aimSensitivityY,
+                                0));
+        
+        //roboWheel.Rotate(roboRotY * Time.deltaTime);
+        currentRot -= roboRotUD;
+        currentRot = Mathf.Clamp(currentRot, -70f, 70f);
+        roboChest.transform.localEulerAngles = new Vector3(0f, 0f, -currentRot);
     }
 
     public float getFuelAmount()
