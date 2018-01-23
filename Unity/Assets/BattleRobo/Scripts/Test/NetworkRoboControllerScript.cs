@@ -20,6 +20,9 @@ public class NetworkRoboControllerScript : Photon.PunBehaviour
     [SerializeField]
     private float fuelRegenSpeed = 0.05f;
 
+    [SerializeField] 
+    private float health = 100f;
+    
     //[SerializeField]
     //RectTransform fuelFill;
 
@@ -124,5 +127,38 @@ public class NetworkRoboControllerScript : Photon.PunBehaviour
     public float getFuelAmount()
     {
         return fuelAmount;
+    }
+
+    [PunRPC]
+    public void TakeDamage(float amount)
+    {
+        Debug.Log("I AM TOUCH !");
+        health -= amount;
+
+        if (health < 0f)
+        {
+            Debug.Log("I AM DEAD !");
+            health = 0f;
+            // player is dead
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        var photonId = GetComponent<PhotonView>().instantiationId;
+        
+        // classic instanciation
+        if (photonId == 0)
+            Destroy(gameObject);
+
+        // instantiation over network
+        else
+        {
+            if (GetComponent<PhotonView>().isMine)
+            {
+                PhotonNetwork.Destroy(gameObject);
+            }
+        }
     }
 }

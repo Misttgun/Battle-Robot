@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.ComponentModel.Design;
+using UnityEngine;
 
 public class NetworkFireScript : Photon.PunBehaviour {
 
@@ -21,6 +22,8 @@ public class NetworkFireScript : Photon.PunBehaviour {
 
 	private void Update()
 	{
+		if (!GetComponent<PhotonView>().isMine) return;
+		
 		if(Input.GetButtonDown("Fire1"))
 		{
 			bulletPropagation();
@@ -28,11 +31,20 @@ public class NetworkFireScript : Photon.PunBehaviour {
 		}
 	}
 	private void fire()
-	{
+	{	
 		RaycastHit shot;
 		if(Physics.Raycast(camFPS.transform.position, camFPS.transform.forward , out shot, gun.range, mask) && shot.rigidbody)
 		{
 			Debug.LogError(" hit " + shot.collider.name);
+			NetworkRoboControllerScript controller = shot.collider.gameObject.GetComponentInParent<NetworkRoboControllerScript>();
+			
+			Debug.Log(shot.collider.gameObject.name);
+
+			if (controller)
+			{
+				shot.collider.gameObject.GetComponentInParent<PhotonView>().RPC("TakeDamage", PhotonTargets.All, 20f);
+				//controller.TakeDamage(20f);
+			}
 			shot.rigidbody.AddForce(camFPS.transform.forward * bulletSpeed/100);
 		}
 
