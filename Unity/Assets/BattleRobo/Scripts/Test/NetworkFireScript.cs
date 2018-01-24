@@ -22,7 +22,7 @@ public class NetworkFireScript : Photon.PunBehaviour {
 
 	private void Update()
 	{
-		if (!GetComponent<PhotonView>().isMine) return;
+		if (!photonView.isMine) return;
 		
 		if(Input.GetButtonDown("Fire1"))
 		{

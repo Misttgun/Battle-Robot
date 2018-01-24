@@ -49,7 +49,7 @@ public class RoboMotor : MonoBehaviour
         roboChest.transform.localEulerAngles = new Vector3(0f,0f, -currentRot);
         if(flyForce!=Vector3.zero)
         {
-            roboRb.AddForce(flyForce*Time.fixedDeltaTime  , ForceMode.Acceleration);
+            roboRb.AddForce(flyForce * Time.fixedDeltaTime, ForceMode.Impulse);
         }
         
 	}

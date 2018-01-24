@@ -2011,14 +2011,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7fc907c68df704d850445d48f1a465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roboSpeed: 4
+  roboSpeed: 8
   aimSensitivity: 5
   aimSensitivityY: 10
   flyForce: 1000
   fuelDecreaseSpeed: 0.1
   fuelRegenSpeed: 0.05
   health: 100
-  speed: 1
   roboWheel: {fileID: 4832457041672172}
   roboChest: {fileID: 4774530503098802}
   roboRb: {fileID: 54398295926710080}
