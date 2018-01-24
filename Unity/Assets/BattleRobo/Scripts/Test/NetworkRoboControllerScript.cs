@@ -15,7 +15,7 @@ public class NetworkRoboControllerScript : Photon.PunBehaviour
     private float flyForce = 100f;
 
     [SerializeField]
-    private float fuelDecreaseSpeed = 3f;
+    private float fuelDecreaseSpeed = 3.5f;
 
     [SerializeField]
     private float fuelRegenSpeed = 0.5f;
@@ -44,7 +44,6 @@ public class NetworkRoboControllerScript : Photon.PunBehaviour
 
     private float roboRotUD;
     private float currentRot;
-    private Vector3 fly;
 
     private void Start()
     {
@@ -70,22 +69,6 @@ public class NetworkRoboControllerScript : Photon.PunBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-        
-        //Fly
-        if (Input.GetButton("Jump") && fuelAmount > 0f)
-        {
-            fuelAmount -= fuelDecreaseSpeed * Time.deltaTime;
-            if (fuelAmount >= 0.04f)
-            {
-                fly = Vector3.up * flyForce;
-            }
-        }
-        else
-        {
-            fuelAmount += fuelRegenSpeed * Time.deltaTime;
-        }
-
-        fuelAmount = Mathf.Clamp(fuelAmount, 0f, 1f);
 
         //fuelFill.localScale = new Vector3(1f, fuelAmount, 1f);
     }
@@ -116,21 +99,33 @@ public class NetworkRoboControllerScript : Photon.PunBehaviour
         currentRot -= roboRotUD;
         currentRot = Mathf.Clamp(currentRot, -70f, 70f);
         roboChest.transform.localEulerAngles = new Vector3(0f, 0f, -currentRot);
+        
+        //Fly
+        Vector3 fly = Vector3.zero;
+        if (Input.GetButton("Jump") && fuelAmount > 0f)
+        {
+            fuelAmount -= fuelDecreaseSpeed * Time.deltaTime;
+            if (fuelAmount >= 0.04f)
+            {
+                fly = Vector3.up * flyForce;
+            }
+        }
+        else
+        {
+            fuelAmount += fuelRegenSpeed * Time.deltaTime;
+        }
+
+        fuelAmount = Mathf.Clamp(fuelAmount, 0f, 1f);
 
         if (fly != Vector3.zero)
         {
-            Jump(fly);
+            roboRb.AddForce(fly * Time.fixedDeltaTime, ForceMode.Impulse);
         }
     }
 
     public float getFuelAmount()
     {
         return fuelAmount;
-    }
-
-    private void Jump(Vector3 jumpVector)
-    {
-        roboRb.AddForce(jumpVector * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
     [PunRPC]
