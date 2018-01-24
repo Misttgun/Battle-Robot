@@ -15,10 +15,10 @@ public class NetworkRoboControllerScript : Photon.PunBehaviour
     private float flyForce = 100f;
 
     [SerializeField]
-    private float fuelDecreaseSpeed = 3.5f;
+    private float fuelDecreaseSpeed = 0.1f;
 
     [SerializeField]
-    private float fuelRegenSpeed = 0.5f;
+    private float fuelRegenSpeed = 0.05f;
 
     [SerializeField] 
     private float health = 100f;
