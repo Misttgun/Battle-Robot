@@ -6,7 +6,7 @@ public class NetworkAmmoScript : Photon.PunBehaviour {
 	public NetworkGunScript gun;
 
 	[SerializeField]
-	private GameObject displayAmmo;
+	private Text displayAmmoText;
 	
 	public static int currentAmmo;
 
@@ -16,7 +16,7 @@ public class NetworkAmmoScript : Photon.PunBehaviour {
 	}
 	void Update ()
 	{
-		displayAmmo.GetComponent<Text>().text = "" + currentAmmo;
+		displayAmmoText.text = "" + currentAmmo;
 		if (Input.GetButtonDown("Fire1"))
 		{
 			currentAmmo -= 1;

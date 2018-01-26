@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class NetworkRoboControllerScript : Photon.PunBehaviour
 {
+    //Todo Trouver une solution pour le panel... Et afficher le message GameOver.
     [SerializeField]
     private float roboSpeed = 4f;
 
@@ -20,17 +22,11 @@ public class NetworkRoboControllerScript : Photon.PunBehaviour
     [SerializeField]
     private float fuelRegenSpeed = 0.05f;
 
-    [SerializeField] 
-    private float health = 100f;
-    
-    //[SerializeField]
-    //RectTransform fuelFill;
-
-    [SerializeField]
-    private Transform roboWheel;
-
     [SerializeField]
     private Transform roboChest;
+
+    [SerializeField]
+    private GameObject playerUI;
 
     [SerializeField]
     private Rigidbody roboRb;
@@ -38,12 +34,28 @@ public class NetworkRoboControllerScript : Photon.PunBehaviour
     [SerializeField]
     private GameObject cam;
 
-    private float fuelAmount = 1f;
     private Vector3 roboVelocity;
     private Vector3 roboRotY;
 
     private float roboRotUD;
     private float currentRot;
+    private Vector3 fly;
+
+    private float health = 100f;
+    private float fuelAmount = 1f;
+
+    public bool IsDead { get; set; }
+
+    public float Health
+    {
+        get { return health; }
+    }
+
+    public float FuelAmount
+    {
+        get { return fuelAmount; }
+    }
+
 
     private void Start()
     {
@@ -54,14 +66,27 @@ public class NetworkRoboControllerScript : Photon.PunBehaviour
         {
             if (photonView.isMine)
             {
+                Vector3[] spawns = LevelGeneratorScript.getSpawningPoints();
+
+                foreach (var vec in spawns)
+                {
+                    Debug.LogWarning("Spawning point : (" + vec.x + ", " + vec.y + ", " + vec.z + ")");
+                }
+
+                Random.InitState(PhotonNetwork.ServerTimestamp);
+                transform.position = spawns[Random.Range(0, spawns.Length)];
+
                 cam.SetActive(true);
+
+                IsDead = false;
+
+                playerUI.SetActive(true);
             }
         }
     }
 
     private void Update()
     {
-        // Mouvemment (Z,Q,S,D)
         if (!photonView.isMine && PhotonNetwork.connected) return;
 
         // Cursor lock
@@ -72,7 +97,7 @@ public class NetworkRoboControllerScript : Photon.PunBehaviour
         }
 
         //Fly
-        Vector3 fly = Vector3.zero;
+        fly = Vector3.zero;
         if (Input.GetButton("Jump") && fuelAmount > 0f)
         {
             fuelAmount -= fuelDecreaseSpeed * Time.deltaTime;
@@ -88,12 +113,14 @@ public class NetworkRoboControllerScript : Photon.PunBehaviour
 
         fuelAmount = Mathf.Clamp(fuelAmount, 0f, 1f);
 
-        if (fly != Vector3.zero)
+        if (transform.position.y <= 0f)
         {
-            roboRb.AddForce(fly * Time.fixedDeltaTime, ForceMode.Acceleration);
+            gameObject.GetPhotonView().RPC("TakeDamage", PhotonTargets.All, 110f);
+            transform.position = new Vector3(0, 100, 0);
         }
 
-        //fuelFill.localScale = new Vector3(1f, fuelAmount, 1f);
+        if (GameManagerScript.Instance.alivePlayerNumber == 1)
+            GameManagerScript.Instance.LeaveRoom();
     }
 
     private void FixedUpdate()
@@ -106,59 +133,60 @@ public class NetworkRoboControllerScript : Photon.PunBehaviour
         roboVelocity = (movX + movY).normalized * roboSpeed;
 
         // Souris (Aim)
-        //roboRotY = Vector3.up * Input.GetAxisRaw("Mouse X") * aimSensitivityY;
         roboRotUD = Input.GetAxisRaw("Mouse Y") * aimSensitivity;
 
         if (roboVelocity != Vector3.zero)
         {
-            roboRb.MovePosition(roboRb.position + roboVelocity * Time.deltaTime);
+            roboRb.MovePosition(roboRb.position + roboVelocity * Time.fixedDeltaTime);
         }
 
         roboRb.MoveRotation(roboRb.rotation * Quaternion.Euler(0,
                                 Input.GetAxisRaw("Mouse X") * aimSensitivityY,
                                 0));
-        
-        //roboWheel.Rotate(roboRotY * Time.deltaTime);
+
         currentRot -= roboRotUD;
         currentRot = Mathf.Clamp(currentRot, -70f, 70f);
         roboChest.transform.localEulerAngles = new Vector3(0f, 0f, -currentRot);
+
+        if (fly != Vector3.zero)
+        {
+            Jump(fly);
+        }
     }
 
-    public float getFuelAmount()
+    private void Jump(Vector3 jumpVec)
     {
-        return fuelAmount;
+        roboRb.AddForce(jumpVec * Time.fixedDeltaTime, ForceMode.Impulse);
     }
 
     [PunRPC]
     public void TakeDamage(float amount)
     {
-        Debug.Log("I AM TOUCH !");
         health -= amount;
 
-        if (health < 0f)
+        if (health <= 0f)
         {
-            Debug.Log("I AM DEAD !");
             health = 0f;
             // player is dead
             Die();
         }
     }
 
-    void Die()
-    {
-        var photonId = GetComponent<PhotonView>().instantiationId;
-        
-        // classic instanciation
-        if (photonId == 0)
-            Destroy(gameObject);
 
-        // instantiation over network
+    private void Die()
+    {
+        var photonId = photonView.instantiationId;
+
+        if (photonId == 0)
+        {
+            Destroy(gameObject);
+        }
         else
         {
-            if (GetComponent<PhotonView>().isMine)
-            {
-                PhotonNetwork.Destroy(gameObject);
-            }
+            GameManagerScript.Instance.alivePlayerNumber--;
+            if (!photonView.isMine) return;
+            IsDead = true;
+            GameManagerScript.Instance.LeaveRoom();
         }
     }
 }

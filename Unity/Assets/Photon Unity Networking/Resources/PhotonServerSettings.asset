@@ -43,4 +43,7 @@ MonoBehaviour:
   - RequestForPickupTimes
   - TaggedPlayer
   - TakeDamage
+  - SpawnPlayer
+  - UpdatePlayerCount
+  - DisableRoboBodyRPC
   DisableAutoOpenWizard: 1

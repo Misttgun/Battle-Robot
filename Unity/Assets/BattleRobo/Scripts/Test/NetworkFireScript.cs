@@ -22,7 +22,7 @@ public class NetworkFireScript : Photon.PunBehaviour {
 
 	private void Update()
 	{
-		if (!GetComponent<PhotonView>().isMine) return;
+		if (!photonView.isMine) return;
 		
 		if(Input.GetButtonDown("Fire1"))
 		{
@@ -35,27 +35,20 @@ public class NetworkFireScript : Photon.PunBehaviour {
 		RaycastHit shot;
 		if(Physics.Raycast(camFPS.transform.position, camFPS.transform.forward , out shot, gun.range, mask) && shot.rigidbody)
 		{
-			Debug.LogError(" hit " + shot.collider.name);
-			NetworkRoboControllerScript controller = shot.collider.gameObject.GetComponentInParent<NetworkRoboControllerScript>();
-			
-			Debug.Log(shot.collider.gameObject.name);
+			Debug.Log(" hit " + shot.collider.name);
 
-			if (controller)
-			{
-				shot.collider.gameObject.GetComponentInParent<PhotonView>().RPC("TakeDamage", PhotonTargets.All, 20f);
+				shot.collider.gameObject.GetPhotonView().RPC("TakeDamage", PhotonTargets.All, 15f);
 				//controller.TakeDamage(20f);
-			}
-			shot.rigidbody.AddForce(camFPS.transform.forward * bulletSpeed/100);
+				
+				shot.rigidbody.AddForce(camFPS.transform.forward * bulletSpeed/100);
 		}
 
 	}
 	private void bulletPropagation()
 	{
-		GameObject spawnBullet;
-		spawnBullet = Instantiate(bullet, bulletSpawn.transform.position, camFPS.transform.rotation);
+		var spawnBullet = Instantiate(bullet, bulletSpawn.transform.position, camFPS.transform.rotation);
 
-		Rigidbody bulletRgb;
-		bulletRgb = spawnBullet.GetComponent<Rigidbody>();
+		var bulletRgb = spawnBullet.GetComponent<Rigidbody>();
 
 		bulletRgb.AddForce(camFPS.transform.forward * bulletSpeed);
 

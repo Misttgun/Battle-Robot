@@ -127,7 +127,7 @@ namespace BattleRobo.Networking
             }
 
             // We wait 10 seconds
-            int countDown = 10;
+            int countDown = 4;
             while (countDown > 0)
             {
                 // We stop the countdown when the room is full

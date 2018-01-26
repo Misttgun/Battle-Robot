@@ -127,7 +127,7 @@ public class PhotonStatsGui : MonoBehaviour
         string healthStats = string.Empty;
         if (this.healthStatsVisible)
         {
-            GUILayout.Box("health Stats");
+            GUILayout.Box("Health Stats");
             healthStats = string.Format(
                 "ping: {6}[+/-{7}]ms resent:{8} \n\nmax ms between\nsend: {0,4} \ndispatch: {1,4} \n\nlongest dispatch for: \nev({3}):{2,3}ms \nop({5}):{4,3}ms",
                 gls.LongestDeltaBetweenSending,
