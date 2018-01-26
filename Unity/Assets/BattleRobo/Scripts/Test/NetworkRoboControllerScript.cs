@@ -5,7 +5,7 @@ public class NetworkRoboControllerScript : Photon.PunBehaviour
 {
     //Todo Trouver une solution pour le panel... Et afficher le message GameOver.
     [SerializeField]
-    private float roboSpeed = 4f;
+    private float roboSpeed = 25f;
 
     [SerializeField]
     private float aimSensitivity = 5f;
@@ -14,7 +14,7 @@ public class NetworkRoboControllerScript : Photon.PunBehaviour
     private float aimSensitivityY = 10f;
 
     [SerializeField]
-    private float flyForce = 1000f;
+    private float flyForce = 100f;
 
     [SerializeField]
     private float fuelDecreaseSpeed = 0.1f;

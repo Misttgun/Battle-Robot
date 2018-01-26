@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d6de11f1a15a9944a7a9b31267527bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roboSpeed: 10
+  roboSpeed: 25
   aimSensitivity: 4
   aimSensitivityY: 40
   flyForce: 100
