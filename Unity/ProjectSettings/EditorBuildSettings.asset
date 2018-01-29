@@ -4,4 +4,13 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/BattleRobo/_Scenes/Launcher.unity
+    guid: 430aaeadf8f19d34a8c9efd306159049
+  - enabled: 1
+    path: Assets/BattleRobo/_Scenes/StartMenu.unity
+    guid: 0418eaa01a25a97448d48a1835770ebe
+  - enabled: 1
+    path: Assets/BattleRobo/_Scenes/MainLevel.unity
+    guid: 0b83fb140e5dab54cbc420c1ba051c91
