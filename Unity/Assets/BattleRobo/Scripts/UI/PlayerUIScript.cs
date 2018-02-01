@@ -51,9 +51,9 @@ namespace BattleRobo.UI
         /// </summary>
         /// <param name="currHealth"></param>
         /// <param name="maxHealth"></param>
-        private void UpdateHealth(float currHealth, float maxHealth = 100f)
+        private void UpdateHealth(ushort currHealth, ushort maxHealth = 100)
         {
-            float health = currHealth / maxHealth;
+            var health = currHealth / maxHealth;
             healthBar.value = health;
         }
 
