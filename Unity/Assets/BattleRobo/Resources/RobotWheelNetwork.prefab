@@ -1078,6 +1078,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4825604327906588}
   - component: {fileID: 95386536983713688}
+  - component: {fileID: 143367447267707824}
+  - component: {fileID: 54932276484408234}
   m_Layer: 8
   m_Name: robot
   m_TagString: Untagged
@@ -2029,6 +2031,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!54 &54932276484408234
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1911236031844866}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!65 &65015752175499398
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -2037,7 +2054,7 @@ BoxCollider:
   m_GameObject: {fileID: 1929177717150122}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.4615718, y: 1.8556775, z: 1.0832933}
   m_Center: {x: 0.11563326, y: -0.107697286, z: -0.21277921}
@@ -2049,7 +2066,7 @@ BoxCollider:
   m_GameObject: {fileID: 1304985157256168}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 2.4110882, y: 2.3690412, z: 3.8601792}
   m_Center: {x: -2.3016794, y: -0.00018853314, z: -0.023086824}
@@ -2061,7 +2078,7 @@ BoxCollider:
   m_GameObject: {fileID: 1530831984828670}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.7045828, y: 0.7184277, z: 0.59008276}
   m_Center: {x: -0.20350865, y: 0.014305641, z: 0.03209693}
@@ -2073,7 +2090,7 @@ BoxCollider:
   m_GameObject: {fileID: 1929177717150122}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.0645006, y: 1.0860822, z: 0.86590874}
   m_Center: {x: -1.1945419, y: -0.060735676, z: -0.01232634}
@@ -2085,7 +2102,7 @@ BoxCollider:
   m_GameObject: {fileID: 1291032334705914}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.6626334, y: 1, z: 1.3455166}
   m_Center: {x: -0.5807541, y: 0.000000103900234, z: -0.00060937775}
@@ -2097,7 +2114,7 @@ BoxCollider:
   m_GameObject: {fileID: 1755714615311454}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.1789149, y: 1, z: 0.2596318}
   m_Center: {x: -0.6113702, y: 0.00000007693031, z: 0.058172848}
@@ -2109,7 +2126,7 @@ BoxCollider:
   m_GameObject: {fileID: 1304985157256168}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.92148423, y: 2.1977553, z: 2.5463064}
   m_Center: {x: -0.68211114, y: -0.031057473, z: -0.0034225208}
@@ -2121,7 +2138,7 @@ BoxCollider:
   m_GameObject: {fileID: 1656507689007794}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.0641675, y: 1, z: 0.8651201}
   m_Center: {x: -1.073821, y: 0.00000023028522, z: -0.06743962}
@@ -2133,7 +2150,7 @@ BoxCollider:
   m_GameObject: {fileID: 1716364624671668}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 2.1813176, y: 1.003508, z: 0.7686567}
   m_Center: {x: -0.7448141, y: -0.11103729, z: 0.031443387}
@@ -2145,7 +2162,7 @@ BoxCollider:
   m_GameObject: {fileID: 1304985157256168}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 2.5072362, y: 0.93541956, z: 2.5952485}
   m_Center: {x: -2.3505485, y: -1.5784665, z: -0.06172042}
@@ -2157,7 +2174,7 @@ BoxCollider:
   m_GameObject: {fileID: 1656507689007794}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.3742822, y: 1.6438593, z: 1.0644974}
   m_Center: {x: 0.06375183, y: -0.13097787, z: 0.16394852}
@@ -2169,7 +2186,7 @@ BoxCollider:
   m_GameObject: {fileID: 1000494856587338}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.2583473, y: 1, z: 1}
   m_Center: {x: -1.1007972, y: 0.0000002799458, z: 0.00000016283093}
@@ -2181,7 +2198,7 @@ BoxCollider:
   m_GameObject: {fileID: 1712077288949522}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 2.408621, y: 0.96067554, z: 0.8144928}
   m_Center: {x: -0.93926847, y: -0.08328819, z: -0.0067224586}
@@ -2193,7 +2210,7 @@ BoxCollider:
   m_GameObject: {fileID: 1583536400767008}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1.5672513, y: 1, z: 0.3670823}
   m_Center: {x: -0.28362724, y: -0.00000013346353, z: -0.077176645}
@@ -2263,7 +2280,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camFPS: {fileID: 20165561545285092}
-  bulletSpeed: 30000
   playerPhotonView: {fileID: 114244585512611482}
 --- !u!114 &114139799573457146
 MonoBehaviour:
@@ -2882,7 +2898,7 @@ SphereCollider:
   m_GameObject: {fileID: 1437733191540180}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5581561
   m_Center: {x: -0.34974962, y: -0.04383335, z: 0.084407434}
@@ -2894,7 +2910,7 @@ SphereCollider:
   m_GameObject: {fileID: 1773202814257296}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 1.2080626
   m_Center: {x: -1.4487368, y: 0.013557208, z: 0.05522323}
@@ -2906,7 +2922,7 @@ SphereCollider:
   m_GameObject: {fileID: 1356164994796772}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.9283298
   m_Center: {x: -0.09726284, y: 0.07530345, z: 0.0066679716}
@@ -2918,7 +2934,7 @@ SphereCollider:
   m_GameObject: {fileID: 1956571225896724}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.60518503
   m_Center: {x: -0.32690546, y: -0.060039874, z: 0.020457953}
@@ -3017,6 +3033,23 @@ SkinnedMeshRenderer:
     m_Center: {x: -1.1475711, y: -0.052903652, z: 0.00000047683716}
     m_Extent: {x: 6.6010013, y: 2.8312218, z: 4.162897}
   m_DirtyAABB: 0
+--- !u!143 &143367447267707824
+CharacterController:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1911236031844866}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 12.5
+  m_Radius: 3
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.4
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 6.15, z: 0}
 --- !u!222 &222090947687875294
 CanvasRenderer:
   m_ObjectHideFlags: 1
