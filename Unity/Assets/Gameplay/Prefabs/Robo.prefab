@@ -367,7 +367,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4271001011372112}
   - component: {fileID: 143067788000672310}
+  - component: {fileID: 114987138241769464}
   - component: {fileID: 114112361460404082}
+  - component: {fileID: 114577653179491186}
   m_Layer: 8
   m_Name: Robo
   m_TagString: Untagged
@@ -1929,16 +1931,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 749fd4e0d9b33d44d9cfc80e2da48759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aimSensitivity: 5
-  aimSensitivityY: 10
+  aimSensitivity: 1
+  aimSensitivityY: 1
   walkSpeed: 16
   runSpeed: 30
   gravity: 20
   fuelDecreaseSpeed: 3.5
   fuelRegenSpeed: 0.1
-  flyForce: 30
+  flyForce: 25
   controller: {fileID: 143067788000672310}
   roboChest: {fileID: 4294315552164764}
+  playerUI: {fileID: 0}
+  cam: {fileID: 0}
+--- !u!114 &114577653179491186
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1393310990972292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 936b806a5f3416c43ab60c4067bbe83a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 0}
+  playerUI: {fileID: 0}
+  cam: {fileID: 0}
+  interpolationBackTime: 0.1
+--- !u!114 &114987138241769464
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1393310990972292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!124 &124953304318181216
 Behaviour:
   m_ObjectHideFlags: 1

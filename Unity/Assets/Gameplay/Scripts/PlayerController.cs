@@ -3,18 +3,23 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("Mouse Settings")] [SerializeField] private float aimSensitivity = 5f;
+    [Header("Mouse Settings")] 
+    [SerializeField] private float aimSensitivity = 5f;
     [SerializeField] private float aimSensitivityY = 10f;
 
-    [Header("Movement Settings")] [SerializeField] private float walkSpeed = 6.0f;
+    [Header("Movement Settings")] 
+    [SerializeField] private float walkSpeed = 6.0f;
     [SerializeField] private float runSpeed = 11.0f;
     [SerializeField] private float gravity = 20.0f;
     [SerializeField] private float fuelDecreaseSpeed = 0.1f;
     [SerializeField] private float fuelRegenSpeed = 0.05f;
     [SerializeField] private float flyForce = 100f;
 
-    [Header("Required Components")] [SerializeField] private CharacterController controller;
+    [Header("Required Components")] 
+    [SerializeField] private CharacterController controller;
     [SerializeField] private Transform roboChest;
+    [SerializeField] private GameObject playerUI;
+    [SerializeField] private GameObject cam;
 
     private Vector3 moveDirection = Vector3.zero;
     private bool grounded;
@@ -29,6 +34,11 @@ public class PlayerController : MonoBehaviour
     private float currentRot;
 
     private Transform myTransform;
+
+    public float FuelAmount
+    {
+        get { return fuelAmount; }
+    }
 
     private void Start()
     {
