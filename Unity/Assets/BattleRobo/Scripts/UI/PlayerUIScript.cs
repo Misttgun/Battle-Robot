@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using BattleRobo.Core;
+using UnityEngine;
 using UnityEngine.UI;
-using BattleRobo.Core;
 using BattleRobo.Networking;
 
 namespace BattleRobo.UI
@@ -16,7 +16,10 @@ namespace BattleRobo.UI
         // The number of player alive text
         [SerializeField] private Text aliveTexT;
 
-        // A reference to the player
+        // A reference to the network player controller
+        [SerializeField] private NetworkPlayerControllerScript networkPlayerScript;
+        
+        // A reference to the network player controller
         [SerializeField] private PlayerControllerScript playerScript;
 
         // A reference to the game UI
@@ -24,7 +27,7 @@ namespace BattleRobo.UI
 
         private void Start()
         {
-            UpdateHealth(playerScript.Health);
+            UpdateHealth(networkPlayerScript.Health);
             UpdateFuel(playerScript.FuelAmount);
             UpdateAliveText(GameManagerScript.Instance.alivePlayerNumber);
 
@@ -33,14 +36,11 @@ namespace BattleRobo.UI
 
         private void Update()
         {
-            UpdateHealth(playerScript.Health);
+            UpdateHealth(networkPlayerScript.Health);
             UpdateFuel(playerScript.FuelAmount);
             UpdateAliveText(GameManagerScript.Instance.alivePlayerNumber);
 
-            Debug.LogWarning("IsDead : " + playerScript.IsDead);
-
-
-            if (GameManagerScript.Instance.alivePlayerNumber == 1 || playerScript.IsDead)
+            if (GameManagerScript.Instance.alivePlayerNumber == 1 || networkPlayerScript.IsDead)
             {
                 gamePanel.SetActive(false);
             }

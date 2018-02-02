@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+using BattleRobo.Core;
 using BattleRobo.Networking;
 using Photon;
 using UnityEngine;
 
-public class NetworkPlayerController : PunBehaviour
+public class NetworkPlayerControllerScript : PunBehaviour
 {
     // A struct of values received over the network
     private struct NetworkState
@@ -35,7 +36,7 @@ public class NetworkPlayerController : PunBehaviour
 
     [Header("Required Components")]
     [SerializeField]
-    private PlayerController playerController;
+    private PlayerControllerScript playerController;
 
     [SerializeField]
     private GameObject playerUI;
@@ -55,12 +56,17 @@ public class NetworkPlayerController : PunBehaviour
     private int stateCount;
 
     // A list of move states sent from client to server. We reserve 201 because 200 is our cap.
-    private List<MoveCommand> movementHistory = new List<MoveCommand>(201);
+    private readonly List<MoveCommand> movementHistory = new List<MoveCommand>(201);
 
     private float updateTimer;
+    private ushort health = 100;
 
     public bool IsDead { get; private set; }
-    public ushort CurrentHealth { get; private set; }
+    
+    public ushort Health
+    {
+        get { return health; }
+    }
 
 
     private void Start()
@@ -157,6 +163,12 @@ public class NetworkPlayerController : PunBehaviour
         {
             movementHistory.RemoveAt(movementHistory.Count - 1);
         }
+        
+        if (transform.position.y <= 0f)
+        {
+            photonView.RPC("TakeDamage", PhotonTargets.All, 110);
+            transform.position = new Vector3(0, 100, 0);
+        }
 
         // Move the player
         playerController.ClientMovement();
@@ -185,7 +197,7 @@ public class NetworkPlayerController : PunBehaviour
         stateCount = Mathf.Min(stateCount + 1, stateBuffer.Length);
     }
 
-    [RPC]
+    [PunRPC]
     private void NetworkUpdate(Vector3 position, PhotonMessageInfo info)
     {
         if (!photonView.isMine)
@@ -194,7 +206,7 @@ public class NetworkPlayerController : PunBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void ProcessInput(float horizAxis, float vertAxis, Vector3 position, PhotonMessageInfo info)
     {
         if (!PhotonNetwork.isMasterClient || photonView.isMine)
@@ -215,7 +227,7 @@ public class NetworkPlayerController : PunBehaviour
         }
     }
 
-    [RPC]
+    [PunRPC]
     private void CorrectPosition(Vector3 goodPosition, PhotonMessageInfo info)
     {
         // Find past state based on timestamp
@@ -247,11 +259,11 @@ public class NetworkPlayerController : PunBehaviour
     [PunRPC]
     public void TakeDamage(ushort amount)
     {
-        CurrentHealth -= amount;
+        health -= amount;
 
-        if (CurrentHealth <= 0)
+        if (health <= 0)
         {
-            CurrentHealth = 0;
+            health = 0;
             // player is dead
             Die();
         }
