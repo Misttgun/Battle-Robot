@@ -58,6 +58,10 @@ ModelImporter:
     100100: Cube_002
     100102: head
     100104: Master_Control_Bones
+    100106: ROBO_LOD0
+    100108: ROBO_LOD1
+    100110: ROBO_LOD2
+    100112: ROBO_LOD3
     400000: //RootNode
     400002: Armature
     400004: chest
@@ -111,11 +115,19 @@ ModelImporter:
     400100: Cube_002
     400102: head
     400104: Master_Control_Bones
+    400106: ROBO_LOD0
+    400108: ROBO_LOD1
+    400110: ROBO_LOD2
+    400112: ROBO_LOD3
     2300000: //RootNode
     3300000: //RootNode
     4300000: Cube_006
     4300002: Cube_002
     4300004: Cube_001
+    4300006: ROBO_LOD3
+    4300008: ROBO_LOD2
+    4300010: ROBO_LOD1
+    4300012: ROBO_LOD0
     7400000: Default Take
     7400002: Walk
     7400004: idle
@@ -126,6 +138,11 @@ ModelImporter:
     13700000: Cube_006
     13700002: Cube_001
     13700004: Cube_002
+    13700006: ROBO_LOD0
+    13700008: ROBO_LOD1
+    13700010: ROBO_LOD2
+    13700012: ROBO_LOD3
+    20500000: //RootNode
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -150,15 +167,28 @@ ModelImporter:
       lower retargeting quality:\nNote: Activate translation DOF on avatar to improve
       retargeting quality.\n\t'U_arm_R' has translation animation that will be discarded.\n\t'U_arm_L'
       has translation animation that will be discarded.\n\t'head' has translation
-      animation that will be discarded.\n\nClip 'Run' has import animation warnings
+      animation that will be discarded.\n\nClip 'idle_001' has import animation warnings
       that might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'foot1_R' has scale animation that will be
-      discarded.\n\t'foot2_R' is inbetween humanoid transforms and has rotation animation
-      that will be discarded.\n\t'foot2_L' is inbetween humanoid transforms and has
-      rotation animation that will be discarded.\n\t'head' has translation animation
-      that will be discarded.\n\nClip 'Walk' has import animation warnings that might
-      lower retargeting quality:\nNote: Activate translation DOF on avatar to improve
-      retargeting quality.\n\t'head' has translation animation that will be discarded.\n"
+      to improve retargeting quality.\n\t'U_arm_R' has translation animation that
+      will be discarded.\n\t'U_arm_L' has translation animation that will be discarded.\n\t'head'
+      has translation animation that will be discarded.\n\nClip 'idle_002' has import
+      animation warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'U_arm_R' has translation animation
+      that will be discarded.\n\t'U_arm_L' has translation animation that will be
+      discarded.\n\t'head' has translation animation that will be discarded.\n\nClip
+      'idle_003' has import animation warnings that might lower retargeting quality:\nNote:
+      Activate translation DOF on avatar to improve retargeting quality.\n\t'U_arm_R'
+      has translation animation that will be discarded.\n\t'U_arm_L' has translation
+      animation that will be discarded.\n\t'head' has translation animation that will
+      be discarded.\n\nClip 'Run' has import animation warnings that might lower retargeting
+      quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'foot1_R'
+      has scale animation that will be discarded.\n\t'foot2_R' is inbetween humanoid
+      transforms and has rotation animation that will be discarded.\n\t'foot2_L' is
+      inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'head'
+      has translation animation that will be discarded.\n\nClip 'Walk' has import
+      animation warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'head' has translation animation
+      that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -312,7 +342,11 @@ ModelImporter:
       additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
-    lODScreenPercentages: []
+    lODScreenPercentages:
+    - 0.25
+    - 0.125
+    - 0.0625
+    - 0.01
     globalScale: 1
     meshCompression: 0
     addColliders: 0
