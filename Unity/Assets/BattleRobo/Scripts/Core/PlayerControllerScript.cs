@@ -10,9 +10,6 @@ namespace BattleRobo.Core
         [SerializeField]
         private float aimSensitivity = 5f;
 
-        [SerializeField]
-        private float aimSensitivityY = 10f;
-
         [Header("Movement Settings")]
         [SerializeField]
         private float walkSpeed = 6.0f;
@@ -37,7 +34,7 @@ namespace BattleRobo.Core
         private CharacterController controller;
 
         [SerializeField]
-        private Transform roboChest;
+        private Transform roboHead;
 
         [SerializeField]
         private PhotonView myPhotonView;
@@ -49,18 +46,9 @@ namespace BattleRobo.Core
         private float fallStartLevel;
         private float fuelAmount = 1f;
         private Vector3 fly;
-
-        private Vector3 roboRotY;
-        private float roboRotUD;
         private float currentRot;
 
         private Transform myTransform;
-
-        [HideInInspector]
-        public float inputX;
-
-        [HideInInspector]
-        public float inputY;
 
         public float FuelAmount
         {
@@ -76,55 +64,11 @@ namespace BattleRobo.Core
             speed = walkSpeed;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
-            if (!myPhotonView.isMine)
-            {
-                return;
-            }
+            float inputX = Input.GetAxis("Horizontal");
+            float inputY = Input.GetAxis("Vertical");
 
-            // Cursor lock
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-            else if (Input.GetKeyDown(KeyCode.L))
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
-
-            inputX = Input.GetAxis("Horizontal");
-            inputY = Input.GetAxis("Vertical");
-
-            fly = Vector3.zero;
-            if (Input.GetButton("Jump") && fuelAmount > 0f)
-            {
-                fuelAmount -= fuelDecreaseSpeed * Time.deltaTime;
-                if (fuelAmount >= 0.04f)
-                {
-                    fly = Vector3.up * flyForce;
-                }
-            }
-            else
-            {
-                fuelAmount += fuelRegenSpeed * Time.deltaTime;
-            }
-
-            fuelAmount = Mathf.Clamp(fuelAmount, 0f, 1f);
-        }
-
-        private void Jump()
-        {
-            if (fly != Vector3.zero)
-            {
-                moveDirection.y = fly.y;
-            }
-        }
-
-        public void ClientMovement()
-        {
             // Limit the diagonal speed
             float inputModifyFactor = Math.Abs(inputX) > 0.0001f && Math.Abs(inputY) > 0.0001f ? .7071f : 1.0f;
 
@@ -150,18 +94,60 @@ namespace BattleRobo.Core
             }
 
             // Rotate the player on the Y axis
-            myTransform.rotation *= Quaternion.Euler(0, Input.GetAxisRaw("Mouse X") * aimSensitivityY, 0);
-
-            // Rotate the player on the X axis
-            currentRot -= Input.GetAxisRaw("Mouse Y") * aimSensitivity;
-            currentRot = Mathf.Clamp(currentRot, -60f, 60f);
-            roboChest.transform.localEulerAngles = new Vector3(0f, 0f, -currentRot);
+            myTransform.rotation *= Quaternion.Euler(0, Input.GetAxisRaw("Mouse X") * aimSensitivity, 0);
 
             // Apply gravity
             moveDirection.y -= gravity * Time.deltaTime;
 
             // Move the controller, and set grounded true or false depending on whether we're standing on something
             grounded = (controller.Move(moveDirection * Time.deltaTime) & CollisionFlags.Below) != 0;
+        }
+
+        private void Update()
+        {
+            // Cursor lock
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.L))
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+
+            fly = Vector3.zero;
+            if (Input.GetButton("Jump") && fuelAmount > 0f)
+            {
+                fuelAmount -= fuelDecreaseSpeed * Time.deltaTime;
+                if (fuelAmount >= 0.04f)
+                {
+                    fly = Vector3.up * flyForce;
+                }
+            }
+            else
+            {
+                fuelAmount += fuelRegenSpeed * Time.deltaTime;
+            }
+
+            fuelAmount = Mathf.Clamp(fuelAmount, 0f, 1f);
+        }
+
+        private void LateUpdate()
+        {
+            // Rotate the player on the X axis
+            currentRot -= Input.GetAxisRaw("Mouse Y") * aimSensitivity;
+            currentRot = Mathf.Clamp(currentRot, -60f, 60f);
+            roboHead.transform.localEulerAngles = new Vector3(0f, currentRot, 0f);
+        }
+
+        private void Jump()
+        {
+            if (fly != Vector3.zero)
+            {
+                moveDirection.y = fly.y;
+            }
         }
     }
 }
