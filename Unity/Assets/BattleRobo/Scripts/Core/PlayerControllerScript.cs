@@ -39,12 +39,19 @@ namespace BattleRobo.Core
         [SerializeField]
         private PhotonView myPhotonView;
 
+        [SerializeField]
+        private Animator animator;
+
+        [SerializeField]
+        private GameObject thrusters;
+
         private Vector3 moveDirection = Vector3.zero;
         private bool grounded;
         private float speed;
 
         private float fallStartLevel;
-        private float fuelAmount = 1f;
+        public float fuelAmount = 1f;
+        private float maxFuelAmount = 1f;
         private Vector3 fly;
         private float currentRot;
 
@@ -62,6 +69,8 @@ namespace BattleRobo.Core
 
             myTransform = transform;
             speed = walkSpeed;
+
+            thrusters.SetActive(false);
         }
 
         private void FixedUpdate()
@@ -75,9 +84,20 @@ namespace BattleRobo.Core
             // Handle the movement
             if (grounded)
             {
+                // Disable the jump layer when the player is on the ground
+                animator.SetLayerWeight(1, 0);
+                
+                // Disable the thrusters when the player is not flying
+                thrusters.SetActive(false);
+                
                 speed = Input.GetButton("Run") ? runSpeed : walkSpeed;
 
                 moveDirection = new Vector3(inputX * inputModifyFactor, 0f, inputY * inputModifyFactor);
+                
+                // Animate the player for the ground animation
+                animator.SetFloat("VelX", moveDirection.x * speed);
+                animator.SetFloat("VelY", moveDirection.z * speed);
+                
                 moveDirection = myTransform.TransformDirection(moveDirection) * speed;
 
                 // Jump!
@@ -87,6 +107,14 @@ namespace BattleRobo.Core
             {
                 moveDirection.x = inputX * speed * inputModifyFactor;
                 moveDirection.z = inputY * speed * inputModifyFactor;
+                
+                // Animate the player for the ground animation
+                animator.SetFloat("VelX", moveDirection.x);
+                animator.SetFloat("VelY", moveDirection.z);
+                
+                // Disable the thrusters when the player is not flying
+                thrusters.SetActive(true);
+                
                 moveDirection = myTransform.TransformDirection(moveDirection);
 
                 // Jump!
@@ -121,9 +149,14 @@ namespace BattleRobo.Core
             if (Input.GetButton("Jump") && fuelAmount > 0f)
             {
                 fuelAmount -= fuelDecreaseSpeed * Time.deltaTime;
-                if (fuelAmount >= 0.04f)
+                var consumedFuel = maxFuelAmount - fuelAmount;
+                
+                if (fuelAmount >= 0.1f)
                 {
-                    fly = Vector3.up * flyForce;
+                    // We override the base layer when the player is jumping
+                    animator.SetLayerWeight(1, 1);
+                    
+                    fly = Vector3.up * flyForce * consumedFuel;
                 }
             }
             else
@@ -139,7 +172,7 @@ namespace BattleRobo.Core
             // Rotate the player on the X axis
             currentRot -= Input.GetAxisRaw("Mouse Y") * aimSensitivity;
             currentRot = Mathf.Clamp(currentRot, -60f, 60f);
-            roboHead.transform.localEulerAngles = new Vector3(0f, currentRot, 0f);
+            roboHead.transform.localEulerAngles = new Vector3(0f, -currentRot, 0f);
         }
 
         private void Jump()
