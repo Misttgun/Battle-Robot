@@ -4,74 +4,63 @@ namespace BattleRobo.Core
 {
     public class WeaponScript : MonoBehaviour
     {
-        /// <summary>
-        /// Gun class to define the logic of a gun
-        /// </summary>
-        public class Gun
+        [SerializeField]
+        private Gun currentGun;
+
+        [SerializeField]
+        private Camera camFPS;
+        
+        [SerializeField]
+        private Animator playerAnimator;
+
+        [SerializeField]
+        private PhotonView playerPhotonView;
+
+        private float nextTimeToFire;
+
+        public float currentAmmo;
+
+        private void Start()
         {
-            private readonly ushort magazineSize;
-            private readonly ushort damage;
-            private readonly float range;
-            private readonly string name;
-
-            public Gun(ushort magazineSize, ushort damage, float range, string name)
-            {
-                this.magazineSize = magazineSize;
-                this.damage = damage;
-                this.range = range;
-                this.name = name;
-            }
-
-            public ushort MagazineSize
-            {
-                get { return magazineSize; }
-            }
-
-            public ushort Damage
-            {
-                get { return damage; }
-            }
-
-            public float Range
-            {
-                get { return range; }
-            }
-
-            public string Name
-            {
-                get { return name; }
-            }
+            currentAmmo = currentGun.magazineSize;
         }
-
-        [SerializeField] private Camera camFPS;
-        [SerializeField] private PhotonView playerPhotonView;
-
-        private readonly Gun pistol = new Gun(15, 15, 125f, "Beretta");
 
         private void Update()
         {
-            if (!playerPhotonView.isMine) return;
+            //if (!playerPhotonView.isMine) return;
 
-            if (Input.GetButtonDown("Fire1"))
+            if (currentGun.twoHanded)
             {
-                Fire(pistol);
+                playerAnimator.SetLayerWeight(2, 1);
+                playerAnimator.SetLayerWeight(3, 0);
+            }
+            else
+            {
+                playerAnimator.SetLayerWeight(3, 1);
+                playerAnimator.SetLayerWeight(2, 0);
+            }
+
+            if (Input.GetButtonDown("Fire1") && Time.time >= nextTimeToFire)
+            {
+                Debug.Log("Fire " + currentGun.name);
+                nextTimeToFire = Time.time + currentGun.fireRate;
+                currentAmmo--;
+                Fire();
             }
         }
 
         /// <summary>
         /// Fire the gun and deals the gun damage
         /// </summary>
-        /// <param name="currentGun">the gun selected by the user</param>
-        private void Fire(Gun currentGun)
+        private void Fire()
         {
-            int layerMask = 1 << 8;
-            layerMask = ~layerMask;
+            const int layerMask = 1 << 8;
             RaycastHit shot;
 
-            if (!Physics.Raycast(camFPS.transform.position, camFPS.transform.forward, out shot, currentGun.Range,
-                layerMask))
+            if (Physics.Raycast(camFPS.transform.position, camFPS.transform.forward, out shot, currentGun.range, layerMask))
             {
-                shot.transform.gameObject.GetPhotonView().RPC("TakeDamage", PhotonTargets.All, currentGun.Damage);
+                Debug.Log("Hit" + shot.transform.gameObject.name);
+                //shot.transform.gameObject.GetPhotonView().RPC("TakeDamage", PhotonTargets.All, currentGun.damage);
             }
         }
     }

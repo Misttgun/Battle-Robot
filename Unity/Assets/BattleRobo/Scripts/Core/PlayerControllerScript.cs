@@ -172,6 +172,9 @@ namespace BattleRobo.Core
             // Rotate the player on the X axis
             currentRot -= Input.GetAxisRaw("Mouse Y") * aimSensitivity;
             currentRot = Mathf.Clamp(currentRot, -60f, 60f);
+            
+            // Make the weapon loot in the same direction as the cam
+            animator.SetFloat("AimAngle", -currentRot);
             roboHead.transform.localEulerAngles = new Vector3(0f, -currentRot, 0f);
         }
 
