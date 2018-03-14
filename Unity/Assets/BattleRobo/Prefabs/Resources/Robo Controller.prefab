@@ -420,7 +420,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4362428940347194}
-  - component: {fileID: 95948525845436152}
   - component: {fileID: 205216680641040024}
   m_Layer: 0
   m_Name: Body
@@ -3077,23 +3076,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!95 &95948525845436152
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1291959990620086}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 3163791bf74eed34da4b3c46a1497d46, type: 3}
-  m_Controller: {fileID: 9100000, guid: d744dc5a362edd74fa396c94125ff02a, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!108 &108200825807997694
 Light:
   m_ObjectHideFlags: 1
@@ -3361,7 +3343,7 @@ MonoBehaviour:
   controller: {fileID: 143754622215303118}
   roboHead: {fileID: 4385438500814446}
   myPhotonView: {fileID: 114865350179877502}
-  animator: {fileID: 95948525845436152}
+  animator: {fileID: 95904027330849176}
   thrusters: {fileID: 1641029280643584}
   fuelAmount: 1
 --- !u!114 &114103855528354314
@@ -3411,6 +3393,9 @@ MonoBehaviour:
   - Type: 1
     SynchronizeType: 1
     Name: VelY
+  - Type: 1
+    SynchronizeType: 0
+    Name: AimAngle
   m_SynchronizeLayers:
   - SynchronizeType: 1
     LayerIndex: 0
@@ -3418,6 +3403,8 @@ MonoBehaviour:
     LayerIndex: 1
   - SynchronizeType: 1
     LayerIndex: 2
+  - SynchronizeType: 0
+    LayerIndex: 3
 --- !u!114 &114363630698846936
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3848,7 +3835,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGun: {fileID: 11400000, guid: a7c0fcec51b56cb4eac7ae9059acb9d7, type: 2}
   camFPS: {fileID: 20284757305268708}
-  playerAnimator: {fileID: 95948525845436152}
+  playerAnimator: {fileID: 95904027330849176}
   playerPhotonView: {fileID: 114865350179877502}
   currentAmmo: 0
 --- !u!114 &114865350179877502
@@ -3912,7 +3899,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGun: {fileID: 11400000, guid: adb4cef86774ca645a1756cab39df7f5, type: 2}
   camFPS: {fileID: 20284757305268708}
-  playerAnimator: {fileID: 95948525845436152}
+  playerAnimator: {fileID: 95904027330849176}
   playerPhotonView: {fileID: 114865350179877502}
   currentAmmo: 0
 --- !u!124 &124889924982868490
