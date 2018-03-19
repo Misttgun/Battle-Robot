@@ -35,7 +35,7 @@ namespace BattleRobo
 		/// </summary>
 		public static void SetHealth(this PhotonView player, int value)
 		{
-			player.owner.SetCustomProperties(new Hashtable() { { health, (byte)value } });
+			player.owner.SetCustomProperties(new Hashtable { { health, (byte)value } });
 		}
 
 		/// <summary>
@@ -51,23 +51,23 @@ namespace BattleRobo
 		/// </summary>
 		public static void SetShield(this PhotonView player, int value)
 		{
-			player.owner.SetCustomProperties(new Hashtable() { { shield, (byte)value } });
+			player.owner.SetCustomProperties(new Hashtable { { shield, (byte)value } });
 		}
 
 		/// <summary>
 		/// Returns the networked fuel value of the player out of properties.
 		/// </summary>
-		public static int GetFuel(this PhotonView player)
+		public static float GetFuel(this PhotonView player)
 		{
-			return System.Convert.ToInt32(player.owner.CustomProperties[fuel]);
+			return System.Convert.ToSingle(player.owner.CustomProperties[fuel]);
 		}
 
 		/// <summary>
 		/// Synchronizes the fuel value of the player for all players via properties.
 		/// </summary>
-		public static void SetFuel(this PhotonView player, int value)
+		public static void SetFuel(this PhotonView player, float value)
 		{
-			player.owner.SetCustomProperties(new Hashtable() { { fuel, (byte)value } });
+			player.owner.SetCustomProperties(new Hashtable { { fuel, (byte)value } });
 		}
 
 		/// <summary>
@@ -75,9 +75,9 @@ namespace BattleRobo
 		/// </summary>
 		public static void Clear(this PhotonView player)
 		{
-			player.owner.SetCustomProperties(new Hashtable() { { PlayerStats.fuel, (byte)0 },
-                                                         { PlayerStats.health, (byte)0 },
-                                                         { PlayerStats.shield, (byte)0 } });
+			player.owner.SetCustomProperties(new Hashtable { { fuel, (byte)0 },
+                                                         { health, (byte)0 },
+                                                         { shield, (byte)0 } });
 		}
 	}
 }

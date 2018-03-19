@@ -13,9 +13,6 @@ namespace BattleRobo.Core
         [SerializeField]
         private Animator playerAnimator;
 
-        [SerializeField]
-        private PhotonView playerPhotonView;
-
         private float nextTimeToFire;
 
         public float currentAmmo;
