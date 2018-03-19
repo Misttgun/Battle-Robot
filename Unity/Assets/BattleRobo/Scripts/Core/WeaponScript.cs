@@ -42,7 +42,7 @@ namespace BattleRobo.Core
 
             if (Input.GetButtonDown("Fire1") && Time.time >= nextTimeToFire)
             {
-                Debug.Log("Fire " + currentGun.name);
+                Debug.Log("Fire " + currentGun.gunName);
                 nextTimeToFire = Time.time + currentGun.fireRate;
                 currentAmmo--;
                 Fire();

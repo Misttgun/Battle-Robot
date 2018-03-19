@@ -10,6 +10,6 @@ namespace BattleRobo
         public float damage;
         public float range;
         public float fireRate;
-        public string name;
+        public string gunName;
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using BattleRobo.Networking;
 
-namespace BattleRobo.UI
+namespace BattleRobo
 {
     public class PlayerUIScript : MonoBehaviour
     {
