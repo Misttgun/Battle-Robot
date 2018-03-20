@@ -12,6 +12,7 @@ namespace BattleRobo
 		public const string health = "health";
 		public const string shield = "shield";
 		public const string fuel = "fuel";
+		public const string kills = "kills";
 
 
 		/// <summary>
@@ -71,12 +72,29 @@ namespace BattleRobo
 		}
 
 		/// <summary>
+		/// Returns the networked kills value of the player out of properties.
+		/// </summary>
+		public static int GetKills(this PhotonView player)
+		{
+			return System.Convert.ToInt32(player.owner.CustomProperties[fuel]);
+		}
+
+		/// <summary>
+		/// Synchronizes the kills value of the player for all players via properties.
+		/// </summary>
+		public static void SetKills(this PhotonView player, int value)
+		{
+			player.owner.SetCustomProperties(new Hashtable { { fuel, (byte)value } });
+		}
+
+		/// <summary>
 		/// Clears all networked variables of the player via properties in one instruction.
 		/// </summary>
 		public static void Clear(this PhotonView player)
 		{
 			player.owner.SetCustomProperties(new Hashtable { { fuel, (byte)0 },
                                                          { health, (byte)0 },
+														 { kills, (byte)0 },
                                                          { shield, (byte)0 } });
 		}
 	}

@@ -133,6 +133,9 @@ namespace BattleRobo
         /// </summary>
         private void Start()
         {
+			//player add itself to the list of alive player
+			GameManagerScript.GetInstance().alivePlayers.Add(gameObject);
+
             //called only for this client 
             if (!photonView.isMine)
                 return;

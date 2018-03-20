@@ -40,13 +40,13 @@ public class NetworkPlayerControllerScript : PunBehaviour
         }
         else
         {
-            GameManagerScript.Instance.alivePlayerNumber--;
+            //GameManagerScript.Instance.alivePlayerNumber--;
             if (!photonView.isMine)
             {
                 return;
             }
             IsDead = true;
-            GameManagerScript.Instance.ShowGameOverScreen("You died... Feels bad man !!");
+            //GameManagerScript.Instance.ShowGameOverScreen("You died... Feels bad man !!");
         }
     }
 }

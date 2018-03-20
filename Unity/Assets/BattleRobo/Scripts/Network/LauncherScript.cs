@@ -10,20 +10,16 @@ namespace BattleRobo.Networking
         // The UI Label to inform the user that the connection is in progress
         public GameObject progressLabel;
 
-        // The PUN loglevel. 
-        public PhotonLogLevel loglevel = PhotonLogLevel.Informational;
-
-        // This client's version number. Users are separated from each other by gameversion.
-        private const string GameVersion = "0.1";
+		/// <summary>
+		/// Game version. Only players with the same version will find each other.
+		/// </summary>
+        private const string GameVersion = "0.2";
 
 
         private void Awake()
         {
             // We join the default lobby.
             PhotonNetwork.autoJoinLobby = true;
-
-            // Force LogLevel
-            PhotonNetwork.logLevel = loglevel;
         }
 
         private void Start()
@@ -50,8 +46,9 @@ namespace BattleRobo.Networking
             progressLabel.SetActive(true);
             controlPanel.SetActive(false);
 
-            // We try to connect to server
-            PhotonNetwork.ConnectUsingSettings(GameVersion);
+			// We try to connect to server
+			PhotonNetwork.PhotonServerSettings.HostType = ServerSettings.HostingOption.BestRegion;
+			PhotonNetwork.ConnectToBestCloudServer(GameVersion);
         }
     }
 }
