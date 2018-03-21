@@ -80,6 +80,17 @@ namespace BattleRobo
 		}
 
 		/// <summary>
+		/// Add one to the kills value of the player for all players via properties.
+		/// </summary>
+		public static void AddKills(this PhotonView player)
+		{
+			int kills = player.GetKills();
+			kills++;
+
+			player.SetKills(kills);
+		}
+
+		/// <summary>
 		/// Synchronizes the kills value of the player for all players via properties.
 		/// </summary>
 		public static void SetKills(this PhotonView player, int value)

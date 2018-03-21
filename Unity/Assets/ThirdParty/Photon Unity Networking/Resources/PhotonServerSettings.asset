@@ -49,4 +49,8 @@ MonoBehaviour:
   - CorrectPosition
   - NetworkUpdate
   - ProcessInput
+  - IsDeadRPC
+  - HasLeftRPC
+  - ShootRPC
+  - UpdateKillsRPC
   DisableAutoOpenWizard: 1

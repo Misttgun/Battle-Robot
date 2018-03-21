@@ -7,7 +7,7 @@ namespace BattleRobo
     {
         public bool twoHanded;
         public int magazineSize;
-        public float damage;
+        public int damage;
         public float range;
         public float fireRate;
         public string gunName;

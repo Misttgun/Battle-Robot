@@ -1,64 +1,66 @@
 ﻿using UnityEngine;
 
-namespace BattleRobo.Core
+namespace BattleRobo
 {
-    public class WeaponScript : MonoBehaviour
-    {
-        [SerializeField]
-        private Gun currentGun;
+	public class WeaponScript : MonoBehaviour
+	{
+		[SerializeField]
+		private Gun currentGun;
 
-        [SerializeField]
-        private Camera camFPS;
-        
-        [SerializeField]
-        private Animator playerAnimator;
+		[SerializeField]
+		private Animator playerAnimator;
 
-        private float nextTimeToFire;
+		public float currentAmmo;
+		private float nextTimeToFire;
 
-        public float currentAmmo;
+		private void Start()
+		{
+			currentAmmo = currentGun.magazineSize;
+		}
 
-        private void Start()
-        {
-            currentAmmo = currentGun.magazineSize;
-        }
+		private void Update()
+		{
+			//if (!playerPhotonView.isMine) return;
 
-        private void Update()
-        {
-            //if (!playerPhotonView.isMine) return;
+			if (currentGun.twoHanded)
+			{
+				playerAnimator.SetLayerWeight(2, 1);
+				playerAnimator.SetLayerWeight(3, 0);
+			}
+			else
+			{
+				playerAnimator.SetLayerWeight(3, 1);
+				playerAnimator.SetLayerWeight(2, 0);
+			}
+		}
 
-            if (currentGun.twoHanded)
-            {
-                playerAnimator.SetLayerWeight(2, 1);
-                playerAnimator.SetLayerWeight(3, 0);
-            }
-            else
-            {
-                playerAnimator.SetLayerWeight(3, 1);
-                playerAnimator.SetLayerWeight(2, 0);
-            }
+		public bool CanFire()
+		{
+			if (Time.time >= nextTimeToFire)
+			{
+				return true;
+			}
+			return false;
+		}
 
-            if (Input.GetButtonDown("Fire1") && Time.time >= nextTimeToFire)
-            {
-                Debug.Log("Fire " + currentGun.gunName);
-                nextTimeToFire = Time.time + currentGun.fireRate;
-                currentAmmo--;
-                Fire();
-            }
-        }
+		/// <summary>
+		/// Fire the gun and deals the gun damage
+		/// </summary>
+		public void Fire(Transform camTransform, int playerID)
+		{
+			Debug.Log("Fire " + currentGun.gunName);
+			//set the next time to fire and decrease ammo
+			nextTimeToFire = Time.time + currentGun.fireRate;
+			currentAmmo--;
 
-        /// <summary>
-        /// Fire the gun and deals the gun damage
-        /// </summary>
-        private void Fire()
-        {
-            const int layerMask = 1 << 8;
-            RaycastHit shot;
+			const int layerMask = 1 << 8;
+			RaycastHit shot;
 
-            if (Physics.Raycast(camFPS.transform.position, camFPS.transform.forward, out shot, currentGun.range, layerMask))
-            {
-                Debug.Log("Hit" + shot.transform.gameObject.name);
-                //shot.transform.gameObject.GetPhotonView().RPC("TakeDamage", PhotonTargets.All, currentGun.damage);
-            }
-        }
-    }
+			if (Physics.Raycast(camTransform.position, camTransform.forward, out shot, currentGun.range, layerMask))
+			{
+				Debug.Log("Hit" + shot.transform.gameObject.name);
+				shot.transform.gameObject.GetComponent<PlayerScript>().TakeDamage(currentGun.damage, playerID);
+			}
+		}
+	}
 }

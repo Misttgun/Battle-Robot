@@ -256,6 +256,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224958485991084536}
   - component: {fileID: 114728455851063028}
+  - component: {fileID: 222517482346825892}
   m_Layer: 5
   m_Name: Shield Bar
   m_TagString: Untagged
@@ -3344,7 +3345,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 224850666737136662}
   m_HandleRect: {fileID: 0}
@@ -3369,6 +3370,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14288541d9bf2cb4d9eb636b29352d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  equipWeapons:
+  - {fileID: 114846080233315976}
+  - {fileID: 114962586346986010}
   selectedWeapon: 0
 --- !u!114 &114060040176910796
 MonoBehaviour:
@@ -3804,7 +3808,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 224023472540775940}
   m_HandleRect: {fileID: 0}
@@ -3883,11 +3887,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45330eb7743563c459f0e0ba0ff1ab10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerNameText: {fileID: 0}
-  healthBar: {fileID: 0}
-  shieldBar: {fileID: 0}
-  fuelBar: {fileID: 0}
-  aliveTexT: {fileID: 0}
+  playerNameText: {fileID: 114315904107027022}
+  healthBar: {fileID: 114992025221178964}
+  shieldBar: {fileID: 114728455851063028}
+  fuelBar: {fileID: 114035870542268498}
+  aliveTexT: {fileID: 114486307418858810}
 --- !u!114 &114846080233315976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3900,7 +3904,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentGun: {fileID: 11400000, guid: a7c0fcec51b56cb4eac7ae9059acb9d7, type: 2}
-  camFPS: {fileID: 20284757305268708}
   playerAnimator: {fileID: 95904027330849176}
   currentAmmo: 0
 --- !u!114 &114865350179877502
@@ -3963,7 +3966,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentGun: {fileID: 11400000, guid: adb4cef86774ca645a1756cab39df7f5, type: 2}
-  camFPS: {fileID: 20284757305268708}
   playerAnimator: {fileID: 95904027330849176}
   currentAmmo: 0
 --- !u!114 &114992025221178964
@@ -4000,7 +4002,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 224653053400963354}
   m_HandleRect: {fileID: 0}
@@ -18061,6 +18063,12 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1436468184317610}
+--- !u!222 &222517482346825892
+CanvasRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1125412975914728}
 --- !u!222 &222586372945583052
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -18431,7 +18439,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1115930427158124}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 55.40004, y: 28.100006, z: 0}
+  m_LocalPosition: {x: 55.40004, y: 28.099976, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224230267793514336}
@@ -18439,7 +18447,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 105.40004, y: -21.899994}
+  m_AnchoredPosition: {x: 105.40004, y: -21.900024}
   m_SizeDelta: {x: 200, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224946510277513606

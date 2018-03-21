@@ -96,6 +96,9 @@ namespace BattleRobo
 		/// </summary>
 		public override void OnPhotonPlayerDisconnected(PhotonPlayer player)
 		{
+			//tell all clients that the player is dead
+			photonView.RPC("HasLeftRPC", PhotonTargets.All, player.ID);
+
 			//get the player back in the lobby
 			SceneManager.LoadScene(onlineSceneIndex);
 		}
@@ -109,6 +112,15 @@ namespace BattleRobo
 			//switch from the online to the offline scene after connection is closed
 			if (SceneManager.GetActiveScene().buildIndex != offlineSceneIndex)
 				SceneManager.LoadScene(offlineSceneIndex);
+		}
+
+		//called on all clients when the player left the room
+		[PunRPC]
+		private void HasLeftRPC(int id)
+		{
+			//remove the player from the alive players dictionnary and decrease the number of player alive
+			GameManagerScript.GetInstance().alivePlayers.Remove(id);
+			GameManagerScript.GetInstance().alivePlayerNumber--;
 		}
 	}
 }

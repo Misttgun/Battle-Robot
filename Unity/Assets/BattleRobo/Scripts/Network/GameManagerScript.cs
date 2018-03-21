@@ -21,10 +21,9 @@ namespace BattleRobo
 		public PlayerScript localPlayer;
 
 		/// <summary>
-		/// The list of all the players currently alive in the game.
+		/// The dictionnary of all the players currently alive in the game.
 		/// </summary>
-		public List<GameObject> alivePlayers;
-		//TODO Utiliser des dictionnary à la place de la liste. Cela sera plus simple pour les RPCs au moment de tuer les joueurs.
+		public Dictionary<int, GameObject> alivePlayers;
 
 		/// <summary>
 		/// Reference to the game over UI.
@@ -56,7 +55,7 @@ namespace BattleRobo
 				Instance = this;
 
 			//we reserve 8 spots because that's the maximum number of players for now
-			alivePlayers = new List<GameObject>(8);
+			alivePlayers = new Dictionary<int, GameObject>(8);
 		}
 
 		private void Start()
@@ -96,7 +95,7 @@ namespace BattleRobo
 			//init variables
 			bool isWon = false;
 
-			if (alivePlayerNumber == 1 && alivePlayers.Contains(localPlayer.gameObject))
+			if (alivePlayerNumber == 1 && alivePlayers.ContainsKey(localPlayer.playerID))
 			{
 				isWon = true;
 			}
@@ -113,7 +112,7 @@ namespace BattleRobo
 			//init variables
 			bool isLost = false;
 
-			if (alivePlayerNumber >= 1 && !alivePlayers.Contains(localPlayer.gameObject))
+			if (alivePlayerNumber >= 1 && !alivePlayers.ContainsKey(localPlayer.playerID))
 			{
 				isLost = true;
 			}
