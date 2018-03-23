@@ -110,6 +110,8 @@ namespace BattleRobo
 		[SerializeField]
 		private WeaponHolderScript weaponHolder;
 
+		public CameraFollowScript cam;
+
 		/// <summary>
 		/// Photon player ID.
 		/// </summary>
@@ -314,12 +316,12 @@ namespace BattleRobo
 		private void LateUpdate()
 		{
 			// Rotate the player on the X axis
-			currentRot -= Input.GetAxisRaw("Mouse Y") * aimSensitivity;
-			currentRot = Mathf.Clamp(currentRot, -60f, 60f);
+			//currentRot -= Input.GetAxisRaw("Mouse Y") * aimSensitivity;
+			//currentRot = Mathf.Clamp(currentRot, -60f, 60f);
 
-			// Make the weapon loot in the same direction as the cam
-			animator.SetFloat("AimAngle", -currentRot);
-			roboHead.transform.localEulerAngles = new Vector3(0f, -currentRot, 0f);
+			// Make the weapon look in the same direction as the cam
+			animator.SetFloat("AimAngle", -cam.verticalRot);
+			roboHead.transform.localEulerAngles = new Vector3(0f, -cam.verticalRot, 0f);
 		}
 
 		private void Jump()

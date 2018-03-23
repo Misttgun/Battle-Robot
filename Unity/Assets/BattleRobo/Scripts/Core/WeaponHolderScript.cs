@@ -21,7 +21,7 @@ namespace BattleRobo
 
 			if (Input.GetAxis("Mouse ScrollWheel") > 0f)
 			{
-				if (selectedWeapon >= equipWeapons.Length)
+				if (selectedWeapon >= equipWeapons.Length - 1)
 				{
 					selectedWeapon = 0;
 				}
