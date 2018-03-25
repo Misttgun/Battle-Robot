@@ -53,6 +53,9 @@ public class PlayerController : MonoBehaviour
 
     private Transform myTransform;
 
+    [SerializeField]
+    private PlayerInventory inventory;
+
     [HideInInspector]
     public float inputX;
 

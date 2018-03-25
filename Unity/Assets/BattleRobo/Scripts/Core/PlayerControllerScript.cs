@@ -45,6 +45,9 @@ namespace BattleRobo.Core
         [SerializeField]
         private GameObject thrusters;
 
+        [SerializeField]
+        private PlayerInventory playerInventory;
+
         private Vector3 moveDirection = Vector3.zero;
         private bool grounded;
         private float speed;
@@ -71,7 +74,15 @@ namespace BattleRobo.Core
             speed = walkSpeed;
 
             thrusters.SetActive(false);
+            playerInventory = new PlayerInventory();
         }
+
+
+        public PlayerInventory GetInventory()
+        {
+            return playerInventory;
+        }
+        
 
         private void FixedUpdate()
         {
@@ -162,6 +173,20 @@ namespace BattleRobo.Core
             else
             {
                 fuelAmount += fuelRegenSpeed * Time.deltaTime;
+            }
+            
+            // Loot
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                playerInventory.Collect();
+            }
+            
+            // Drop
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                var dropPosition = myTransform.position;
+                dropPosition.y = 2;
+                playerInventory.Drop(dropPosition);
             }
 
             fuelAmount = Mathf.Clamp(fuelAmount, 0f, 1f);
