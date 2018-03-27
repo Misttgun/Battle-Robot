@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using BattleRobo.Core;
+using BattleRobo;
 using UnityEngine;
 
 public class PlayerObject : MonoBehaviour
