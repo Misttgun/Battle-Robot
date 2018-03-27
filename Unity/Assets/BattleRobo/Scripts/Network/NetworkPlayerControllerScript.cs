@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using BattleRobo.Core;
 using BattleRobo.Networking;
 using Photon;
 using UnityEngine;

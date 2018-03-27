@@ -1,5 +1,4 @@
-﻿using BattleRobo.Core;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using BattleRobo.Networking;
 

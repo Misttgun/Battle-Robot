@@ -2,7 +2,7 @@
 using UnityEngine;
 using BattleRobo.Networking;
 
-namespace BattleRobo.Core
+namespace BattleRobo
 {
     public class PlayerControllerScript : Photon.PunBehaviour
     {
@@ -56,7 +56,7 @@ namespace BattleRobo.Core
         public float fuelAmount = 1f;
         private float maxFuelAmount = 1f;
         private Vector3 fly;
-        private float currentRot;
+        public float currentRot;
 
         private Transform myTransform;
 
