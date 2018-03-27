@@ -80,6 +80,11 @@ public class PlayerInventory
 			inventory[slotIndex].SetItem(obj);
 	}
 
+	public void SwitchActiveIndex(int index)
+	{
+		SetActiveItem(index);
+	}
+
 	public void UpdateInventoryUI(PlayerObject obj, int slotIndex)
 	{
 		

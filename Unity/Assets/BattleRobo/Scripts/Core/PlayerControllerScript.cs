@@ -45,7 +45,8 @@ namespace BattleRobo
         [SerializeField]
         private GameObject thrusters;
 
-        [SerializeField]
+        [SerializeField] 
+        private PlayerUI playerUI;
         private PlayerInventory playerInventory;
 
         private Vector3 moveDirection = Vector3.zero;
@@ -81,6 +82,34 @@ namespace BattleRobo
         public PlayerInventory GetInventory()
         {
             return playerInventory;
+        }
+
+        public void SwitchItem()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                playerInventory.SwitchActiveIndex(0);
+            }
+            
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                playerInventory.SwitchActiveIndex(1);
+            }
+            
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                playerInventory.SwitchActiveIndex(2);
+            }
+            
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                playerInventory.SwitchActiveIndex(3);
+            }
+            
+            if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                playerInventory.SwitchActiveIndex(4);
+            }
         }
         
 
@@ -188,6 +217,10 @@ namespace BattleRobo
                 dropPosition.y = 2;
                 playerInventory.Drop(dropPosition);
             }
+            
+            
+            // switch item
+            SwitchItem();
 
             fuelAmount = Mathf.Clamp(fuelAmount, 0f, 1f);
         }

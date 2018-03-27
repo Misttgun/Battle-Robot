@@ -4,23 +4,8 @@ using UnityEngine;
 
 public class PlayerUI : MonoBehaviour
 {
-   
-/*
-    public RoboController BRController;
+    [SerializeField] 
+    private GameObject[] InventorySlotUI = new GameObject[5];
 
-    public void setBRController(RoboController BRC)
-    {
-        BRController = BRC;
-    }
-
-    void Update()
-    {
-        setFuelAmount(BRController.getFuelAmount());
-    }
-
-    void setFuelAmount(float amount)
-    {
-       
-    }*/
     
 }
