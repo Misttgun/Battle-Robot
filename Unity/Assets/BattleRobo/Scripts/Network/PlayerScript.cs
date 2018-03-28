@@ -69,13 +69,13 @@ namespace BattleRobo
 		private Transform roboHead;
 
 		/// <summary>
-		/// The camera transform for the shooting.
+		/// The camera gameObject for the shooting.
 		/// </summary>
 		[SerializeField]
-		private Transform camTransform;
+		private GameObject playerCamera;
 
 		/// <summary>
-		/// A cached vrsion of the player photonview.
+		/// A cached version of the player photonview.
 		/// </summary>
 		[SerializeField]
 		private PhotonView myPhotonView;
@@ -109,12 +109,6 @@ namespace BattleRobo
 		/// </summary>
 		[SerializeField]
 		private WeaponHolderScript weaponHolder;
-
-		/// <summary>
-		/// The camera target.
-		/// </summary>
-		[SerializeField]
-		private Transform camTarget;
 
 		/// <summary>
 		/// Photon player ID.
@@ -168,13 +162,18 @@ namespace BattleRobo
 			//activate the player UI
 			playerUI.SetActive(true);
 
+			//activate camera only for this player
+			playerCamera.SetActive(true);
+
 			//set name in the UI
 			uiScript.playerNameText.text = myPhotonView.GetName();
 
 			//update health, shield and fuel
 			uiScript.UpdateHealth(myPhotonView.GetHealth());
-			uiScript.UpdateFuel(myPhotonView.GetFuel());
+			uiScript.UpdateFuel(fuelAmount);
 			uiScript.UpdateShield(myPhotonView.GetShield());
+
+			uiScript.UpdateAliveText(GameManagerScript.GetInstance().alivePlayerNumber);
 
 			Cursor.lockState = CursorLockMode.Locked;
 			Cursor.visible = false;
@@ -203,7 +202,7 @@ namespace BattleRobo
 
 			//update values that could change any time for visualization to stay up to date
 			uiScript.UpdateHealth(myPhotonView.GetHealth());
-			uiScript.UpdateFuel(myPhotonView.GetFuel());
+			//uiScript.UpdateFuel(fuelAmount);
 			uiScript.UpdateShield(myPhotonView.GetShield());
 		}
 
@@ -285,11 +284,13 @@ namespace BattleRobo
 				Cursor.visible = false;
 			}
 
+			uiScript.UpdateFuel(fuelAmount);
+
 			fly = Vector3.zero;
 			if (Input.GetButton("Jump") && fuelAmount > 0f)
 			{
 				fuelAmount -= fuelDecreaseSpeed * Time.deltaTime;
-				myPhotonView.SetFuel(fuelAmount);
+				//myPhotonView.SetFuel(fuelAmount);
 				var consumedFuel = maxFuelAmount - fuelAmount;
 
 				if (fuelAmount >= 0.1f)
@@ -400,7 +401,7 @@ namespace BattleRobo
 		private void ShootRPC()
 		{
 			//fire the current weapon
-			activeWeapon.Fire(camTransform, playerID);
+			activeWeapon.Fire(playerCamera.transform, playerID);
 		}
 	}
 }

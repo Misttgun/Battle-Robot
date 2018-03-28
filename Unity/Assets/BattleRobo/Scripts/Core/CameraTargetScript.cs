@@ -8,7 +8,7 @@ namespace BattleRobo
 	{
 
 		[SerializeField]
-		private PlayerControllerScript player;
+		private PlayerScript player;
 
 		private void Update()
 		{

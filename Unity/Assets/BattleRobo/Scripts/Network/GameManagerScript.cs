@@ -17,7 +17,7 @@ namespace BattleRobo
 		/// <summary>
 		/// The local player instance spawned for this client.
 		/// </summary>
-		[HideInInspector]
+		//[HideInInspector]
 		public PlayerScript localPlayer;
 
 		/// <summary>

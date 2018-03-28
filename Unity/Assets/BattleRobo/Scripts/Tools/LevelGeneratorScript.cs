@@ -10,7 +10,8 @@ namespace BattleRobo.Networking
 
         private void Start()
         {
-            Random.InitState(Random.Range(42,72));
+			//On doit avoir le même seed sinon la map est différente pour les joueurs :D
+            Random.InitState(40);
 
             for (int i = 0; i < mapSize; i++)
             {
