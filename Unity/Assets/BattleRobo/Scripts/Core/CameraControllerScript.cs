@@ -8,7 +8,8 @@ public class CameraControllerScript : MonoBehaviour
 	/// <summary>
 	/// The target tranform the camera is going to follow.
 	/// </summary>
-	public Transform target;
+	[SerializeField]
+	private Transform target;
 
 	/// <summary>
 	/// The camera transform.
@@ -27,11 +28,6 @@ public class CameraControllerScript : MonoBehaviour
 
 	private void LateUpdate()
 	{
-		
-	}
-
-	private void FixedUpdate()
-	{
 		var camPosition = target.position + distance * -camTransform.forward;
 
 		RaycastHit hit;
@@ -42,11 +38,10 @@ public class CameraControllerScript : MonoBehaviour
 		}
 
 		camTransform.position = camPosition;
-		camTransform.rotation = target.rotation;
 	}
 
-	public void SetTarget(Transform camTarget)
+	private void FixedUpdate()
 	{
-		target = camTarget;
+		camTransform.rotation = target.rotation;
 	}
 }

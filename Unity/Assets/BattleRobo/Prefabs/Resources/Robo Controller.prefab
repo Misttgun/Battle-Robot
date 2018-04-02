@@ -3609,7 +3609,7 @@ MonoBehaviour:
   gravity: 20
   fuelDecreaseSpeed: 2.5
   fuelRegenSpeed: 0.35
-  flyForce: 20
+  flyForce: 30
   controller: {fileID: 143754622215303118}
   roboHead: {fileID: 4385438500814446}
   myPhotonView: {fileID: 114865350179877502}
@@ -4166,7 +4166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c5b9fbe6e663c947a7c852258862e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 114060040176910796}
+  player: {fileID: 0}
 --- !u!114 &114639057421457510
 MonoBehaviour:
   m_ObjectHideFlags: 1

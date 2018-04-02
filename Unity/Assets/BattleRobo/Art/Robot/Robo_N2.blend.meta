@@ -73,6 +73,7 @@ ModelImporter:
     100130: ROBO_LOD0_MeshPart7
     100132: ROBO_LOD0_MeshPart8
     100134: ROBO_LOD0_MeshPart9
+    100136: RIFLE_Gun
     400000: //RootNode
     400002: Armature
     400004: chest
@@ -141,8 +142,11 @@ ModelImporter:
     400130: ROBO_LOD0_MeshPart7
     400132: ROBO_LOD0_MeshPart8
     400134: ROBO_LOD0_MeshPart9
+    400136: RIFLE_Gun
     2300000: //RootNode
+    2300002: RIFLE_Gun
     3300000: //RootNode
+    3300002: RIFLE_Gun
     4300000: Cube_006
     4300002: Cube_002
     4300004: Cube_001
@@ -161,6 +165,7 @@ ModelImporter:
     4300030: ROBO_LOD0_MeshPart8
     4300032: ROBO_LOD0_MeshPart9
     4300034: ROBO_LOD0_MeshPart10
+    4300036: RIFLE_Gun
     7400000: Default Take
     7400002: Walk
     7400004: idle
@@ -213,6 +218,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Material_001__RoboTexture_psd
     second: {fileID: 2100000, guid: 29282e6109044ce4e9106bf16b164b7c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material__Rifle_texture_psd
+    second: {fileID: 2100000, guid: 657ddb6837814b446b6020870720654f, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -226,35 +236,51 @@ ModelImporter:
     motionNodeName: <Root Transform>
     rigImportErrors: 
     rigImportWarnings: "Avatar Rig Configuration mis-match. Bone length in configuration
-      does not match position in animation file:\n\t'U_arm_R' : position error = 122.935410
-      mm\n\t'U_arm_L' : position error = 68.924500 mm\n\t'finger_L' : position error
-      = 1.504828 mm\n\t'finger_L_003' : position error = 1.650491 mm\n"
+      does not match position in animation file:\n\t'U_arm_R' : position error = 1080.879150
+      mm\n\t'finger_R' : position error = 79.924347 mm\n\t'finger_R_003' : position
+      error = 67.365326 mm\n\t'thumb1_R' : position error = 129.218338 mm\n\t'U_arm_L'
+      : position error = 1080.878296 mm\n\t'thumb1_L' : position error = 129.218094
+      mm\n\t'finger_L' : position error = 79.924210 mm\n\t'finger_L_003' : position
+      error = 67.365601 mm\n\t'head' : position error = 396.676117 mm\nAvatar Rig
+      Configuration mis-match. Inbetween bone rotation in configuration does not match
+      rotation in animation file:\n\t'foot2_L' : rotation error = 2.603743 deg\n"
     animationImportErrors: 
     animationImportWarnings: "\nClip 'ArmatureAction_001' has import animation warnings
       that might lower retargeting quality:\nNote: Activate translation DOF on avatar
       to improve retargeting quality.\n\t'head' has translation animation that will
       be discarded.\n\nClip 'idle' has import animation warnings that might lower
       retargeting quality:\nNote: Activate translation DOF on avatar to improve retargeting
-      quality.\n\t'U_arm_R' has translation animation that will be discarded.\n\t'U_arm_L'
-      has translation animation that will be discarded.\n\t'head' has translation
-      animation that will be discarded.\n\nClip 'idle_001' has import animation warnings
-      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'U_arm_R' has translation animation that
-      will be discarded.\n\t'U_arm_L' has translation animation that will be discarded.\n\t'head'
-      has translation animation that will be discarded.\n\nClip 'idle_002' has import
+      quality.\n\t'finger_L' has translation animation that will be discarded.\n\t'finger_L_003'
+      has translation animation that will be discarded.\n\nClip 'idle_004' has import
       animation warnings that might lower retargeting quality:\nNote: Activate translation
-      DOF on avatar to improve retargeting quality.\n\t'U_arm_R' has translation animation
-      that will be discarded.\n\t'U_arm_L' has translation animation that will be
-      discarded.\n\t'head' has translation animation that will be discarded.\n\nClip
-      'idle_003' has import animation warnings that might lower retargeting quality:\nNote:
-      Activate translation DOF on avatar to improve retargeting quality.\n\t'U_arm_R'
-      has translation animation that will be discarded.\n\t'U_arm_L' has translation
-      animation that will be discarded.\n\t'head' has translation animation that will
-      be discarded.\n\nClip 'Run' has import animation warnings that might lower retargeting
+      DOF on avatar to improve retargeting quality.\n\t'finger_L' has translation
+      animation that will be discarded.\n\t'finger_L_003' has translation animation
+      that will be discarded.\n\nClip 'idle_005' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar to
+      improve retargeting quality.\n\t'finger_L' has translation animation that will
+      be discarded.\n\t'finger_L_003' has translation animation that will be discarded.\n\nClip
+      'idle_006' has import animation warnings that might lower retargeting quality:\nNote:
+      Activate translation DOF on avatar to improve retargeting quality.\n\t'finger_L'
+      has translation animation that will be discarded.\n\t'finger_L_003' has translation
+      animation that will be discarded.\n\nClip 'idle_w' has import animation warnings
+      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'finger_L' has translation animation that
+      will be discarded.\n\t'finger_L_003' has translation animation that will be
+      discarded.\n\nClip 'Run' has import animation warnings that might lower retargeting
       quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'foot2_R'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'foot2_L'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'head'
+      has translation animation that will be discarded.\n\nClip 'Run_w' has import
+      animation warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'foot2_R' is inbetween humanoid
+      transforms and has rotation animation that will be discarded.\n\t'foot2_L' is
+      inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'head'
       has translation animation that will be discarded.\n\nClip 'Strafe_Run_L' has
+      import animation warnings that might lower retargeting quality:\nNote: Activate
+      translation DOF on avatar to improve retargeting quality.\n\t'foot2_R' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'foot2_L'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'head'
+      has translation animation that will be discarded.\n\nClip 'Strafe_Run_L_w' has
       import animation warnings that might lower retargeting quality:\nNote: Activate
       translation DOF on avatar to improve retargeting quality.\n\t'foot2_R' is inbetween
       humanoid transforms and has rotation animation that will be discarded.\n\t'foot2_L'
@@ -264,18 +290,34 @@ ModelImporter:
       translation DOF on avatar to improve retargeting quality.\n\t'foot2_R' is inbetween
       humanoid transforms and has rotation animation that will be discarded.\n\t'foot2_L'
       is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'head'
+      has translation animation that will be discarded.\n\nClip 'Strafe_Run_R_w' has
+      import animation warnings that might lower retargeting quality:\nNote: Activate
+      translation DOF on avatar to improve retargeting quality.\n\t'foot2_R' is inbetween
+      humanoid transforms and has rotation animation that will be discarded.\n\t'foot2_L'
+      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'head'
       has translation animation that will be discarded.\n\nClip 'Strafe_Walk_L' has
       import animation warnings that might lower retargeting quality:\nNote: Activate
       translation DOF on avatar to improve retargeting quality.\n\t'head' has translation
-      animation that will be discarded.\n\nClip 'Strafe_Walk_R' has import animation
+      animation that will be discarded.\n\nClip 'Strafe_Walk_L_w' has import animation
       warnings that might lower retargeting quality:\nNote: Activate translation DOF
       on avatar to improve retargeting quality.\n\t'head' has translation animation
-      that will be discarded.\n\nClip 'Walk' has import animation warnings that might
+      that will be discarded.\n\nClip 'Strafe_Walk_R' has import animation warnings
+      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'head' has translation animation that will
+      be discarded.\n\nClip 'Strafe_Walk_R_w' has import animation warnings that might
       lower retargeting quality:\nNote: Activate translation DOF on avatar to improve
       retargeting quality.\n\t'head' has translation animation that will be discarded.\n\nClip
-      'Walk_BackW' has import animation warnings that might lower retargeting quality:\nNote:
+      'Walk' has import animation warnings that might lower retargeting quality:\nNote:
       Activate translation DOF on avatar to improve retargeting quality.\n\t'head'
-      has translation animation that will be discarded.\n"
+      has translation animation that will be discarded.\n\nClip 'Walk_BackW' has import
+      animation warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'head' has translation animation
+      that will be discarded.\n\nClip 'Walk_BackW_w' has import animation warnings
+      that might lower retargeting quality:\nNote: Activate translation DOF on avatar
+      to improve retargeting quality.\n\t'head' has translation animation that will
+      be discarded.\n\nClip 'Walk_w' has import animation warnings that might lower
+      retargeting quality:\nNote: Activate translation DOF on avatar to improve retargeting
+      quality.\n\t'head' has translation animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0

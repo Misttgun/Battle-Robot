@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 65157092}
   - component: {fileID: 65157091}
   - component: {fileID: 65157090}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +296,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &966811995
 MonoBehaviour:
   m_ObjectHideFlags: 0
