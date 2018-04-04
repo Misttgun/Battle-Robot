@@ -324,6 +324,9 @@ namespace BattleRobo
 
 		private void LateUpdate()
 		{
+			if(!photonView.isMine)
+				return;
+			
 			// Rotate the player on the X axis
 			currentRot -= Input.GetAxisRaw("Mouse Y") * aimSensitivity;
 			currentRot = Mathf.Clamp(currentRot, -60f, 60f);

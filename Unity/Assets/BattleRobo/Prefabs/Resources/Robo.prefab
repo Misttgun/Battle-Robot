@@ -3863,7 +3863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c5b9fbe6e663c947a7c852258862e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 114541887734147030}
 --- !u!114 &114370223186076998
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4033,7 +4033,7 @@ MonoBehaviour:
   fuelRegenSpeed: 0.35
   flyForce: 20
   controller: {fileID: 143223212924867840}
-  roboHead: {fileID: 0}
+  roboHead: {fileID: 4746854577924572}
   playerCamera: {fileID: 1192422060810736}
   myPhotonView: {fileID: 114290599807668194}
   animator: {fileID: 95925121021341822}
