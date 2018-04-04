@@ -4003,7 +4003,7 @@ MonoBehaviour:
     SynchronizeType: 1
     Name: VelY
   - Type: 1
-    SynchronizeType: 0
+    SynchronizeType: 1
     Name: AimAngle
   m_SynchronizeLayers:
   - SynchronizeType: 1
@@ -4012,7 +4012,7 @@ MonoBehaviour:
     LayerIndex: 1
   - SynchronizeType: 1
     LayerIndex: 2
-  - SynchronizeType: 0
+  - SynchronizeType: 1
     LayerIndex: 3
 --- !u!114 &114541887734147030
 MonoBehaviour:
@@ -4897,7 +4897,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 7
-  m_Radius: 0.75
+  m_Radius: 1.25
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.05
