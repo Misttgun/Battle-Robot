@@ -311,7 +311,7 @@ Transform:
   m_GameObject: {fileID: 56981658}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 5, z: 30}
-  m_LocalScale: {x: 5, y: 5, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 0.01}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -483,7 +483,7 @@ Transform:
   - {fileID: 375116734}
   - {fileID: 1505552790}
   m_Father: {fileID: 880208563}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!205 &106717516
 LODGroup:
@@ -625,7 +625,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 880208563}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &188119113
 GameObject:
@@ -9311,10 +9311,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 106717515}
   - {fileID: 1668113374}
   - {fileID: 177296848}
   - {fileID: 1219503212}
-  - {fileID: 106717515}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9399,7 +9399,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 7
-  m_Radius: 0.75
+  m_Radius: 1.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.05
@@ -9580,7 +9580,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4446057678603184, guid: 1b0c0f24098fe2b4185642a96730e431, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114985741203198400, guid: 1b0c0f24098fe2b4185642a96730e431,
         type: 2}
@@ -11740,7 +11740,7 @@ RectTransform:
   m_Children:
   - {fileID: 1666838355}
   m_Father: {fileID: 880208563}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
