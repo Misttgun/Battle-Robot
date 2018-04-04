@@ -7,8 +7,11 @@ namespace BattleRobo
 	public class CameraTargetScript : MonoBehaviour
 	{
 
+		/*[SerializeField]
+		private PlayerScript player;*/
+		
 		[SerializeField]
-		private PlayerScript player;
+		private PlayerControllerScript player;
 
 		private void Update()
 		{

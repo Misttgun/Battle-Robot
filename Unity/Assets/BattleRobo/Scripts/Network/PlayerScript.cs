@@ -135,10 +135,14 @@ namespace BattleRobo
 
 		//weapon variables
 		private WeaponScript activeWeapon;
+		
+		//variable qui permet de tester en offline mode
+		public bool isOfline;
 
 		//Initialize server values for this player
 		private void Awake()
 		{
+			PhotonNetwork.offlineMode = isOfline;
 			//only let the master do initialization
 			if (!PhotonNetwork.isMasterClient)
 				return;

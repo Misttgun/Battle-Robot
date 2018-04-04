@@ -73,7 +73,7 @@ namespace BattleRobo
             myTransform = transform;
             speed = walkSpeed;
 
-            thrusters.SetActive(false);
+            //thrusters.SetActive(false);
             playerInventory = new PlayerInventory();
         }
 
@@ -99,7 +99,7 @@ namespace BattleRobo
                 animator.SetLayerWeight(1, 0);
                 
                 // Disable the thrusters when the player is not flying
-                thrusters.SetActive(false);
+                //thrusters.SetActive(false);
                 
                 speed = Input.GetButton("Run") ? runSpeed : walkSpeed;
 
@@ -124,7 +124,7 @@ namespace BattleRobo
                 animator.SetFloat("VelY", moveDirection.z);
                 
                 // Disable the thrusters when the player is not flying
-                thrusters.SetActive(true);
+                //thrusters.SetActive(true);
                 
                 moveDirection = myTransform.TransformDirection(moveDirection);
 
@@ -199,8 +199,8 @@ namespace BattleRobo
             currentRot = Mathf.Clamp(currentRot, -60f, 60f);
             
             // Make the weapon loot in the same direction as the cam
-            animator.SetFloat("AimAngle", -currentRot);
-            roboHead.transform.localEulerAngles = new Vector3(0f, -currentRot, 0f);
+            animator.SetFloat("AimAngle", currentRot);
+            roboHead.transform.localEulerAngles = new Vector3(currentRot, 0f, 0f);
         }
 
         private void Jump()
