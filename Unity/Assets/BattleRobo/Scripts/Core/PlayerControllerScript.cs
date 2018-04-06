@@ -73,7 +73,7 @@ namespace BattleRobo
             myTransform = transform;
             speed = walkSpeed;
 
-            //thrusters.SetActive(false);
+            thrusters.SetActive(false);
             playerInventory = new PlayerInventory();
         }
 
@@ -99,7 +99,7 @@ namespace BattleRobo
                 animator.SetLayerWeight(1, 0);
                 
                 // Disable the thrusters when the player is not flying
-                //thrusters.SetActive(false);
+                thrusters.SetActive(false);
                 
                 speed = Input.GetButton("Run") ? runSpeed : walkSpeed;
 
@@ -123,8 +123,8 @@ namespace BattleRobo
                 animator.SetFloat("VelX", moveDirection.x);
                 animator.SetFloat("VelY", moveDirection.z);
                 
-                // Disable the thrusters when the player is not flying
-                //thrusters.SetActive(true);
+                // Activate the thrusters
+                thrusters.SetActive(true);
                 
                 moveDirection = myTransform.TransformDirection(moveDirection);
 
@@ -162,7 +162,7 @@ namespace BattleRobo
                 fuelAmount -= fuelDecreaseSpeed * Time.deltaTime;
                 var consumedFuel = maxFuelAmount - fuelAmount;
                 
-                if (fuelAmount >= 0.1f)
+                if (fuelAmount >= 0.15f)
                 {
                     // We override the base layer when the player is jumping
                     animator.SetLayerWeight(1, 1);

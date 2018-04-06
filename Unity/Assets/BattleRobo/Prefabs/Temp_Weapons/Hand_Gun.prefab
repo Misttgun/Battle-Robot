@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4292391518271166}
   - component: {fileID: 33297136151226358}
   - component: {fileID: 23513650596802380}
+  - component: {fileID: 114175033807635012}
   m_Layer: 0
   m_Name: Hand_Gun
   m_TagString: Untagged
@@ -34,9 +35,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1354159922565958}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -82,3 +83,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1354159922565958}
   m_Mesh: {fileID: 4300000, guid: 99a6f842d3949194c9152522dfa91aa0, type: 3}
+--- !u!114 &114175033807635012
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1354159922565958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ef37f76b9ac7748a8769207b85c725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentGun: {fileID: 11400000, guid: adb4cef86774ca645a1756cab39df7f5, type: 2}
+  playerAnimator: {fileID: 0}
+  currentAmmo: 0

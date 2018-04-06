@@ -20,7 +20,7 @@ namespace BattleRobo.Networking
                     var randomNum = Random.Range(1, prefabsToLoad.Length) - 1;
 
                     var platform = Instantiate(prefabsToLoad[randomNum],
-                        new Vector3(j * 5, prefabsToLoad[randomNum].transform.position.y, i * 5),
+                        new Vector3(j * 6, prefabsToLoad[randomNum].transform.position.y, i * 6),
                         Quaternion.identity);
                     platform.transform.Rotate(platform.transform.rotation.x, Random.Range(0,3)*90 , platform.transform.rotation.z);
                     platform.transform.parent = level;
