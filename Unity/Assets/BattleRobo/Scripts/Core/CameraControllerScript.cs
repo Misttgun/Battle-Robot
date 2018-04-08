@@ -30,8 +30,11 @@ public class CameraControllerScript : MonoBehaviour
 	{
 		var camPosition = target.position + distance * -camTransform.forward;
 
+		//On ignore le layer de la tempête pour qu'il n'y ait de collisions avec la zone.
+		const int stormMask = ~(1 << 12);
+
 		RaycastHit hit;
-		if (Physics.Linecast(target.position, camPosition, out hit))
+		if (Physics.Linecast(target.position, camPosition, out hit, stormMask))
 		{
 			var hitPoint = new Vector3(hit.point.x + hit.normal.x * 0.2f, hit.point.y, hit.point.z + hit.normal.z * 0.2f);
 			camPosition = new Vector3(hitPoint.x, camPosition.y, hit.point.z);
