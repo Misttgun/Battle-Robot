@@ -34,7 +34,7 @@ namespace BattleRobo.Networking
             
             int m = mapSize * mapSpacing;
             EnvExt.transform.localScale= new Vector3(m,Height/4,m);
-            EnvExt.transform.position= new Vector3(m/2,Height/8,m/2);
+            EnvExt.transform.position= new Vector3((m-6)/2,Height/8,(m-6)/2);
         }
 
         public int getMapMainSize()

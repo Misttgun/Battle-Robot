@@ -65,7 +65,7 @@ public class StormManager : MonoBehaviour
 		int m = mapGenerator.getMapMainSize();
 		float h = mapGenerator.getHeight();
 		stormSize = m*3/2;
-		int stormCenterPos = m/ 2;
+		float stormCenterPos = (m-6)/ 2;
 		transform.localScale =new Vector3(stormSize,h*2,stormSize);
 		transform.position =new Vector3(stormCenterPos,h/2,stormCenterPos);
 	}
@@ -73,6 +73,7 @@ public class StormManager : MonoBehaviour
 	//apply storm damage
 	private void OnTriggerExit(Collider other)
 	{
+		
 		if (other.CompareTag("Player"))
 		{
 			Debug.LogWarning("dans la zone ");
