@@ -4,9 +4,13 @@ namespace BattleRobo
 {
     public class WeaponScript : MonoBehaviour
     {
-        [SerializeField] private Gun currentGun;
+        [SerializeField]
+        private Gun currentGun;
 
-        [SerializeField] private Animator playerAnimator;
+        [SerializeField]
+        private Animator playerAnimator;
+
+        public PhotonView playerPhotonView;
 
         public float currentAmmo;
         private float nextTimeToFire;
@@ -18,17 +22,15 @@ namespace BattleRobo
 
         private void Update()
         {
-            //if (!playerPhotonView.isMine) return;
+            if (!playerPhotonView.isMine)
+                return;
+            
             playerAnimator.SetLayerWeight(2, 1);
         }
 
         public bool CanFire()
         {
-            if (Time.time >= nextTimeToFire)
-            {
-                return true;
-            }
-            return false;
+            return Time.time >= nextTimeToFire;
         }
 
         /// <summary>

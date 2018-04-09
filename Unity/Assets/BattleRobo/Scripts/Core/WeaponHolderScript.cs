@@ -4,83 +4,98 @@ using UnityEngine;
 
 namespace BattleRobo
 {
-	public class WeaponHolderScript : MonoBehaviour
-	{
-		//TODO Rendre le code plus propre avec le system d'inventaire et de pickup
-		public WeaponScript[] equipWeapons;
-		public int selectedWeapon;
+    public class WeaponHolderScript : MonoBehaviour
+    {
+        //TODO Rendre le code plus propre avec le system d'inventaire et de pickup
+        public WeaponScript[] equipWeapons;
 
-		private void Start()
-		{
-			SelectWeapon();
-		}
+        public int selectedWeapon;
 
-		private void Update()
-		{
-			int prevSelectedWeapon = selectedWeapon;
+        public WeaponScript currentWeapon;
 
-			if (Input.GetAxis("Mouse ScrollWheel") > 0f)
-			{
-				if (selectedWeapon >= equipWeapons.Length - 1)
-				{
-					selectedWeapon = 0;
-				}
-				else
-				{
-					selectedWeapon++;
-				}
-			}
+        [SerializeField]
+        private PhotonView playerPhotonView;
 
-			if (Input.GetAxis("Mouse ScrollWheel") < 0f)
-			{
-				if (selectedWeapon <= 0)
-				{
-					selectedWeapon = equipWeapons.Length - 1;
-				}
-				else
-				{
-					selectedWeapon--;
-				}
-			}
+        private void Start()
+        {
+            foreach (var weapon in equipWeapons)
+            {
+                weapon.playerPhotonView = playerPhotonView;
+            }
 
-			if (Input.GetKeyDown(KeyCode.Alpha1))
-			{
-				selectedWeapon = 0;
-			}
+            SelectWeapon();
+        }
 
-			if (Input.GetKeyDown(KeyCode.Alpha2) && equipWeapons.Length >= 2)
-			{
-				selectedWeapon = 1;
-			}
+        private void Update()
+        {
+            if (!playerPhotonView.isMine)
+                return;
 
-			if (Input.GetKeyDown(KeyCode.Alpha3) && equipWeapons.Length >= 3)
-			{
-				selectedWeapon = 2;
-			}
+            int prevSelectedWeapon = selectedWeapon;
 
-			if (prevSelectedWeapon != selectedWeapon)
-			{
-				SelectWeapon();
-			}
-		}
+            if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+            {
+                if (selectedWeapon >= equipWeapons.Length - 1)
+                {
+                    selectedWeapon = 0;
+                }
+                else
+                {
+                    selectedWeapon++;
+                }
+            }
+
+            if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+            {
+                if (selectedWeapon <= 0)
+                {
+                    selectedWeapon = equipWeapons.Length - 1;
+                }
+                else
+                {
+                    selectedWeapon--;
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                selectedWeapon = 0;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2) && equipWeapons.Length >= 2)
+            {
+                selectedWeapon = 1;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha3) && equipWeapons.Length >= 3)
+            {
+                selectedWeapon = 2;
+            }
+
+            if (prevSelectedWeapon != selectedWeapon)
+            {
+                SelectWeapon();
+            }
+        }
 
 
-		private void SelectWeapon()
-		{
-			int index = 0;
-			foreach (WeaponScript weapon in equipWeapons)
-			{
-				if (index == selectedWeapon)
-				{
-					weapon.gameObject.SetActive(true);
-				}
-				else
-				{
-					weapon.gameObject.SetActive(false);
-				}
+        private void SelectWeapon()
+        {
+            int index = 0;
+            foreach (WeaponScript weapon in equipWeapons)
+            {
+                if (index == selectedWeapon)
+                {
+                    weapon.gameObject.SetActive(true);
+                    currentWeapon = weapon; //Todo : Edge case : At the start of the game, the player has no weapons...
+                }
+                else
+                {
+                    weapon.gameObject.SetActive(false);
+                }
 
-				index++;
-			}
-		}
-	}
+                index++;
+            }
+        }
+    }
 }

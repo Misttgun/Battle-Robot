@@ -1,17 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace BattleRobo
 {
 	public class CameraTargetScript : MonoBehaviour
 	{
 
-		//[SerializeField]
-		//private PlayerScript player;
-		
 		[SerializeField]
-		private PlayerControllerScript player;
+		private PlayerScript player;
+		
+		//[SerializeField]
+		//private PlayerControllerScript player;
 
 		private void Update()
 		{
