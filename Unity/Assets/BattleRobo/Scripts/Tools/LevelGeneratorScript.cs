@@ -37,8 +37,8 @@ namespace BattleRobo.Networking
             EnvExt.transform.localScale= new Vector3(m,Height/4,m);
             EnvExt.transform.position= new Vector3((m-6)/2,Height/8,(m-6)/2);
             
-            int l = m /5;
-            lake.transform.localScale= new Vector3(l,lake.transform.localScale.y,l);
+           
+            lake.transform.localScale= new Vector3(m,lake.transform.localScale.y,m);
             lake.transform.position= new Vector3((m-6)/2,lake.transform.position.y,(m-6)/2);
         }
 

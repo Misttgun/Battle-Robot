@@ -87,13 +87,13 @@ Shader "Custom/Water"
                 half tangentSign = (v.tangent) * unity_WorldTransformParams;
                 half3 worldBitangent = cross(worldNormal, worldTangent) * tangentSign;
                 // output the tangent space matrix
-                float f= sin(_Time.gg*_Distance);
+                float f= sin(_Time.gg);
                 o.tspace0 = half3(worldTangent.x*f, worldBitangent.x*f, worldNormal.x*f);
                 o.tspace1 = half3(worldTangent.y*f, worldBitangent.y, worldNormal.y);
                 o.tspace2 = half3(worldTangent.z, worldBitangent.z*f, worldNormal.z*f);
                 o.uv = TRANSFORM_TEX(v.uv, _Normal);
     
-				o.uv.xy += sin(_Time.gg*_Speed/100)*cos(_Time*_Speed/100)*_Amplitude * _Amount;
+				o.uv.x += sin(_Time.x*_Speed*10+ o.uv.y* _Amplitude) * _Amount/5;
                 // o.uv.x += _Amplitude * _Amount;
                 //o.uv += sin(-_Time.gg  * _Speed + v.position.y * _Amplitude)* _Distance *_Amount;
                 return o;
