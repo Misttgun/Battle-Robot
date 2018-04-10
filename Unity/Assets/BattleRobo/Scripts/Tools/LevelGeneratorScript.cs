@@ -7,10 +7,11 @@ namespace BattleRobo.Networking
     {
         [SerializeField] private GameObject[] prefabsToLoad;
         [SerializeField] private GameObject EnvExt;
+        [SerializeField] private GameObject lake;
         [SerializeField] private Transform level;
         [SerializeField] private float Height;
         [SerializeField] private int mapSize;
-        [SerializeField] private int mapSpacing=6;
+        [SerializeField] private int mapSpacing;
         
         private void Start()
         {
@@ -32,14 +33,18 @@ namespace BattleRobo.Networking
                 }
             }
             
-            int m = mapSize * mapSpacing;
+            int m =getMapMainSize();
             EnvExt.transform.localScale= new Vector3(m,Height/4,m);
             EnvExt.transform.position= new Vector3((m-6)/2,Height/8,(m-6)/2);
+            
+            int l = m /5;
+            lake.transform.localScale= new Vector3(l,lake.transform.localScale.y,l);
+            lake.transform.position= new Vector3((m-6)/2,lake.transform.position.y,(m-6)/2);
         }
 
         public int getMapMainSize()
         {
-            return mapSize*mapSpacing;
+            return (mapSize*mapSpacing)-mapSpacing;
         }
 
         public float getHeight()

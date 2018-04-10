@@ -65,7 +65,7 @@ public class StormManager : MonoBehaviour
 		int m = mapGenerator.getMapMainSize();
 		float h = mapGenerator.getHeight();
 		stormSize = m*3/2;
-		float stormCenterPos = (m-6)/ 2;
+		float stormCenterPos = (m)/ 2;
 		transform.localScale =new Vector3(stormSize,h*2,stormSize);
 		transform.position =new Vector3(stormCenterPos,h/2,stormCenterPos);
 	}
