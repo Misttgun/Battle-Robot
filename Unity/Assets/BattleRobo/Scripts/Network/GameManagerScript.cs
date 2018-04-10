@@ -71,6 +71,9 @@ namespace BattleRobo
 		{
 			if (IsGameWon())
 			{
+				//desactivate the local player
+				localPlayer.gameObject.SetActive(false);
+				
 				ShowGameOverScreen("You won !! Let's go baby !!");
 			}
 			else if (IsGameLost())

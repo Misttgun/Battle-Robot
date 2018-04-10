@@ -388,6 +388,11 @@ namespace BattleRobo
 		[PunRPC]
 		private void IsDeadRPC(int id)
 		{
+			//out reference to the dead player
+			GameObject player;
+			//deactivate the dead player
+			GameManagerScript.GetInstance().alivePlayers.TryGetValue(id, out player);
+			player.SetActive(false);
 			//remove the player from the alive players dictionnary and decrease the number of player alive
 			GameManagerScript.GetInstance().alivePlayers.Remove(id);
 			GameManagerScript.GetInstance().alivePlayerNumber--;
