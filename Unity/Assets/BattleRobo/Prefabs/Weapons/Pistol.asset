@@ -11,10 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6417b7f17e7853247a97b4a4945dd6c1, type: 3}
   m_Name: Pistol
   m_EditorClassIdentifier: 
-  twoHanded: 0
   magazineSize: 40
-  currentAmmo: 40
   damage: 15
   range: 40
   fireRate: 0.5
-  name: Pistol
+  gunName: P411

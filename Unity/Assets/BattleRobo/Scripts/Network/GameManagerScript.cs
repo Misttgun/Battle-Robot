@@ -93,12 +93,7 @@ namespace BattleRobo
 		public bool IsGameWon()
 		{
 			//init variables
-			bool isWon = false;
-
-			if (alivePlayerNumber == 1 && alivePlayers.ContainsKey(localPlayer.playerID))
-			{
-				isWon = true;
-			}
+			bool isWon = alivePlayerNumber == 1 && alivePlayers.ContainsKey(localPlayer.playerID);
 
 			//return the result
 			return isWon;
@@ -110,12 +105,7 @@ namespace BattleRobo
 		public bool IsGameLost()
 		{
 			//init variables
-			bool isLost = false;
-
-			if (alivePlayerNumber >= 1 && !alivePlayers.ContainsKey(localPlayer.playerID))
-			{
-				isLost = true;
-			}
+			bool isLost = alivePlayerNumber >= 1 && !alivePlayers.ContainsKey(localPlayer.playerID);
 
 			//return the result
 			return isLost;

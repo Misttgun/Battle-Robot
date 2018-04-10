@@ -173,6 +173,7 @@ namespace BattleRobo
             else
             {
                 fuelAmount += fuelRegenSpeed * Time.deltaTime;
+                maxFuelAmount = fuelAmount;
             }
             
             // Loot
