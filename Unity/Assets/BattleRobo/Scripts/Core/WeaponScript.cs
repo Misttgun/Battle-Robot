@@ -22,6 +22,9 @@ namespace BattleRobo
 
         private void Update()
         {
+            if (!playerPhotonView) //player photon view is null
+                return;
+            
             if (!playerPhotonView.isMine)
                 return;
             

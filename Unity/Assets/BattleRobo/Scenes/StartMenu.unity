@@ -161,6 +161,7 @@ MonoBehaviour:
   loadingScreenCanvas: {fileID: 215343044}
   playerNumbersLabel: {fileID: 1057621365}
   loadingMessageLabel: {fileID: 1383526710}
+  cancelButton: {fileID: 2131744945}
 --- !u!1 &741616960
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,6 +438,10 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 448699185}
+    - target: {fileID: 1945448935508338, guid: d253d409dfa91bb4e8acea31197c5515, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d253d409dfa91bb4e8acea31197c5515, type: 2}
   m_IsPrefabParent: 0
@@ -542,6 +547,17 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 741616963}
+    - target: {fileID: 114820249496971934, guid: 955e0d337a0906846a01f4e03435dfff,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 448699185}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 955e0d337a0906846a01f4e03435dfff, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &2131744945 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114820249496971934, guid: 955e0d337a0906846a01f4e03435dfff,
+    type: 2}
+  m_PrefabInternal: {fileID: 2131744944}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}

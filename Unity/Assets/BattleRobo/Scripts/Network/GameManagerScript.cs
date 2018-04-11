@@ -74,10 +74,14 @@ namespace BattleRobo
 				//desactivate the local player
 				localPlayer.gameObject.SetActive(false);
 				
+				Cursor.lockState = CursorLockMode.None;
+				Cursor.visible = true;
 				ShowGameOverScreen("You won !! Let's go baby !!");
 			}
 			else if (IsGameLost())
 			{
+				Cursor.lockState = CursorLockMode.None;
+				Cursor.visible = true;
 				ShowGameOverScreen("You died... Feels bad man.");
 			}
 		}

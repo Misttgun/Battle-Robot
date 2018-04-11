@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33972153274183466}
   - component: {fileID: 23600275595830242}
   - component: {fileID: 65823108111865588}
+  - component: {fileID: 114589675189181768}
   m_Layer: 10
   m_Name: loot_Platform
   m_TagString: Untagged
@@ -253,6 +254,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.9999999, y: 1, z: 1.9999999}
   m_Center: {x: 0.0009990335, y: 0.28663588, z: -0.0009990335}
+--- !u!114 &114589675189181768
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1902533486901256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63e783be845f234439213c99a9708cde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabs:
+  - {fileID: 1817471088239094, guid: 570a7e8f3623b6b43a6f30828a2fe386, type: 2}
+  - {fileID: 1354159922565958, guid: 83e778ccb2a07644aa6ebf4fbaaceaef, type: 2}
+  - {fileID: 1242744087837680, guid: 73bfe636d01fa3943baa0034a14374bb, type: 2}
+  obj: {fileID: 0}
 --- !u!136 &136303061590641966
 CapsuleCollider:
   m_ObjectHideFlags: 1
