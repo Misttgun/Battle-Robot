@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace BattleRobo
 {
@@ -9,6 +7,9 @@ namespace BattleRobo
 
 		[SerializeField]
 		private PlayerScript player;
+		
+		//[SerializeField]
+		//private PlayerControllerScript player;
 
 		private void Update()
 		{

@@ -135,10 +135,14 @@ namespace BattleRobo
 
 		//weapon variables
 		private WeaponScript activeWeapon;
+		
+		//variable qui permet de tester en offline mode
+		public bool isOfline;
 
 		//Initialize server values for this player
 		private void Awake()
 		{
+			PhotonNetwork.offlineMode = isOfline;
 			//only let the master do initialization
 			if (!PhotonNetwork.isMasterClient)
 				return;
@@ -284,6 +288,8 @@ namespace BattleRobo
 				Cursor.visible = false;
 			}
 
+			activeWeapon = weaponHolder.currentWeapon;
+
 			uiScript.UpdateFuel(fuelAmount);
 
 			fly = Vector3.zero;
@@ -304,6 +310,7 @@ namespace BattleRobo
 			else
 			{
 				fuelAmount += fuelRegenSpeed * Time.deltaTime;
+				maxFuelAmount = fuelAmount;
 			}
 
 			if (Input.GetButtonDown("Fire1") && activeWeapon != null)
@@ -320,13 +327,16 @@ namespace BattleRobo
 
 		private void LateUpdate()
 		{
+			if(!photonView.isMine)
+				return;
+			
 			// Rotate the player on the X axis
 			currentRot -= Input.GetAxisRaw("Mouse Y") * aimSensitivity;
 			currentRot = Mathf.Clamp(currentRot, -60f, 60f);
 
 			// Make the weapon look in the same direction as the cam
-			animator.SetFloat("AimAngle", -currentRot);
-			roboHead.transform.localEulerAngles = new Vector3(0f, -currentRot, 0f);
+			animator.SetFloat("AimAngle", currentRot);
+			roboHead.transform.localEulerAngles = new Vector3(currentRot, 0f, 0f);
 		}
 
 		private void Jump()
@@ -378,6 +388,11 @@ namespace BattleRobo
 		[PunRPC]
 		private void IsDeadRPC(int id)
 		{
+			//out reference to the dead player
+			GameObject player;
+			//deactivate the dead player
+			GameManagerScript.GetInstance().alivePlayers.TryGetValue(id, out player);
+			player.SetActive(false);
 			//remove the player from the alive players dictionnary and decrease the number of player alive
 			GameManagerScript.GetInstance().alivePlayers.Remove(id);
 			GameManagerScript.GetInstance().alivePlayerNumber--;

@@ -23,6 +23,6 @@
 		/// <summary>
 		/// PlayerPrefs key for selected player model: 0/1/2 etc.
 		/// </summary>
-		public const string activeTank = "activeRobot";
+		public const string activeRobot = "activeRobot";
 	}
 }

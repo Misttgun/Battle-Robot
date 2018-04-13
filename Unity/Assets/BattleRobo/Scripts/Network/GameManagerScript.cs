@@ -71,10 +71,17 @@ namespace BattleRobo
 		{
 			if (IsGameWon())
 			{
+				//desactivate the local player
+				localPlayer.gameObject.SetActive(false);
+				
+				Cursor.lockState = CursorLockMode.None;
+				Cursor.visible = true;
 				ShowGameOverScreen("You won !! Let's go baby !!");
 			}
 			else if (IsGameLost())
 			{
+				Cursor.lockState = CursorLockMode.None;
+				Cursor.visible = true;
 				ShowGameOverScreen("You died... Feels bad man.");
 			}
 		}
@@ -93,12 +100,7 @@ namespace BattleRobo
 		public bool IsGameWon()
 		{
 			//init variables
-			bool isWon = false;
-
-			if (alivePlayerNumber == 1 && alivePlayers.ContainsKey(localPlayer.playerID))
-			{
-				isWon = true;
-			}
+			bool isWon = alivePlayerNumber == 1 && alivePlayers.ContainsKey(localPlayer.playerID);
 
 			//return the result
 			return isWon;
@@ -110,12 +112,7 @@ namespace BattleRobo
 		public bool IsGameLost()
 		{
 			//init variables
-			bool isLost = false;
-
-			if (alivePlayerNumber >= 1 && !alivePlayers.ContainsKey(localPlayer.playerID))
-			{
-				isLost = true;
-			}
+			bool isLost = alivePlayerNumber >= 1 && !alivePlayers.ContainsKey(localPlayer.playerID);
 
 			//return the result
 			return isLost;

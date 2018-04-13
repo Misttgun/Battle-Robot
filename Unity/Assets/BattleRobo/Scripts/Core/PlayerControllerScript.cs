@@ -152,7 +152,7 @@ namespace BattleRobo
                 animator.SetFloat("VelX", moveDirection.x);
                 animator.SetFloat("VelY", moveDirection.z);
                 
-                // Disable the thrusters when the player is not flying
+                // Activate the thrusters
                 thrusters.SetActive(true);
                 
                 moveDirection = myTransform.TransformDirection(moveDirection);
@@ -191,7 +191,7 @@ namespace BattleRobo
                 fuelAmount -= fuelDecreaseSpeed * Time.deltaTime;
                 var consumedFuel = maxFuelAmount - fuelAmount;
                 
-                if (fuelAmount >= 0.1f)
+                if (fuelAmount >= 0.15f)
                 {
                     // We override the base layer when the player is jumping
                     animator.SetLayerWeight(1, 1);
@@ -202,6 +202,7 @@ namespace BattleRobo
             else
             {
                 fuelAmount += fuelRegenSpeed * Time.deltaTime;
+                maxFuelAmount = fuelAmount;
             }
             
             // Loot
@@ -232,8 +233,8 @@ namespace BattleRobo
             currentRot = Mathf.Clamp(currentRot, -60f, 60f);
             
             // Make the weapon loot in the same direction as the cam
-            animator.SetFloat("AimAngle", -currentRot);
-            roboHead.transform.localEulerAngles = new Vector3(0f, -currentRot, 0f);
+            animator.SetFloat("AimAngle", currentRot);
+            roboHead.transform.localEulerAngles = new Vector3(currentRot, 0f, 0f);
         }
 
         private void Jump()

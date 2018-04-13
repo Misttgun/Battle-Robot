@@ -11,10 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6417b7f17e7853247a97b4a4945dd6c1, type: 3}
   m_Name: Pump ShotGun
   m_EditorClassIdentifier: 
-  twoHanded: 1
   magazineSize: 20
-  currentAmmo: 20
   damage: 50
   range: 15
   fireRate: 1.5
-  name: Pump Shotgun
+  gunName: RMB-93
