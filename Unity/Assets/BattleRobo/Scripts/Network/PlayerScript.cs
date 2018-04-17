@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿ using UnityEngine;
 using System;
 using Photon;
 using Debug = System.Diagnostics.Debug;
@@ -115,7 +115,7 @@ namespace BattleRobo
 		/// </summary>
 		[HideInInspector]
 		public int playerID;
-
+		
 		//movement variable
 		private Vector3 moveDirection = Vector3.zero;
 		private bool grounded;
@@ -135,6 +135,9 @@ namespace BattleRobo
 
 		//weapon variables
 		private WeaponScript activeWeapon;
+		
+		// - player inventory
+		private PlayerInventory playerInventory;
 		
 		//variable qui permet de tester en offline mode
 		public bool isOfline;
@@ -186,7 +189,10 @@ namespace BattleRobo
 			speed = walkSpeed;
 
 			thrusters.SetActive(false);
-
+			
+			// - initialise player inventory
+			playerInventory = new PlayerInventory(playerCamera, uiScript);
+			
 			//set a global reference to the local player
 			GameManagerScript.GetInstance().localPlayer = this;
 		}
@@ -320,6 +326,39 @@ namespace BattleRobo
 					//send shot request with to server
 					myPhotonView.RPC("ShootRPC", PhotonTargets.AllViaServer);
 				}
+			}
+		
+			// - switch on active item
+			if (Input.GetKeyDown(KeyCode.Alpha1))
+			{
+				playerInventory.SwitchActiveIndex(0);
+			}
+            
+			if (Input.GetKeyDown(KeyCode.Alpha2))
+			{
+				playerInventory.SwitchActiveIndex(1);
+			}
+            
+			if (Input.GetKeyDown(KeyCode.Alpha3))
+			{
+				playerInventory.SwitchActiveIndex(2);
+			}
+            
+			if (Input.GetKeyDown(KeyCode.Alpha4))
+			{
+				playerInventory.SwitchActiveIndex(3);
+			}
+            
+			if (Input.GetKeyDown(KeyCode.Alpha5))
+			{
+				playerInventory.SwitchActiveIndex(4);
+			}
+			
+			// Loot
+			if (Input.GetKeyDown(KeyCode.F))
+			{
+				
+				playerInventory.Collect();
 			}
 
 			fuelAmount = Mathf.Clamp(fuelAmount, 0f, 1f);

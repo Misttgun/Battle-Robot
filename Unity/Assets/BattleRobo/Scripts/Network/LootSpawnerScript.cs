@@ -42,6 +42,10 @@ namespace BattleRobo
 
             //set the reference on the instantiated object for cross-referencing
             obj.GetComponent<LootScript>().spawner = this;
+            
+            // - instantiate object via InstantiateSceneObject. Allow ownership transfers to player
+            if(PhotonNetwork.isMasterClient == true)
+                PhotonNetwork.InstantiateSceneObject("Weapon4", spawPosition + new Vector3(0f, 1f, 0f), spawnRotation, 0, null);
         }
 
         /// <summary>

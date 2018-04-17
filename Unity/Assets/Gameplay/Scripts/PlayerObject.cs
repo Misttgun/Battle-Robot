@@ -3,29 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using BattleRobo;
 using UnityEngine;
+using Photon;
 
-public class PlayerObject : MonoBehaviour
+public class PlayerObject : PunBehaviour
 {
     [SerializeField]
     private int id;
     [SerializeField]
     private int maxStackSize;
+    [SerializeField] 
+    private Sprite itemSprite;
     
     private Transform position;
+    private PhotonView myPhotonView;
 
     public void Start()
     {
-        Debug.Log("START : Item is created");
+        myPhotonView = GetComponent<PhotonView>();
     }
-    
-    private void OnTriggerEnter(Collider other)
+
+    public Sprite GetSprite()
     {
-        other.GetComponent<PlayerControllerScript>().GetInventory().AddNearItem(this);
-    }
-    
-    private void OnTriggerExit(Collider other)
-    {
-        other.GetComponent<PlayerControllerScript>().GetInventory().RemoveNearItem(this);
+        return itemSprite;
     }
     
     public int GetId()
@@ -33,6 +32,13 @@ public class PlayerObject : MonoBehaviour
         return id;
     }
 
+    public void Take()
+    {
+        myPhotonView.RequestOwnership();
+        myPhotonView.RPC("Hide", PhotonTargets.AllViaServer);
+    }
+
+    [PunRPC]
     public void Hide()
     {
         GetComponent<MeshRenderer>().enabled = false;
@@ -45,5 +51,9 @@ public class PlayerObject : MonoBehaviour
         GetComponent<BoxCollider>().enabled = true;
         GetComponent<Transform>().position = position;
     }
-    
+
+    public void Destroy()
+    {
+        Destroy(this.gameObject);
+    }
 }

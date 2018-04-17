@@ -30,7 +30,13 @@ namespace BattleRobo
         /// The number of player alive text.
         /// </summary>
         [SerializeField] private Text aliveTexT;
-
+        
+        /// <summary>
+        /// The player inventory
+        /// </summary>
+        [SerializeField] private GameObject[] inventorySlotUI = new GameObject[5];
+        private int currentActiveSlotIndex = 0; 
+        
         /// <summary>
         /// Updates the player health
         /// </summary>
@@ -69,6 +75,26 @@ namespace BattleRobo
         public void UpdateAliveText(int numberPlayer)
         {
             aliveTexT.text = "Players Alive : " + numberPlayer;
+        }
+        
+        /// <summary>
+        /// - enlight the current active slot item
+        /// </summary>
+        /// <param name="numberPlayer"></param>
+        public void SetActiveUISlot(int index)
+        {
+            inventorySlotUI[currentActiveSlotIndex].transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 255, 255, 96);
+            inventorySlotUI[index].transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 0, 0, 100);
+            currentActiveSlotIndex = index;
+        }
+
+        /// <summary>
+        // - set image associated to the object in the UI slot item
+        /// </summary>
+        /// <param name="numberPlayer"></param>
+        public void SetItemUISlot(PlayerObject obj, int index)
+        {
+            inventorySlotUI[index].transform.GetChild(0).GetComponent<Image>().sprite = (obj != null) ? obj.GetSprite() : null;
         }
     }
 }

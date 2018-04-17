@@ -75,7 +75,7 @@ namespace BattleRobo
             speed = walkSpeed;
 
             thrusters.SetActive(false);
-            playerInventory = new PlayerInventory();
+            //playerInventory = new PlayerInventory(playerUI.GetCamera().gameObject);
         }
 
 
@@ -173,6 +173,7 @@ namespace BattleRobo
 
         private void Update()
         {
+            Debug.Log("Update");
             // Cursor lock
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -208,6 +209,7 @@ namespace BattleRobo
             // Loot
             if (Input.GetKeyDown(KeyCode.F))
             {
+                Debug.Log("COLLECT");
                 playerInventory.Collect();
             }
             

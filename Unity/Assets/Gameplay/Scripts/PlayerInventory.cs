@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BattleRobo;
 using UnityEngine;
 
+/// <summary>
+/// A class which represent the player inventory
+/// </summary>
 public class PlayerInventory
 {
 	[SerializeField] 
@@ -10,25 +14,32 @@ public class PlayerInventory
 
 	// - the inventory is just a List of object owned by the player
 	private PlayerInventorySlot[] inventory;
+
+	private PlayerUIScript playerUI;
 	
-	// - the UI slot reference
-	[SerializeField] 
-	private GameObject[] inventorySlotUI;
+	// - camera is the origin of the raycast to loot an object
+	private Camera camera;
 	
-	// - nearest items are the items that can be collected by clicking on F
-	private List<PlayerObject> nearItems;
 	// current active item
 	private int currentSlotIndex = 0;
 
-	public PlayerInventory()
+	/// <summary>
+	/// Constructor : instatiate the inventory slots
+	/// </summary>
+	public PlayerInventory(GameObject camera, PlayerUIScript ui)
 	{
+		this.camera = camera.GetComponent<Camera>();
 		inventory = new PlayerInventorySlot[5];
-		nearItems = new List<PlayerObject>();
 
+		playerUI = ui;
+		
 		for (var i = 0; i < inventory.Length; i++)
 			inventory[i] = new PlayerInventorySlot();
 	}
 
+	/// <summary>
+	/// Check if inventory is full
+	/// </summary>
 	public bool IsFull()
 	{
 		for (var i = 0; i < inventorySize; i++)
@@ -38,6 +49,9 @@ public class PlayerInventory
 		return true;
 	}
 
+	/// <summary>
+	/// Check if inventory is empty
+	/// </summary>
 	public bool IsEmpty()
 	{
 		for (var i = 0; i < inventorySize; i++)
@@ -47,6 +61,9 @@ public class PlayerInventory
 		return true;
 	}
 
+	/// <summary>
+	/// Find the first empty slot. Return -1 if there is no empty slot.
+	/// </summary>
 	public int FindFirstEmptySlot()
 	{
 		for (var i = 0; i < inventorySize; i++)
@@ -58,10 +75,14 @@ public class PlayerInventory
 			}
 		}
 
-		// no empty slot
 		return -1;
 	}
 
+	/// <summary>
+	/// Find the first slot which can contain a given item.
+	/// If the object is stackable, return the slot which contain this item
+	/// else, return the first empty slot
+	/// </summary>
 	public int FindSlot(int itemId)
 	{
 		for (var i = 0; i < inventorySize; i++)
@@ -72,6 +93,9 @@ public class PlayerInventory
 
 	}
 	
+	/// <summary>
+	/// Put an object in an inventory slot
+	/// </summary>
 	public void AddObject(PlayerObject obj, int slotIndex)
 	{
 		// can't add object if inventory is full
@@ -80,48 +104,64 @@ public class PlayerInventory
 			inventory[slotIndex].SetItem(obj);
 	}
 
+	/// <summary>
+	/// Set the curretn active slot of the inventory (which is used when the player click)
+	/// </summary>
 	public void SwitchActiveIndex(int index)
 	{
 		SetActiveItem(index);
 	}
 
-	public void UpdateInventoryUI(PlayerObject obj, int slotIndex)
+	/// <summary>
+	/// Update the invetory UI
+	/// </summary>
+	public void UpdateInventoryUI(int slotIndex)
 	{
-		
+		playerUI.SetActiveUISlot(slotIndex);
 	}
 
+	/// <summary>
+	/// Drop object on the floor
+	/// </summary>
 	public void DropObject(int slotIndex)
 	{
 		inventory[slotIndex] = null;
 	}
 
-	public void AddNearItem(PlayerObject obj)
-	{
-		nearItems.Add(obj);
-	}
-
-	public void RemoveNearItem(PlayerObject obj)
-	{
-		nearItems.Remove(obj);
-	}
-
+	/// <summary>
+	/// Collect an item. Shoot a raycast to see if the player
+	/// is targeting an item, then check distance. If the player
+	/// can collect the item, try to find a slot on the inventory
+	/// and add it if the inventory is not full
+	/// </summary>
 	public void Collect()
 	{
-		if (nearItems.Count > 0)
-		{
-			var item = nearItems.First();
-			var slotIndex = FindSlot(item.GetId());
+		RaycastHit hit;
+		Ray ray = camera.ScreenPointToRay((Input.mousePosition));
+		Transform objectHit = null;
 
-			if (slotIndex != -1)
-			{
-				
-				AddObject(item, slotIndex);
-				nearItems.Remove(item);
-				item.Hide();
-			}
-			
-			else
-				Debug.Log("INVENTORY IS FULL");
+		if (Physics.Raycast(ray, out hit))
+			objectHit = hit.transform;
+
+		var playerGameObject = objectHit.gameObject;
+		
+		// - hit object is not from loot layer, exit
+		if (playerGameObject.layer != 11)
+			return;
+
+		// - check distance
+		if (hit.distance > 5f)
+			return;
+
+		var playerObject = playerGameObject.GetComponent<PlayerObject>();
+		var slotIndex = FindSlot(playerObject.GetId());
+
+		// - inventory is not full
+		if (slotIndex != -1)
+		{
+			AddObject(playerObject, slotIndex);
+			playerObject.Take();
+			playerUI.SetItemUISlot(playerObject, slotIndex);
 		}
 	}
 
@@ -133,6 +173,7 @@ public class PlayerInventory
 	public void SetActiveItem(int index)
 	{
 		currentSlotIndex = index;
+		UpdateInventoryUI(index);
 	}
 	
 }
