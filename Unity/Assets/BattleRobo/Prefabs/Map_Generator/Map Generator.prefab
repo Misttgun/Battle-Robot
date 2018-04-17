@@ -36,6 +36,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4691863081031262}
+  - component: {fileID: 114822890940300948}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -86,7 +87,6 @@ GameObject:
   - component: {fileID: 33759799882294020}
   - component: {fileID: 65121842425429894}
   - component: {fileID: 23882267004523006}
-  - component: {fileID: 114207169428086958}
   - component: {fileID: 114190149606136120}
   m_Layer: 12
   m_Name: Storm
@@ -492,22 +492,32 @@ MonoBehaviour:
   stormDmg: 1
   waitTime: 1
   mapGenerator: {fileID: 114893382746955742}
---- !u!114 &114207169428086958
+--- !u!114 &114822890940300948
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1534484177851104}
+  m_GameObject: {fileID: 1134284373475132}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63b8de71f4236044694b386837ffd43d, type: 3}
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storm: {fileID: 1534484177851104}
-  sizing: 1
-  stormDmg: 1
-  waitTime: 1
-  mapGenerator: {fileID: 0}
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 0
+  instantiationId: -1
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!114 &114893382746955742
 MonoBehaviour:
   m_ObjectHideFlags: 1
