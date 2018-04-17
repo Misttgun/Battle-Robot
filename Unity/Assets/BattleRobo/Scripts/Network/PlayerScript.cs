@@ -279,6 +279,8 @@ namespace BattleRobo
 
 		private void Update()
 		{
+			activeWeapon = weaponHolder.currentWeapon;
+			
 			if (!photonView.isMine)
 				return;
 
@@ -293,8 +295,6 @@ namespace BattleRobo
 				Cursor.lockState = CursorLockMode.Locked;
 				Cursor.visible = false;
 			}
-
-			activeWeapon = weaponHolder.currentWeapon;
 
 			uiScript.UpdateFuel(fuelAmount);
 
