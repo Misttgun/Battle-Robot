@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 1bfb24e9fdacf7d4c8a8bddfacf54692
-timeCreated: 1523127907
+guid: 20785eb946aa2674b83ae3afb005f01f
+timeCreated: 1524002443
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -9,13 +9,23 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Cube
+    4300000: Cube.001
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: No Name
-    second: {fileID: 2100000, guid: 1b0cb8caabaa419478c9888e46b96676, type: 2}
+      name: Env_ExtMat
+    second: {fileID: 2100000, guid: adfeaa2486ceb25488b340bd74683bb9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Led
+    second: {fileID: 2100000, guid: 4b24673049a16ce4fb922b3e178d5c85, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Pool
+    second: {fileID: 2100000, guid: 077f735f0a8347148a88e6911698bdd2, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

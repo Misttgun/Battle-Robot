@@ -34,12 +34,12 @@ namespace BattleRobo.Networking
             }
             
             int m =getMapMainSize();
-            EnvExt.transform.localScale= new Vector3(m,Height/4,m);
-            EnvExt.transform.position= new Vector3((m-6)/2,Height/8,(m-6)/2);
+            EnvExt.transform.localScale= new Vector3(m,Height,m);
+            EnvExt.transform.position= new Vector3(m/2,-Height/5,m/2);
             
            
             lake.transform.localScale= new Vector3(m,lake.transform.localScale.y,m);
-            lake.transform.position= new Vector3((m-6)/2,lake.transform.position.y,(m-6)/2);
+            lake.transform.position= new Vector3(m/2,lake.transform.position.y,m/2);
         }
 
         public int getMapMainSize()

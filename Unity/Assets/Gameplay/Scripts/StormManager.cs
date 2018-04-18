@@ -10,6 +10,7 @@ public class StormManager : MonoBehaviour
 	[SerializeField] private int stormDmg;
 	[SerializeField] private float waitTime;
 	[SerializeField] LevelGeneratorScript mapGenerator;
+	[SerializeField] private float stormTimer;
 	
 	private float stormSize; // à calculer avec la taille de la map generator
 	private Vector3 size;
@@ -22,15 +23,26 @@ public class StormManager : MonoBehaviour
 	private float endSize;
 
 	private bool stormActive;
+	private float h;
+	private int m;
 	
 	void Start ()
 	{
 		stormTransform();  // donner la taille de départ de la zone
-		StartCoroutine(stormManageScale());
+		
 	}
 	
 	private void Update()
 	{
+		if (stormTimer <= 0)
+		{
+			StartCoroutine(stormManageScale());
+			stormTimer = 0;
+		}
+		else
+		{
+			stormTimer -= Time.deltaTime;
+		}
 		if (lerping)
 		{
 			currentLerpTime += Time.deltaTime;
@@ -42,7 +54,7 @@ public class StormManager : MonoBehaviour
 
 			float ratio = currentLerpTime / lerpTime;
 			stormSize = Mathf.Clamp(Mathf.Lerp(startSize, endSize, ratio), 10f, 1000f);//1000f peut etre changer
-			transform.localScale =new Vector3(stormSize,transform.localScale.y,stormSize);
+			transform.localScale =new Vector3(stormSize,stormSize*h,stormSize);
 		}
 	}
 
@@ -62,11 +74,11 @@ public class StormManager : MonoBehaviour
 
 	private void stormTransform()				//taille de la storm
 	{
-		int m = mapGenerator.getMapMainSize();
-		float h = mapGenerator.getHeight();
-		stormSize = m*3/2;
+		m = mapGenerator.getMapMainSize();
+		h = mapGenerator.getHeight()/6;
+		stormSize = m*3/2.2f;
 		float stormCenterPos = (m)/ 2;
-		transform.localScale =new Vector3(stormSize,h*2,stormSize);
+		transform.localScale =new Vector3(stormSize,stormSize*h,stormSize);
 		transform.position =new Vector3(stormCenterPos,h/2,stormCenterPos);
 	}
 	// If Robo is outside the Safe-Zone
@@ -90,5 +102,10 @@ public class StormManager : MonoBehaviour
 			Debug.LogWarning("dans la safe-zone ");
 			other.GetComponent<StormPlayerController>().StormStopDmg();
 		}
+	}
+
+	public float getTimer()
+	{
+		return stormTimer;
 	}
 }

@@ -36,6 +36,27 @@ namespace BattleRobo
         /// </summary>
         [SerializeField] private GameObject[] inventorySlotUI = new GameObject[5];
         private int currentActiveSlotIndex = 0; 
+
+        /// <summary>
+        /// Timer of the storm
+        /// </summary>
+        [SerializeField] private Text stormTimer;
+
+        [SerializeField] private StormManager storm;
+        private float countDown;
+
+        private void Update()
+        {
+            countDown = storm.getTimer()+1;
+            if (countDown > 1)
+            {
+                stormTimer.text = Mathf.Floor(countDown).ToString();
+            }
+            else
+            {
+                stormTimer.text = "";
+            }
+        }
         
         /// <summary>
         /// Updates the player health
