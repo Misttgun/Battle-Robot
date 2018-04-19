@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace BattleRobo.UI
@@ -24,7 +25,8 @@ namespace BattleRobo.UI
         {
             if (PhotonNetwork.player.ID == GameManagerScript.GetInstance().localPlayer.playerID)
             {
-                GameManagerScript.ReturnToLobby();
+                PhotonNetwork.LeaveRoom();
+                SceneManager.LoadScene(1);
             }
         }
         
