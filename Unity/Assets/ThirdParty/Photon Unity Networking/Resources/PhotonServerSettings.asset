@@ -15,8 +15,8 @@ MonoBehaviour:
   VoiceAppID: 
   ChatAppID: 
   HostType: 4
-  PreferredRegion: 0
-  EnabledRegions: -1
+  PreferredRegion: 1
+  EnabledRegions: 1
   Protocol: 0
   ServerAddress: 
   ServerPort: 5055
@@ -56,4 +56,9 @@ MonoBehaviour:
   - Destroy
   - Instantiate
   - Hide
+  - DropWeapon
+  - HideWeapon
+  - EquipWeaponRPC
+  - DropObject
+  - TakeObject
   DisableAutoOpenWizard: 1

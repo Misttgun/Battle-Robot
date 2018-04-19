@@ -55,5 +55,15 @@ namespace BattleRobo
                 shot.transform.gameObject.GetComponent<PlayerScript>().TakeDamage(currentGun.damage, playerID);
             }
         }
+
+        public string GetName()
+        {
+            return currentGun.name;
+        }
+
+        public int GetMagazineSize()
+        {
+            return currentGun.magazineSize;
+        }
     }
 }

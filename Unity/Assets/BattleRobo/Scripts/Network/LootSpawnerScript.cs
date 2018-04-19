@@ -20,8 +20,14 @@ namespace BattleRobo
         //[HideInInspector]
         public GameObject obj;
 
+        private static List<GameObject> LootTracker;
+
         private void Start()
         {
+            // instantiate the LootTracker only one time !
+            if (LootTracker == null)
+                LootTracker = new List<GameObject>();
+            
             SpawnLoot();
         }
 
@@ -42,12 +48,15 @@ namespace BattleRobo
 
             //set the reference on the instantiated object for cross-referencing
             obj.GetComponent<LootScript>().spawner = this;
-            
-            // - instantiate object via InstantiateSceneObject. Allow ownership transfers to player
-            if(PhotonNetwork.isMasterClient == true)
-                PhotonNetwork.InstantiateSceneObject("Weapon4", spawPosition + new Vector3(0f, 1f, 0f), spawnRotation, 0, null);
+            obj.GetComponent<PlayerObject>().SetLootTrackerIndex(LootTracker.Count);
+            LootTracker.Add(obj);
         }
 
+        public static List<GameObject> GetLootTracker()
+        {
+            return LootTracker;
+        }
+        
         /// <summary>
         /// Called by the spawned object to destroy itself on this managing component.
         /// For example when it has been collected by players.

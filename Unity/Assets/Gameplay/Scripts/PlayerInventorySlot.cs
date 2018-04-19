@@ -30,9 +30,15 @@ public class PlayerInventorySlot
     public void SetItem(PlayerObject obj)
     {   
         item = obj;
+        stack++;
 
         if (obj == null)
             stack = 0;
+    }
+
+    public PlayerObject GetItem()
+    {
+        return item;
     }
 
     public int GetItemId()
@@ -40,12 +46,16 @@ public class PlayerInventorySlot
         return (item != null) ? item.GetId() : -1;
     }
 
-    public void Drop(Vector3 position)
+    public void Drop()
     {
         if (item)
         {
-            item.Drop(position);
             SetItem(null);
         }
+    }
+
+    public int GetStackSize()
+    {
+        return stack;
     }
 }

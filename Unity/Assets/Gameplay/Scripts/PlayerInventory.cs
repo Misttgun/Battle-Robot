@@ -1,8 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BattleRobo;
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Video;
 
 /// <summary>
 /// A class which represent the player inventory
@@ -23,11 +26,16 @@ public class PlayerInventory
 	// current active item
 	private int currentSlotIndex = 0;
 
+	private PhotonView playerView;
+
+	private WeaponHolderScript weaponHolder;
+
 	/// <summary>
 	/// Constructor : instatiate the inventory slots
 	/// </summary>
-	public PlayerInventory(GameObject camera, PlayerUIScript ui)
+	public PlayerInventory(GameObject camera, [CanBeNull] PlayerUIScript ui, PhotonView playerPhotonView)
 	{
+		playerView = playerPhotonView;
 		this.camera = camera.GetComponent<Camera>();
 		inventory = new PlayerInventorySlot[5];
 
@@ -67,13 +75,8 @@ public class PlayerInventory
 	public int FindFirstEmptySlot()
 	{
 		for (var i = 0; i < inventorySize; i++)
-		{
 			if (inventory[i].IsEmpty())
-			{
-				Debug.Log(inventory[i]);
 				return i;
-			}
-		}
 
 		return -1;
 	}
@@ -86,8 +89,10 @@ public class PlayerInventory
 	public int FindSlot(int itemId)
 	{
 		for (var i = 0; i < inventorySize; i++)
-			if (inventory[i].GetItemId() == itemId)
+		{
+			if (inventory[i].GetItemId() == itemId && inventory[i].GetStackSize() < inventory[i].GetItem().GetMaxStack())
 				return i;
+		}
 
 		return FindFirstEmptySlot();
 
@@ -110,6 +115,13 @@ public class PlayerInventory
 	public void SwitchActiveIndex(int index)
 	{
 		SetActiveItem(index);
+		
+		var item = inventory[index].GetItem();
+
+		if (item && item.GetWeapon() != null)
+			weaponHolder.SetWeapon(item.GetWeapon());
+		else
+			weaponHolder.SetWeapon(null);
 	}
 
 	/// <summary>
@@ -153,21 +165,38 @@ public class PlayerInventory
 		if (hit.distance > 5f)
 			return;
 
+		
 		var playerObject = playerGameObject.GetComponent<PlayerObject>();
+
 		var slotIndex = FindSlot(playerObject.GetId());
 
 		// - inventory is not full
 		if (slotIndex != -1)
 		{
 			AddObject(playerObject, slotIndex);
-			playerObject.Take();
+			playerView.RPC("TakeObject", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex());
 			playerUI.SetItemUISlot(playerObject, slotIndex);
 		}
+		
+		Debug.Log("LOOT !!!");
+		Show();
 	}
 
 	public void Drop(Vector3 position)
 	{
-		inventory[currentSlotIndex].Drop(position);
+		var playerObject = inventory[currentSlotIndex].GetItem();
+		
+		if (!playerObject)
+			return;
+		
+		// - place the weapon on the map and show it
+		playerView.RPC("DropObject", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), position);
+		
+		// - remove object from player inventory
+		inventory[currentSlotIndex].Drop();
+		
+		// - update UI
+		playerUI.SetItemUISlot(null, currentSlotIndex);
 	}
 
 	public void SetActiveItem(int index)
@@ -175,5 +204,18 @@ public class PlayerInventory
 		currentSlotIndex = index;
 		UpdateInventoryUI(index);
 	}
-	
+
+	public void SetWeaponHolder(WeaponHolderScript weaponHolderScript)
+	{
+		weaponHolder = weaponHolderScript;
+	}
+
+	public void Show()
+	{
+		for (var i = 0; i < inventorySize; i++)
+		{
+			var item = inventory[i].GetItem();
+			Debug.Log("Slot[" + i + "] : " + item);
+		}
+	}
 }

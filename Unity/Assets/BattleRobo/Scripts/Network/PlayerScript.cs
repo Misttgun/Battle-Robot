@@ -199,7 +199,7 @@ namespace BattleRobo
             thrusters.SetActive(false);
 
             // - initialise player inventory
-            playerInventory = new PlayerInventory(playerCamera, uiScript);
+            playerInventory = new PlayerInventory(playerCamera, uiScript, photonView);
 
             //set a global reference to the local player
             GameManagerScript.GetInstance().localPlayer = this;
@@ -393,6 +393,12 @@ namespace BattleRobo
             {
                 playerInventory.Collect();
             }
+            
+            // Loot
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                playerInventory.Drop(myTransform.position);
+            }
 
             fuelAmount = Mathf.Clamp(fuelAmount, 0f, 1f);
         }
@@ -460,6 +466,11 @@ namespace BattleRobo
             }
         }
 
+        public PlayerInventory GetInventory()
+        {
+            return playerInventory;
+        }
+
         //called on all clients when the player is dead
         [PunRPC]
         private void IsDeadRPC(int id)
@@ -493,6 +504,24 @@ namespace BattleRobo
         {
             //fire the current weapon
             activeWeapon.Fire(playerCamera.transform, playerID);
+        }
+
+        [PunRPC]
+        private void EquipWeaponRPC(int weaponIndex)
+        {
+            weaponHolder.EquipWeapon(weaponIndex);
+        }
+
+        [PunRPC]
+        private void TakeObject(int lootTrackerId)
+        {
+            LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObject>().Hide();           
+        }
+
+        [PunRPC]
+        private void DropObject(int lootTrackerId, Vector3 position)
+        {
+            LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObject>().Drop(position);
         }
     }
 }

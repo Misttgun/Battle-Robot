@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace BattleRobo
@@ -9,86 +10,66 @@ namespace BattleRobo
         //TODO Rendre le code plus propre avec le system d'inventaire et de pickup
         public WeaponScript[] equipWeapons;
 
-        public int selectedWeapon;
 
         public WeaponScript currentWeapon;
+
+        private PlayerInventory inventory;
 
         [SerializeField]
         private PhotonView playerPhotonView;
 
         private void Start()
         {
+            if (!playerPhotonView.isMine)
+                return;
+            
+            inventory = playerPhotonView.gameObject.GetComponent<PlayerScript>().GetInventory();
+            inventory.SetWeaponHolder(this);
+            
+            
             foreach (var weapon in equipWeapons)
             {
                 weapon.playerPhotonView = playerPhotonView;
             }
-
-            SelectWeapon();
         }
-
-        private void Update()
+        
+        public void SetWeapon(WeaponScript inventoryWeapon)
         {
-            if (!playerPhotonView.isMine)
-                return;
+            var index = 0;
 
-            int prevSelectedWeapon = selectedWeapon;
-
-            if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+            // - unequip weapon
+            if (!inventoryWeapon)
             {
-                if (selectedWeapon >= equipWeapons.Length - 1)
+                playerPhotonView.RPC("EquipWeaponRPC", PhotonTargets.All, -1);
+            }
+
+            // - equip the right weapon
+            else
+            {
+                foreach (WeaponScript weapon in equipWeapons)
                 {
-                    selectedWeapon = 0;
-                }
-                else
-                {
-                    selectedWeapon++;
-                }
-            }
+                    if (inventoryWeapon && weapon.GetName() == inventoryWeapon.GetName())
+                    {
+                        playerPhotonView.RPC("EquipWeaponRPC", PhotonTargets.All, index);
+                    }
 
-            if (Input.GetAxis("Mouse ScrollWheel") < 0f)
-            {
-                if (selectedWeapon <= 0)
-                {
-                    selectedWeapon = equipWeapons.Length - 1;
-                }
-                else
-                {
-                    selectedWeapon--;
-                }
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                selectedWeapon = 0;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha2) && equipWeapons.Length >= 2)
-            {
-                selectedWeapon = 1;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha3) && equipWeapons.Length >= 3)
-            {
-                selectedWeapon = 2;
-            }
-
-            if (prevSelectedWeapon != selectedWeapon)
-            {
-                SelectWeapon();
+                    index++;
+                }   
             }
         }
 
-
-        private void SelectWeapon()
+        public void EquipWeapon(int weaponIndex)
         {
             int index = 0;
+            
             foreach (WeaponScript weapon in equipWeapons)
             {
-                if (index == selectedWeapon)
+                if (index == weaponIndex)
                 {
                     weapon.gameObject.SetActive(true);
-                    currentWeapon = weapon; //Todo : Edge case : At the start of the game, the player has no weapons...
+                    currentWeapon = weapon;
                 }
+
                 else
                 {
                     weapon.gameObject.SetActive(false);

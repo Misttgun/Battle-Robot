@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114958165449733642}
   - component: {fileID: 54513740751302448}
   - component: {fileID: 65791156383572320}
+  - component: {fileID: 114159686837842598}
   m_Layer: 11
   m_Name: Assault_Rifle
   m_TagString: Untagged
@@ -113,6 +114,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.049999997, y: 0.57615745, z: 0.1534476}
   m_Center: {x: 0, y: -0.0101470975, z: -0.0517238}
+--- !u!114 &114159686837842598
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1817471088239094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ce7b10101cbb72408f987544e265c69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 1
+  maxStackSize: 1
+  itemSprite: {fileID: 21300000, guid: 3dc2c106cbdb165459731317c0d54439, type: 3}
 --- !u!114 &114688788945367444
 MonoBehaviour:
   m_ObjectHideFlags: 1

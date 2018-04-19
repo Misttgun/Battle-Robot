@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114810542755068286}
   - component: {fileID: 54301352216541486}
   - component: {fileID: 65645243548405634}
+  - component: {fileID: 114456182935474810}
   m_Layer: 11
   m_Name: Shot_Gun
   m_TagString: Untagged
@@ -128,6 +129,20 @@ MonoBehaviour:
   playerAnimator: {fileID: 0}
   playerPhotonView: {fileID: 0}
   currentAmmo: 0
+--- !u!114 &114456182935474810
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1242744087837680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ce7b10101cbb72408f987544e265c69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 3
+  maxStackSize: 1
+  itemSprite: {fileID: 21300000, guid: 047d6460ec8dc544a952b99b9693519c, type: 3}
 --- !u!114 &114810542755068286
 MonoBehaviour:
   m_ObjectHideFlags: 1

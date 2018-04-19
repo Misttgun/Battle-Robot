@@ -16,15 +16,65 @@ public class PlayerObject : PunBehaviour
     
     private Transform position;
     private PhotonView myPhotonView;
+    private WeaponScript weaponScript;
+    private int lootTrackerIndex;
 
     public void Start()
     {
-        myPhotonView = GetComponent<PhotonView>();
+        weaponScript = gameObject.GetComponent<WeaponScript>();
     }
 
+    public void Take()
+    {
+        // - find how to hide the gun for all player
+        Hide();
+
+    }
+
+    public void Hide()
+    {
+       gameObject.SetActive(false);
+    }
+
+    public void Show()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Drop(Vector3 position)
+    {
+        Show();
+        GetComponent<Transform>().position = position;
+    }
+
+    public void Destroy()
+    {
+        Destroy(gameObject);
+    }
+
+    public string GetWeaponName()
+    {
+        return weaponScript ? weaponScript.GetName() : null;
+    }
+
+    public WeaponScript GetWeapon()
+    {
+        return weaponScript;
+    }
+    
     public Sprite GetSprite()
     {
         return itemSprite;
+    }
+
+    public void SetLootTrackerIndex(int id)
+    {
+        lootTrackerIndex = id;
+    }
+
+    public int GetLootTrackerIndex()
+    {
+        return lootTrackerIndex;
     }
     
     public int GetId()
@@ -32,28 +82,8 @@ public class PlayerObject : PunBehaviour
         return id;
     }
 
-    public void Take()
+    public int GetMaxStack()
     {
-        myPhotonView.RequestOwnership();
-        myPhotonView.RPC("Hide", PhotonTargets.AllViaServer);
-    }
-
-    [PunRPC]
-    public void Hide()
-    {
-        GetComponent<MeshRenderer>().enabled = false;
-        GetComponent<BoxCollider>().enabled = false;
-    }
-
-    public void Drop(Vector3 position)
-    {
-        GetComponent<MeshRenderer>().enabled = true;
-        GetComponent<BoxCollider>().enabled = true;
-        GetComponent<Transform>().position = position;
-    }
-
-    public void Destroy()
-    {
-        Destroy(this.gameObject);
+        return maxStackSize;
     }
 }
