@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using BattleRobo.UI;
 using System.Collections.Generic;
+using System.Timers;
 using UnityEngine.SceneManagement;
 
 namespace BattleRobo
@@ -127,7 +128,15 @@ namespace BattleRobo
 
 		public static void ReturnToLobby()
 		{
+			float timer = 0f;
 			PhotonNetwork.LeaveRoom();
+			
+			//wait 1.5 seconds before loading the menu scene
+			while (timer < 1.5f)
+			{
+				timer += Time.deltaTime;
+			}
+			
 			SceneManager.LoadScene(1);
 		}
 	}
