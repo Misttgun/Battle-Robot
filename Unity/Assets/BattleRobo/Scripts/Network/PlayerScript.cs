@@ -99,10 +99,16 @@ namespace BattleRobo
         private PlayerUIScript uiScript;
 
         /// <summary>
-        /// The in game UI script.
+        /// The in game UI game object.
         /// </summary>
         [SerializeField]
         private GameObject playerUI;
+        
+        /// <summary>
+        /// The game over UI prefab.
+        /// </summary>
+        [SerializeField]
+        private GameObject gameOverUI;
 
         /// <summary>
         /// The weapon holder script.
@@ -173,6 +179,12 @@ namespace BattleRobo
             //called only for this client 
             if (!photonView.isMine)
                 return;
+
+            //instantiate the game over UI only for this client
+            GameObject gOverUI = Instantiate(gameOverUI, Vector3.zero, Quaternion.identity);
+            gOverUI.SetActive(false);
+            GameManagerScript.GetInstance().gameOverUI = gOverUI;
+            GameManagerScript.GetInstance().gameOverUiScript = gOverUI.GetComponent<GameOverUIScript>();            
 
             //activate the player UI
             playerUI.SetActive(true);

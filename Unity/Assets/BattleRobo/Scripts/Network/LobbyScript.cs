@@ -28,9 +28,15 @@ namespace BattleRobo.Networking
 
         private void Start()
         {
+            if (PhotonNetwork.inRoom)
+            {
+                PhotonNetwork.LeaveRoom();
+            }
+            
             startMenuCanvas.SetActive(true);
             loadingScreenCanvas.SetActive(false);
 
+            PhotonNetwork.autoCleanUpPlayerObjects = false;
             PhotonNetwork.automaticallySyncScene = true;
         }
 

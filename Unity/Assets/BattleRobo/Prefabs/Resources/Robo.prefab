@@ -3472,6 +3472,7 @@ MonoBehaviour:
   thrusters: {fileID: 1525844953578378}
   uiScript: {fileID: 114865930527567514}
   playerUI: {fileID: 1961900053112998}
+  gameOverUI: {fileID: 1871678865275356, guid: 195b166541a3f28499f219378778402c, type: 2}
   weaponHolder: {fileID: 114459303172768384}
   playerID: 0
   maxHealth: 100
