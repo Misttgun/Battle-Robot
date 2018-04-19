@@ -64,7 +64,7 @@ namespace BattleRobo
 			gameOverUI.SetActive(false);
 			gameCamera.SetActive(false);
 
-			PhotonNetwork.Instantiate("Robo", Vector3.zero, Quaternion.identity, 0);
+			PhotonNetwork.Instantiate("Robo", new Vector3(0, 10, 7), Quaternion.identity, 0);
 		}
 
 		private void Update()

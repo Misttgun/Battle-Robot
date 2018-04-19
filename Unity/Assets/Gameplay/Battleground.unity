@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667608, g: 0.48427135, b: 0.56452364, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366757, g: 0.48427194, b: 0.5645252, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -141,7 +141,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 737722061}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 164.93639, z: 0}
+  m_LocalPosition: {x: 0, y: 165.04744, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1226156436}
@@ -173,7 +173,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 495c9e2a934bcc640a8d7427b13cb680, type: 3}
-    m_FontSize: 50
+    m_FontSize: 25
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
@@ -294,16 +294,6 @@ Prefab:
       propertyPath: instantiationId
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114190149606136120, guid: d3ccad306abfbec49ae7e8e7672c5a40,
-        type: 2}
-      propertyPath: sizing
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114190149606136120, guid: d3ccad306abfbec49ae7e8e7672c5a40,
-        type: 2}
-      propertyPath: stormTimer
-      value: 60
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d3ccad306abfbec49ae7e8e7672c5a40, type: 2}
   m_IsPrefabParent: 0
@@ -359,17 +349,17 @@ Prefab:
     - target: {fileID: 224347119110200686, guid: 2f7ae7adaacbc1347ad2a386f238d725,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 393
+      value: 527
       objectReference: {fileID: 0}
     - target: {fileID: 224347119110200686, guid: 2f7ae7adaacbc1347ad2a386f238d725,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 220
+      value: 295.5
       objectReference: {fileID: 0}
     - target: {fileID: 224140243993423086, guid: 2f7ae7adaacbc1347ad2a386f238d725,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -20.400002
       objectReference: {fileID: 0}
     - target: {fileID: 224915859462330328, guid: 2f7ae7adaacbc1347ad2a386f238d725,
         type: 2}
@@ -384,12 +374,12 @@ Prefab:
     - target: {fileID: 224252556729431858, guid: 2f7ae7adaacbc1347ad2a386f238d725,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -20.400002
       objectReference: {fileID: 0}
     - target: {fileID: 224000999727846182, guid: 2f7ae7adaacbc1347ad2a386f238d725,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -42.239998
       objectReference: {fileID: 0}
     - target: {fileID: 224870432578352682, guid: 2f7ae7adaacbc1347ad2a386f238d725,
         type: 2}
@@ -557,7 +547,7 @@ Prefab:
         type: 2}
       propertyPath: storm
       value: 
-      objectReference: {fileID: 1636652808}
+      objectReference: {fileID: 0}
     - target: {fileID: 114859618254465038, guid: 2f7ae7adaacbc1347ad2a386f238d725,
         type: 2}
       propertyPath: stormTimer
@@ -566,6 +556,10 @@ Prefab:
     - target: {fileID: 114859618254465038, guid: 2f7ae7adaacbc1347ad2a386f238d725,
         type: 2}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1646143191571626, guid: 2f7ae7adaacbc1347ad2a386f238d725, type: 2}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -664,12 +658,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1b0c0f24098fe2b4185642a96730e431, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &1636652808 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114190149606136120, guid: d3ccad306abfbec49ae7e8e7672c5a40,
-    type: 2}
-  m_PrefabInternal: {fileID: 1230485698}
-  m_Script: {fileID: 11500000, guid: 63b8de71f4236044694b386837ffd43d, type: 3}
 --- !u!1 &1762407893
 GameObject:
   m_ObjectHideFlags: 0

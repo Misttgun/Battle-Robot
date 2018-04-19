@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4579156844152494}
   - component: {fileID: 108772742157405554}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Light_D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 33759799882294020}
   - component: {fileID: 65121842425429894}
   - component: {fileID: 23882267004523006}
-  - component: {fileID: 114190149606136120}
+  - component: {fileID: 114163994677157780}
   m_Layer: 12
   m_Name: Storm
   m_TagString: Untagged
@@ -136,8 +136,9 @@ GameObject:
   - component: {fileID: 4792047323824186}
   - component: {fileID: 33486823364011332}
   - component: {fileID: 23608085271330362}
-  - component: {fileID: 64608349285157556}
-  m_Layer: 10
+  - component: {fileID: 65525368075988042}
+  - component: {fileID: 114250167767592932}
+  m_Layer: 4
   m_Name: Lake_decimate_p
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -380,20 +381,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1534484177851104}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &64608349285157556
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1955796657201286}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 0
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300000, guid: 51b512e01c728ad419285ad58f665674, type: 3}
 --- !u!65 &65121842425429894
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -406,6 +393,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65525368075988042
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1955796657201286}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.9583333, y: 0.00000011247164, z: 1.9583334}
+  m_Center: {x: 0, y: -0.0000000018281412, z: 0}
 --- !u!108 &108762392033602646
 Light:
   m_ObjectHideFlags: 1
@@ -478,7 +477,7 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114190149606136120
+--- !u!114 &114163994677157780
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -486,15 +485,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1534484177851104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63b8de71f4236044694b386837ffd43d, type: 3}
+  m_Script: {fileID: 11500000, guid: 74185e453e3c38d4b8fff83626e4be13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  storm: {fileID: 1534484177851104}
-  sizing: 1
-  stormDmg: 1
+  sizing: 2
   waitTime: 1
   mapGenerator: {fileID: 114893382746955742}
-  stormTimer: 0
+  stormTimer: 30
+  stormDmg: 2
+--- !u!114 &114250167767592932
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1955796657201286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efe5caa27db4cad4890f01f0c1fbe566, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114822890940300948
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -543,9 +552,9 @@ MonoBehaviour:
   - {fileID: 1902533486901256, guid: 76d03a9512085464381dc8eae1b8c112, type: 2}
   - {fileID: 1794012001277940, guid: 14cab513279ef7d488ef65829e8ed887, type: 2}
   - {fileID: 1175826593552998, guid: e5920c0843a2e974db10b0fb5525c659, type: 2}
-  EnvExt: {fileID: 1390921043914110}
+  envExt: {fileID: 1390921043914110}
   lake: {fileID: 1955796657201286}
   level: {fileID: 4691863081031262}
-  Height: 120
+  height: 80
   mapSize: 20
   mapSpacing: 7
