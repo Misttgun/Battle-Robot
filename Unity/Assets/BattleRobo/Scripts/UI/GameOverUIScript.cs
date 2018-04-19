@@ -1,11 +1,9 @@
-﻿using Photon;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace BattleRobo.UI
 {
-    public class GameOverUIScript : PunBehaviour
+    public class GameOverUIScript : MonoBehaviour
     {
         // The game over text
         [SerializeField] private Text gameOverText;
@@ -24,11 +22,12 @@ namespace BattleRobo.UI
         /// </summary>
         public void BackToLobby()
         {
-            if(!photonView.isMine)
-                return;
-            
-            PhotonNetwork.LeaveRoom();
-            SceneManager.LoadScene(1);
+            if (PhotonNetwork.player.ID == GameManagerScript.GetInstance().localPlayer.playerID)
+            {
+                GameManagerScript.ReturnToLobby();
+            }
         }
+        
+        
     }
 }

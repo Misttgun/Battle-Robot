@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace BattleRobo
@@ -44,7 +43,14 @@ namespace BattleRobo
 
         public void UpdateStormTimer(float countdown)
         {
-            stormTimer.text = countdown > 1 ? Mathf.Floor(countdown).ToString() : "";
+            if (countdown > 1)
+            {
+                stormTimer.text = "Strom will move in... " + Mathf.Floor(countdown)+ "s";
+            }
+            else
+            {
+                stormTimer.text = "";
+            }
         }
         
         /// <summary>

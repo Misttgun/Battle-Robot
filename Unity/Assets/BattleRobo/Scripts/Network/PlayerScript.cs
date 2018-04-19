@@ -296,7 +296,7 @@ namespace BattleRobo
                 return;
 
             //update the storm timer in the UI
-            if (StormManagerScript.GetInstance().GetTimer() > 0)
+            if (StormManagerScript.GetInstance().GetTimer() >= 0)
             {
                 uiScript.UpdateStormTimer(StormManagerScript.GetInstance().GetTimer() + 1);
             }

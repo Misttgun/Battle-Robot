@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
 using BattleRobo.UI;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 namespace BattleRobo
 {
@@ -123,6 +123,12 @@ namespace BattleRobo
 			gameCamera.SetActive(true);
 			gameOverUI.SetActive(true);
 			gameOverUiScript.UpdateGameOverText(goText);
+		}
+
+		public static void ReturnToLobby()
+		{
+			PhotonNetwork.LeaveRoom();
+			SceneManager.LoadScene(1);
 		}
 	}
 }
