@@ -495,7 +495,6 @@ MonoBehaviour:
   mapGenerator: {fileID: 114893382746955742}
   stormTimer: 30
   stormDmg: 2
-  startStorm: 0
 --- !u!114 &114250167767592932
 MonoBehaviour:
   m_ObjectHideFlags: 1

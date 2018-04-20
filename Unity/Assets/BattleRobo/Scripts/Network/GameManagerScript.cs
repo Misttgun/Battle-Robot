@@ -28,14 +28,12 @@ namespace BattleRobo
 		/// <summary>
 		/// Reference to the game over UI.
 		/// </summary>
-		[SerializeField]
-		private GameObject gameOverUI;
+		public GameObject gameOverUI;
 
 		/// <summary>
 		/// Reference to the game over UI script.
 		/// </summary>
-		[SerializeField]
-		private GameOverUIScript gameOverUiScript;
+		public GameOverUIScript gameOverUiScript;
 
 		/// <summary>
 		/// Reference to the game camera to show the game over UI.
@@ -61,7 +59,6 @@ namespace BattleRobo
 		private void Start()
 		{
 			alivePlayerNumber = PhotonNetwork.room.PlayerCount;
-			gameOverUI.SetActive(false);
 			gameCamera.SetActive(false);
 
 			PhotonNetwork.Instantiate("Robo", new Vector3(0, 10, 7), Quaternion.identity, 0);
@@ -123,12 +120,6 @@ namespace BattleRobo
 			gameCamera.SetActive(true);
 			gameOverUI.SetActive(true);
 			gameOverUiScript.UpdateGameOverText(goText);
-		}
-
-		public static void ReturnToLobby()
-		{
-			PhotonNetwork.LeaveRoom();
-			SceneManager.LoadScene(1);
 		}
 	}
 }

@@ -3700,7 +3700,6 @@ MonoBehaviour:
   - {fileID: 114486132120225970}
   - {fileID: 114095673839500938}
   - {fileID: 114345172390952766}
-  selectedWeapon: 0
   currentWeapon: {fileID: 0}
   playerPhotonView: {fileID: 114177589140742302}
 --- !u!114 &114624111242937814
@@ -3840,6 +3839,7 @@ MonoBehaviour:
   thrusters: {fileID: 1202650331073146}
   uiScript: {fileID: 114241096321341834}
   playerUI: {fileID: 1979761845351904}
+  gameOverUI: {fileID: 1871678865275356, guid: 195b166541a3f28499f219378778402c, type: 2}
   weaponHolder: {fileID: 114622922172165722}
   playerID: 0
   maxHealth: 100
