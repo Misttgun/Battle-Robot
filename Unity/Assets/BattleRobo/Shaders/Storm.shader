@@ -48,7 +48,6 @@
                 IStorm o;
                 o.vertex = UnityObjectToClipPos(v.position);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                o.depth = 0;
                 
                 return o;
             }
