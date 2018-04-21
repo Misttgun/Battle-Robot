@@ -77,6 +77,12 @@ namespace BattleRobo
 
                 index++;
             }
+
+            // - unequip weapon
+            if (weaponIndex == -1)
+            {
+                currentWeapon = null;
+            }
         }
     }
 }

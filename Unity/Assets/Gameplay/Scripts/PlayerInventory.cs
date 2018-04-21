@@ -132,13 +132,6 @@ public class PlayerInventory
 		playerUI.SetActiveUISlot(slotIndex);
 	}
 
-	/// <summary>
-	/// Drop object on the floor
-	/// </summary>
-	public void DropObject(int slotIndex)
-	{
-		inventory[slotIndex] = null;
-	}
 
 	/// <summary>
 	/// Collect an item. Shoot a raycast to see if the player
@@ -176,9 +169,14 @@ public class PlayerInventory
 			AddObject(playerObject, slotIndex);
 			playerView.RPC("TakeObject", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex());
 			playerUI.SetItemUISlot(playerObject, slotIndex);
+
+			// equip weapon if the index is already selected
+			if (slotIndex == currentSlotIndex)
+			{
+				weaponHolder.SetWeapon(playerObject.GetComponent<WeaponScript>());
+			}
 		}
-		
-		Debug.Log("LOOT !!!");
+
 		Show();
 	}
 
@@ -197,6 +195,9 @@ public class PlayerInventory
 		
 		// - update UI
 		playerUI.SetItemUISlot(null, currentSlotIndex);
+		
+		// - unequip weapon
+		weaponHolder.SetWeapon(null);
 	}
 
 	public void SetActiveItem(int index)
