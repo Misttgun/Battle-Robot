@@ -27,8 +27,10 @@ namespace BattleRobo
 
         private void Start()
         {
+            var seed = PhotonNetwork.inRoom ? System.Convert.ToInt32(PhotonNetwork.room.CustomProperties["seed"]) : 40;
+                
             //On doit avoir le même seed sinon la map est différente pour les joueurs :D
-            Random.InitState(40); //seed
+            Random.InitState(seed); //seed
 
             for (int i = 0; i < mapSize; i++)
             {

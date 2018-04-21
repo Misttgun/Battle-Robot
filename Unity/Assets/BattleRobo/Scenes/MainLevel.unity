@@ -456,22 +456,22 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114948700168133992, guid: d3ccad306abfbec49ae7e8e7672c5a40,
+    - target: {fileID: 114822890940300948, guid: d3ccad306abfbec49ae7e8e7672c5a40,
         type: 2}
       propertyPath: viewIdField
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114948700168133992, guid: d3ccad306abfbec49ae7e8e7672c5a40,
+    - target: {fileID: 114822890940300948, guid: d3ccad306abfbec49ae7e8e7672c5a40,
         type: 2}
       propertyPath: instantiationId
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114822890940300948, guid: d3ccad306abfbec49ae7e8e7672c5a40,
+    - target: {fileID: 114948700168133992, guid: d3ccad306abfbec49ae7e8e7672c5a40,
         type: 2}
       propertyPath: viewIdField
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114822890940300948, guid: d3ccad306abfbec49ae7e8e7672c5a40,
+    - target: {fileID: 114948700168133992, guid: d3ccad306abfbec49ae7e8e7672c5a40,
         type: 2}
       propertyPath: instantiationId
       value: 2
@@ -530,6 +530,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1513734522}
   - component: {fileID: 1513734521}
+  - component: {fileID: 1513734523}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -571,6 +572,32 @@ Transform:
   m_Father: {fileID: 644341196}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1513734523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1513734520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownerId: 0
+  group: 0
+  OwnerShipWasTransfered: 0
+  prefixBackup: -1
+  synchronization: 0
+  onSerializeTransformOption: 3
+  onSerializeRigidBodyOption: 2
+  ownershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  ObservedComponentsFoldoutOpen: 1
+  viewIdField: 3
+  instantiationId: 3
+  currentMasterID: -1
+  isRuntimeInstantiated: 0
 --- !u!1 &1706069086
 GameObject:
   m_ObjectHideFlags: 0

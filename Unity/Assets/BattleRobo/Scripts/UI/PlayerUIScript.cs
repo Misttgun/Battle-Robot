@@ -96,7 +96,7 @@ namespace BattleRobo
         /// <summary>
         /// - enlight the current active slot item
         /// </summary>
-        /// <param name="numberPlayer"></param>
+        /// <param name="index"></param>
         public void SetActiveUISlot(int index)
         {
             inventorySlotUI[currentActiveSlotIndex].transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 255, 255, 96);
@@ -107,7 +107,8 @@ namespace BattleRobo
         /// <summary>
         // - set image associated to the object in the UI slot item
         /// </summary>
-        /// <param name="numberPlayer"></param>
+        /// <param name="obj"></param>
+        /// <param name="index"></param>
         public void SetItemUISlot(PlayerObject obj, int index)
         {
             inventorySlotUI[index].transform.GetChild(0).GetComponent<Image>().sprite = (obj != null) ? obj.GetSprite() : null;

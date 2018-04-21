@@ -37,7 +37,7 @@
             {
                 float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
-                float depth : DEPTH;
+                //float depth : DEPTH;
             };
  
             sampler2D _MainTex;

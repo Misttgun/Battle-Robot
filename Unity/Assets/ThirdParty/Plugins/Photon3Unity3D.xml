@@ -1330,8 +1330,8 @@
         <member name="F:ExitGames.Client.Photon.EnetPeer.sentReliableCommands">
             <summary>One list for all channels keeps sent commands (for re-sending).</summary>
         </member>
-        <member name="F:ExitGames.Client.Photon.EnetPeer.outgoingAcknowledgementsPool">
-            <summary>One pool of ACK byte arrays ( 20 bytes each)  for all channels to keep acknowledgements.</summary>
+        <member name="F:ExitGames.Client.Photon.EnetPeer.outgoingAcknowledgementsPoolScript">
+            <summary>One poolScript of ACK byte arrays ( 20 bytes each)  for all channels to keep acknowledgements.</summary>
         </member>
         <member name="F:ExitGames.Client.Photon.EnetPeer.datagramEncryptedConnection">
             <summary>Gets enabled by "request" from server (not by client).</summary>

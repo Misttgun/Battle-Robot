@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BattleRobo
 {
-    public class StormManagerScript : MonoBehaviour
+    public class StormManagerScript : Photon.PunBehaviour
     {
         // reference to this script instance
         private static StormManagerScript Instance;
@@ -15,10 +15,10 @@ namespace BattleRobo
         private float waitTime;
 
         [SerializeField]
-        private LevelGeneratorScript mapGenerator;
+        private float stormTimer;
 
         [SerializeField]
-        private float stormTimer;
+        private LevelGeneratorScript mapGenerator;
 
         public int stormDmg = 2;
 
@@ -27,7 +27,10 @@ namespace BattleRobo
         private const float LerpTime = 1f;
         private float currentLerpTime;
 
+        private float timer;
+
         private bool lerping;
+        private bool startTimer;
 
         private float startSize;
         private float endSize;
@@ -44,19 +47,35 @@ namespace BattleRobo
 
         private void Start()
         {
+            startTimer = false;
             StormTransform(); // donner la taille de départ de la zone
         }
 
         private void Update()
         {
-            if (stormTimer <= 0)
+            if (PhotonNetwork.isMasterClient && !startTimer)
             {
-                StartCoroutine(StormManageScale());
-                stormTimer = 0;
+                timer += Time.deltaTime;
+                if (timer >= 2f)
+                {
+                    //start the storm countdown at the same time on all client
+                    photonView.RPC("StartTimerRPC", PhotonTargets.AllViaServer);
+                }
             }
-            else
+
+            if (startTimer)
             {
-                stormTimer -= Time.deltaTime;
+                if (stormTimer <= 0)
+                {
+                    StartCoroutine(StormManageScale());
+
+
+                    stormTimer = 0f;
+                }
+                else
+                {
+                    stormTimer -= Time.deltaTime;
+                }
             }
 
             if (lerping)
@@ -100,14 +119,19 @@ namespace BattleRobo
 
         private void OnTriggerExit(Collider other)
         {
-            Debug.LogWarning("Dans la zone ");
             other.GetComponent<PlayerScript>().inStorm = true;
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.LogWarning("Dans la safe-zone ");
             other.GetComponent<PlayerScript>().inStorm = false;
+        }
+
+        //called on the master client when the strom start to move
+        [PunRPC]
+        private void StartTimerRPC()
+        {
+            startTimer = true;
         }
 
         /// <summary>
@@ -118,7 +142,10 @@ namespace BattleRobo
             return Instance;
         }
 
-        public float GetTimer()
+        /// <summary>
+        /// Returns the networked storm timer of the room out of properties.
+        /// </summary>
+        public float GetStormTimer()
         {
             return stormTimer;
         }

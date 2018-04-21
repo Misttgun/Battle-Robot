@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using BattleRobo.UI;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 
 namespace BattleRobo
 {
@@ -68,12 +66,12 @@ namespace BattleRobo
 		{
 			if (IsGameWon())
 			{
-				//desactivate the local player
-				localPlayer.gameObject.SetActive(false);
-				
 				Cursor.lockState = CursorLockMode.None;
 				Cursor.visible = true;
 				ShowGameOverScreen("You won !! Let's go baby !!");
+				
+				//desactivate the local player
+				photonView.RPC("DisablePlayerRPC", PhotonTargets.All, localPlayer.playerID);
 			}
 			else if (IsGameLost())
 			{
@@ -120,6 +118,21 @@ namespace BattleRobo
 			gameCamera.SetActive(true);
 			gameOverUI.SetActive(true);
 			gameOverUiScript.UpdateGameOverText(goText);
+		}
+		
+		[PunRPC]
+		private void DisablePlayerRPC(int id)
+		{
+			//out reference to the dead player
+			GameObject player;
+			
+			//deactivate the dead player
+			var found = alivePlayers.TryGetValue(id, out player);
+
+			if (found)
+			{
+				player.SetActive(false);
+			} 
 		}
 	}
 }

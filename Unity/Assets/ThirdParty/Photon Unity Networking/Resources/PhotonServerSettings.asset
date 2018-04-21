@@ -61,4 +61,7 @@ MonoBehaviour:
   - EquipWeaponRPC
   - DropObject
   - TakeObject
+  - StormManageScaleRPC
+  - StartTimerRPC
+  - DisablePlayerRPC
   DisableAutoOpenWizard: 1

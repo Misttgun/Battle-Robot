@@ -414,7 +414,7 @@ public static class PhotonNetwork
     public static bool UsePrefabCache = true;
 
     /// <summary>
-    /// An Object Pool can be used to keep and reuse instantiated object instances. It replaced Unity's default Instantiate and Destroy methods.
+    /// An Object PoolScript can be used to keep and reuse instantiated object instances. It replaced Unity's default Instantiate and Destroy methods.
     /// </summary>
     /// <remarks>
     /// To use a GameObject pool, implement IPunPrefabPool and assign it here.

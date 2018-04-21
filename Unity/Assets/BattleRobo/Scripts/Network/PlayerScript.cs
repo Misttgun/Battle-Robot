@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using JetBrains.Annotations;
 using Photon;
 using Debug = System.Diagnostics.Debug;
 
@@ -103,7 +104,7 @@ namespace BattleRobo
         /// </summary>
         [SerializeField]
         private GameObject playerUI;
-        
+
         /// <summary>
         /// The game over UI prefab.
         /// </summary>
@@ -179,7 +180,7 @@ namespace BattleRobo
             //called only for this client 
             if (!photonView.isMine)
                 return;
-            
+
             //instantiate the game over UI only for this client
             GameObject gOverUI = Instantiate(gameOverUI, Vector3.zero, Quaternion.identity);
             gOverUI.SetActive(false);
@@ -308,9 +309,9 @@ namespace BattleRobo
                 return;
 
             //update the storm timer in the UI
-            if (StormManagerScript.GetInstance().GetTimer() >= 0)
+            if (StormManagerScript.GetInstance().GetStormTimer() >= 0)
             {
-                uiScript.UpdateStormTimer(StormManagerScript.GetInstance().GetTimer() + 1);
+                uiScript.UpdateStormTimer(StormManagerScript.GetInstance().GetStormTimer() + 1);
             }
 
             //apply damage to player in the storm
@@ -369,7 +370,7 @@ namespace BattleRobo
             {
                 if (activeWeapon.CanFire())
                 {
-                    //send shot request with to server
+                    //send shot request to server
                     myPhotonView.RPC("ShootRPC", PhotonTargets.AllViaServer);
                 }
             }
@@ -405,7 +406,7 @@ namespace BattleRobo
             {
                 playerInventory.Collect();
             }
-            
+
             // Loot
             if (Input.GetKeyDown(KeyCode.G))
             {
@@ -490,8 +491,13 @@ namespace BattleRobo
             //out reference to the dead player
             GameObject player;
             //deactivate the dead player
-            GameManagerScript.GetInstance().alivePlayers.TryGetValue(id, out player);
-            player.SetActive(false);
+            var found = GameManagerScript.GetInstance().alivePlayers.TryGetValue(id, out player);
+
+            if (found)
+            {
+                player.SetActive(false);
+            } 
+
             //remove the player from the alive players dictionnary and decrease the number of player alive
             GameManagerScript.GetInstance().alivePlayers.Remove(id);
             GameManagerScript.GetInstance().alivePlayerNumber--;
@@ -527,7 +533,7 @@ namespace BattleRobo
         [PunRPC]
         private void TakeObject(int lootTrackerId)
         {
-            LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObject>().Hide();           
+            LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObject>().Hide();
         }
 
         [PunRPC]

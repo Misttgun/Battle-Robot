@@ -422,10 +422,10 @@ public interface IPunCallbacks
 }
 
 /// <summary>
-/// Defines all the methods that a Object Pool must implement, so that PUN can use it.
+/// Defines all the methods that a Object PoolScript must implement, so that PUN can use it.
 /// </summary>
 /// <remarks>
-/// To use a Object Pool for instantiation, you can set PhotonNetwork.ObjectPool.
+/// To use a Object PoolScript for instantiation, you can set PhotonNetwork.ObjectPool.
 /// That is used for all objects, as long as ObjectPool is not null.
 /// The pool has to return a valid non-null GameObject when PUN calls Instantiate.
 /// Also, the position and rotation must be applied.

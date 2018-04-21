@@ -32,7 +32,7 @@ namespace BattleRobo
         }
 
         /// <summary>
-        /// Instantiates the object in the scene using PoolManager functionality.
+        /// Instantiates the object in the scene using PoolManagerScript functionality.
         /// </summary>
         private void SpawnLoot()
         {
@@ -44,7 +44,7 @@ namespace BattleRobo
             var spawnRotation = transform.rotation * Quaternion.Euler(0, 0, 90);
 
             //use the poolmanager to spawn the loot on top of the plateforme
-            obj = PoolManager.Spawn(prefabs[index], spawPosition, spawnRotation);
+            obj = PoolManagerScript.Spawn(prefabs[index], spawPosition, spawnRotation);
 
             //set the reference on the instantiated object for cross-referencing
             obj.GetComponent<LootScript>().spawner = this;
@@ -64,7 +64,7 @@ namespace BattleRobo
         public void Destroy()
         {
             //despawn object and clear references
-            PoolManager.Despawn(obj);
+            PoolManagerScript.Despawn(obj);
             obj = null;
         }
     }

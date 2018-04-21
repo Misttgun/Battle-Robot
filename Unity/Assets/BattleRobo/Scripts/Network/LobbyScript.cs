@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-namespace BattleRobo.Networking
+namespace BattleRobo
 {
     public class LobbyScript : Photon.PunBehaviour
     {
@@ -65,8 +66,17 @@ namespace BattleRobo.Networking
         {
             Debug.Log("BattleRobo/Launcher: OnPhotonRandomJoinFailed() was called by PUN");
 
+            //int seed = Random.Range(0, 100);
+            int seed = 40;
+            RoomOptions roomOptions = new RoomOptions
+            {
+                CustomRoomPropertiesForLobby = new[] {"seed"},
+                CustomRoomProperties = new Hashtable {{"seed", seed}},
+                MaxPlayers = maxPlayersPerRoom
+            };
+
             // We failed to join a random room, we create a new room.
-            PhotonNetwork.CreateRoom(null, new RoomOptions {MaxPlayers = maxPlayersPerRoom}, null);
+            PhotonNetwork.CreateRoom(null, roomOptions, null);
         }
 
         public override void OnJoinedRoom()
