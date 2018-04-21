@@ -23,8 +23,8 @@ public class PlayerInventory
 	// - camera is the origin of the raycast to loot an object
 	private Camera camera;
 	
-	// current active item
-	private int currentSlotIndex = 0;
+	// current active item, by default nothing is selected
+	private int currentSlotIndex = -1;
 
 	private PhotonView playerView;
 
@@ -119,9 +119,16 @@ public class PlayerInventory
 		var item = inventory[index].GetItem();
 
 		if (item && item.GetWeapon() != null)
-			weaponHolder.SetWeapon(item.GetWeapon(), item.GetWeapon().GetCurrentAmmo());
+		{
+			var weapon = item.GetWeapon();
+			weaponHolder.SetWeapon(weapon, weapon.GetCurrentAmmo());
+		}
+			
 		else
+		{
 			weaponHolder.SetWeapon(null, 0f);
+		}
+			
 	}
 
 	/// <summary>
@@ -168,17 +175,18 @@ public class PlayerInventory
 		{
 			AddObject(playerObject, slotIndex);
 			playerView.RPC("TakeObject", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex());
+			
 			playerUI.SetItemUISlot(playerObject, slotIndex);
 
-			Debug.Log("AMMO COUNTER : " + playerObject.GetLootTrackerIndex() + " : " + playerObject.GetWeapon().GetCurrentAmmo());
 			// equip weapon if the index is already selected
 			if (slotIndex == currentSlotIndex)
 			{
-				weaponHolder.SetWeapon(playerObject.GetComponent<WeaponScript>(), playerObject.GetComponent<WeaponScript>().GetCurrentAmmo());
+				var weapon = playerObject.GetComponent<WeaponScript>();
+				weaponHolder.SetWeapon(weapon, weapon.GetCurrentAmmo());
+				playerUI.SetAmmoCounter(weapon.GetCurrentAmmo(), weapon.GetMagazineSize());
+				
 			}
 		}
-
-		Show();
 	}
 
 	public void Drop(Vector3 position)
@@ -195,7 +203,6 @@ public class PlayerInventory
 		playerView.RPC("DropObject", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), position);
 		
 		// - Update ammo counter
-		Debug.Log("UPDATE AMMO COUNT : " + playerObject.GetLootTrackerIndex() + " : " + playerObject.GetWeapon().GetCurrentAmmo());
 		playerView.RPC("UpdateWeapon", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), playerObject.GetWeapon().GetCurrentAmmo());
 		
 		// - remove object from player inventory
@@ -203,6 +210,7 @@ public class PlayerInventory
 		
 		// - update UI
 		playerUI.SetItemUISlot(null, currentSlotIndex);
+		playerUI.SetAmmoCounter(-1f, -1f);
 		
 		// - unequip weapon
 		weaponHolder.SetWeapon(null, 0f);
@@ -212,11 +220,26 @@ public class PlayerInventory
 	{
 		currentSlotIndex = index;
 		UpdateInventoryUI(index);
+
+		var item = inventory[currentSlotIndex].GetItem();
+		
+		if (item && item.GetWeapon() != null)
+			playerUI.SetAmmoCounter(item.GetWeapon().GetCurrentAmmo(), item.GetWeapon().GetMagazineSize());
+		else
+			playerUI.SetAmmoCounter(-1f, -1f);
 	}
 
 	public PlayerObject getCurrentActive()
 	{
-		return inventory[currentSlotIndex].GetItem();
+		if (currentSlotIndex != -1)
+			return inventory[currentSlotIndex].GetItem();
+
+		return null;
+	}
+
+	public int GetActiveIndex()
+	{
+		return currentSlotIndex;
 	}
 
 	public void SetWeaponHolder(WeaponHolderScript weaponHolderScript)

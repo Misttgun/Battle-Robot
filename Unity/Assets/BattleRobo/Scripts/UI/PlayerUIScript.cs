@@ -40,7 +40,13 @@ namespace BattleRobo
         /// Timer of the storm
         /// </summary>
         [SerializeField] private Text stormTimer;
-
+        
+        /// <summary>
+        /// Ammo counter
+        /// </summary>
+        [SerializeField] private Text ammoCounter;
+        
+        
         public void UpdateStormTimer(float countdown)
         {
             if (countdown > 1)
@@ -112,6 +118,20 @@ namespace BattleRobo
         public void SetItemUISlot(PlayerObject obj, int index)
         {
             inventorySlotUI[index].transform.GetChild(0).GetComponent<Image>().sprite = (obj != null) ? obj.GetSprite() : null;
+        }
+        
+        /// <summary>
+        // - Update the ammo counter
+        /// </summary>
+        /// <param name="currentAmmo"></param>
+        /// <param name="magazineSize"></param>
+        public void SetAmmoCounter(float currentAmmo, float magazineSize)
+        {
+            if (currentAmmo != -1f && magazineSize != -1f)
+                ammoCounter.text = currentAmmo + " / " + magazineSize;
+
+            else
+                ammoCounter.text = "";
         }
     }
 }

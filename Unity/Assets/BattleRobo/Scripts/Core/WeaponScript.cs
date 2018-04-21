@@ -17,7 +17,6 @@ namespace BattleRobo
 
         private void Start()
         {
-            Debug.Log("START");
             currentAmmo = currentGun.magazineSize;
         }
 
@@ -57,8 +56,7 @@ namespace BattleRobo
                     Debug.Log("Hit" + shot.transform.gameObject.name);
                     shot.transform.gameObject.GetComponent<PlayerScript>().TakeDamage(currentGun.damage, playerID);
                 }
-            }
-            Debug.Log("Fire " + currentGun.gunName + " : " + GetCurrentAmmo() + " / " + GetMagazineSize());                
+            }              
         }
 
         public string GetName()

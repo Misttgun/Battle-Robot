@@ -369,10 +369,13 @@ namespace BattleRobo
             if (Input.GetButtonDown("Fire1") && playerInventory.getCurrentActive() != null)
             {
                 var weapon = playerInventory.getCurrentActive().GetWeapon();
+                
                 if (weapon && weapon.CanFire())
                 {
-                    //send shot request to server
-                    myPhotonView.RPC("ShootRPC", PhotonTargets.AllViaServer);
+                    var itemId = playerInventory.getCurrentActive().GetLootTrackerIndex();
+                    //send shot request to server. We must pas the curretn inventoryIndex because, if 
+                    // the player switch very quickly after the, shot, the wrong weapon is used
+                    myPhotonView.RPC("ShootRPC", PhotonTargets.AllViaServer, playerID, itemId);
                 }
             }
 
@@ -519,21 +522,27 @@ namespace BattleRobo
 
         //called on the server first but forwarded to all clients
         [PunRPC]
-        private void ShootRPC()
+        private void ShootRPC(int shooterId, int itemId)
         {
             if (!photonView.isMine)
                 return;
             
-            //fire the current weapon
-            //activeWeapon.Fire(playerCamera.transform, playerID);
-            var currentItem = playerInventory.getCurrentActive();
+            // - fire the right weapon
+            var currentItem = LootSpawnerScript.GetLootTracker()[itemId].GetComponent<PlayerObject>();
             WeaponScript weapon = null;
 
+            
             if (currentItem)
                 weapon = currentItem.GetWeapon();
 
             if (weapon != null)
                 weapon.Fire(playerCamera.transform, playerID);
+            
+            
+            // the iteam can have changed since the player shoot. Update UI only if necessary
+            var update = playerInventory.getCurrentActive().GetLootTrackerIndex() == itemId;
+            if (playerID == shooterId && update)
+                playerUI.GetComponent<PlayerUIScript>().SetAmmoCounter(weapon.GetCurrentAmmo(), weapon.GetMagazineSize());
         }
 
         [PunRPC]
