@@ -17,6 +17,7 @@ namespace BattleRobo
 
         private void Start()
         {
+            Debug.Log("START");
             currentAmmo = currentGun.magazineSize;
         }
 
@@ -41,19 +42,23 @@ namespace BattleRobo
         /// </summary>
         public void Fire(Transform camTransform, int playerID)
         {
-            Debug.Log("Fire " + currentGun.gunName);
             //set the next time to fire and decrease ammo
             nextTimeToFire = Time.time + currentGun.fireRate;
-            currentAmmo--;
 
-            const int layerMask = 1 << 8;
-            RaycastHit shot;
-
-            if (Physics.Raycast(camTransform.position, camTransform.forward, out shot, currentGun.range, layerMask))
+            if (currentAmmo > 0)
             {
-                Debug.Log("Hit" + shot.transform.gameObject.name);
-                shot.transform.gameObject.GetComponent<PlayerScript>().TakeDamage(currentGun.damage, playerID);
+                currentAmmo--;
+
+                const int layerMask = 1 << 8;
+                RaycastHit shot;
+
+                if (Physics.Raycast(camTransform.position, camTransform.forward, out shot, currentGun.range, layerMask))
+                {
+                    Debug.Log("Hit" + shot.transform.gameObject.name);
+                    shot.transform.gameObject.GetComponent<PlayerScript>().TakeDamage(currentGun.damage, playerID);
+                }
             }
+            Debug.Log("Fire " + currentGun.gunName + " : " + GetCurrentAmmo() + " / " + GetMagazineSize());                
         }
 
         public string GetName()
@@ -64,6 +69,16 @@ namespace BattleRobo
         public int GetMagazineSize()
         {
             return currentGun.magazineSize;
+        }
+
+        public void SetCurrentAmmo(float ammoNumber)
+        {
+            currentAmmo = ammoNumber;
+        }
+
+        public float GetCurrentAmmo()
+        {
+            return currentAmmo;
         }
     }
 }

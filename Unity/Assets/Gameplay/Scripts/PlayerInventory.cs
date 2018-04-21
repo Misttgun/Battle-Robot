@@ -98,7 +98,7 @@ public class PlayerInventory
 
 	}
 	
-	/// <summary>
+	/// <summary>    
 	/// Put an object in an inventory slot
 	/// </summary>
 	public void AddObject(PlayerObject obj, int slotIndex)
@@ -119,9 +119,9 @@ public class PlayerInventory
 		var item = inventory[index].GetItem();
 
 		if (item && item.GetWeapon() != null)
-			weaponHolder.SetWeapon(item.GetWeapon());
+			weaponHolder.SetWeapon(item.GetWeapon(), item.GetWeapon().GetCurrentAmmo());
 		else
-			weaponHolder.SetWeapon(null);
+			weaponHolder.SetWeapon(null, 0f);
 	}
 
 	/// <summary>
@@ -170,10 +170,11 @@ public class PlayerInventory
 			playerView.RPC("TakeObject", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex());
 			playerUI.SetItemUISlot(playerObject, slotIndex);
 
+			Debug.Log("AMMO COUNTER : " + playerObject.GetLootTrackerIndex() + " : " + playerObject.GetWeapon().GetCurrentAmmo());
 			// equip weapon if the index is already selected
 			if (slotIndex == currentSlotIndex)
 			{
-				weaponHolder.SetWeapon(playerObject.GetComponent<WeaponScript>());
+				weaponHolder.SetWeapon(playerObject.GetComponent<WeaponScript>(), playerObject.GetComponent<WeaponScript>().GetCurrentAmmo());
 			}
 		}
 
@@ -186,9 +187,16 @@ public class PlayerInventory
 		
 		if (!playerObject)
 			return;
+
+		if (!playerView.isMine)
+			return;
 		
 		// - place the weapon on the map and show it
 		playerView.RPC("DropObject", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), position);
+		
+		// - Update ammo counter
+		Debug.Log("UPDATE AMMO COUNT : " + playerObject.GetLootTrackerIndex() + " : " + playerObject.GetWeapon().GetCurrentAmmo());
+		playerView.RPC("UpdateWeapon", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), playerObject.GetWeapon().GetCurrentAmmo());
 		
 		// - remove object from player inventory
 		inventory[currentSlotIndex].Drop();
@@ -197,13 +205,18 @@ public class PlayerInventory
 		playerUI.SetItemUISlot(null, currentSlotIndex);
 		
 		// - unequip weapon
-		weaponHolder.SetWeapon(null);
+		weaponHolder.SetWeapon(null, 0f);
 	}
 
 	public void SetActiveItem(int index)
 	{
 		currentSlotIndex = index;
 		UpdateInventoryUI(index);
+	}
+
+	public PlayerObject getCurrentActive()
+	{
+		return inventory[currentSlotIndex].GetItem();
 	}
 
 	public void SetWeaponHolder(WeaponHolderScript weaponHolderScript)

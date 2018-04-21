@@ -366,9 +366,10 @@ namespace BattleRobo
                 maxFuelAmount = fuelAmount;
             }
 
-            if (Input.GetButtonDown("Fire1") && activeWeapon != null)
+            if (Input.GetButtonDown("Fire1") && playerInventory.getCurrentActive() != null)
             {
-                if (activeWeapon.CanFire())
+                var weapon = playerInventory.getCurrentActive().GetWeapon();
+                if (weapon && weapon.CanFire())
                 {
                     //send shot request to server
                     myPhotonView.RPC("ShootRPC", PhotonTargets.AllViaServer);
@@ -520,20 +521,37 @@ namespace BattleRobo
         [PunRPC]
         private void ShootRPC()
         {
+            if (!photonView.isMine)
+                return;
+            
             //fire the current weapon
-            activeWeapon.Fire(playerCamera.transform, playerID);
+            //activeWeapon.Fire(playerCamera.transform, playerID);
+            var currentItem = playerInventory.getCurrentActive();
+            WeaponScript weapon = null;
+
+            if (currentItem)
+                weapon = currentItem.GetWeapon();
+
+            if (weapon != null)
+                weapon.Fire(playerCamera.transform, playerID);
         }
 
         [PunRPC]
-        private void EquipWeaponRPC(int weaponIndex)
+        private void EquipWeaponRPC(int weaponIndex, float currentAmmo)
         {
-            weaponHolder.EquipWeapon(weaponIndex);
+            weaponHolder.EquipWeapon(weaponIndex, currentAmmo);
         }
 
         [PunRPC]
         private void TakeObject(int lootTrackerId)
         {
             LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObject>().Hide();
+        }
+
+        [PunRPC]
+        private void UpdateWeapon(int lootTrackerId, float ammoCount)
+        {
+            LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<WeaponScript>().SetCurrentAmmo(ammoCount);
         }
 
         [PunRPC]

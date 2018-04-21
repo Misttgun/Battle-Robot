@@ -33,14 +33,14 @@ namespace BattleRobo
             }
         }
         
-        public void SetWeapon(WeaponScript inventoryWeapon)
+        public void SetWeapon(WeaponScript inventoryWeapon, float currentAmmo)
         {
             var index = 0;
 
             // - unequip weapon
             if (!inventoryWeapon)
             {
-                playerPhotonView.RPC("EquipWeaponRPC", PhotonTargets.All, -1);
+                playerPhotonView.RPC("EquipWeaponRPC", PhotonTargets.All, -1, 0f);
             }
 
             // - equip the right weapon
@@ -50,7 +50,7 @@ namespace BattleRobo
                 {
                     if (inventoryWeapon && weapon.GetName() == inventoryWeapon.GetName())
                     {
-                        playerPhotonView.RPC("EquipWeaponRPC", PhotonTargets.All, index);
+                        playerPhotonView.RPC("EquipWeaponRPC", PhotonTargets.All, index, currentAmmo);
                     }
 
                     index++;
@@ -58,7 +58,7 @@ namespace BattleRobo
             }
         }
 
-        public void EquipWeapon(int weaponIndex)
+        public void EquipWeapon(int weaponIndex, float currentAmmo)
         {
             int index = 0;
             
@@ -68,6 +68,7 @@ namespace BattleRobo
                 {
                     weapon.gameObject.SetActive(true);
                     currentWeapon = weapon;
+                    weapon.SetCurrentAmmo(currentAmmo);
                 }
 
                 else
@@ -83,6 +84,11 @@ namespace BattleRobo
             {
                 currentWeapon = null;
             }
+        }
+
+        public WeaponScript GetCurrentWeapon()
+        {
+            return currentWeapon;
         }
     }
 }
