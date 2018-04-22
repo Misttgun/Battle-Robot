@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class PlayerUI : MonoBehaviour
 {
     [SerializeField] 
@@ -22,7 +23,7 @@ public class PlayerUI : MonoBehaviour
     }
 
     // - enlight the active current slot item
-    public void SetActiveUISlot(PlayerObject obj, int index)
+    public void SetActiveUISlot(BattleRobo.PlayerObject obj, int index)
     {
         inventorySlotUI[currentActiveSlotIndex].transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 255, 255, 96);
         inventorySlotUI[index].transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 0, 0, 100);
@@ -30,7 +31,7 @@ public class PlayerUI : MonoBehaviour
     }
 
     // - set image associated to the object in the UI slot item
-    public void SetItemUISlot(PlayerObject obj, int index)
+    public void SetItemUISlot(BattleRobo.PlayerObject obj, int index)
     {
         inventorySlotUI[index].transform.GetChild(0).GetComponent<Image>().sprite = (obj != null) ? obj.GetSprite() : defaultSprite;
     }

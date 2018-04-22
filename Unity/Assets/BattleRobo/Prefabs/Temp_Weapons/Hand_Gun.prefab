@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114047819020662476}
   - component: {fileID: 54528836821040454}
   - component: {fileID: 65592082862147166}
-  - component: {fileID: 114270922965865776}
+  - component: {fileID: 114775202361527840}
   m_Layer: 11
   m_Name: Hand_Gun
   m_TagString: Untagged
@@ -141,7 +141,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 0}
   playerPhotonView: {fileID: 0}
   currentAmmo: 0
---- !u!114 &114270922965865776
+--- !u!114 &114775202361527840
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -149,9 +149,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1354159922565958}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ce7b10101cbb72408f987544e265c69, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f4db6ad919128b40af4b6446c58e12c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   id: 2
   maxStackSize: 1
-  itemSprite: {fileID: 21300000, guid: a6e8dc287cf5072478409ca9df35bba6, type: 3}
+  itemSprite: {fileID: 21300000, guid: 08fc1cc755dba584aa61c61aa0a70739, type: 3}

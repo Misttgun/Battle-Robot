@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
+
 public class PlayerController : MonoBehaviour
 {
     [Header("Mouse Settings")]
@@ -54,7 +55,7 @@ public class PlayerController : MonoBehaviour
     private Transform myTransform;
 
     [SerializeField]
-    private PlayerInventory inventory;
+    private BattleRobo.PlayerInventory inventory;
 
     [HideInInspector]
     public float inputX;
