@@ -528,7 +528,7 @@ namespace BattleRobo
                 return;
             
             // - fire the right weapon
-            var currentItem = LootSpawnerScript.GetLootTracker()[itemId].GetComponent<PlayerObject>();
+            var currentItem = LootSpawnerScript.GetLootTracker()[itemId].GetComponent<PlayerObjectScript>();
             WeaponScript weapon = null;
 
             
@@ -554,7 +554,7 @@ namespace BattleRobo
         [PunRPC]
         private void TakeObject(int lootTrackerId)
         {
-            LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObject>().Hide();
+            LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObjectScript>().Hide();
         }
 
         [PunRPC]
@@ -566,7 +566,7 @@ namespace BattleRobo
         [PunRPC]
         private void DropObject(int lootTrackerId, Vector3 position)
         {
-            LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObject>().Drop(position);
+            LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObjectScript>().Drop(position);
         }
     }
 }

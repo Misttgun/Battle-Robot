@@ -7,7 +7,7 @@ namespace BattleRobo
     public class PlayerInventorySlot
     {
         private int stack;
-        private PlayerObject item;
+        private PlayerObjectScript item;
 
         public PlayerInventorySlot()
         {
@@ -29,7 +29,7 @@ namespace BattleRobo
                 item = null;
         }
 
-        public void SetItem(PlayerObject obj)
+        public void SetItem(PlayerObjectScript obj)
         {
             item = obj;
             stack++;
@@ -38,7 +38,7 @@ namespace BattleRobo
                 stack = 0;
         }
 
-        public PlayerObject GetItem()
+        public PlayerObjectScript GetItem()
         {
             return item;
         }

@@ -7,7 +7,7 @@ using Photon;
 
 namespace BattleRobo
 {
-    public class PlayerObject : PunBehaviour
+    public class PlayerObjectScript : PunBehaviour
     {
         [SerializeField] private int id;
         [SerializeField] private int maxStackSize;

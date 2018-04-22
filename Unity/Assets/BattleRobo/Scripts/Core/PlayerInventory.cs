@@ -103,7 +103,7 @@ namespace BattleRobo
 		/// <summary>    
 		/// Put an object in an inventory slot
 		/// </summary>
-		public void AddObject(PlayerObject obj, int slotIndex)
+		public void AddObject(PlayerObjectScript obj, int slotIndex)
 		{
 			// can't add object if inventory is full
 
@@ -168,7 +168,7 @@ namespace BattleRobo
 				return;
 
 
-			var playerObject = playerGameObject.GetComponent<PlayerObject>();
+			var playerObject = playerGameObject.GetComponent<PlayerObjectScript>();
 
 			var slotIndex = FindSlot(playerObject.GetId());
 
@@ -232,7 +232,7 @@ namespace BattleRobo
 				playerUI.SetAmmoCounter(-1f, -1f);
 		}
 
-		public PlayerObject getCurrentActive()
+		public PlayerObjectScript getCurrentActive()
 		{
 			if (currentSlotIndex != -1)
 				return inventory[currentSlotIndex].GetItem();

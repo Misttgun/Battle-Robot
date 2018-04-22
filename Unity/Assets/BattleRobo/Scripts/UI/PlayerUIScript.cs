@@ -115,7 +115,7 @@ namespace BattleRobo
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="index"></param>
-        public void SetItemUISlot(PlayerObject obj, int index)
+        public void SetItemUISlot(PlayerObjectScript obj, int index)
         {
             inventorySlotUI[index].transform.GetChild(0).GetComponent<Image>().sprite = (obj != null) ? obj.GetSprite() : null;
         }

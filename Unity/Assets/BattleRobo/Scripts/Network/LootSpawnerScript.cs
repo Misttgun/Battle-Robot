@@ -48,7 +48,7 @@ namespace BattleRobo
 
             //set the reference on the instantiated object for cross-referencing
             obj.GetComponent<LootScript>().spawner = this;
-            obj.GetComponent<PlayerObject>().SetLootTrackerIndex(LootTracker.Count);
+            obj.GetComponent<PlayerObjectScript>().SetLootTrackerIndex(LootTracker.Count);
             LootTracker.Add(obj);
         }
 
