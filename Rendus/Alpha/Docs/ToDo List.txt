@@ -1,0 +1,8 @@
+TODO LIST:
+	- Ajout du système de point et de classement (BDD)
+	- Ajout de l'authentification
+	- Ajout de la boutique e-shop
+	- Mise en place du menu option (Audio, Image, Configuration des touches)
+	- Mise en place de la pause in game
+	- Mise en place de l'UI globale du jeu
+	- Mise en place du chargement progressif de la map
