@@ -307,6 +307,8 @@ namespace BattleRobo
 
             if (!photonView.isMine)
                 return;
+            
+            uiScript.UpdateAliveText(GameManagerScript.GetInstance().alivePlayerNumber);
 
             //update the storm timer in the UI
             if (StormManagerScript.GetInstance().GetStormTimer() >= 0)
