@@ -382,39 +382,39 @@ namespace BattleRobo
             }
 
             // - switch on active item
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetButtonDown("Inventory1"))
             {
                 playerInventory.SwitchActiveIndex(0);
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha2))
+            if (Input.GetButtonDown("Inventory2"))
             {
                 playerInventory.SwitchActiveIndex(1);
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha3))
+            if (Input.GetButtonDown("Inventory3"))
             {
                 playerInventory.SwitchActiveIndex(2);
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha4))
+            if (Input.GetButtonDown("Inventory4"))
             {
                 playerInventory.SwitchActiveIndex(3);
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha5))
+            if (Input.GetButtonDown("Inventory5"))
             {
                 playerInventory.SwitchActiveIndex(4);
             }
 
             // Loot
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetButtonDown("Loot"))
             {
                 playerInventory.Collect();
             }
 
-            // Loot
-            if (Input.GetKeyDown(KeyCode.G))
+            // Drop
+            if (Input.GetButtonDown("Drop"))
             {
                 playerInventory.Drop(myTransform.position);
             }
@@ -554,9 +554,26 @@ namespace BattleRobo
         }
 
         [PunRPC]
-        private void TakeObject(int lootTrackerId)
+        private void TakeObject(int lootTrackerId, int senderId)
         {
-            LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObjectScript>().Hide();
+            var playerObject = LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObjectScript>();
+
+            if (playerObject.IsAvailable())
+            {
+                playerObject.SetAvailable(false);
+                playerObject.Hide();
+            }
+
+            // - several player tried to loot the object at the same time, 
+            // only the first one should see it in its inventory
+            else
+            {
+                if (playerID == senderId)
+                    playerInventory.CancelCollect(lootTrackerId);
+            }
+                
+            // - Object is no longer in looting mode
+            playerObject.SetLooting(false);
         }
 
         [PunRPC]
@@ -568,7 +585,10 @@ namespace BattleRobo
         [PunRPC]
         private void DropObject(int lootTrackerId, Vector3 position)
         {
-            LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObjectScript>().Drop(position);
+            var playerObject = LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObjectScript>();
+
+            playerObject.SetAvailable(true);
+            playerObject.Drop(position);
         }
     }
 }

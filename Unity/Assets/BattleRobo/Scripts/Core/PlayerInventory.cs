@@ -151,11 +151,13 @@ namespace BattleRobo
 		public void Collect()
 		{
 			RaycastHit hit;
-			Ray ray = camera.ScreenPointToRay((Input.mousePosition));
+
+            Ray ray = camera.ScreenPointToRay((Input.mousePosition));
 			Transform objectHit = null;
 
-			if (Physics.Raycast(ray, out hit))
-				objectHit = hit.transform;
+            //if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, 5f))
+                objectHit = hit.transform;
 
 			var playerGameObject = objectHit.gameObject;
 
@@ -173,12 +175,14 @@ namespace BattleRobo
 			var slotIndex = FindSlot(playerObject.GetId());
 
 			// - inventory is not full
-			if (slotIndex != -1)
+			if (slotIndex != -1 && playerObject.IsAvailable() && !playerObject.IsLooting())
 			{
-				AddObject(playerObject, slotIndex);
-				playerView.RPC("TakeObject", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex());
+                // - the object is is looting state until the TakeObject RPC disable it
+                playerObject.SetLooting(true);
+				playerView.RPC("TakeObject", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), playerView.ownerId);
 
-				playerUI.SetItemUISlot(playerObject, slotIndex);
+                AddObject(playerObject, slotIndex);
+                playerUI.SetItemUISlot(playerObject, slotIndex);
 
 				// equip weapon if the index is already selected
 				if (slotIndex == currentSlotIndex)
@@ -190,6 +194,30 @@ namespace BattleRobo
 				}
 			}
 		}
+
+        public void CancelCollect(int lootTrackerIndex)
+        {
+            var slotToClear = FindObjectSlot(lootTrackerIndex);
+
+            inventory[slotToClear] = null;
+
+            // - update UI
+            playerUI.SetItemUISlot(null, currentSlotIndex);
+            playerUI.SetAmmoCounter(-1f, -1f);
+
+            // - unequip weapon if necessary
+            if (slotToClear == currentSlotIndex)
+                weaponHolder.SetWeapon(null, 0f);
+        }
+
+        public int FindObjectSlot(int lootTrackerIndex)
+        {
+            for (int i = 0; i < inventorySize; i++)
+                if (inventory[i].GetLootTrackerIndex() == lootTrackerIndex)
+                    return i;
+
+            return -1;
+        }
 
 		public void Drop(Vector3 position)
 		{

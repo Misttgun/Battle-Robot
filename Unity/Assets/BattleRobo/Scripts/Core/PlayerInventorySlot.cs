@@ -48,6 +48,11 @@ namespace BattleRobo
             return (item != null) ? item.GetId() : -1;
         }
 
+        public int GetLootTrackerIndex()
+        {
+            return (item != null) ? item.GetLootTrackerIndex() : -1;
+        }
+
         public void Drop()
         {
             if (item)
