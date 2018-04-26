@@ -382,39 +382,39 @@ namespace BattleRobo
             }
 
             // - switch on active item
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetButtonDown("Inventory1"))
             {
                 playerInventory.SwitchActiveIndex(0);
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha2))
+            if (Input.GetButtonDown("Inventory2"))
             {
                 playerInventory.SwitchActiveIndex(1);
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha3))
+            if (Input.GetButtonDown("Inventory3"))
             {
                 playerInventory.SwitchActiveIndex(2);
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha4))
+            if (Input.GetButtonDown("Inventory4"))
             {
                 playerInventory.SwitchActiveIndex(3);
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha5))
+            if (Input.GetButtonDown("Inventory5"))
             {
                 playerInventory.SwitchActiveIndex(4);
             }
 
             // Loot
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetButtonDown("Loot"))
             {
                 playerInventory.Collect();
             }
 
-            // Loot
-            if (Input.GetKeyDown(KeyCode.G))
+            // Drop
+            if (Input.GetButtonDown("Drop"))
             {
                 playerInventory.Drop(myTransform.position);
             }

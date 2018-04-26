@@ -152,8 +152,6 @@ namespace BattleRobo
 		{
 			RaycastHit hit;
 
-
-
             Ray ray = camera.ScreenPointToRay((Input.mousePosition));
 			Transform objectHit = null;
 
