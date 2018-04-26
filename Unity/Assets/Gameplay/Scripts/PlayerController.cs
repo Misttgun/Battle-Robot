@@ -1,15 +1,13 @@
 ﻿using System;
+using Photon;
 using UnityEngine;
 
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : PunBehaviour
 {
     [Header("Mouse Settings")]
     [SerializeField]
     private float aimSensitivity = 5f;
-
-    [SerializeField]
-    private float aimSensitivityY = 10f;
 
     [Header("Movement Settings")]
     [SerializeField]
@@ -34,56 +32,53 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private CharacterController controller;
 
+    /// <summary>
+    /// The camera gameObject for the shooting.
+    /// </summary>
     [SerializeField]
-    private Transform roboChest;
+    private GameObject playerCamera;
 
     [SerializeField]
-    private PhotonView photonView;
+    private PhotonView myPhotonView;
 
     private Vector3 moveDirection = Vector3.zero;
     private bool grounded;
     private float speed;
 
-    private float fallStartLevel;
-    private float fuelAmount = 1f;
-    private Vector3 fly;
-
-    private Vector3 roboRotY;
-    private float roboRotUD;
-    private float currentRot;
+    public float fuelAmount = 1f;
+    private float maxFuelAmount = 1f;
+    public float currentRot;
 
     private Transform myTransform;
-
-    [SerializeField]
-    private BattleRobo.PlayerInventory inventory;
-
-    [HideInInspector]
-    public float inputX;
-
-    [HideInInspector]
-    public float inputY;
-
-    public float FuelAmount
-    {
-        get { return fuelAmount; }
-    }
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        controller = GetComponent<CharacterController>();
         myTransform = transform;
         speed = walkSpeed;
+
+        if (!myPhotonView.isMine)
+            return;
+
+        //activate camera only for this player
+        playerCamera.SetActive(true);
+    }
+
+    private void FixedUpdate()
+    {
+        if (!myPhotonView.isMine)
+            return;
+
+        // Rotate the player on the Y axis
+        myTransform.rotation *= Quaternion.Euler(0, Input.GetAxisRaw("Mouse X") * aimSensitivity, 0);
     }
 
     private void Update()
     {
-        if (!photonView.isMine)
-        {
+        if (!myPhotonView.isMine)
             return;
-        }
 
         // Cursor lock
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -97,42 +92,57 @@ public class PlayerController : MonoBehaviour
             Cursor.visible = false;
         }
 
-        inputX = Input.GetAxis("Horizontal");
-        inputY = Input.GetAxis("Vertical");
+        float inputX = Input.GetAxis("Horizontal");
+        float inputY = Input.GetAxis("Vertical");
 
-        fly = Vector3.zero;
+        float consumedFuel = 0f;
+
         if (Input.GetButton("Jump") && fuelAmount > 0f)
         {
             fuelAmount -= fuelDecreaseSpeed * Time.deltaTime;
-            if (fuelAmount >= 0.04f)
-            {
-                fly = Vector3.up * flyForce;
-            }
+            consumedFuel = maxFuelAmount - fuelAmount;
         }
         else
         {
             fuelAmount += fuelRegenSpeed * Time.deltaTime;
+            maxFuelAmount = fuelAmount;
         }
+
+        myPhotonView.RPC("ClientMovement", PhotonTargets.All, inputX, inputY, consumedFuel, fuelAmount);
 
         fuelAmount = Mathf.Clamp(fuelAmount, 0f, 1f);
-        
-        if (transform.position.y <= 0f)
-        {
-            photonView.RPC("TakeDamage", PhotonTargets.All, 110f);
-            transform.position = new Vector3(0, 100, 0);
-        }
     }
 
-    private void Jump()
+    private void LateUpdate()
     {
+        if (!myPhotonView.isMine)
+            return;
+
+        // Rotate the player on the X axis
+        currentRot -= Input.GetAxisRaw("Mouse Y") * aimSensitivity;
+        currentRot = Mathf.Clamp(currentRot, -60f, 60f);
+    }
+
+    private void Jump(float fuel, float consFuel)
+    {
+        Vector3 fly = Vector3.zero;
+        if (fuel >= 0.15f)
+        {
+            fly = Vector3.up * flyForce * consFuel;
+        }
+
         if (fly != Vector3.zero)
         {
             moveDirection.y = fly.y;
         }
     }
 
-    public void ClientMovement()
+    [PunRPC]
+    public void ClientMovement(float inputX, float inputY, float consumedFuel, float fuel)
     {
+        if (!myPhotonView.isMine)
+            return;
+
         // Limit the diagonal speed
         float inputModifyFactor = Math.Abs(inputX) > 0.0001f && Math.Abs(inputY) > 0.0001f ? .7071f : 1.0f;
 
@@ -145,7 +155,7 @@ public class PlayerController : MonoBehaviour
             moveDirection = myTransform.TransformDirection(moveDirection) * speed;
 
             // Jump!
-            Jump();
+            Jump(fuel, consumedFuel);
         }
         else
         {
@@ -154,21 +164,38 @@ public class PlayerController : MonoBehaviour
             moveDirection = myTransform.TransformDirection(moveDirection);
 
             // Jump!
-            Jump();
+            Jump(fuel, consumedFuel);
         }
-
-        // Rotate the player on the Y axis
-        myTransform.rotation *= Quaternion.Euler(0, Input.GetAxisRaw("Mouse X") * aimSensitivityY, 0);
-
-        // Rotate the player on the X axis
-        currentRot -= Input.GetAxisRaw("Mouse Y") * aimSensitivity;
-        currentRot = Mathf.Clamp(currentRot, -60f, 60f);
-        roboChest.transform.localEulerAngles = new Vector3(0f, 0f, -currentRot);
 
         // Apply gravity
         moveDirection.y -= gravity * Time.deltaTime;
 
         // Move the controller, and set grounded true or false depending on whether we're standing on something
         grounded = (controller.Move(moveDirection * Time.deltaTime) & CollisionFlags.Below) != 0;
+    }
+
+    [Serializable]
+    public class PlayerState
+    {
+        public float InputX { get; private set; }
+
+        public float InputY { get; private set; }
+
+        public float ConsumedFuel { get; private set; }
+
+        public float Fuel { get; private set; }
+
+        public PlayerState(float inputX, float inputY, float consumedFuel, float fuel)
+        {
+            InputX = inputX;
+            InputY = inputY;
+            ConsumedFuel = consumedFuel;
+            Fuel = fuel;
+        }
+
+        public bool IsEqual(PlayerState other)
+        {
+            return InputX.Equals(other.InputX) && InputY.Equals(other.InputY) && ConsumedFuel.Equals(other.ConsumedFuel);
+        }
     }
 }
