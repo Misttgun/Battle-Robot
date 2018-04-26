@@ -1213,7 +1213,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4186082191495618}
-  - component: {fileID: 114513905780469144}
   m_Layer: 8
   m_Name: Cam Target
   m_TagString: Untagged
@@ -2825,7 +2824,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1646143191571626}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 10, z: 7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4269375531567468}
@@ -4153,18 +4152,6 @@ MonoBehaviour:
   playerAnimator: {fileID: 95656458639368154}
   playerPhotonView: {fileID: 0}
   currentAmmo: 0
---- !u!114 &114513905780469144
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1678108416858366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c5b9fbe6e663c947a7c852258862e90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 114241827730057450}
 --- !u!114 &114596572191857380
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4492,7 +4479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 4186082191495618}
-  pScript: {fileID: 114241827730057450}
+  playerScript: {fileID: 114241827730057450}
   distance: 2.5
 --- !u!114 &114859618254465038
 MonoBehaviour:
@@ -12399,7 +12386,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1410952960768832}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -7}
   m_LocalScale: {x: 0.9975, y: 0.9975, z: 0.9975}
   m_Children:
   - {fileID: 224731626138331848}

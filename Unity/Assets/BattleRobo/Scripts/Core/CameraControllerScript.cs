@@ -10,9 +10,14 @@ namespace BattleRobo
         [SerializeField] private Transform target;
         
         /// <summary>
-        /// The target tranform the camera is going to follow.
+        /// The player script.
         /// </summary>
-        [SerializeField] private PlayerControllerScript pScript;
+        [SerializeField] private PlayerControllerScript playerScript;
+        
+        /// <summary>
+        /// The player script.
+        /// </summary>
+        //[SerializeField] private PlayerScript playerScript;
 
         /// <summary>
         /// The camera transform.
@@ -58,7 +63,7 @@ namespace BattleRobo
         private void FixedUpdate()
         {
             camTransform.rotation = target.rotation;
-            camTransform.localEulerAngles = new Vector3(pScript.currentRot, 0f, 0f);
+            camTransform.localEulerAngles = new Vector3(playerScript.currentRot, 0f, 0f);
         }
     }
 }
