@@ -554,9 +554,26 @@ namespace BattleRobo
         }
 
         [PunRPC]
-        private void TakeObject(int lootTrackerId)
+        private void TakeObject(int lootTrackerId, int senderId)
         {
-            LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObjectScript>().Hide();
+            var playerObject = LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObjectScript>();
+
+            if (playerObject.IsAvailable())
+            {
+                playerObject.SetAvailable(false);
+                playerObject.Hide();
+            }
+
+            // - several player tried to loot the object at the same time, 
+            // only the first one should see it in its inventory
+            else
+            {
+                if (playerID == senderId)
+                    playerInventory.CancelCollect(lootTrackerId);
+            }
+                
+            // - Object is no longer in looting mode
+            playerObject.SetLooting(false);
         }
 
         [PunRPC]
@@ -568,7 +585,10 @@ namespace BattleRobo
         [PunRPC]
         private void DropObject(int lootTrackerId, Vector3 position)
         {
-            LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObjectScript>().Drop(position);
+            var playerObject = LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObjectScript>();
+
+            playerObject.SetAvailable(true);
+            playerObject.Drop(position);
         }
     }
 }
