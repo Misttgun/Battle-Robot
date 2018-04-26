@@ -64,4 +64,5 @@ MonoBehaviour:
   - StormManageScaleRPC
   - StartTimerRPC
   - DisablePlayerRPC
+  - UpdateWeapon
   DisableAutoOpenWizard: 1

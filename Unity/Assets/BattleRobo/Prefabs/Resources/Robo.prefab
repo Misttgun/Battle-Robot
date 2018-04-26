@@ -1824,7 +1824,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1684304022182980}
-  m_LocalRotation: {x: -0.021249224, y: 0.000011129303, z: 0.0005247381, w: 0.99977404}
+  m_LocalRotation: {x: -0.021249225, y: 0.000011129304, z: 0.00052473816, w: 0.9997741}
   m_LocalPosition: {x: -0.0000000053180758, y: 0.026836256, z: 1.0953349e-10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3433,7 +3433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c5b9fbe6e663c947a7c852258862e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 114679336694072020}
+  player: {fileID: 0}
 --- !u!114 &114426841814891048
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3955,7 +3955,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 4556750038687334}
+  roboTransform: {fileID: 0}
+  camera: {fileID: 0}
   distance: 2.6
+  adjustmentDistance: 5
+  colHandler:
+    collisionLayerMask:
+      serializedVersion: 2
+      m_Bits: 1280
+    colliding: 0
+    adjustedCamClipPoints: []
+    desiredCamClipPoints: []
+  debug:
+    drawDesiredCollisionLines: 1
+    drawAdjustedCollisionLines: 1
 --- !u!114 &114949452135076732
 MonoBehaviour:
   m_ObjectHideFlags: 1

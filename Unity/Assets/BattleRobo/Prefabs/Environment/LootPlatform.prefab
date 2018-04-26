@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 65823108111865588}
   - component: {fileID: 114589675189181768}
   m_Layer: 10
-  m_Name: loot_Platform
+  m_Name: LootPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,8 +86,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1902533486901256}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: -19.26, y: 1, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4408131346329286}
   - {fileID: 4970899410474618}
@@ -121,7 +121,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: be66c196f08609e48b52a39b6859b0cc, type: 2}
+  - {fileID: 2100000, guid: 8c9e5970568fa0340aebad8f10e3d149, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -155,7 +155,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: be66c196f08609e48b52a39b6859b0cc, type: 2}
+  - {fileID: 2100000, guid: 8c9e5970568fa0340aebad8f10e3d149, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -252,7 +252,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.9999999, y: 1, z: 1.9999999}
+  m_Size: {x: 2.05, y: 1, z: 2.05}
   m_Center: {x: 0.0009990335, y: 0.28663588, z: -0.0009990335}
 --- !u!114 &114589675189181768
 MonoBehaviour:

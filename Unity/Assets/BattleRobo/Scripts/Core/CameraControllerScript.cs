@@ -1,50 +1,64 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class CameraControllerScript : MonoBehaviour
+namespace BattleRobo
 {
+    public class CameraControllerScript : MonoBehaviour
+    {
+        /// <summary>
+        /// The target tranform the camera is going to follow.
+        /// </summary>
+        [SerializeField] private Transform target;
+        
+        /// <summary>
+        /// The target tranform the camera is going to follow.
+        /// </summary>
+        [SerializeField] private PlayerControllerScript pScript;
 
-	/// <summary>
-	/// The target tranform the camera is going to follow.
-	/// </summary>
-	[SerializeField]
-	private Transform target;
+        /// <summary>
+        /// The camera transform.
+        /// </summary>
+        private Transform camTransform;
 
-	/// <summary>
-	/// The camera transform.
-	/// </summary>
-	private Transform camTransform;
+        /// <summary>
+        /// The distance between the camera and the target.
+        /// </summary>
+        public float distance = 5f;
 
-	/// <summary>
-	/// The distance between the camera and the target.
-	/// </summary>
-	public float distance = 5f;
+        private Vector3 camDestination;
 
-	private void Start()
-	{
-		camTransform = transform;
-	}
+        //on calcule le mask pour le lancer du rayon
+        private const int playerMask = 1 << 8;
 
-	private void LateUpdate()
-	{
-		var camPosition = target.position + distance * -camTransform.forward;
+        private const int envMask = 1 << 10;
+        private const int combinedMask = playerMask | envMask;
 
-		//On ignore le layer de la tempête pour qu'il n'y ait de collisions avec la zone.
-		const int stormMask = ~(1 << 12);
+        private void Start()
+        {
+            camTransform = transform;
+        }
 
-		RaycastHit hit;
-		if (Physics.Linecast(target.position, camPosition, out hit, stormMask))
-		{
-			var hitPoint = new Vector3(hit.point.x + hit.normal.x * 0.2f, hit.point.y, hit.point.z + hit.normal.z * 0.2f);
-			camPosition = new Vector3(hitPoint.x, camPosition.y, hit.point.z);
-		}
+        private void LateUpdate()
+        {
+            camDestination = target.position + distance * -camTransform.forward;
 
-		camTransform.position = camPosition;
-	}
+            RaycastHit hit;
 
-	private void FixedUpdate()
-	{
-		camTransform.rotation = target.rotation;
-	}
+            Debug.DrawLine(target.position, camDestination, Color.green);
+
+            if (Physics.Linecast(target.position, camDestination, out hit, combinedMask))
+            {
+                var hitPoint = new Vector3(hit.point.x, hit.point.y,
+                    hit.point.z);
+                camDestination = new Vector3(hitPoint.x + hit.normal.x * 0.2f, hitPoint.y, hit.point.z + hit.normal.z * 0.2f);
+            }
+
+            camTransform.position = camDestination;
+        }
+
+        private void FixedUpdate()
+        {
+            camTransform.rotation = target.rotation;
+            camTransform.localEulerAngles = new Vector3(pScript.currentRot, 0f, 0f);
+        }
+    }
 }

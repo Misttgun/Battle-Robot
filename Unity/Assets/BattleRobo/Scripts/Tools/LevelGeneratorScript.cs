@@ -36,7 +36,7 @@ namespace BattleRobo
             {
                 for (int j = 0; j < mapSize; j++)
                 {
-                    var randomNum = Random.Range(1, prefabsToLoad.Length) - 1;
+                    var randomNum = Random.Range(0, prefabsToLoad.Length);
 
                     var platform = Instantiate(prefabsToLoad[randomNum], new Vector3(j * mapSpacing, prefabsToLoad[randomNum].transform.position.y, i * mapSpacing), Quaternion.identity);
                     platform.transform.Rotate(platform.transform.rotation.x, Random.Range(0, 3) * 90, platform.transform.rotation.z);

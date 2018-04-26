@@ -64,6 +64,9 @@ namespace BattleRobo
 
 		private void Update()
 		{
+			if (!localPlayer)
+				return;
+			
 			if (IsGameWon())
 			{
 				Cursor.lockState = CursorLockMode.None;
