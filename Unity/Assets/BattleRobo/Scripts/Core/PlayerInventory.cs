@@ -151,11 +151,15 @@ namespace BattleRobo
 		public void Collect()
 		{
 			RaycastHit hit;
-			Ray ray = camera.ScreenPointToRay((Input.mousePosition));
+
+
+
+            Ray ray = camera.ScreenPointToRay((Input.mousePosition));
 			Transform objectHit = null;
 
-			if (Physics.Raycast(ray, out hit))
-				objectHit = hit.transform;
+            //if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, 5f))
+                objectHit = hit.transform;
 
 			var playerGameObject = objectHit.gameObject;
 
