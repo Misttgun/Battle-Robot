@@ -491,7 +491,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1805488048449332
 GameObject:
   m_ObjectHideFlags: 1
@@ -1046,6 +1046,7 @@ MonoBehaviour:
   ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 114610335313472902}
+  - {fileID: 114706861531488474}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -1329,7 +1330,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    ExtrapolateOption: 0
+    ExtrapolateOption: 2
     ExtrapolateSpeed: 1
     ExtrapolateIncludingRoundTripTime: 1
     ExtrapolateNumberOfStoredPositions: 1
@@ -1470,10 +1471,15 @@ MonoBehaviour:
   fuelRegenSpeed: 0.15
   flyForce: 25
   controller: {fileID: 143863934271535150}
+  camTransform: {fileID: 4572694819795944}
   playerCamera: {fileID: 1891440642073312}
-  myPhotonView: {fileID: 114188929756186544}
   fuelAmount: 1
   currentRot: 0
+  playerState:
+    inputX: 0
+    inputY: 0
+    isJumping: 0
+    mouseInput: {x: 0, y: 0}
 --- !u!114 &114710988700478354
 MonoBehaviour:
   m_ObjectHideFlags: 1
