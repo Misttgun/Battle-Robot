@@ -12,12 +12,12 @@ namespace BattleRobo
         /// <summary>
         /// The player script.
         /// </summary>
-        [SerializeField] private PlayerController playerScript;
+        //[SerializeField] private PlayerController playerScript;
         
         /// <summary>
         /// The player script.
         /// </summary>
-        //[SerializeField] private PlayerScript playerScript;
+        [SerializeField] private PlayerScript playerScript;
 
         /// <summary>
         /// The camera transform.

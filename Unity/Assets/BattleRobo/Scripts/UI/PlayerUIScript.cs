@@ -29,6 +29,11 @@ namespace BattleRobo
         /// The number of player alive text.
         /// </summary>
         [SerializeField] private Text aliveTexT;
+
+        /// <summary>
+        /// The pause logo
+        /// </summary>
+        [SerializeField] private Image pauseImage;
         
         /// <summary>
         /// The player inventory
@@ -132,6 +137,16 @@ namespace BattleRobo
 
             else
                 ammoCounter.text = "";
+        }
+
+        public void EnablePause(bool enable)
+        {
+            if (enable)
+                Debug.Log("ENABLE PAUSE !");
+            else
+                Debug.Log("DISABLE PAUSE !");
+
+            pauseImage.gameObject.SetActive(enable);
         }
     }
 }

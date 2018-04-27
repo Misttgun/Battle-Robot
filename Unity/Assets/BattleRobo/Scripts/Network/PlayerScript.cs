@@ -239,6 +239,9 @@ namespace BattleRobo
 
         private void FixedUpdate()
         {
+            if (GameManagerScript.GetInstance().IsGamePause())
+                return;
+
             if (!photonView.isMine)
                 return;
 
@@ -300,6 +303,19 @@ namespace BattleRobo
 
         private void Update()
         {
+            // - Pause
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (!GameManagerScript.GetInstance().IsGamePause())
+                    myPhotonView.RPC("SetPause", PhotonTargets.AllViaServer);
+
+                else
+                    myPhotonView.RPC("CancelPause", PhotonTargets.AllViaServer);
+            }
+
+            if (GameManagerScript.GetInstance().IsGamePause())
+                return;
+
             //set the active weapon to the current weapon
             activeWeapon = weaponHolder.currentWeapon;
 
@@ -418,6 +434,8 @@ namespace BattleRobo
             {
                 playerInventory.Drop(myTransform.position);
             }
+
+            
 
             fuelAmount = Mathf.Clamp(fuelAmount, 0f, 1f);
         }
@@ -589,6 +607,26 @@ namespace BattleRobo
 
             playerObject.SetAvailable(true);
             playerObject.Drop(position);
+        }
+
+        [PunRPC]
+        private void SetPause()
+        {
+            var myPlayerScript = GameManagerScript.GetInstance().localPlayer;
+
+            // - Set Pause UI
+            myPlayerScript.playerUI.GetComponent<PlayerUIScript>().EnablePause(true);
+            GameManagerScript.GetInstance().SetPause(true);
+        }
+
+        [PunRPC]
+        private void CancelPause()
+        {
+            var myPlayerScript = GameManagerScript.GetInstance().localPlayer;
+
+            // - Set Pause UI
+            myPlayerScript.playerUI.GetComponent<PlayerUIScript>().EnablePause(false);
+            GameManagerScript.GetInstance().SetPause(false);
         }
     }
 }
