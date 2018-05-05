@@ -16,21 +16,25 @@ namespace BattleRobo
         private PlayerInventory inventory;
 
         [SerializeField]
+        private RoboController playerController;
+
+        [SerializeField]
         private PhotonView playerPhotonView;
 
         private void Start()
         {
-            if (!playerPhotonView.isMine)
-                return;
+//            if (!playerPhotonView.isMine)
+//                return;
             
-            inventory = playerPhotonView.gameObject.GetComponent<PlayerScript>().GetInventory();
+            //inventory = playerPhotonView.gameObject.GetComponent<PlayerScript>().GetInventory();
+            inventory = playerController.GetInventory();
             inventory.SetWeaponHolder(this);
             
             
-            foreach (var weapon in equipWeapons)
-            {
-                weapon.playerPhotonView = playerPhotonView;
-            }
+//            foreach (var weapon in equipWeapons)
+//            {
+//                weapon.playerPhotonView = playerPhotonView;
+//            }
         }
         
         public void SetWeapon(WeaponScript inventoryWeapon, float currentAmmo)

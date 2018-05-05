@@ -68,4 +68,8 @@ MonoBehaviour:
   - ClientMovement
   - MovementRPC
   - SetUpRPC
+  - CancelPause
+  - SetPause
+  - PauseRPC
+  - ShootingRPC
   DisableAutoOpenWizard: 1

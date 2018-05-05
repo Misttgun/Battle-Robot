@@ -16,7 +16,8 @@ namespace BattleRobo
 		/// The local player instance spawned for this client.
 		/// </summary>
 		//[HideInInspector]
-		public PlayerScript localPlayer;
+		//public PlayerScript localPlayer;
+		public RoboController localPlayer;
 
 		/// <summary>
 		/// The dictionnary of all the players currently alive in the game.
@@ -64,7 +65,7 @@ namespace BattleRobo
 			alivePlayerNumber = PhotonNetwork.room.PlayerCount;
 			gameCamera.SetActive(false);
 
-			PhotonNetwork.Instantiate("Robo", new Vector3(0, 20, 7), Quaternion.identity, 0);
+			//PhotonNetwork.Instantiate("Robo", new Vector3(0, 20, 7), Quaternion.identity, 0);
 		}
 
 		private void Update()

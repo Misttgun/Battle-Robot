@@ -166,7 +166,7 @@ namespace BattleRobo
                 return;
 
             //set players current health value after joining
-            myPhotonView.SetHealth(maxHealth);
+            //myPhotonView.SetHealth(maxHealth);
         }
 
         private void Start()
@@ -193,13 +193,13 @@ namespace BattleRobo
             //activate camera only for this player
             playerCamera.SetActive(true);
 
-            //set name in the UI
-            uiScript.playerNameText.text = myPhotonView.GetName();
-
-            //update health, shield and fuel
-            uiScript.UpdateHealth(myPhotonView.GetHealth());
-            uiScript.UpdateFuel(fuelAmount);
-            uiScript.UpdateShield(myPhotonView.GetShield());
+//            //set name in the UI
+//            uiScript.playerNameText.text = myPhotonView.GetName();
+//
+//            //update health, shield and fuel
+//            uiScript.UpdateHealth(myPhotonView.GetHealth());
+//            uiScript.UpdateFuel(fuelAmount);
+//            uiScript.UpdateShield(myPhotonView.GetShield());
 
             uiScript.UpdateAliveText(GameManagerScript.GetInstance().alivePlayerNumber);
 
@@ -215,7 +215,7 @@ namespace BattleRobo
             playerInventory = new PlayerInventory(playerCamera, uiScript, photonView);
 
             //set a global reference to the local player
-            GameManagerScript.GetInstance().localPlayer = this;
+            //GameManagerScript.GetInstance().localPlayer = this;
         }
 
 
@@ -231,10 +231,10 @@ namespace BattleRobo
             if (!player.Equals(photonView.owner))
                 return;
 
-            //update values that could change any time for visualization to stay up to date
-            uiScript.UpdateHealth(myPhotonView.GetHealth());
-            //uiScript.UpdateFuel(fuelAmount);
-            uiScript.UpdateShield(myPhotonView.GetShield());
+//            //update values that could change any time for visualization to stay up to date
+//            uiScript.UpdateHealth(myPhotonView.GetHealth());
+//            //uiScript.UpdateFuel(fuelAmount);
+//            uiScript.UpdateShield(myPhotonView.GetShield());
         }
 
         private void FixedUpdate()
@@ -323,7 +323,7 @@ namespace BattleRobo
 
             if (!photonView.isMine)
                 return;
-            
+
             uiScript.UpdateAliveText(GameManagerScript.GetInstance().alivePlayerNumber);
 
             //update the storm timer in the UI
@@ -332,22 +332,22 @@ namespace BattleRobo
                 uiScript.UpdateStormTimer(StormManagerScript.GetInstance().GetStormTimer() + 1);
             }
 
-            //apply damage to player in the storm
-            if (inStorm)
-            {
-                if (timer > waitingTime)
-                {
-                    TakeDamage(StormManagerScript.GetInstance().stormDmg);
-                    timer = 0f;
-                }
-            }
-
-            //apply damage to player in the water
-            if (inWater)
-            {
-                //insta death when the player touches the water
-                TakeDamage(200);
-            }
+//            //apply damage to player in the storm
+//            if (inStorm)
+//            {
+//                if (timer > waitingTime)
+//                {
+//                    TakeDamage(StormManagerScript.GetInstance().stormDmg);
+//                    timer = 0f;
+//                }
+//            }
+//
+//            //apply damage to player in the water
+//            if (inWater)
+//            {
+//                //insta death when the player touches the water
+//                TakeDamage(200);
+//            }
 
             // Cursor lock
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -387,7 +387,7 @@ namespace BattleRobo
             if (Input.GetButtonDown("Fire1") && playerInventory.getCurrentActive() != null)
             {
                 var weapon = playerInventory.getCurrentActive().GetWeapon();
-                
+
                 if (weapon && weapon.CanFire())
                 {
                     var itemId = playerInventory.getCurrentActive().GetLootTrackerIndex();
@@ -435,7 +435,6 @@ namespace BattleRobo
                 playerInventory.Drop(myTransform.position);
             }
 
-            
 
             fuelAmount = Mathf.Clamp(fuelAmount, 0f, 1f);
         }
@@ -466,42 +465,42 @@ namespace BattleRobo
         /// Server only: calculate damage to be taken by the Player,
         /// triggers kills increase and workflow on death.
         /// </summary>
-        public void TakeDamage(int hitPoint, int killerID = -1)
-        {
-            //store network variables temporary
-            int health = myPhotonView.GetHealth();
-            int shield = myPhotonView.GetShield();
-
-            //reduce shield on hit
-            if (shield > 0)
-            {
-                myPhotonView.SetShield(shield - hitPoint);
-                return;
-            }
-
-            //substract health by damage
-            //locally for now, to only have one update later on
-            health -= hitPoint;
-
-            //the player is dead
-            if (health <= 0)
-            {
-                //if we took damage from another player
-                if (killerID != -1)
-                {
-                    //get killer and increase kills for that player
-                    myPhotonView.RPC("UpdateKillsRPC", PhotonTargets.MasterClient, killerID);
-                }
-
-                //tell all clients that the player is dead
-                myPhotonView.RPC("IsDeadRPC", PhotonTargets.All, playerID);
-            }
-            else
-            {
-                //we didn't die, set health to new value
-                myPhotonView.SetHealth(health);
-            }
-        }
+//        public void TakeDamage(int hitPoint, int killerID = -1)
+//        {
+//            //store network variables temporary
+//            int health = myPhotonView.GetHealth();
+//            int shield = myPhotonView.GetShield();
+//
+//            //reduce shield on hit
+//            if (shield > 0)
+//            {
+//                //myPhotonView.SetShield(shield - hitPoint);
+//                return;
+//            }
+//
+//            //substract health by damage
+//            //locally for now, to only have one update later on
+//            health -= hitPoint;
+//
+//            //the player is dead
+//            if (health <= 0)
+//            {
+//                //if we took damage from another player
+//                if (killerID != -1)
+//                {
+//                    //get killer and increase kills for that player
+//                    myPhotonView.RPC("UpdateKillsRPC", PhotonTargets.MasterClient, killerID);
+//                }
+//
+//                //tell all clients that the player is dead
+//                myPhotonView.RPC("IsDeadRPC", PhotonTargets.All, playerID);
+//            }
+//            else
+//            {
+//                //we didn't die, set health to new value
+//                myPhotonView.SetHealth(health);
+//            }
+//        }
 
         public PlayerInventory GetInventory()
         {
@@ -520,7 +519,7 @@ namespace BattleRobo
             if (found)
             {
                 player.SetActive(false);
-            } 
+            }
 
             //remove the player from the alive players dictionnary and decrease the number of player alive
             GameManagerScript.GetInstance().alivePlayers.Remove(id);
@@ -528,17 +527,17 @@ namespace BattleRobo
         }
 
         //called on the master client when a player kills the current player
-        [PunRPC]
-        private void UpdateKillsRPC(int id)
-        {
-            GameObject player;
-            GameManagerScript.GetInstance().alivePlayers.TryGetValue(id, out player);
-
-            if (player != null)
-            {
-                player.GetComponent<PlayerScript>().myPhotonView.AddKills();
-            }
-        }
+//        [PunRPC]
+//        private void UpdateKillsRPC(int id)
+//        {
+//            GameObject player;
+//            GameManagerScript.GetInstance().alivePlayers.TryGetValue(id, out player);
+//
+//            if (player != null)
+//            {
+//                player.GetComponent<PlayerScript>().myPhotonView.AddKills();
+//            }
+//        }
 
         //called on the server first but forwarded to all clients
         [PunRPC]
@@ -546,19 +545,19 @@ namespace BattleRobo
         {
             if (!photonView.isMine)
                 return;
-            
+
             // - fire the right weapon
             var currentItem = LootSpawnerScript.GetLootTracker()[itemId].GetComponent<PlayerObjectScript>();
             WeaponScript weapon = null;
 
-            
+
             if (currentItem)
                 weapon = currentItem.GetWeapon();
 
             if (weapon != null)
                 weapon.Fire(playerCamera.transform, playerID);
-            
-            
+
+
             // the iteam can have changed since the player shoot. Update UI only if necessary
             var update = playerInventory.getCurrentActive().GetLootTrackerIndex() == itemId;
             if (playerID == shooterId && update)
@@ -589,7 +588,7 @@ namespace BattleRobo
                 if (playerID == senderId)
                     playerInventory.CancelCollect(lootTrackerId);
             }
-                
+
             // - Object is no longer in looting mode
             playerObject.SetLooting(false);
         }
@@ -615,7 +614,7 @@ namespace BattleRobo
             var myPlayerScript = GameManagerScript.GetInstance().localPlayer;
 
             // - Set Pause UI
-            myPlayerScript.playerUI.GetComponent<PlayerUIScript>().EnablePause(true);
+            //myPlayerScript.playerUI.GetComponent<PlayerUIScript>().EnablePause(true);
             GameManagerScript.GetInstance().SetPause(true);
         }
 
@@ -625,7 +624,7 @@ namespace BattleRobo
             var myPlayerScript = GameManagerScript.GetInstance().localPlayer;
 
             // - Set Pause UI
-            myPlayerScript.playerUI.GetComponent<PlayerUIScript>().EnablePause(false);
+            //myPlayerScript.playerUI.GetComponent<PlayerUIScript>().EnablePause(false);
             GameManagerScript.GetInstance().SetPause(false);
         }
     }

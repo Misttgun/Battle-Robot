@@ -6,7 +6,7 @@ namespace BattleRobo
 	/// This class extends Photon's PhotonPlayer object by custom properties.
 	/// Provides several methods for setting and getting variables out of them.
 	/// </summary>
-	public static class PlayerStats
+	public class PlayerStats
 	{
 		//keys for saving and accessing values in custom properties Hashtable
 		public const string health = "health";
@@ -18,92 +18,92 @@ namespace BattleRobo
 		/// <summary>
 		/// Returns the networked player nick name.
 		/// </summary>
-		public static string GetName(this PhotonView player)
+		public string GetName()
 		{
-			return player.owner.NickName;
+				return PhotonNetwork.player.NickName;
 		}
 
 		/// <summary>
 		/// Returns the networked health value of the player out of properties.
 		/// </summary>
-		public static int GetHealth(this PhotonView player)
+		public int GetHealth()
 		{
-			return System.Convert.ToInt32(player.owner.CustomProperties[health]);
+			return System.Convert.ToInt32(PhotonNetwork.player.CustomProperties[health]);
 		}
 
 		/// <summary>
 		/// Synchronizes the health value of the player for all players via properties.
 		/// </summary>
-		public static void SetHealth(this PhotonView player, int value)
+		public void SetHealth(int value)
 		{
-			player.owner.SetCustomProperties(new Hashtable { { health, (byte)value } });
+			PhotonNetwork.player.SetCustomProperties(new Hashtable { { health, (byte)value } });
 		}
 
 		/// <summary>
 		/// Returns the networked shield value of the player out of properties.
 		/// </summary>
-		public static int GetShield(this PhotonView player)
+		public int GetShield()
 		{
-			return System.Convert.ToInt32(player.owner.CustomProperties[shield]);
+			return System.Convert.ToInt32(PhotonNetwork.player.CustomProperties[shield]);
 		}
 
 		/// <summary>
 		/// Synchronizes the shield value of the player for all players via properties.
 		/// </summary>
-		public static void SetShield(this PhotonView player, int value)
+		public void SetShield(int value)
 		{
-			player.owner.SetCustomProperties(new Hashtable { { shield, (byte)value } });
+			PhotonNetwork.player.SetCustomProperties(new Hashtable { { shield, (byte)value } });
 		}
 
 		/// <summary>
 		/// Returns the networked fuel value of the player out of properties.
 		/// </summary>
-		public static float GetFuel(this PhotonView player)
+		public float GetFuel()
 		{
-			return System.Convert.ToSingle(player.owner.CustomProperties[fuel]);
+			return System.Convert.ToSingle(PhotonNetwork.player.CustomProperties[fuel]);
 		}
 
 		/// <summary>
 		/// Synchronizes the fuel value of the player for all players via properties.
 		/// </summary>
-		public static void SetFuel(this PhotonView player, float value)
+		public void SetFuel(float value)
 		{
-			player.owner.SetCustomProperties(new Hashtable { { fuel, (byte)value } });
+			PhotonNetwork.player.SetCustomProperties(new Hashtable { { fuel, (byte)value } });
 		}
 
 		/// <summary>
 		/// Returns the networked kills value of the player out of properties.
 		/// </summary>
-		public static int GetKills(this PhotonView player)
+		public int GetKills()
 		{
-			return System.Convert.ToInt32(player.owner.CustomProperties[fuel]);
+			return System.Convert.ToInt32(PhotonNetwork.player.CustomProperties[fuel]);
 		}
 
 		/// <summary>
 		/// Add one to the kills value of the player for all players via properties.
 		/// </summary>
-		public static void AddKills(this PhotonView player)
+		public void AddKills()
 		{
-			int kills = player.GetKills();
+			int kills = GetKills();
 			kills++;
 
-			player.SetKills(kills);
+			SetKills(kills);
 		}
 
 		/// <summary>
 		/// Synchronizes the kills value of the player for all players via properties.
 		/// </summary>
-		public static void SetKills(this PhotonView player, int value)
+		public void SetKills(int value)
 		{
-			player.owner.SetCustomProperties(new Hashtable { { fuel, (byte)value } });
+			PhotonNetwork.player.SetCustomProperties(new Hashtable { { fuel, (byte)value } });
 		}
 
 		/// <summary>
 		/// Clears all networked variables of the player via properties in one instruction.
 		/// </summary>
-		public static void Clear(this PhotonView player)
+		public void Clear()
 		{
-			player.owner.SetCustomProperties(new Hashtable { { fuel, (byte)0 },
+			PhotonNetwork.player.SetCustomProperties(new Hashtable { { fuel, (byte)0 },
                                                          { health, (byte)0 },
 														 { kills, (byte)0 },
                                                          { shield, (byte)0 } });

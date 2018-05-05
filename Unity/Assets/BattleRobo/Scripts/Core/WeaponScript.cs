@@ -22,11 +22,11 @@ namespace BattleRobo
 
         private void Update()
         {
-            if (!playerPhotonView) //player photon view is null
-                return;
-            
-            if (!playerPhotonView.isMine)
-                return;
+//            if (!playerPhotonView) //player photon view is null
+//                return;
+//            
+//            if (!playerPhotonView.isMine)
+//                return;
             
             playerAnimator.SetLayerWeight(2, 1);
         }
@@ -54,7 +54,8 @@ namespace BattleRobo
                 if (Physics.Raycast(camTransform.position, camTransform.forward, out shot, currentGun.range, layerMask))
                 {
                     Debug.Log("Hit" + shot.transform.gameObject.name);
-                    shot.transform.gameObject.GetComponent<PlayerScript>().TakeDamage(currentGun.damage, playerID);
+                    //shot.transform.gameObject.GetComponent<PlayerScript>().TakeDamage(currentGun.damage, playerID);
+                    shot.transform.gameObject.GetComponent<RoboController>().TakeDamage(currentGun.damage, playerID);
                 }
             }              
         }
