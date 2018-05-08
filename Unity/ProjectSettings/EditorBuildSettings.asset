@@ -11,9 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/BattleRobo/Scenes/StartMenu.unity
     guid: 0418eaa01a25a97448d48a1835770ebe
-  - enabled: 0
+  - enabled: 1
     path: Assets/BattleRobo/Scenes/MainLevel.unity
     guid: 0b83fb140e5dab54cbc420c1ba051c91
-  - enabled: 1
+  - enabled: 0
     path: Assets/Gameplay/Main.unity
     guid: 5e50b8840d27f214e86762f097350a86

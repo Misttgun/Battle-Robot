@@ -226,6 +226,7 @@ MonoBehaviour:
   playerControllers:
   - {fileID: 1845939585}
   - {fileID: 1049458387}
+  - {fileID: 1182831584}
 --- !u!4 &323059296
 Transform:
   m_ObjectHideFlags: 0
@@ -451,6 +452,76 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 114661827294788418, guid: b9fca704ef2592c4c8a24994f3d461ad,
     type: 2}
   m_PrefabInternal: {fileID: 1049458386}
+  m_Script: {fileID: 11500000, guid: 8d6de11f1a15a9944a7a9b31267527bd, type: 3}
+--- !u!1001 &1182831583
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4385151824030500, guid: b9fca704ef2592c4c8a24994f3d461ad, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -9.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385151824030500, guid: b9fca704ef2592c4c8a24994f3d461ad, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385151824030500, guid: b9fca704ef2592c4c8a24994f3d461ad, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 3.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385151824030500, guid: b9fca704ef2592c4c8a24994f3d461ad, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385151824030500, guid: b9fca704ef2592c4c8a24994f3d461ad, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385151824030500, guid: b9fca704ef2592c4c8a24994f3d461ad, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385151824030500, guid: b9fca704ef2592c4c8a24994f3d461ad, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385151824030500, guid: b9fca704ef2592c4c8a24994f3d461ad, type: 2}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1576785755018944, guid: b9fca704ef2592c4c8a24994f3d461ad, type: 2}
+      propertyPath: m_Name
+      value: RoboTest (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114382825329215052, guid: b9fca704ef2592c4c8a24994f3d461ad,
+        type: 2}
+      propertyPath: viewIdField
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114382825329215052, guid: b9fca704ef2592c4c8a24994f3d461ad,
+        type: 2}
+      propertyPath: instantiationId
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4385151824030500, guid: b9fca704ef2592c4c8a24994f3d461ad, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 1576785755018944, guid: b9fca704ef2592c4c8a24994f3d461ad, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: b9fca704ef2592c4c8a24994f3d461ad, type: 2}
+  m_IsPrefabParent: 0
+--- !u!114 &1182831584 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114661827294788418, guid: b9fca704ef2592c4c8a24994f3d461ad,
+    type: 2}
+  m_PrefabInternal: {fileID: 1182831583}
   m_Script: {fileID: 11500000, guid: 8d6de11f1a15a9944a7a9b31267527bd, type: 3}
 --- !u!1 &1449561608
 GameObject:

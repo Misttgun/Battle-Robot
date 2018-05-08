@@ -25,18 +25,18 @@ namespace BattleRobo
         {
 //            if (!playerPhotonView.isMine)
 //                return;
-            
+
             //inventory = playerPhotonView.gameObject.GetComponent<PlayerScript>().GetInventory();
             inventory = playerController.GetInventory();
             inventory.SetWeaponHolder(this);
-            
-            
-//            foreach (var weapon in equipWeapons)
-//            {
-//                weapon.playerPhotonView = playerPhotonView;
-//            }
+
+
+            foreach (var weapon in equipWeapons)
+            {
+                weapon.playerPhotonView = playerPhotonView;
+            }
         }
-        
+
         public void SetWeapon(WeaponScript inventoryWeapon, float currentAmmo)
         {
             var index = 0;
@@ -58,14 +58,14 @@ namespace BattleRobo
                     }
 
                     index++;
-                }   
+                }
             }
         }
 
         public void EquipWeapon(int weaponIndex, float currentAmmo)
         {
             int index = 0;
-            
+
             foreach (WeaponScript weapon in equipWeapons)
             {
                 if (index == weaponIndex)

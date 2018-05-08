@@ -6,7 +6,7 @@ namespace BattleRobo
 	/// This class extends Photon's PhotonPlayer object by custom properties.
 	/// Provides several methods for setting and getting variables out of them.
 	/// </summary>
-	public class PlayerStats
+	public class PlayerStatsScript
 	{
 		//keys for saving and accessing values in custom properties Hashtable
 		public const string health = "health";

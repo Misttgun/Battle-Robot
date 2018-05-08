@@ -1126,7 +1126,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4582813478365134}
   - component: {fileID: 20848024166088190}
-  - component: {fileID: 124200203022378896}
   - component: {fileID: 81316827935151208}
   - component: {fileID: 114982426816180530}
   m_Layer: 0
@@ -1135,7 +1134,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1632246879889300
 GameObject:
   m_ObjectHideFlags: 1
@@ -2019,7 +2018,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1576785755018944}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 8}
+  m_LocalPosition: {x: 0, y: 15, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4781652765720916}
@@ -2599,7 +2598,7 @@ Camera:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1629205334931110}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -2839,7 +2838,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1629205334931110}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!95 &95142446341802948
 Animator:
   serializedVersion: 3
@@ -3279,7 +3278,7 @@ MonoBehaviour:
     TeleportIfDistanceGreaterThan: 3
     InterpolateOption: 4
     InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 15
+    InterpolateLerpSpeed: 12
     InterpolateMoveTowardsAcceleration: 2
     InterpolateMoveTowardsDeceleration: 2
     InterpolateSpeedCurve:
@@ -3314,14 +3313,14 @@ MonoBehaviour:
       m_RotationOrder: 4
     ExtrapolateOption: 0
     ExtrapolateSpeed: 2
-    ExtrapolateIncludingRoundTripTime: 1
+    ExtrapolateIncludingRoundTripTime: 0
     ExtrapolateNumberOfStoredPositions: 1
     DrawErrorGizmo: 1
   m_RotationModel:
     SynchronizeEnabled: 1
-    InterpolateOption: 1
+    InterpolateOption: 2
     InterpolateRotateTowardsSpeed: 180
-    InterpolateLerpSpeed: 17
+    InterpolateLerpSpeed: 10
   m_ScaleModel:
     SynchronizeEnabled: 0
     InterpolateOption: 0
@@ -3551,7 +3550,9 @@ MonoBehaviour:
     mouseInput: {x: 0, y: 0}
   controller: {fileID: 143880083921279560}
   roboHead: {fileID: 4909099723834434}
-  playerCamera: {fileID: 1629205334931110}
+  playerCameraTransform: {fileID: 4582813478365134}
+  playerCamera: {fileID: 20848024166088190}
+  playerCameraAudio: {fileID: 81316827935151208}
   myPhotonView: {fileID: 114382825329215052}
   animator: {fileID: 95142446341802948}
   thrusters: {fileID: 1639314844250336}
@@ -4047,13 +4048,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!124 &124200203022378896
-Behaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1629205334931110}
-  m_Enabled: 1
 --- !u!135 &135022516477847568
 SphereCollider:
   m_ObjectHideFlags: 1

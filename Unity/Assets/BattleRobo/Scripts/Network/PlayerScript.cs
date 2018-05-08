@@ -212,7 +212,7 @@ namespace BattleRobo
             thrusters.SetActive(false);
 
             // - initialise player inventory
-            playerInventory = new PlayerInventory(playerCamera, uiScript, photonView);
+            //playerInventory = new PlayerInventory(playerCamera, uiScript, photonView);
 
             //set a global reference to the local player
             //GameManagerScript.GetInstance().localPlayer = this;

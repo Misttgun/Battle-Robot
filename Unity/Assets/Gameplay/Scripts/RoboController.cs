@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System;
 using Photon;
-using Debug = System.Diagnostics.Debug;
 
 namespace BattleRobo
 {
@@ -71,10 +70,22 @@ namespace BattleRobo
         private Transform roboHead;
 
         /// <summary>
-        /// The camera gameObject for the shooting.
+        /// The camera transform for the shooting.
         /// </summary>
         [SerializeField]
-        private GameObject playerCamera;
+        private Transform playerCameraTransform;
+        
+        /// <summary>
+        /// The camera component.
+        /// </summary>
+        [SerializeField]
+        private Camera playerCamera;
+        
+        /// <summary>
+        /// The camera audio listener.
+        /// </summary>
+        [SerializeField]
+        private AudioListener playerCameraAudio;
 
         /// <summary>
         /// A cached version of the player photonview.
@@ -123,7 +134,7 @@ namespace BattleRobo
         /// </summary>
         [HideInInspector]
         public int playerID;
-        
+
         /// <summary>
         /// The Player Stats.
         /// </summary>
@@ -161,42 +172,23 @@ namespace BattleRobo
         //Initialize server values for this player
         private void Awake()
         {
+            //set the player ID
+            playerID = myPhotonView.viewID - 1;
+
             //initialise player inventory
-            playerInventory = new PlayerInventory(playerCamera, uiScript, myPhotonView);
-            
+            playerInventory = new PlayerInventory(playerCameraTransform, uiScript, myPhotonView);
+
             //set players current health value after joining
-            playerStats.SetHealth(maxHealth);
+            playerStats.Health = maxHealth;
         }
 
         private void Start()
         {
-            //set the player ID
-            playerID = myPhotonView.viewID - 1;
-            
             myTransform = transform;
             speed = walkSpeed;
-            
+
             //player add itself to the dictionnary of alive player using his player ID
             GameManagerScript.GetInstance().alivePlayers.Add(playerID, gameObject);
-        }
-
-
-        /// <summary>
-        /// This method gets called whenever player properties have been changed on the network.
-        /// </summary>
-        public override void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps)
-        {
-            //only react on property changes for this player
-            PhotonPlayer player = playerAndUpdatedProps[0] as PhotonPlayer;
-
-            Debug.Assert(player != null, "player != null");
-
-            if (player.ID != playerID)
-                return;
-
-            //update values that could change any time for visualization to stay up to date
-            uiScript.UpdateHealth(playerStats.GetHealth());
-            uiScript.UpdateShield(playerStats.GetShield());
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -204,10 +196,18 @@ namespace BattleRobo
             if (stream.isWriting)
             {
                 stream.SendNext(currentRot);
+                stream.SendNext(playerStats.Health);
+                stream.SendNext(playerStats.Shield);
+                stream.SendNext(playerStats.Kills);
+                stream.SendNext(fuelAmount);
             }
             else
             {
                 currentRot = (float) stream.ReceiveNext();
+                playerStats.Health = (int) stream.ReceiveNext();
+                playerStats.Shield = (int) stream.ReceiveNext();
+                playerStats.Kills = (int) stream.ReceiveNext();
+                fuelAmount = (float) stream.ReceiveNext();
             }
         }
 
@@ -272,7 +272,9 @@ namespace BattleRobo
         private void Update()
         {
             uiScript.UpdateFuel(fuelAmount);
-            
+            uiScript.UpdateHealth(playerStats.Health);
+            uiScript.UpdateShield(playerStats.Shield);
+
             fly = Vector3.zero;
             if (playerState.isJumping && fuelAmount > 0f)
             {
@@ -292,11 +294,8 @@ namespace BattleRobo
                 fuelAmount += fuelRegenSpeed * Time.deltaTime;
                 maxFuelAmount = fuelAmount;
             }
-            
+
             fuelAmount = Mathf.Clamp(fuelAmount, 0f, 1f);
-            
-            if (PhotonNetwork.player.ID != playerID)
-                return;
 
             if (GameManagerScript.GetInstance().IsGamePause())
                 return;
@@ -305,68 +304,33 @@ namespace BattleRobo
 
             uiScript.UpdateAliveText(GameManagerScript.GetInstance().alivePlayerNumber);
 
-//            //update the storm timer in the UI
-//            if (StormManagerScript.GetInstance().GetStormTimer() >= 0)
-//            {
-//                uiScript.UpdateStormTimer(StormManagerScript.GetInstance().GetStormTimer() + 1);
-//            }
-//
-//            //apply damage to player in the storm
-//            if (inStorm)
-//            {
-//                if (timer > waitingTime)
-//                {
-//                    TakeDamage(StormManagerScript.GetInstance().stormDmg);
-//                    timer = 0f;
-//                }
-//            }
+            //update the storm timer in the UI
+            if (StormManagerScript.GetInstance().GetStormTimer() >= 0)
+            {
+                uiScript.UpdateStormTimer(StormManagerScript.GetInstance().GetStormTimer() + 1);
+            }
+
+            if (!PhotonNetwork.isMasterClient)
+                return;
+
+            //apply damage to player in the storm
+            if (inStorm)
+            {
+                if (timer > waitingTime)
+                {
+                    TakeDamage(StormManagerScript.GetInstance().stormDmg);
+                    timer = 0f;
+                }
+            }
 
             //apply damage to player in the water
             if (inWater)
             {
                 //insta death when the player touches the water
-                TakeDamage(200);
-            }
-
-            // - switch on active item
-            if (Input.GetButtonDown("Inventory1"))
-            {
-                playerInventory.SwitchActiveIndex(0);
-            }
-
-            if (Input.GetButtonDown("Inventory2"))
-            {
-                playerInventory.SwitchActiveIndex(1);
-            }
-
-            if (Input.GetButtonDown("Inventory3"))
-            {
-                playerInventory.SwitchActiveIndex(2);
-            }
-
-            if (Input.GetButtonDown("Inventory4"))
-            {
-                playerInventory.SwitchActiveIndex(3);
-            }
-
-            if (Input.GetButtonDown("Inventory5"))
-            {
-                playerInventory.SwitchActiveIndex(4);
-            }
-
-            // Loot
-            if (Input.GetButtonDown("Loot"))
-            {
-                playerInventory.Collect();
-            }
-
-            // Drop
-            if (Input.GetButtonDown("Drop"))
-            {
-                playerInventory.Drop(myTransform.position);
+                TakeDamage(300);
             }
         }
-        
+
         private void LateUpdate()
         {
             // Rotate the player on the X axis
@@ -393,13 +357,13 @@ namespace BattleRobo
         public void TakeDamage(int hitPoint, int killerID = -1)
         {
             //store network variables temporary
-            int health = playerStats.GetHealth();
-            int shield = playerStats.GetShield();
+            int health = playerStats.Health;
+            int shield = playerStats.Shield;
 
             //reduce shield on hit
             if (shield > 0)
             {
-                playerStats.SetShield(shield - hitPoint);
+                playerStats.Shield = shield - hitPoint;
                 return;
             }
 
@@ -423,7 +387,7 @@ namespace BattleRobo
             else
             {
                 //we didn't die, set health to new value
-                playerStats.SetHealth(health);
+                playerStats.Health = health;
             }
         }
 
@@ -468,10 +432,7 @@ namespace BattleRobo
         [PunRPC]
         private void ShootRPC(int shooterId, int itemId)
         {
-            if (!photonView.isMine)
-                return;
-
-            // - fire the right weapon
+            //fire the right weapon
             var currentItem = LootSpawnerScript.GetLootTracker()[itemId].GetComponent<PlayerObjectScript>();
             WeaponScript weapon = null;
 
@@ -480,13 +441,14 @@ namespace BattleRobo
                 weapon = currentItem.GetWeapon();
 
             if (weapon != null)
-                weapon.Fire(playerCamera.transform, playerID);
+            {
+                weapon.Fire(playerCameraTransform, playerID);
 
-
-            // the iteam can have changed since the player shoot. Update UI only if necessary
-            var update = playerInventory.getCurrentActive().GetLootTrackerIndex() == itemId;
-            if (playerID == shooterId && update)
-                playerUI.GetComponent<PlayerUIScript>().SetAmmoCounter(weapon.GetCurrentAmmo(), weapon.GetMagazineSize());
+                // the iteam can have changed since the player shoot. Update UI only if necessary
+                var update = playerInventory.getCurrentActive().GetLootTrackerIndex() == itemId;
+                if (playerID == shooterId && update)
+                    playerUI.GetComponent<PlayerUIScript>().SetAmmoCounter(weapon.GetCurrentAmmo(), weapon.GetMagazineSize());
+            }
         }
 
         [PunRPC]
@@ -558,28 +520,41 @@ namespace BattleRobo
             playerState = new PlayerState(inputX, inputY, isJumping, isSpriting, mouseInput);
         }
 
-        public void ClientPause(bool isPausing)
+        public void ClientPause()
         {
-            if (isPausing)
-            {
-                myPhotonView.RPC(!GameManagerScript.GetInstance().IsGamePause() ? "SetPause" : "CancelPause", PhotonTargets.AllViaServer);
-            }
+            myPhotonView.RPC(!GameManagerScript.GetInstance().IsGamePause() ? "SetPause" : "CancelPause", PhotonTargets.AllViaServer);
         }
 
-        public void ClientShooting(bool isFiring)
+        public void ClientShooting()
         {
-            if (isFiring && playerInventory.getCurrentActive() != null)
+            if (playerInventory.getCurrentActive() != null)
             {
                 var weapon = playerInventory.getCurrentActive().GetWeapon();
 
                 if (weapon && weapon.CanFire())
                 {
                     var itemId = playerInventory.getCurrentActive().GetLootTrackerIndex();
-                    //send shot request to server. We must pas the curretn inventoryIndex because, if 
+                    
+                    //send shot request to server. We must pas the current inventoryIndex because, if 
                     // the player switch very quickly after the, shot, the wrong weapon is used
                     myPhotonView.RPC("ShootRPC", PhotonTargets.AllViaServer, playerID, itemId);
                 }
             }
+        }
+
+        public void ClientLoot()
+        {
+            playerInventory.Collect();
+        }
+
+        public void ClientDrop()
+        {
+            playerInventory.Drop(myTransform.position);
+        }
+
+        public void ClientSwitchWeapon(int index)
+        {
+            playerInventory.SwitchActiveIndex(index);
         }
 
         public void SetUp()
@@ -594,15 +569,13 @@ namespace BattleRobo
             playerUI.SetActive(true);
 
             //activate camera only for this player
-            playerCamera.SetActive(true);
-
-            //set name in the UI
-            uiScript.playerNameText.text = playerStats.GetName();
+            playerCamera.enabled = true;
+            playerCameraAudio.enabled = true;
 
             //update health, shield and fuel
-            uiScript.UpdateHealth(playerStats.GetHealth());
+            uiScript.UpdateHealth(playerStats.Health);
             uiScript.UpdateFuel(fuelAmount);
-            uiScript.UpdateShield(playerStats.GetShield());
+            uiScript.UpdateShield(playerStats.Shield);
 
             uiScript.UpdateAliveText(GameManagerScript.GetInstance().alivePlayerNumber);
 
@@ -613,6 +586,9 @@ namespace BattleRobo
 
             //set a global reference to the local player
             GameManagerScript.GetInstance().localPlayer = this;
+
+            //set name in the UI
+            uiScript.playerNameText.text = PhotonNetwork.player.NickName;
         }
 
         [Serializable]
@@ -645,6 +621,44 @@ namespace BattleRobo
             public bool IsEqual(PlayerState other)
             {
                 return inputX.Equals(other.inputX) && inputY.Equals(other.inputY) && isJumping.Equals(other.isJumping) && isSpriting.Equals(other.isSpriting) && mouseInput == other.mouseInput;
+            }
+        }
+
+        [Serializable]
+        public class PlayerStats
+        {
+            private int health;
+            private int shield;
+            private int kills;
+
+            public PlayerStats()
+            {
+                health = 0;
+                shield = 0;
+                kills = 0;
+            }
+
+            public int Health
+            {
+                get { return health; }
+                set { health = value; }
+            }
+
+            public int Shield
+            {
+                get { return shield; }
+                set { shield = value; }
+            }
+
+            public int Kills
+            {
+                get { return kills; }
+                set { kills = value; }
+            }
+
+            public void AddKills()
+            {
+                kills++;
             }
         }
     }

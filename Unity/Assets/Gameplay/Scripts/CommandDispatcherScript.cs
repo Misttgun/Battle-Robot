@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class CommandDispatcherScript : MonoBehaviour
 {
-    [SerializeField] private RoboController[] playerControllers;
-    
+    [SerializeField]
+    public RoboController[] playerControllers;
+
     public void SetUp(int playerId)
     {
         if (playerId < 0 || playerId >= playerControllers.Length)
@@ -17,7 +18,7 @@ public class CommandDispatcherScript : MonoBehaviour
         playerControllers[playerId].SetUp();
     }
 
-    public void Movement(int playerId,float inputX, float inputY, bool isJumping, bool isSpriting, Vector2 mouseInput)
+    public void Movement(int playerId, float inputX, float inputY, bool isJumping, bool isSpriting, Vector2 mouseInput)
     {
         if (playerId < 0 || playerId >= playerControllers.Length)
         {
@@ -26,24 +27,54 @@ public class CommandDispatcherScript : MonoBehaviour
 
         playerControllers[playerId].ClientMovement(inputX, inputY, isJumping, isSpriting, mouseInput);
     }
-    
-    public void Shoot(int playerId, bool isFiring)
+
+    public void Shoot(int playerId)
     {
         if (playerId < 0 || playerId >= playerControllers.Length)
         {
             return;
         }
 
-        playerControllers[playerId].ClientShooting(isFiring);
+        playerControllers[playerId].ClientShooting();
     }
 
-    public void Pause(int playerId, bool isPausing)
+    public void Pause(int playerId)
     {
         if (playerId < 0 || playerId >= playerControllers.Length)
         {
             return;
         }
 
-        playerControllers[playerId].ClientPause(isPausing);
+        playerControllers[playerId].ClientPause();
+    }
+    
+    public void Loot(int playerId)
+    {
+        if (playerId < 0 || playerId >= playerControllers.Length)
+        {
+            return;
+        }
+
+        playerControllers[playerId].ClientLoot();
+    }
+    
+    public void Drop(int playerId)
+    {
+        if (playerId < 0 || playerId >= playerControllers.Length)
+        {
+            return;
+        }
+
+        playerControllers[playerId].ClientDrop();
+    }
+
+    public void SwitchWeapon(int playerId, int index)
+    {
+        if (playerId < 0 || playerId >= playerControllers.Length)
+        {
+            return;
+        }
+
+        playerControllers[playerId].ClientSwitchWeapon(index);
     }
 }
