@@ -447,7 +447,7 @@ namespace BattleRobo
                 // the iteam can have changed since the player shoot. Update UI only if necessary
                 var update = playerInventory.getCurrentActive().GetLootTrackerIndex() == itemId;
                 if (playerID == shooterId && update)
-                    playerUI.GetComponent<PlayerUIScript>().SetAmmoCounter(weapon.GetCurrentAmmo(), weapon.GetMagazineSize());
+                    uiScript.SetAmmoCounter(weapon.GetCurrentAmmo(), weapon.GetMagazineSize());
             }
         }
 
@@ -458,9 +458,20 @@ namespace BattleRobo
         }
 
         [PunRPC]
-        private void TakeObject(int lootTrackerId, int senderId)
+        private void TakeObject(int lootTrackerId, int slotIndex, int senderId)
         {
             var playerObject = LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObjectScript>();
+            
+            playerInventory.AddObject(playerObject, slotIndex);
+            uiScript.SetItemUISlot(playerObject, slotIndex);
+            
+            // equip weapon if the index is already selected
+            if (slotIndex == playerInventory.currentSlotIndex)
+            {
+                var weapon = playerObject.GetComponent<WeaponScript>();
+                weaponHolder.SetWeapon(weapon, weapon.GetCurrentAmmo());
+                uiScript.SetAmmoCounter(weapon.GetCurrentAmmo(), weapon.GetMagazineSize());
+            }
 
             if (playerObject.IsAvailable())
             {

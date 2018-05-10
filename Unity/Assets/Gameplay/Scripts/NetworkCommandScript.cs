@@ -102,7 +102,7 @@ public class NetworkCommandScript : PunBehaviour
 
         if (currentIndex != index)
         {
-            PhotonNetwork.RPC(photonView, "SwitchWeaponRPC", PhotonTargets.MasterClient, false, PhotonNetwork.player, index);
+            PhotonNetwork.RPC(photonView, "SwitchWeaponRPC", PhotonTargets.AllViaServer, false, PhotonNetwork.player, index);
             currentIndex = index;
         }
     }

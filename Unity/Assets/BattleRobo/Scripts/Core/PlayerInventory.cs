@@ -16,20 +16,20 @@ namespace BattleRobo
     public class PlayerInventory
     {
         [SerializeField]
-        private int inventorySize = 5;
+        private const int InventorySize = 5;
 
         // - the inventory is just a List of object owned by the player
-        private PlayerInventorySlot[] inventory;
+        private readonly PlayerInventorySlot[] inventory;
 
-        private PlayerUIScript playerUI;
+        private readonly PlayerUIScript playerUI;
 
         // - cameraTransform is the origin of the raycast to loot an object
-        private Transform camera;
+        private readonly Transform camera;
 
         // current active item, by default nothing is selected
-        private int currentSlotIndex = -1;
+        public int currentSlotIndex = -1;
 
-        private PhotonView playerView;
+        private readonly PhotonView playerView;
 
         private WeaponHolderScript weaponHolder;
 
@@ -53,7 +53,7 @@ namespace BattleRobo
         /// </summary>
         public bool IsFull()
         {
-            for (var i = 0; i < inventorySize; i++)
+            for (var i = 0; i < InventorySize; i++)
                 if (inventory[i].IsEmpty())
                     return false;
 
@@ -65,7 +65,7 @@ namespace BattleRobo
         /// </summary>
         public bool IsEmpty()
         {
-            for (var i = 0; i < inventorySize; i++)
+            for (var i = 0; i < InventorySize; i++)
                 if (!inventory[i].IsEmpty())
                     return false;
 
@@ -77,7 +77,7 @@ namespace BattleRobo
         /// </summary>
         public int FindFirstEmptySlot()
         {
-            for (var i = 0; i < inventorySize; i++)
+            for (var i = 0; i < InventorySize; i++)
                 if (inventory[i].IsEmpty())
                     return i;
 
@@ -91,7 +91,7 @@ namespace BattleRobo
         /// </summary>
         public int FindSlot(int itemId)
         {
-            for (var i = 0; i < inventorySize; i++)
+            for (var i = 0; i < InventorySize; i++)
             {
                 if (inventory[i].GetItemId() == itemId && inventory[i].GetStackSize() < inventory[i].GetItem().GetMaxStack())
                     return i;
@@ -181,18 +181,18 @@ namespace BattleRobo
             {
                 // - the object is is looting state until the TakeObject RPC disable it
                 playerObject.SetLooting(true);
-                playerView.RPC("TakeObject", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), playerView.viewID - 1);
+                playerView.RPC("TakeObject", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), slotIndex, playerView.viewID - 1);
 
-                AddObject(playerObject, slotIndex);
-                playerUI.SetItemUISlot(playerObject, slotIndex);
-
-                // equip weapon if the index is already selected
-                if (slotIndex == currentSlotIndex)
-                {
-                    var weapon = playerObject.GetComponent<WeaponScript>();
-                    weaponHolder.SetWeapon(weapon, weapon.GetCurrentAmmo());
-                    playerUI.SetAmmoCounter(weapon.GetCurrentAmmo(), weapon.GetMagazineSize());
-                }
+//                AddObject(playerObject, slotIndex);
+//                playerUI.SetItemUISlot(playerObject, slotIndex);
+//
+//                // equip weapon if the index is already selected
+//                if (slotIndex == currentSlotIndex)
+//                {
+//                    var weapon = playerObject.GetComponent<WeaponScript>();
+//                    weaponHolder.SetWeapon(weapon, weapon.GetCurrentAmmo());
+//                    playerUI.SetAmmoCounter(weapon.GetCurrentAmmo(), weapon.GetMagazineSize());
+//                }
             }
         }
 
@@ -213,7 +213,7 @@ namespace BattleRobo
 
         public int FindObjectSlot(int lootTrackerIndex)
         {
-            for (int i = 0; i < inventorySize; i++)
+            for (int i = 0; i < InventorySize; i++)
                 if (inventory[i].GetLootTrackerIndex() == lootTrackerIndex)
                     return i;
 
@@ -280,7 +280,7 @@ namespace BattleRobo
 
         public void Show()
         {
-            for (var i = 0; i < inventorySize; i++)
+            for (var i = 0; i < InventorySize; i++)
             {
                 var item = inventory[i].GetItem();
                 Debug.Log("Slot[" + i + "] : " + item);
