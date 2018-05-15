@@ -17,3 +17,6 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Gameplay/Main.unity
     guid: 5e50b8840d27f214e86762f097350a86
+  - enabled: 0
+    path: Assets/ThirdParty/Photon Unity Networking/Demos/DemoSynchronization/DemoSynchronization-Scene.unity
+    guid: caec1ee6e27780946b8db3d1aebaa478

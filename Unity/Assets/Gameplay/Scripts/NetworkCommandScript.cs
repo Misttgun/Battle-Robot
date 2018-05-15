@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using BattleRobo;
+﻿using BattleRobo;
 using Photon;
 using UnityEngine;
 
@@ -15,6 +14,21 @@ public class NetworkCommandScript : PunBehaviour
 
     private int index;
     private int currentIndex = -1;
+
+    //mouse input
+    private Vector3 mouseInput;
+
+    //player movement
+    private float inputX;
+    private float inputY;
+    private bool isJumping;
+    private bool isSpriting;
+
+    //player actions
+    private bool isPausing;
+    private bool isFiring;
+    private bool isLooting;
+    private bool isDropping;
 
     private void Start()
     {
@@ -36,28 +50,21 @@ public class NetworkCommandScript : PunBehaviour
         }
 
         //mouse input
-        Vector3 mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+        mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
 
         //player movement
-        float inputX = Input.GetAxisRaw("Horizontal");
-        float inputY = Input.GetAxisRaw("Vertical");
-        bool isJumping = Input.GetButton("Jump");
-        bool isSpriting = Input.GetButton("Run");
+        inputX = Input.GetAxisRaw("Horizontal");
+        inputY = Input.GetAxisRaw("Vertical");
+        isJumping = Input.GetButton("Jump");
+        isSpriting = Input.GetButton("Run");
 
         //player actions
-        bool isPausing = Input.GetKeyDown(KeyCode.Escape);
-        bool isFiring = Input.GetButtonDown("Fire1");
-        bool isLooting = Input.GetButtonDown("Loot");
-        bool isDropping = Input.GetButtonDown("Drop");
+        isPausing = Input.GetKeyDown(KeyCode.Escape);
+        isFiring = Input.GetButtonDown("Fire1");
+        isLooting = Input.GetButtonDown("Loot");
+        isDropping = Input.GetButtonDown("Drop");
 
         playerState = new RoboController.PlayerState(inputX, inputY, isJumping, isSpriting, mouseInput);
-
-        if (!playerState.IsEqual(previousPlayerState))
-        {
-            PhotonNetwork.RPC(photonView, "MovementRPC", PhotonTargets.MasterClient, false, PhotonNetwork.player, playerState.inputX, playerState.inputY, playerState.isJumping, playerState.isSpriting, playerState.mouseInput);
-
-            previousPlayerState = playerState;
-        }
 
         if (isFiring)
         {
@@ -107,10 +114,20 @@ public class NetworkCommandScript : PunBehaviour
         }
     }
 
-    [PunRPC]
-    public void MovementRPC(PhotonPlayer player, float inputX, float inputY, bool isJumping, bool isSpriting, Vector2 mouseInput)
+    private void FixedUpdate()
     {
-        commandDispatcherScript.Movement(player.ID - IdShift, inputX, inputY, isJumping, isSpriting, mouseInput);
+        if (!playerState.IsEqual(previousPlayerState))
+        {
+            PhotonNetwork.RPC(photonView, "MovementRPC", PhotonTargets.MasterClient, false, PhotonNetwork.player, playerState.inputX, playerState.inputY, playerState.isJumping, playerState.isSpriting, playerState.mouseInput);
+
+            previousPlayerState = playerState;
+        }
+    }
+
+    [PunRPC]
+    public void MovementRPC(PhotonPlayer player, float x, float y, bool jumping, bool spriting, Vector2 mouse)
+    {
+        commandDispatcherScript.Movement(player.ID - IdShift, x, y, jumping, spriting, mouse);
     }
 
     [PunRPC]

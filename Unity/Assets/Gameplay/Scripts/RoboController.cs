@@ -274,7 +274,23 @@ namespace BattleRobo
             uiScript.UpdateFuel(fuelAmount);
             uiScript.UpdateHealth(playerStats.Health);
             uiScript.UpdateShield(playerStats.Shield);
+            
+            if (GameManagerScript.GetInstance().IsGamePause())
+                return;
 
+            timer += Time.deltaTime;
+
+            uiScript.UpdateAliveText(GameManagerScript.GetInstance().alivePlayerNumber);
+
+            //update the storm timer in the UI
+            if (StormManagerScript.GetInstance().GetStormTimer() >= 0)
+            {
+                uiScript.UpdateStormTimer(StormManagerScript.GetInstance().GetStormTimer() + 1);
+            }
+            
+           if (!PhotonNetwork.isMasterClient)
+                return;
+            
             fly = Vector3.zero;
             if (playerState.isJumping && fuelAmount > 0f)
             {
@@ -296,22 +312,6 @@ namespace BattleRobo
             }
 
             fuelAmount = Mathf.Clamp(fuelAmount, 0f, 1f);
-
-            if (GameManagerScript.GetInstance().IsGamePause())
-                return;
-
-            timer += Time.deltaTime;
-
-            uiScript.UpdateAliveText(GameManagerScript.GetInstance().alivePlayerNumber);
-
-            //update the storm timer in the UI
-            if (StormManagerScript.GetInstance().GetStormTimer() >= 0)
-            {
-                uiScript.UpdateStormTimer(StormManagerScript.GetInstance().GetStormTimer() + 1);
-            }
-
-            if (!PhotonNetwork.isMasterClient)
-                return;
 
             //apply damage to player in the storm
             if (inStorm)

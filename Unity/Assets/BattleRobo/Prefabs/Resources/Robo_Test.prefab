@@ -1191,6 +1191,7 @@ MonoBehaviour:
   shieldBar: {fileID: 114725393282322828}
   fuelBar: {fileID: 114162047849839828}
   aliveTexT: {fileID: 114001730752730272}
+  pauseImage: {fileID: 0}
   inventorySlotUI:
   - {fileID: 0}
   - {fileID: 0}
@@ -1295,7 +1296,7 @@ MonoBehaviour:
     SynchronizeEnabled: 1
     TeleportEnabled: 1
     TeleportIfDistanceGreaterThan: 3
-    InterpolateOption: 4
+    InterpolateOption: 2
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 10
     InterpolateMoveTowardsAcceleration: 2
@@ -1330,7 +1331,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    ExtrapolateOption: 2
+    ExtrapolateOption: 0
     ExtrapolateSpeed: 1
     ExtrapolateIncludingRoundTripTime: 1
     ExtrapolateNumberOfStoredPositions: 1
@@ -1621,7 +1622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 4586697655893210}
-  playerScript: {fileID: 114706861531488474}
+  playerScript: {fileID: 0}
   distance: 2.5
 --- !u!114 &114734342843315902
 MonoBehaviour:
