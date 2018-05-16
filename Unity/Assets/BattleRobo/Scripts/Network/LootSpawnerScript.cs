@@ -40,7 +40,7 @@ namespace BattleRobo
             if (obj != null)
                 return;
             
-            var spawPosition = new Vector3(transform.position.x, transform.position.y + 3.5f, transform.position.z);
+            var spawPosition = new Vector3(transform.position.x, transform.position.y + 10f, transform.position.z);
             var spawnRotation = transform.rotation * Quaternion.Euler(0, 0, 90);
 
             //use the poolmanager to spawn the loot on top of the plateforme

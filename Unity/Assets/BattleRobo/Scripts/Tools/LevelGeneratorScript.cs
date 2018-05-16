@@ -27,7 +27,7 @@ namespace BattleRobo
 
         private void Start()
         {
-            var seed = PhotonNetwork.inRoom ? System.Convert.ToInt32(PhotonNetwork.room.CustomProperties["seed"]) : 40;
+            var seed = PhotonNetwork.inRoom ? System.Convert.ToInt32(PhotonNetwork.room.CustomProperties["seed"]) : 48;
                 
             //On doit avoir le même seed sinon la map est différente pour les joueurs :D
             Random.InitState(seed); //seed
@@ -37,9 +37,11 @@ namespace BattleRobo
                 for (int j = 0; j < mapSize; j++)
                 {
                     var randomNum = Random.Range(0, prefabsToLoad.Length);
-
+                    
                     var platform = Instantiate(prefabsToLoad[randomNum], new Vector3(j * mapSpacing, prefabsToLoad[randomNum].transform.position.y, i * mapSpacing), Quaternion.identity);
-                    platform.transform.Rotate(platform.transform.rotation.x, Random.Range(0, 3) * 90, platform.transform.rotation.z);
+
+                    //var platform = Instantiate(prefabsToLoad[randomNum], new Vector3(j * mapSpacing, prefabsToLoad[randomNum].transform.position.y, i * mapSpacing), Quaternion.identity);
+                    //platform.transform.Rotate(platform.transform.rotation.x, Random.Range(0, 3) * 90, platform.transform.rotation.z);
                     platform.transform.parent = level;
                 }
             }
@@ -56,7 +58,7 @@ namespace BattleRobo
 
         public int getMapMainSize()
         {
-            return mapSize * mapSpacing - mapSpacing;
+            return mapSize * mapSpacing;
         }
 
         public float getHeight()

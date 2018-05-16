@@ -173,7 +173,6 @@ namespace BattleRobo
 
         private void Update()
         {
-            Debug.Log("Update");
             // Cursor lock
             if (Input.GetKeyDown(KeyCode.Escape))
             {
