@@ -88,7 +88,7 @@ namespace BattleRobo
                 }
 
                 float ratio = currentLerpTime / LerpTime;
-                stormSize = Mathf.Clamp(Mathf.Lerp(startSize, endSize, ratio), 10f, 1000f); //1000f peut etre changer
+                stormSize = Mathf.Clamp(Mathf.Lerp(startSize, endSize, ratio), 10f, 10000f); //1000f peut etre changer
                 transform.localScale = new Vector3(stormSize, stormSize * h, stormSize);
             }
         }
@@ -111,7 +111,7 @@ namespace BattleRobo
         {
             m = mapGenerator.getMapMainSize();
             h = mapGenerator.getHeight() / 6;
-            stormSize = m * 3 / 2.2f;
+            stormSize = m + 100f;
             float stormCenterPos = (float) m / 2;
             transform.localScale = new Vector3(stormSize, stormSize * h, stormSize);
             transform.position = new Vector3(stormCenterPos, h / 2, stormCenterPos);

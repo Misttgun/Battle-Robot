@@ -128,6 +128,12 @@ namespace BattleRobo
         /// </summary>
         [SerializeField]
         private WeaponHolderScript weaponHolder;
+        
+        /// <summary>
+        /// The collider box for the player level streamer.
+        /// </summary>
+        [SerializeField]
+        private GameObject playerLevelStreamer;
 
         /// <summary>
         /// Photon player ID.
@@ -184,6 +190,12 @@ namespace BattleRobo
 
         private void Start()
         {
+            //activate all the level streamer on the master client
+            if (PhotonNetwork.isMasterClient)
+            {
+                playerLevelStreamer.SetActive(true);
+            }
+            
             myTransform = transform;
             speed = walkSpeed;
 
@@ -594,6 +606,11 @@ namespace BattleRobo
             Cursor.visible = false;
 
             thrusters.SetActive(false);
+
+            if (!playerLevelStreamer.active)
+            {
+                playerLevelStreamer.SetActive(true);
+            }
 
             //set a global reference to the local player
             GameManagerScript.GetInstance().localPlayer = this;

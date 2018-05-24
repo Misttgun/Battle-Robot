@@ -6,13 +6,16 @@ namespace BattleRobo
 {
     public class PlayerLevelStreamerScript : MonoBehaviour
     {
-        [SerializeField]
-        private GameObject playerGameObject;
-        
-        // Update is called once per frame
-        private void Update()
+        private Quaternion rotation;
+
+        private void Awake()
         {
-            transform.position = playerGameObject.transform.position;
+            rotation = transform.rotation;
+        }
+
+        private void LateUpdate()
+        {
+            transform.rotation = rotation;
         }
     }
 }

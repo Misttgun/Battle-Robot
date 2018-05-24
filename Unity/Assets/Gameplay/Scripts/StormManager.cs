@@ -24,10 +24,10 @@ public class StormManager : MonoBehaviour
 	private bool stormActive;
 	private float h;
 	private int m;
-	
-	void Start ()
+
+	private void Start ()
 	{
-		stormTransform();  // donner la taille de départ de la zone
+		StormTransform();  // donner la taille de départ de la zone
 		
 	}
 	
@@ -35,7 +35,7 @@ public class StormManager : MonoBehaviour
 	{
 		if (stormTimer <= 0)
 		{
-			StartCoroutine(stormManageScale());
+			StartCoroutine(StormManageScale());
 			stormTimer = 0;
 		}
 		else
@@ -57,7 +57,7 @@ public class StormManager : MonoBehaviour
 		}
 	}
 
-	IEnumerator stormManageScale()
+	private IEnumerator StormManageScale()
 	{
 		stormActive = true;
 		while(stormActive)
@@ -71,7 +71,7 @@ public class StormManager : MonoBehaviour
 		}
 	}
 
-	private void stormTransform()				//taille de la storm
+	private void StormTransform()				//taille de la storm
 	{
 		m = mapGenerator.getMapMainSize();
 		h = mapGenerator.getHeight()/6;
