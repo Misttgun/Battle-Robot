@@ -16,8 +16,5 @@ namespace BattleRobo
             //cross-referencing this gameobject in the spawner
             spawner.obj = gameObject;
         }
-
-
-        // TODO ajouter le code l'inventaire pour le ramassage de Loot, etc
     }
 }

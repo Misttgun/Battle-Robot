@@ -9,8 +9,8 @@ public class NetworkCommandScript : PunBehaviour
 
     private const int IdShift = 1;
 
-    public RoboController.PlayerState playerState = new RoboController.PlayerState();
-    public RoboController.PlayerState previousPlayerState = new RoboController.PlayerState();
+    public RoboControllerScript.PlayerState playerState = new RoboControllerScript.PlayerState();
+    public RoboControllerScript.PlayerState previousPlayerState = new RoboControllerScript.PlayerState();
 
     private int index;
     private int currentIndex = -1;
@@ -64,7 +64,7 @@ public class NetworkCommandScript : PunBehaviour
         isLooting = Input.GetButtonDown("Loot");
         isDropping = Input.GetButtonDown("Drop");
 
-        playerState = new RoboController.PlayerState(inputX, inputY, isJumping, isSpriting, mouseInput);
+        playerState = new RoboControllerScript.PlayerState(inputX, inputY, isJumping, isSpriting, mouseInput);
 
         if (isFiring)
         {
@@ -164,8 +164,8 @@ public class NetworkCommandScript : PunBehaviour
     }
 
     [PunRPC]
-    public void SwitchWeaponRPC(PhotonPlayer player, int index)
+    public void SwitchWeaponRPC(PhotonPlayer player, int id)
     {
-        commandDispatcherScript.SwitchWeapon(player.ID - IdShift, index);
+        commandDispatcherScript.SwitchWeapon(player.ID - IdShift, id);
     }
 }

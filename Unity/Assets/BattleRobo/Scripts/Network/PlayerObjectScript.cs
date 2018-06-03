@@ -1,46 +1,46 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using BattleRobo;
-using UnityEngine;
+﻿using UnityEngine;
 using Photon;
 
 namespace BattleRobo
 {
     public class PlayerObjectScript : PunBehaviour
     {
-        // - Should be move in item script
+        //TODO Should be move in item script
         [SerializeField] private int id;
         [SerializeField] private int maxStackSize;
         [SerializeField] private Sprite itemSprite;
 
 
-        // <summary>
+        /// <summary>
         /// - position on the map
         /// </summary>
         private Transform position;
 
-        // <summary>
+        /// <summary>
         /// - playerPhotonView used for RPC
         /// </summary>
         private PhotonView myPhotonView;
 
-        // <summary>
+        /// <summary>
         /// - Update Model to ItemScript for more genericity
         /// </summary>
+        [SerializeField]
         private WeaponScript weaponScript;
 
-        // <summary>
+        [SerializeField]
+        private LootTriggerScript lootTriggerScript;
+
+        /// <summary>
         /// - unique id, which is the position in the LootSpawner::LootTracker list
         /// </summary>
         private int lootTrackerIndex;
 
-        // <summary>
+        /// <summary>
         /// - use to handle concurrency looting
         /// </summary>
         private bool isAvailable;
 
-        // <summary>
+        /// <summary>
         /// - true if there is already a TakeObject RPC pending on this object 
         /// for the player photonView
         /// </summary>
@@ -50,11 +50,11 @@ namespace BattleRobo
         {
             isAvailable = true;
             isLooting = false;
-            weaponScript = gameObject.GetComponent<WeaponScript>();
         }
 
         public void Hide()
         {
+            lootTriggerScript.DespawnLoot();
             gameObject.SetActive(false);
         }
 
@@ -63,24 +63,11 @@ namespace BattleRobo
             gameObject.SetActive(true);
         }
 
-        public void Drop(Vector3 position)
+        public void Drop(Vector3 pos)
         {
+            isAvailable = true;
             Show();
-            GetComponent<Transform>().position = position;
-        }
-
-        public void Destroy()
-        {
-            Destroy(gameObject);
-        }
-
-
-        //--------------------------------------------------------------------------------------------
-        // - GETTERS / SETTERS
-        //--------------------------------------------------------------------------------------------
-        public string GetWeaponName()
-        {
-            return weaponScript ? weaponScript.GetName() : null;
+            transform.position = pos;
         }
 
         public WeaponScript GetWeapon()
@@ -93,9 +80,9 @@ namespace BattleRobo
             return itemSprite;
         }
 
-        public void SetLootTrackerIndex(int id)
+        public void SetLootTrackerIndex(int newId)
         {
-            lootTrackerIndex = id;
+            lootTrackerIndex = newId;
         }
 
         public int GetLootTrackerIndex()

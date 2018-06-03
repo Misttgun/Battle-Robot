@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using BattleRobo;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.Video;
-
-/// <summary>
-/// A class which represent the player inventory
-/// </summary>
 
 namespace BattleRobo
 {
@@ -19,7 +9,7 @@ namespace BattleRobo
         private const int InventorySize = 5;
 
         // - the inventory is just a List of object owned by the player
-        private readonly PlayerInventorySlot[] inventory;
+        public readonly PlayerInventorySlot[] inventory;
 
         private readonly PlayerUIScript playerUI;
 
@@ -227,24 +217,21 @@ namespace BattleRobo
             if (!playerObject)
                 return;
 
-            if (!playerView.isMine)
-                return;
-
             // - place the weapon on the map and show it
             playerView.RPC("DropObject", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), position);
 
             // - Update ammo counter
             playerView.RPC("UpdateWeapon", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), playerObject.GetWeapon().GetCurrentAmmo());
 
-            // - remove object from player inventory
-            inventory[currentSlotIndex].Drop();
-
-            // - update UI
-            playerUI.SetItemUISlot(null, currentSlotIndex);
-            playerUI.SetAmmoCounter(-1f, -1f);
-
-            // - unequip weapon
-            weaponHolder.SetWeapon(null, 0f);
+//            // - remove object from player inventory
+//            inventory[currentSlotIndex].Drop();
+//
+//            // - update UI
+//            playerUI.SetItemUISlot(null, currentSlotIndex);
+//            playerUI.SetAmmoCounter(-1f, -1f);
+//
+//            // - unequip weapon
+//            weaponHolder.SetWeapon(null, 0f);
         }
 
         public void SetActiveItem(int index)

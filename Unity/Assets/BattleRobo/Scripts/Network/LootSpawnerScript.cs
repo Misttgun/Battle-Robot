@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Photon;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using MonoBehaviour = UnityEngine.MonoBehaviour;
 
@@ -27,7 +25,7 @@ namespace BattleRobo
             // instantiate the LootTracker only one time !
             if (LootTracker == null)
                 LootTracker = new List<GameObject>();
-            
+
             SpawnLoot();
         }
 
@@ -39,24 +37,28 @@ namespace BattleRobo
             int index = Random.Range(0, prefabs.Count);
             if (obj != null)
                 return;
-            
-            var spawPosition = new Vector3(transform.position.x, transform.position.y + 10f, transform.position.z);
+
+            var spawPosition = new Vector3(transform.position.x, transform.position.y + 2.5f, transform.position.z);
             var spawnRotation = transform.rotation * Quaternion.Euler(0, 0, 90);
 
             //use the poolmanager to spawn the loot on top of the plateforme
             obj = PoolManagerScript.Spawn(prefabs[index], spawPosition, spawnRotation);
 
+            //TODO rendre cette partie du code plus propre(optimisation)
             //set the reference on the instantiated object for cross-referencing
             obj.GetComponent<LootScript>().spawner = this;
             obj.GetComponent<PlayerObjectScript>().SetLootTrackerIndex(LootTracker.Count);
             LootTracker.Add(obj);
+            obj.GetComponent<LootScript>().enabled = false;
+            obj.GetComponent<MeshRenderer>().enabled = false;
+            obj.GetComponent<WeaponScript>().enabled = false;
         }
 
         public static List<GameObject> GetLootTracker()
         {
             return LootTracker;
         }
-        
+
         /// <summary>
         /// Called by the spawned object to destroy itself on this managing component.
         /// For example when it has been collected by players.

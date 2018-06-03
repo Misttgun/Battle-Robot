@@ -19,7 +19,7 @@ TagManager:
   - Loot
   - Storm
   - Filter
-  - PlayerStreamer
+  - PlayerLevelStreamer
   - LevelTrigger
   - 
   - 

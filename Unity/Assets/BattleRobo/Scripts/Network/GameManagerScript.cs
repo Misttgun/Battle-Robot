@@ -17,7 +17,7 @@ namespace BattleRobo
 		/// </summary>
 		//[HideInInspector]
 		//public PlayerScript localPlayer;
-		public RoboController localPlayer;
+		public RoboControllerScript localPlayer;
 
 		/// <summary>
 		/// The dictionnary of all the players currently alive in the game.

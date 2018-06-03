@@ -9,13 +9,13 @@ namespace BattleRobo
         private void OnTriggerEnter(Collider other)
         {
             Debug.LogWarning("Dans l'eau");
-            other.GetComponent<RoboController>().inWater = true;
+            other.GetComponent<RoboControllerScript>().inWater = true;
         }
         
         private void OnTriggerExit(Collider other)
         {
             Debug.LogWarning("Dans l'eau");
-            other.GetComponent<RoboController>().inWater = false;
+            other.GetComponent<RoboControllerScript>().inWater = false;
         }
     }
 }

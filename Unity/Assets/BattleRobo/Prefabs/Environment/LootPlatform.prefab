@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4696894628212968}
   - component: {fileID: 33972153274183466}
   - component: {fileID: 23600275595830242}
-  - component: {fileID: 65823108111865588}
+  - component: {fileID: 65324086939285130}
   - component: {fileID: 114589675189181768}
   m_Layer: 10
   m_Name: LootPlatform
@@ -230,6 +230,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1902533486901256}
   m_Mesh: {fileID: 4300000, guid: b7d5cc33e678acf41a10f2e844fe4fae, type: 3}
+--- !u!65 &65324086939285130
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1902533486901256}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.05, y: 1, z: 2.05}
+  m_Center: {x: 0.0009990335, y: 0.28663588, z: -0.0009990335}
 --- !u!65 &65683275346600486
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -242,18 +254,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65823108111865588
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1902533486901256}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.05, y: 1, z: 2.05}
-  m_Center: {x: 0.0009990335, y: 0.28663588, z: -0.0009990335}
 --- !u!114 &114589675189181768
 MonoBehaviour:
   m_ObjectHideFlags: 1

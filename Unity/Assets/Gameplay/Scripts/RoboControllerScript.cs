@@ -8,7 +8,7 @@ namespace BattleRobo
     /// Networked player class implementing movement control and shooting.
     /// Contains both server and client logic in an authoritative approach.
     /// </summary> 
-    public class RoboController : PunBehaviour, IPunObservable
+    public class RoboControllerScript : PunBehaviour, IPunObservable
     {
         /// <summary>
         /// Aim sensitivity.
@@ -295,10 +295,10 @@ namespace BattleRobo
             uiScript.UpdateAliveText(GameManagerScript.GetInstance().alivePlayerNumber);
 
             //update the storm timer in the UI
-            if (StormManagerScript.GetInstance().GetStormTimer() >= 0)
-            {
-                uiScript.UpdateStormTimer(StormManagerScript.GetInstance().GetStormTimer() + 1);
-            }
+//            if (StormManagerScript.GetInstance().GetStormTimer() >= 0)
+//            {
+//                uiScript.UpdateStormTimer(StormManagerScript.GetInstance().GetStormTimer() + 1);
+//            }
             
            if (!PhotonNetwork.isMasterClient)
                 return;
@@ -436,7 +436,7 @@ namespace BattleRobo
 
             if (player != null)
             {
-                player.GetComponent<RoboController>().playerStats.AddKills();
+                player.GetComponent<RoboControllerScript>().playerStats.AddKills();
             }
         }
 
@@ -514,8 +514,17 @@ namespace BattleRobo
         {
             var playerObject = LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObjectScript>();
 
-            playerObject.SetAvailable(true);
             playerObject.Drop(position);
+            
+            // - remove object from player inventory
+            playerInventory.inventory[playerInventory.currentSlotIndex].Drop();
+
+            // - update UI
+            uiScript.SetItemUISlot(null, playerInventory.currentSlotIndex);
+            uiScript.SetAmmoCounter(-1f, -1f);
+
+            // - unequip weapon
+            weaponHolder.SetWeapon(null, 0f);
         }
 
         [PunRPC]
@@ -572,7 +581,9 @@ namespace BattleRobo
 
         public void ClientDrop()
         {
-            playerInventory.Drop(myTransform.position);
+            //on drop l'objet un peu plus haut que la position y du joueur sinon, l'objet rentre dans le sol et n'est plus ramassable
+            var newPositipn = myTransform.position + new Vector3(0f, 0.1f, 0f);
+            playerInventory.Drop(newPositipn);
         }
 
         public void ClientSwitchWeapon(int index)
@@ -607,7 +618,7 @@ namespace BattleRobo
 
             thrusters.SetActive(false);
 
-            if (!playerLevelStreamer.active)
+            if (!playerLevelStreamer.activeSelf)
             {
                 playerLevelStreamer.SetActive(true);
             }

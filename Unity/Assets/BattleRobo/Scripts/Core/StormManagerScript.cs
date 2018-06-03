@@ -111,7 +111,7 @@ namespace BattleRobo
         {
             m = mapGenerator.getMapMainSize();
             h = mapGenerator.getHeight() / 6;
-            stormSize = m + 100f;
+            stormSize = m + m/5;
             float stormCenterPos = (float) m / 2;
             transform.localScale = new Vector3(stormSize, stormSize * h, stormSize);
             transform.position = new Vector3(stormCenterPos, h / 2, stormCenterPos);
@@ -119,12 +119,12 @@ namespace BattleRobo
 
         private void OnTriggerExit(Collider other)
         {
-            other.GetComponent<RoboController>().inStorm = true;
+            other.GetComponent<RoboControllerScript>().inStorm = true;
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            other.GetComponent<RoboController>().inStorm = false;
+            other.GetComponent<RoboControllerScript>().inStorm = false;
         }
 
         //called on the master client when the strom start to move

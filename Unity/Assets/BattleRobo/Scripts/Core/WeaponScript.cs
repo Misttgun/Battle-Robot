@@ -55,7 +55,7 @@ namespace BattleRobo
                 {
                     Debug.Log("Hit" + shot.transform.gameObject.name);
                     //shot.transform.gameObject.GetComponent<PlayerScript>().TakeDamage(currentGun.damage, playerID);
-                    shot.transform.gameObject.GetComponent<RoboController>().TakeDamage(currentGun.damage, playerID);
+                    shot.transform.gameObject.GetComponent<RoboControllerScript>().TakeDamage(currentGun.damage, playerID);
                 }
             }
         }

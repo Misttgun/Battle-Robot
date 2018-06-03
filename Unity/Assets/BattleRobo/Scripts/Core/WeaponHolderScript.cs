@@ -16,7 +16,7 @@ namespace BattleRobo
         private PlayerInventory inventory;
 
         [SerializeField]
-        private RoboController playerController;
+        private RoboControllerScript _playerControllerScript;
 
         [SerializeField]
         private PhotonView playerPhotonView;
@@ -27,7 +27,7 @@ namespace BattleRobo
 //                return;
 
             //inventory = playerPhotonView.gameObject.GetComponent<PlayerScript>().GetInventory();
-            inventory = playerController.GetInventory();
+            inventory = _playerControllerScript.GetInventory();
             inventory.SetWeaponHolder(this);
 
 
