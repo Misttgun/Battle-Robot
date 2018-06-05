@@ -1,6 +1,6 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FireScript : MonoBehaviour {
 
@@ -10,14 +10,7 @@ public class FireScript : MonoBehaviour {
     [SerializeField]
     private LayerMask mask;
 
-    [SerializeField]
-    private GameObject bulletSpawn; 
-
-    [SerializeField]
-    private GameObject bullet;
-
-    [SerializeField]
-    private float bulletSpeed;
+    [SerializeField] public Image hitMarker;
 
     public GunScript gun;
 
@@ -25,7 +18,6 @@ public class FireScript : MonoBehaviour {
     {
         if(Input.GetButtonDown("Fire1"))
         {
-            bulletPropagation();
             fire();
         }
     }
@@ -34,21 +26,18 @@ public class FireScript : MonoBehaviour {
         RaycastHit shot;
         if(Physics.Raycast(camFPS.transform.position, camFPS.transform.forward , out shot, gun.range, mask))
         {
-            Debug.LogError(" hit " + shot.collider.name);
-            shot.rigidbody.AddForce(camFPS.transform.forward * bulletSpeed/100);
+            Debug.Log(" hit " + shot.collider.name);
+            StopCoroutine("displayHitMarker");
+            hitMarker.enabled=true;
+            
+            StartCoroutine("displayHitMarker");
         }
-
     }
-    private void bulletPropagation()
+
+    private IEnumerator displayHitMarker()
     {
-        GameObject spawnBullet;
-        spawnBullet = Instantiate(bullet, bulletSpawn.transform.position, camFPS.transform.rotation);
-
-        Rigidbody bulletRgb;
-        bulletRgb = spawnBullet.GetComponent<Rigidbody>();
-
-        bulletRgb.AddForce(camFPS.transform.forward * bulletSpeed);
-
-        Destroy(spawnBullet, 3.0f);
+        yield return new WaitForSeconds(0.15f);
+        hitMarker.enabled=false;
     }
+    
 }
