@@ -145,6 +145,7 @@ ModelImporter:
     7400054: Armature|Walk_w
     7400056: Armature|A_T_pose
     7400058: Armature|robo_run_w
+    7400060: Armature|idle (1)
     9500000: //RootNode
     13700000: ROBO_LOD0
     13700002: ROBO_LOD1
@@ -174,38 +175,29 @@ ModelImporter:
     animationImportWarnings: "\nClip 'Armature|robo_run' has import animation warnings
       that might lower retargeting quality:\n\t'foot2.R' is inbetween humanoid transforms
       and has rotation animation that will be discarded.\n\t'foot2.L' is inbetween
-      humanoid transforms and has rotation animation that will be discarded.\n\t'head'
-      has translation animation that will be discarded.\n\nClip 'Armature|Strafe_Run_L'
-      has import animation warnings that might lower retargeting quality:\n\t'foot2.R'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'foot2.L'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'head'
-      has translation animation that will be discarded.\n\nClip 'Armature|Strafe_Run_L_w'
-      has import animation warnings that might lower retargeting quality:\n\t'foot2.R'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'foot2.L'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'head'
-      has translation animation that will be discarded.\n\nClip 'Armature|Strafe_Run_R'
-      has import animation warnings that might lower retargeting quality:\n\t'foot2.R'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'foot2.L'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'head'
-      has translation animation that will be discarded.\n\nClip 'Armature|Strafe_Run_R_w'
-      has import animation warnings that might lower retargeting quality:\n\t'foot2.R'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'foot2.L'
-      is inbetween humanoid transforms and has rotation animation that will be discarded.\n\t'head'
-      has translation animation that will be discarded.\n\nClip 'Armature|Strafe_Walk_L'
-      has import animation warnings that might lower retargeting quality:\n\t'head'
-      has translation animation that will be discarded.\n\nClip 'Armature|Strafe_Walk_L_w'
-      has import animation warnings that might lower retargeting quality:\n\t'head'
-      has translation animation that will be discarded.\n\nClip 'Armature|Strafe_Walk_R'
-      has import animation warnings that might lower retargeting quality:\n\t'head'
-      has translation animation that will be discarded.\n\nClip 'Armature|Strafe_Walk_R_w'
-      has import animation warnings that might lower retargeting quality:\n\t'head'
-      has translation animation that will be discarded.\n\nClip 'Armature|Walk' has
-      import animation warnings that might lower retargeting quality:\n\t'head' has
-      translation animation that will be discarded.\n\nClip 'Armature|Walk_BackW'
-      has import animation warnings that might lower retargeting quality:\n\t'head'
-      has translation animation that will be discarded.\n\nClip 'Armature|Walk_BackW_w'
-      has import animation warnings that might lower retargeting quality:\n\t'head'
-      has translation animation that will be discarded.\n\nClip 'Armature|Walk_w'
+      humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'Armature|Strafe_Run_L' has import animation warnings that might lower retargeting
+      quality:\n\t'foot2.R' is inbetween humanoid transforms and has rotation animation
+      that will be discarded.\n\t'foot2.L' is inbetween humanoid transforms and has
+      rotation animation that will be discarded.\n\t'head' has translation animation
+      that will be discarded.\n\nClip 'Armature|Strafe_Run_L_w' has import animation
+      warnings that might lower retargeting quality:\n\t'foot2.R' is inbetween humanoid
+      transforms and has rotation animation that will be discarded.\n\t'foot2.L' is
+      inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'Armature|Strafe_Run_R' has import animation warnings that might lower retargeting
+      quality:\n\t'foot2.R' is inbetween humanoid transforms and has rotation animation
+      that will be discarded.\n\t'foot2.L' is inbetween humanoid transforms and has
+      rotation animation that will be discarded.\n\t'head' has translation animation
+      that will be discarded.\n\nClip 'Armature|Strafe_Run_R_w' has import animation
+      warnings that might lower retargeting quality:\n\t'foot2.R' is inbetween humanoid
+      transforms and has rotation animation that will be discarded.\n\t'foot2.L' is
+      inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip
+      'Armature|Strafe_Walk_L' has import animation warnings that might lower retargeting
+      quality:\n\t'head' has translation animation that will be discarded.\n\nClip
+      'Armature|Strafe_Walk_R' has import animation warnings that might lower retargeting
+      quality:\n\t'head' has translation animation that will be discarded.\n\nClip
+      'Armature|Walk' has import animation warnings that might lower retargeting quality:\n\t'head'
+      has translation animation that will be discarded.\n\nClip 'Armature|Walk_BackW'
       has import animation warnings that might lower retargeting quality:\n\t'head'
       has translation animation that will be discarded.\n"
     animationRetargetingWarnings: "\nRetargeting quality report for clip 'Armature|A_T_pose':\n\tLeftLowerLeg
@@ -214,18 +206,15 @@ ModelImporter:
       error 1.4 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting quality report for clip
       'Armature|Fly_backward':\n\tRightLowerLeg average position error 5.7 mm and
       maximum position error 5.7 mm at time 0: 0 (0.0%) Frame 0\n\tLeftLowerArm average
-      position error 1.2 mm and maximum position error 1.2 mm at time 0: 0 (0.0%)
+      position error 1.1 mm and maximum position error 1.1 mm at time 0: 0 (0.0%)
       Frame 0\n\tLeftHand average position error 1.1 mm and maximum position error
-      1.1 mm at time 0: 0 (0.0%) Frame 0\n\tHead average position error 51.1 mm and
-      maximum position error 51.1 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting quality
-      report for clip 'Armature|Fly_forward':\n\tLeftLowerArm average position error
-      1.1 mm and maximum position error 1.1 mm at time 0: 0 (0.0%) Frame 0\n\tLeftHand
-      average position error 1.0 mm and maximum position error 1.0 mm at time 0: 0
-      (0.0%) Frame 0\n\tHead average position error 35.7 mm and maximum position error
-      35.7 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting quality report for clip 'Armature|Fly_Idle':\n\tRetargeting
+      1.1 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting quality report for clip 'Armature|Fly_forward':\n\tLeftLowerArm
+      average position error 1.1 mm and maximum position error 1.1 mm at time 0: 0
+      (0.0%) Frame 0\n\tLeftHand average position error 1.1 mm and maximum position
+      error 1.1 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting quality report for clip
+      'Armature|Fly_Idle':\n\tRetargeting quality is good. No significant differences
+      with original animation were found.\n\nRetargeting quality report for clip 'Armature|Fly_Strafe_L':\n\tRetargeting
       quality is good. No significant differences with original animation were found.\n\nRetargeting
-      quality report for clip 'Armature|Fly_Strafe_L':\n\tRetargeting quality is good.
-      No significant differences with original animation were found.\n\nRetargeting
       quality report for clip 'Armature|Fly_Strafe_R':\n\tRetargeting quality is good.
       No significant differences with original animation were found.\n\nRetargeting
       quality report for clip 'Armature|HandGun_idle':\n\tLeftLowerLeg average position
@@ -245,73 +234,75 @@ ModelImporter:
       'Armature|Idle_w':\n\tLeftLowerLeg average position error 1.4 mm and maximum
       position error 1.4 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerLeg average position
       error 1.4 mm and maximum position error 1.4 mm at time 0: 9 (28.1%) Frame 9\n\nRetargeting
-      quality report for clip 'Armature|robo_run':\n\tLeftLowerLeg average position
-      error 1.0 mm and maximum position error 5.7 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerLeg
+      quality report for clip 'Armature|Knife_idle':\n\tLeftLowerLeg average position
+      error 1.5 mm and maximum position error 1.5 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerLeg
+      average position error 1.4 mm and maximum position error 1.4 mm at time 0: 0
+      (0.0%) Frame 0\n\nRetargeting quality report for clip 'Armature|Knife_Stab':\n\tLeftLowerLeg
+      average position error 1.5 mm and maximum position error 1.5 mm at time 0: 5
+      (50.0%) Frame 5\n\tRightLowerLeg average position error 1.4 mm and maximum position
+      error 1.4 mm at time 0: 1 (10.0%) Frame 1\n\nRetargeting quality report for
+      clip 'Armature|robo_run':\n\tLeftLowerLeg average position error 1.0 mm and
+      maximum position error 5.7 mm at time 0:16 (100.0%) Frame 16\n\tRightLowerLeg
+      average position error 0.7 mm and maximum position error 5.7 mm at time 0: 8
+      (50.0%) Frame 8\n\nRetargeting quality report for clip 'Armature|ShotGun_idle':\n\tLeftLowerLeg
+      average position error 1.4 mm and maximum position error 1.4 mm at time 0: 0
+      (0.0%) Frame 0\n\tRightLowerLeg average position error 1.5 mm and maximum position
+      error 1.5 mm at time 0: 0 (0.0%) Frame 0\n\tLeftUpperArm average position error
+      21.7 mm and maximum position error 21.7 mm at time 0: 0 (0.0%) Frame 0\n\tLeftLowerArm
+      average position error 22.7 mm and maximum position error 22.7 mm at time 0:
+      0 (0.0%) Frame 0\n\tLeftHand average position error 21.2 mm and maximum position
+      error 21.2 mm at time 0: 0 (0.0%) Frame 0\n\tRightUpperArm average position
+      error 21.9 mm and maximum position error 21.9 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm
+      average position error 21.7 mm and maximum position error 21.7 mm at time 0:
+      0 (0.0%) Frame 0\n\tRightHand average position error 21.5 mm and maximum position
+      error 21.5 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting quality report for
+      clip 'Armature|ShotGun_idle_aim_down':\n\tLeftLowerLeg average position error
+      1.4 mm and maximum position error 1.4 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerLeg
+      average position error 1.4 mm and maximum position error 1.4 mm at time 0: 0
+      (0.0%) Frame 0\n\tLeftUpperArm average position error 21.6 mm and maximum position
+      error 21.6 mm at time 0: 0 (0.0%) Frame 0\n\tLeftLowerArm average position error
+      22.7 mm and maximum position error 22.7 mm at time 0: 0 (0.0%) Frame 0\n\tLeftHand
+      average position error 21.1 mm and maximum position error 21.1 mm at time 0:
+      0 (0.0%) Frame 0\n\tRightUpperArm average position error 22.0 mm and maximum
+      position error 22.0 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm average
+      position error 21.8 mm and maximum position error 21.8 mm at time 0: 0 (0.0%)
+      Frame 0\n\tRightHand average position error 21.6 mm and maximum position error
+      21.6 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting quality report for clip 'Armature|ShotGun_idle_aim_up':\n\tLeftLowerLeg
+      average position error 1.4 mm and maximum position error 1.4 mm at time 0: 0
+      (0.0%) Frame 0\n\tRightLowerLeg average position error 1.5 mm and maximum position
+      error 1.5 mm at time 0: 0 (0.0%) Frame 0\n\tLeftUpperArm average position error
+      22.0 mm and maximum position error 22.0 mm at time 0: 0 (0.0%) Frame 0\n\tLeftLowerArm
+      average position error 23.0 mm and maximum position error 23.0 mm at time 0:
+      0 (0.0%) Frame 0\n\tLeftHand average position error 21.5 mm and maximum position
+      error 21.5 mm at time 0: 0 (0.0%) Frame 0\n\tRightUpperArm average position
+      error 21.6 mm and maximum position error 21.6 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm
+      average position error 21.4 mm and maximum position error 21.4 mm at time 0:
+      0 (0.0%) Frame 0\n\tRightHand average position error 21.2 mm and maximum position
+      error 21.2 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting quality report for
+      clip 'Armature|Strafe_Run_L':\n\tLeftLowerLeg average position error 1.0 mm
+      and maximum position error 5.7 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerLeg
       average position error 0.7 mm and maximum position error 5.7 mm at time 0: 8
       (50.0%) Frame 8\n\tHead average position error 14.9 mm and maximum position
-      error 32.8 mm at time 0: 4 (25.0%) Frame 4\n\nRetargeting quality report for
-      clip 'Armature|ShotGun_idle':\n\tLeftLowerLeg average position error 1.4 mm
-      and maximum position error 1.4 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerLeg
-      average position error 1.5 mm and maximum position error 1.5 mm at time 0: 0
-      (0.0%) Frame 0\n\tLeftUpperArm average position error 21.7 mm and maximum position
-      error 21.7 mm at time 0: 0 (0.0%) Frame 0\n\tLeftLowerArm average position error
-      22.7 mm and maximum position error 22.7 mm at time 0: 0 (0.0%) Frame 0\n\tLeftHand
-      average position error 21.2 mm and maximum position error 21.2 mm at time 0:
-      0 (0.0%) Frame 0\n\tRightUpperArm average position error 21.9 mm and maximum
-      position error 21.9 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm average
-      position error 21.7 mm and maximum position error 21.7 mm at time 0: 0 (0.0%)
-      Frame 0\n\tRightHand average position error 21.5 mm and maximum position error
-      21.5 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting quality report for clip 'Armature|ShotGun_idle_aim_down':\n\tLeftLowerLeg
-      average position error 1.4 mm and maximum position error 1.4 mm at time 0: 0
-      (0.0%) Frame 0\n\tRightLowerLeg average position error 1.4 mm and maximum position
-      error 1.4 mm at time 0: 0 (0.0%) Frame 0\n\tLeftUpperArm average position error
-      21.6 mm and maximum position error 21.6 mm at time 0: 0 (0.0%) Frame 0\n\tLeftLowerArm
-      average position error 22.7 mm and maximum position error 22.7 mm at time 0:
-      0 (0.0%) Frame 0\n\tLeftHand average position error 21.1 mm and maximum position
-      error 21.1 mm at time 0: 0 (0.0%) Frame 0\n\tRightUpperArm average position
-      error 22.0 mm and maximum position error 22.0 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm
-      average position error 21.8 mm and maximum position error 21.8 mm at time 0:
-      0 (0.0%) Frame 0\n\tRightHand average position error 21.6 mm and maximum position
-      error 21.6 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting quality report for
-      clip 'Armature|ShotGun_idle_aim_up':\n\tLeftLowerLeg average position error
-      1.4 mm and maximum position error 1.4 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerLeg
-      average position error 1.5 mm and maximum position error 1.5 mm at time 0: 0
-      (0.0%) Frame 0\n\tLeftUpperArm average position error 22.0 mm and maximum position
-      error 22.0 mm at time 0: 0 (0.0%) Frame 0\n\tLeftLowerArm average position error
-      23.0 mm and maximum position error 23.0 mm at time 0: 0 (0.0%) Frame 0\n\tLeftHand
-      average position error 21.5 mm and maximum position error 21.5 mm at time 0:
-      0 (0.0%) Frame 0\n\tRightUpperArm average position error 21.6 mm and maximum
-      position error 21.6 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm average
-      position error 21.4 mm and maximum position error 21.4 mm at time 0: 0 (0.0%)
-      Frame 0\n\tRightHand average position error 21.2 mm and maximum position error
-      21.2 mm at time 0: 0 (0.0%) Frame 0\n\nRetargeting quality report for clip 'Armature|Strafe_Run_L':\n\tLeftLowerLeg
+      error 32.9 mm at time 0:12 (75.0%) Frame 12\n\nRetargeting quality report for
+      clip 'Armature|Strafe_Run_L_w':\n\tLeftLowerLeg average position error 1.0 mm
+      and maximum position error 5.7 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerLeg
+      average position error 0.7 mm and maximum position error 5.7 mm at time 0: 8
+      (50.0%) Frame 8\n\nRetargeting quality report for clip 'Armature|Strafe_Run_R':\n\tLeftLowerLeg
       average position error 1.0 mm and maximum position error 5.7 mm at time 0: 0
       (0.0%) Frame 0\n\tRightLowerLeg average position error 0.7 mm and maximum position
-      error 5.7 mm at time 0: 8 (50.0%) Frame 8\n\tHead average position error 14.9
-      mm and maximum position error 32.9 mm at time 0:12 (75.0%) Frame 12\n\nRetargeting
-      quality report for clip 'Armature|Strafe_Run_L_w':\n\tLeftLowerLeg average position
+      error 5.7 mm at time 0: 8 (50.0%) Frame 8\n\tHead average position error 14.7
+      mm and maximum position error 32.9 mm at time 0: 4 (25.0%) Frame 4\n\nRetargeting
+      quality report for clip 'Armature|Strafe_Run_R_w':\n\tLeftLowerLeg average position
       error 1.0 mm and maximum position error 5.7 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerLeg
       average position error 0.7 mm and maximum position error 5.7 mm at time 0: 8
-      (50.0%) Frame 8\n\tHead average position error 14.9 mm and maximum position
-      error 32.9 mm at time 0: 4 (25.0%) Frame 4\n\nRetargeting quality report for
-      clip 'Armature|Strafe_Run_R':\n\tLeftLowerLeg average position error 1.0 mm
-      and maximum position error 5.7 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerLeg
-      average position error 0.7 mm and maximum position error 5.7 mm at time 0: 8
-      (50.0%) Frame 8\n\tHead average position error 14.7 mm and maximum position
-      error 32.9 mm at time 0: 4 (25.0%) Frame 4\n\nRetargeting quality report for
-      clip 'Armature|Strafe_Run_R_w':\n\tLeftLowerLeg average position error 1.0 mm
-      and maximum position error 5.7 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerLeg
-      average position error 0.7 mm and maximum position error 5.7 mm at time 0: 8
-      (50.0%) Frame 8\n\tHead average position error 14.7 mm and maximum position
-      error 32.9 mm at time 0: 4 (25.0%) Frame 4\n\nRetargeting quality report for
-      clip 'Armature|Strafe_Walk_L':\n\tHead average position error 7.0 mm and maximum
-      position error 11.8 mm at time 1: 0 (75.0%) Frame 24\n\nRetargeting quality
-      report for clip 'Armature|Strafe_Walk_L_w':\n\tHead average position error 7.0
-      mm and maximum position error 11.8 mm at time 0:11 (34.4%) Frame 11\n\nRetargeting
+      (50.0%) Frame 8\n\nRetargeting quality report for clip 'Armature|Strafe_Walk_L':\n\tHead
+      average position error 7.0 mm and maximum position error 11.8 mm at time 1:
+      0 (75.0%) Frame 24\n\nRetargeting quality report for clip 'Armature|Strafe_Walk_L_w':\n\tRetargeting
+      quality is good. No significant differences with original animation were found.\n\nRetargeting
       quality report for clip 'Armature|Strafe_Walk_R':\n\tHead average position error
       7.0 mm and maximum position error 11.8 mm at time 0: 8 (25.0%) Frame 8\n\nRetargeting
-      quality report for clip 'Armature|Strafe_Walk_R_w':\n\tHead average position
-      error 7.0 mm and maximum position error 11.8 mm at time 1: 3 (84.4%) Frame 27\n\nRetargeting
+      quality report for clip 'Armature|Strafe_Walk_R_w':\n\tRetargeting quality is
+      good. No significant differences with original animation were found.\n\nRetargeting
       quality report for clip 'Armature|T_pose':\n\tLeftLowerLeg average position
       error 1.5 mm and maximum position error 1.5 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerLeg
       average position error 1.4 mm and maximum position error 1.4 mm at time 0: 0
@@ -319,11 +310,10 @@ ModelImporter:
       average position error 7.0 mm and maximum position error 11.8 mm at time 0:
       8 (25.0%) Frame 8\n\nRetargeting quality report for clip 'Armature|Walk_BackW':\n\tHead
       average position error 7.0 mm and maximum position error 11.8 mm at time 1:
-      0 (75.0%) Frame 24\n\nRetargeting quality report for clip 'Armature|Walk_BackW_w':\n\tHead
-      average position error 7.0 mm and maximum position error 11.9 mm at time 0:
-      4 (12.5%) Frame 4\n\nRetargeting quality report for clip 'Armature|Walk_w':\n\tHead
-      average position error 7.0 mm and maximum position error 11.8 mm at time 0:12
-      (37.5%) Frame 12\n"
+      0 (75.0%) Frame 24\n\nRetargeting quality report for clip 'Armature|Walk_BackW_w':\n\tRetargeting
+      quality is good. No significant differences with original animation were found.\n\nRetargeting
+      quality report for clip 'Armature|Walk_w':\n\tRetargeting quality is good. No
+      significant differences with original animation were found.\n"
     animationDoRetargetingWarnings: 1
     importAnimatedCustomProperties: 0
     animationCompression: 3
@@ -671,10 +661,10 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|robo_run_w
-      takeName: Armature|robo_run_w
+      name: Armature|idle (1)
+      takeName: Armature|idle
       firstFrame: 0
-      lastFrame: 16
+      lastFrame: 32
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

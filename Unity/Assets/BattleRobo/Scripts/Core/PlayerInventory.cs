@@ -26,11 +26,12 @@ namespace BattleRobo
         /// <summary>
         /// Constructor : instatiate the inventory slots
         /// </summary>
-        public PlayerInventory(Transform cameraTransform, [CanBeNull] PlayerUIScript ui, PhotonView playerPhotonView)
+        public PlayerInventory(Transform cameraTransform, [CanBeNull] PlayerUIScript ui, PhotonView playerPhotonView, WeaponHolderScript weaponHolder)
         {
             playerView = playerPhotonView;
             camera = cameraTransform;
             inventory = new PlayerInventorySlot[5];
+            this.weaponHolder = weaponHolder;
 
             playerUI = ui;
 

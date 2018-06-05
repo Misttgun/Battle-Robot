@@ -18,8 +18,6 @@ namespace BattleRobo
         [SerializeField]
         private float aimSensitivity = 5f;
 
-
-        
         /// <summary>
         /// Player run speed.
         /// </summary>[Header("Movement Settings")]
@@ -194,7 +192,7 @@ namespace BattleRobo
             playerID = myPhotonView.viewID - 1;
 
             //initialise player inventory
-            playerInventory = new PlayerInventory(playerCameraTransform, uiScript, myPhotonView);
+            playerInventory = new PlayerInventory(playerCameraTransform, uiScript, myPhotonView, weaponHolder);
 
             //set players current health value after joining
             playerStats.Health = maxHealth;
@@ -252,9 +250,9 @@ namespace BattleRobo
 
                 // Disable the thrusters when the player is not flying
                 thrusters.SetActive(false);
-                    
+
                 moveDirection = new Vector3(playerState.inputX * inputModifyFactor, 0f, playerState.inputY * inputModifyFactor);
-                
+
                 //Stop the jetpack sound if we are grounded
                 if (audioSource.isPlaying && audioSource.clip == audioClips[1])
                 {
@@ -311,7 +309,7 @@ namespace BattleRobo
 
             // Apply gravity
             moveDirection.y -= gravity * Time.deltaTime;
-            
+
             //Set the mooving bool
             isMooving = Math.Abs(moveDirection.x) > 0.0001f || Math.Abs(moveDirection.z) > 0.0001f;
 
@@ -697,7 +695,7 @@ namespace BattleRobo
                 mouseInput = Vector3.zero;
             }
 
-            public PlayerState(float inputX, float inputY, bool isJumping,Vector2 mouseInput)
+            public PlayerState(float inputX, float inputY, bool isJumping, Vector2 mouseInput)
             {
                 this.inputX = inputX;
                 this.inputY = inputY;
@@ -707,7 +705,7 @@ namespace BattleRobo
 
             public bool IsEqual(PlayerState other)
             {
-                return inputX.Equals(other.inputX) && inputY.Equals(other.inputY) && isJumping.Equals(other.isJumping)&& mouseInput == other.mouseInput;
+                return inputX.Equals(other.inputX) && inputY.Equals(other.inputY) && isJumping.Equals(other.isJumping) && mouseInput == other.mouseInput;
             }
         }
 

@@ -10,10 +10,7 @@ namespace BattleRobo
         //TODO Rendre le code plus propre avec le system d'inventaire et de pickup
         public WeaponScript[] equipWeapons;
 
-
         public WeaponScript currentWeapon;
-
-        private PlayerInventory inventory;
 
         [SerializeField]
         private RoboControllerScript _playerControllerScript;
@@ -23,8 +20,8 @@ namespace BattleRobo
 
         private void Start()
         {
-            inventory = _playerControllerScript.GetInventory();
-            inventory.SetWeaponHolder(this);
+            //inventory = _playerControllerScript.GetInventory();
+            //inventory.SetWeaponHolder(this);
 
 
             foreach (var weapon in equipWeapons)
