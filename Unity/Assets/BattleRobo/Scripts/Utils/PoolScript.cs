@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BattleRobo
@@ -162,6 +163,40 @@ namespace BattleRobo
             instance.SetActive(false);
         }
 
+        /// <summary>
+        /// Timed deactivation of an instance of this pool for later use.
+        /// </summary>
+        public void Despawn(GameObject instance, float time)
+        {
+            //create new class PoolTimeObject to keep track of the instance
+            PoolTimeObject timeObject = new PoolTimeObject
+            {
+                instance = instance,
+                time = time
+            };
+
+            //start timed deactivation using the created properties
+            StartCoroutine(DespawnInTime(timeObject));
+        }
+
+
+        //coroutine which waits for 'time' seconds before deactivating the instance
+        private IEnumerator DespawnInTime(PoolTimeObject timeObject)
+        {
+            //cache instance to deactivate
+            GameObject instance = timeObject.instance;
+
+            //wait for defined seconds
+            float timer = Time.time + timeObject.time;
+            while (instance.activeInHierarchy && Time.time < timer)
+                yield return null;
+
+            //the instance got deactivated in between already
+            if (!instance.activeInHierarchy) yield break;
+            //despawn it now
+            Despawn(instance);
+        }
+
 
         /// <summary>
         /// Destroys all inactive instances of this pool.
@@ -255,5 +290,22 @@ namespace BattleRobo
             active.Clear();
             inactive.Clear();
         }
+    }
+
+    /// <summary>
+    /// Stores properties used on timed deactivation of instances.
+    /// </summary>
+    [System.Serializable]
+    public class PoolTimeObject
+    {
+        /// <summary>
+        /// Instance to deactivate.
+        /// </summary>
+        public GameObject instance;
+
+        /// <summary>
+        /// Delay until deactivation.
+        /// </summary>
+        public float time;
     }
 }

@@ -1062,7 +1062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 664af4aa6e1ea4144ae20713526ffcf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerControllers:
+  PlayerControllersScript:
   - {fileID: 882428822}
   - {fileID: 225104701}
   - {fileID: 352608764}

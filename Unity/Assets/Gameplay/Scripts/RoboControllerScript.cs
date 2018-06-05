@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Security.Cryptography.X509Certificates;
 using Photon;
 
 namespace BattleRobo
@@ -17,18 +18,13 @@ namespace BattleRobo
         [SerializeField]
         private float aimSensitivity = 5f;
 
-        /// <summary>
-        /// Player walk speed.
-        /// </summary>
-        [Header("Movement Settings")]
-        [SerializeField]
-        private float walkSpeed = 6.0f;
 
+        
         /// <summary>
         /// Player run speed.
-        /// </summary>
+        /// </summary>[Header("Movement Settings")]
         [SerializeField]
-        private float runSpeed = 11.0f;
+        private float speed = 9.0f;
 
         /// <summary>
         /// Gravity applied to the player.
@@ -74,13 +70,13 @@ namespace BattleRobo
         /// </summary>
         [SerializeField]
         private Transform playerCameraTransform;
-        
+
         /// <summary>
         /// The camera component.
         /// </summary>
         [SerializeField]
         private Camera playerCamera;
-        
+
         /// <summary>
         /// The camera audio listener.
         /// </summary>
@@ -128,12 +124,24 @@ namespace BattleRobo
         /// </summary>
         [SerializeField]
         private WeaponHolderScript weaponHolder;
-        
+
         /// <summary>
         /// The collider box for the player level streamer.
         /// </summary>
         [SerializeField]
         private GameObject playerLevelStreamer;
+
+        /// <summary>
+        /// The player audiosource.
+        /// </summary>
+        [SerializeField]
+        private AudioSource audioSource;
+
+        /// <summary>
+        /// Array for storing player audio clips.
+        /// </summary>
+        [SerializeField]
+        private AudioClip[] audioClips;
 
         /// <summary>
         /// Photon player ID.
@@ -150,7 +158,6 @@ namespace BattleRobo
         //movement variable
         private Vector3 moveDirection = Vector3.zero;
         private bool grounded;
-        private float speed;
 
         //health variable
         public int maxHealth = 100;
@@ -162,11 +169,16 @@ namespace BattleRobo
 
         //tranform variables
         public float currentRot;
+        private float networkCurrentRot;
         private Transform myTransform;
+        private bool isMooving;
+
+        //audio variables
+        private bool playAudio;
 
         //safe zone variables
         public bool inStorm;
-        private float waitingTime = 1f;
+        private const float waitingTime = 1f;
         private float timer;
 
         //water variables
@@ -195,9 +207,8 @@ namespace BattleRobo
             {
                 playerLevelStreamer.SetActive(true);
             }
-            
+
             myTransform = transform;
-            speed = walkSpeed;
 
             //player add itself to the dictionnary of alive player using his player ID
             GameManagerScript.GetInstance().alivePlayers.Add(playerID, gameObject);
@@ -212,14 +223,16 @@ namespace BattleRobo
                 stream.SendNext(playerStats.Shield);
                 stream.SendNext(playerStats.Kills);
                 stream.SendNext(fuelAmount);
+                stream.SendNext(isMooving);
             }
             else
             {
-                currentRot = (float) stream.ReceiveNext();
+                networkCurrentRot = (float) stream.ReceiveNext();
                 playerStats.Health = (int) stream.ReceiveNext();
                 playerStats.Shield = (int) stream.ReceiveNext();
                 playerStats.Kills = (int) stream.ReceiveNext();
                 fuelAmount = (float) stream.ReceiveNext();
+                isMooving = (bool) stream.ReceiveNext();
             }
         }
 
@@ -239,10 +252,20 @@ namespace BattleRobo
 
                 // Disable the thrusters when the player is not flying
                 thrusters.SetActive(false);
-
-                speed = playerState.isSpriting ? runSpeed : walkSpeed;
-
+                    
                 moveDirection = new Vector3(playerState.inputX * inputModifyFactor, 0f, playerState.inputY * inputModifyFactor);
+                
+                //Stop the jetpack sound if we are grounded
+                if (audioSource.isPlaying && audioSource.clip == audioClips[1])
+                {
+                    audioSource.Stop();
+                }
+
+                //Play the walk/run audio
+                if (isMooving && !audioSource.isPlaying)
+                {
+                    AudioManagerScript.Play3D(audioSource, audioClips[0], 1f);
+                }
 
                 // Animate the player for the ground animation
                 animator.SetFloat("VelX", moveDirection.x * speed);
@@ -265,6 +288,18 @@ namespace BattleRobo
                 // Disable the thrusters when the player is not flying
                 thrusters.SetActive(true);
 
+                //Stop the walking/running sound if we are not grounded
+                if (audioSource.isPlaying && audioSource.clip == audioClips[0])
+                {
+                    audioSource.Stop();
+                }
+
+                //Play the jetpack sound
+                if (!audioSource.isPlaying)
+                {
+                    AudioManagerScript.Play3D(audioSource, audioClips[1], 1);
+                }
+
                 moveDirection = myTransform.TransformDirection(moveDirection);
 
                 // Jump!
@@ -276,6 +311,9 @@ namespace BattleRobo
 
             // Apply gravity
             moveDirection.y -= gravity * Time.deltaTime;
+            
+            //Set the mooving bool
+            isMooving = Math.Abs(moveDirection.x) > 0.0001f || Math.Abs(moveDirection.z) > 0.0001f;
 
             // Move the controller, and set grounded true or false depending on whether we're standing on something
             grounded = (controller.Move(moveDirection * Time.deltaTime) & CollisionFlags.Below) != 0;
@@ -286,7 +324,7 @@ namespace BattleRobo
             uiScript.UpdateFuel(fuelAmount);
             uiScript.UpdateHealth(playerStats.Health);
             uiScript.UpdateShield(playerStats.Shield);
-            
+
             if (GameManagerScript.GetInstance().IsGamePause())
                 return;
 
@@ -299,10 +337,15 @@ namespace BattleRobo
 //            {
 //                uiScript.UpdateStormTimer(StormManagerScript.GetInstance().GetStormTimer() + 1);
 //            }
-            
-           if (!PhotonNetwork.isMasterClient)
+
+            if (!PhotonNetwork.isMasterClient)
+            {
+                UpdateNetworkHeadRotation();
+            }
+
+            if (!PhotonNetwork.isMasterClient)
                 return;
-            
+
             fly = Vector3.zero;
             if (playerState.isJumping && fuelAmount > 0f)
             {
@@ -456,6 +499,9 @@ namespace BattleRobo
             {
                 weapon.Fire(playerCameraTransform, playerID);
 
+                //play the weapon sound
+                AudioManagerScript.Play3D(audioSource, weapon.weaponSound, 1f);
+
                 // the iteam can have changed since the player shoot. Update UI only if necessary
                 var update = playerInventory.getCurrentActive().GetLootTrackerIndex() == itemId;
                 if (playerID == shooterId && update)
@@ -473,10 +519,10 @@ namespace BattleRobo
         private void TakeObject(int lootTrackerId, int slotIndex, int senderId)
         {
             var playerObject = LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObjectScript>();
-            
+
             playerInventory.AddObject(playerObject, slotIndex);
             uiScript.SetItemUISlot(playerObject, slotIndex);
-            
+
             // equip weapon if the index is already selected
             if (slotIndex == playerInventory.currentSlotIndex)
             {
@@ -515,7 +561,7 @@ namespace BattleRobo
             var playerObject = LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObjectScript>();
 
             playerObject.Drop(position);
-            
+
             // - remove object from player inventory
             playerInventory.inventory[playerInventory.currentSlotIndex].Drop();
 
@@ -547,9 +593,9 @@ namespace BattleRobo
             GameManagerScript.GetInstance().SetPause(false);
         }
 
-        public void ClientMovement(float inputX, float inputY, bool isJumping, bool isSpriting, Vector2 mouseInput)
+        public void ClientMovement(float inputX, float inputY, bool isJumping, Vector2 mouseInput)
         {
-            playerState = new PlayerState(inputX, inputY, isJumping, isSpriting, mouseInput);
+            playerState = new PlayerState(inputX, inputY, isJumping, mouseInput);
         }
 
         public void ClientPause()
@@ -566,8 +612,8 @@ namespace BattleRobo
                 if (weapon && weapon.CanFire())
                 {
                     var itemId = playerInventory.getCurrentActive().GetLootTrackerIndex();
-                    
-                    //send shot request to server. We must pas the current inventoryIndex because, if 
+
+                    //send shot request to server. We must pass the current inventoryIndex because, if 
                     // the player switch very quickly after the, shot, the wrong weapon is used
                     myPhotonView.RPC("ShootRPC", PhotonTargets.AllViaServer, playerID, itemId);
                 }
@@ -630,13 +676,17 @@ namespace BattleRobo
             uiScript.playerNameText.text = PhotonNetwork.player.NickName;
         }
 
+        private void UpdateNetworkHeadRotation()
+        {
+            currentRot = Mathf.MoveTowards(currentRot, networkCurrentRot, aimSensitivity);
+        }
+
         [Serializable]
         public class PlayerState
         {
             public float inputX;
             public float inputY;
             public bool isJumping;
-            public bool isSpriting;
             public Vector2 mouseInput;
 
             public PlayerState()
@@ -644,22 +694,20 @@ namespace BattleRobo
                 inputX = 0f;
                 inputY = 0f;
                 isJumping = false;
-                isSpriting = false;
                 mouseInput = Vector3.zero;
             }
 
-            public PlayerState(float inputX, float inputY, bool isJumping, bool isSpriting, Vector2 mouseInput)
+            public PlayerState(float inputX, float inputY, bool isJumping,Vector2 mouseInput)
             {
                 this.inputX = inputX;
                 this.inputY = inputY;
                 this.isJumping = isJumping;
-                this.isSpriting = isSpriting;
                 this.mouseInput = mouseInput;
             }
 
             public bool IsEqual(PlayerState other)
             {
-                return inputX.Equals(other.inputX) && inputY.Equals(other.inputY) && isJumping.Equals(other.isJumping) && isSpriting.Equals(other.isSpriting) && mouseInput == other.mouseInput;
+                return inputX.Equals(other.inputX) && inputY.Equals(other.inputY) && isJumping.Equals(other.isJumping)&& mouseInput == other.mouseInput;
             }
         }
 

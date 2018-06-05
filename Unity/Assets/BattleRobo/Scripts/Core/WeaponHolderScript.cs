@@ -23,10 +23,6 @@ namespace BattleRobo
 
         private void Start()
         {
-//            if (!playerPhotonView.isMine)
-//                return;
-
-            //inventory = playerPhotonView.gameObject.GetComponent<PlayerScript>().GetInventory();
             inventory = _playerControllerScript.GetInventory();
             inventory.SetWeaponHolder(this);
 

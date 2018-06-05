@@ -10,6 +10,8 @@ namespace BattleRobo
         [SerializeField]
         private Animator playerAnimator;
 
+        public AudioClip weaponSound;
+
         public PhotonView playerPhotonView;
 
         public float currentAmmo;

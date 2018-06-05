@@ -22,7 +22,6 @@ public class NetworkCommandScript : PunBehaviour
     private float inputX;
     private float inputY;
     private bool isJumping;
-    private bool isSpriting;
 
     //player actions
     private bool isPausing;
@@ -56,7 +55,6 @@ public class NetworkCommandScript : PunBehaviour
         inputX = Input.GetAxisRaw("Horizontal");
         inputY = Input.GetAxisRaw("Vertical");
         isJumping = Input.GetButton("Jump");
-        isSpriting = Input.GetButton("Run");
 
         //player actions
         isPausing = Input.GetKeyDown(KeyCode.Escape);
@@ -64,7 +62,7 @@ public class NetworkCommandScript : PunBehaviour
         isLooting = Input.GetButtonDown("Loot");
         isDropping = Input.GetButtonDown("Drop");
 
-        playerState = new RoboControllerScript.PlayerState(inputX, inputY, isJumping, isSpriting, mouseInput);
+        playerState = new RoboControllerScript.PlayerState(inputX, inputY, isJumping, mouseInput);
 
         if (isFiring)
         {
@@ -118,16 +116,16 @@ public class NetworkCommandScript : PunBehaviour
     {
         if (!playerState.IsEqual(previousPlayerState))
         {
-            PhotonNetwork.RPC(photonView, "MovementRPC", PhotonTargets.MasterClient, false, PhotonNetwork.player, playerState.inputX, playerState.inputY, playerState.isJumping, playerState.isSpriting, playerState.mouseInput);
+            PhotonNetwork.RPC(photonView, "MovementRPC", PhotonTargets.MasterClient, false, PhotonNetwork.player, playerState.inputX, playerState.inputY, playerState.isJumping, playerState.mouseInput);
 
             previousPlayerState = playerState;
         }
     }
 
     [PunRPC]
-    public void MovementRPC(PhotonPlayer player, float x, float y, bool jumping, bool spriting, Vector2 mouse)
+    public void MovementRPC(PhotonPlayer player, float x, float y, bool jumping, Vector2 mouse)
     {
-        commandDispatcherScript.Movement(player.ID - IdShift, x, y, jumping, spriting, mouse);
+        commandDispatcherScript.Movement(player.ID - IdShift, x, y, jumping, mouse);
     }
 
     [PunRPC]

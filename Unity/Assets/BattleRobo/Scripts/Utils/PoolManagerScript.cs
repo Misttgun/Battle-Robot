@@ -81,9 +81,10 @@ namespace BattleRobo
         /// <summary>
         /// Disables a previously spawned instance for later use.
         /// </summary>
-        public static void Despawn(GameObject instance)
+        public static void Despawn(GameObject instance, float time = 0f)
         {
-            GetPool(instance).Despawn(instance);
+            if(time > 0) GetPool(instance).Despawn(instance, time);
+            else GetPool(instance).Despawn(instance);
         }
 
 

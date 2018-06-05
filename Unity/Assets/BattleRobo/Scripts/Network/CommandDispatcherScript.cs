@@ -16,14 +16,14 @@ public class CommandDispatcherScript : MonoBehaviour
         PlayerControllersScript[playerId].SetUp();
     }
 
-    public void Movement(int playerId, float inputX, float inputY, bool isJumping, bool isSpriting, Vector2 mouseInput)
+    public void Movement(int playerId, float inputX, float inputY, bool isJumping, Vector2 mouseInput)
     {
         if (playerId < 0 || playerId >= PlayerControllersScript.Length)
         {
             return;
         }
 
-        PlayerControllersScript[playerId].ClientMovement(inputX, inputY, isJumping, isSpriting, mouseInput);
+        PlayerControllersScript[playerId].ClientMovement(inputX, inputY, isJumping, mouseInput);
     }
 
     public void Shoot(int playerId)

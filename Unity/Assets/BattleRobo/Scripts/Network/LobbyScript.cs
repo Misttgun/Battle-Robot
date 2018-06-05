@@ -99,6 +99,8 @@ namespace BattleRobo
         /// </summary>
         public void Play()
         {
+            //play the waiting music
+            AudioManagerScript.PlayMusic(0);
             if (PhotonNetwork.inRoom)
             {
                 PhotonNetwork.LeaveRoom();
@@ -122,6 +124,8 @@ namespace BattleRobo
         /// </summary>
         public void Cancel()
         {
+            //stop the waiting music
+            AudioManagerScript.GetInstance().musicSource.Stop();
             // We leave the room
             PhotonNetwork.LeaveRoom();
 

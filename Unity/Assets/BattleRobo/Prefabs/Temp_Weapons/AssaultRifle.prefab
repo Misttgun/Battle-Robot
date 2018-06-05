@@ -112,6 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGun: {fileID: 11400000, guid: ccf3c5e2b77a8104984a5e1f01d44b12, type: 2}
   playerAnimator: {fileID: 0}
+  weaponSound: {fileID: 8300000, guid: dc8c8fd3173a0eb4b9df1740619caa6d, type: 3}
   playerPhotonView: {fileID: 0}
   currentAmmo: 0
 --- !u!114 &114416066884990822

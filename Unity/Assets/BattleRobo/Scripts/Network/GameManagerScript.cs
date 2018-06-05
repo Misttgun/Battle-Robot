@@ -101,7 +101,7 @@ namespace BattleRobo
 		/// <summary>
 		/// Returns whether the game is won by the local player.
 		/// </summary>
-		public bool IsGameWon()
+		private bool IsGameWon()
 		{
 			//init variables
 			bool isWon = alivePlayerNumber == 1 && alivePlayers.ContainsKey(localPlayer.playerID);
@@ -113,7 +113,7 @@ namespace BattleRobo
 		/// <summary>
 		/// Returns whether the game is lost by the local player.
 		/// </summary>
-		public bool IsGameLost()
+		private bool IsGameLost()
 		{
 			//init variables
 			bool isLost = alivePlayerNumber >= 1 && !alivePlayers.ContainsKey(localPlayer.playerID);
@@ -122,7 +122,7 @@ namespace BattleRobo
 			return isLost;
 		}
 
-		public void ShowGameOverScreen(string goText)
+		private void ShowGameOverScreen(string goText)
 		{
 			gameCamera.SetActive(true);
 			gameOverUI.SetActive(true);
