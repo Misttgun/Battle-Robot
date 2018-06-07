@@ -48,7 +48,7 @@ namespace BattleRobo
         // Number of player currently alive in the game
         public static int alivePlayerNumber;
 
-        public int pRank, pKills;
+        public int pRank;
 
         public bool hasLost;
 
@@ -67,8 +67,6 @@ namespace BattleRobo
             gameCamera.SetActive(false);
             
             pRank = alivePlayerNumber;
-            pKills = 0;
-
             hasLost = false;
         }
 
@@ -77,11 +75,11 @@ namespace BattleRobo
             if (!localPlayer)
                 return;
 
-            if (!hasLost && alivePlayerNumber == 0)
+            if (!hasLost && alivePlayerNumber == 1)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
-                ShowGameOverScreen("You won !! Let's go baby !!", 1, pKills);
+                ShowGameOverScreen("You won !! Let's go baby !!", 1, localPlayer.playerStats.Kills);
 
                 //desactivate the local player
                 photonView.RPC("DisablePlayerRPC", PhotonTargets.All, localPlayer.playerID);
@@ -90,7 +88,7 @@ namespace BattleRobo
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
-                ShowGameOverScreen("You died... Feels bad man.", pRank, pKills);
+                ShowGameOverScreen("You died... Feels bad man.", pRank, localPlayer.playerStats.Kills);
             }
         }
 
