@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace BattleRobo
 {
@@ -19,7 +17,7 @@ namespace BattleRobo
 		/// <summary>
 		/// Scene index that gets loaded when player disconnect from a game.
 		/// </summary>
-		public int offlineSceneIndex = 0;
+		public int offlineSceneIndex;
 
 		/// <summary>
 		/// Scene index that gets loaded after a connection has been established.
@@ -120,7 +118,7 @@ namespace BattleRobo
 		{
 			//remove the player from the alive players dictionnary and decrease the number of player alive
 			GameManagerScript.GetInstance().alivePlayers.Remove(id);
-			GameManagerScript.GetInstance().alivePlayerNumber--;
+			GameManagerScript.alivePlayerNumber--;
 		}
 	}
 }

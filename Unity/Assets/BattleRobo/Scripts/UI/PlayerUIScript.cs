@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace BattleRobo
@@ -29,6 +30,11 @@ namespace BattleRobo
         /// The number of player alive text.
         /// </summary>
         [SerializeField] private Text aliveTexT;
+        
+        /// <summary>
+        /// The number of kills text.
+        /// </summary>
+        [SerializeField] private Text killsTexT;
 
         /// <summary>
         /// The pause logo
@@ -101,7 +107,16 @@ namespace BattleRobo
         /// <param name="numberPlayer"></param>
         public void UpdateAliveText(int numberPlayer)
         {
-            aliveTexT.text = "Players Alive : " + numberPlayer;
+            aliveTexT.text = "Players Alive: " + numberPlayer;
+        }
+        
+        /// <summary>
+        /// Updates the number of kill
+        /// </summary>
+        /// <param name="kills"></param>
+        public void UpdateKillsText(int kills)
+        {
+            aliveTexT.text = "Kills: " + kills;
         }
         
         /// <summary>
@@ -122,7 +137,7 @@ namespace BattleRobo
         /// <param name="index"></param>
         public void SetItemUISlot(PlayerObjectScript obj, int index)
         {
-            inventorySlotUI[index].transform.GetChild(0).GetComponent<Image>().sprite = (obj != null) ? obj.GetSprite() : null;
+            inventorySlotUI[index].transform.GetChild(0).GetComponent<Image>().sprite = obj != null ? obj.GetSprite() : null;
         }
         
         /// <summary>
@@ -132,7 +147,7 @@ namespace BattleRobo
         /// <param name="magazineSize"></param>
         public void SetAmmoCounter(float currentAmmo, float magazineSize)
         {
-            if (currentAmmo != -1f && magazineSize != -1f)
+            if (Math.Abs(currentAmmo + 1f) > 0.0001f && Math.Abs(magazineSize + 1f) > 0.0001f)
                 ammoCounter.text = currentAmmo + " / " + magazineSize;
 
             else
@@ -141,10 +156,7 @@ namespace BattleRobo
 
         public void EnablePause(bool enable)
         {
-            if (enable)
-                Debug.Log("ENABLE PAUSE !");
-            else
-                Debug.Log("DISABLE PAUSE !");
+            Debug.Log(enable ? "ENABLE PAUSE !" : "DISABLE PAUSE !");
 
             pauseImage.gameObject.SetActive(enable);
         }

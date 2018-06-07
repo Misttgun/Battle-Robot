@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System;
-using System.Security.Cryptography.X509Certificates;
 using Photon;
 
 namespace BattleRobo
@@ -184,6 +183,12 @@ namespace BattleRobo
 
         //player inventory
         private PlayerInventory playerInventory;
+        
+        //ui variables
+        private int previousHealth;
+        private int previousKills;
+        private int previousShield;
+        private int previousAliveNumber;
 
         //Initialize server values for this player
         private void Awake()
@@ -319,16 +324,41 @@ namespace BattleRobo
 
         private void Update()
         {
+            //constantly update fuel as it change constantly
             uiScript.UpdateFuel(fuelAmount);
-            uiScript.UpdateHealth(playerStats.Health);
-            uiScript.UpdateShield(playerStats.Shield);
+
+            //update player health on change
+            if (previousHealth != playerStats.Health)
+            {
+                uiScript.UpdateHealth(playerStats.Health);
+                previousHealth = playerStats.Health;
+            }
+            
+            //update player shield on change
+            if(previousShield != playerStats.Shield)
+            {
+                uiScript.UpdateShield(playerStats.Shield);
+                previousShield = playerStats.Shield;
+            }
+            
+            //update player kills on change
+            if(previousKills != playerStats.Kills)
+            {
+                uiScript.UpdateKillsText(playerStats.Kills);
+                previousKills = playerStats.Kills;
+            }
 
             if (GameManagerScript.GetInstance().IsGamePause())
                 return;
 
             timer += Time.deltaTime;
 
-            uiScript.UpdateAliveText(GameManagerScript.GetInstance().alivePlayerNumber);
+            //update alive number on change
+            if(GameManagerScript.alivePlayerNumber != previousAliveNumber)
+            {
+                uiScript.UpdateAliveText(GameManagerScript.alivePlayerNumber);
+                previousAliveNumber = GameManagerScript.alivePlayerNumber;
+            }
 
             //update the storm timer in the UI
 //            if (StormManagerScript.GetInstance().GetStormTimer() >= 0)
@@ -434,6 +464,11 @@ namespace BattleRobo
                     myPhotonView.RPC("UpdateKillsRPC", PhotonTargets.MasterClient, killerID);
                 }
 
+                //TODO Trouver une solution pour ça
+                //set the local values for the gameover screen
+                GameManagerScript.GetInstance().pRank = GameManagerScript.alivePlayerNumber;
+                GameManagerScript.GetInstance().pKills = playerStats.Kills;
+                
                 //tell all clients that the player is dead
                 myPhotonView.RPC("IsDeadRPC", PhotonTargets.All, playerID);
             }
@@ -465,7 +500,12 @@ namespace BattleRobo
 
             //remove the player from the alive players dictionnary and decrease the number of player alive
             GameManagerScript.GetInstance().alivePlayers.Remove(id);
-            GameManagerScript.GetInstance().alivePlayerNumber--;
+            GameManagerScript.alivePlayerNumber--;
+
+            if (GameManagerScript.GetInstance().localPlayer == this)
+            {
+                GameManagerScript.GetInstance().hasLost = true;
+            }
         }
 
         //called on the master client when a player kills the current player
@@ -654,8 +694,9 @@ namespace BattleRobo
             uiScript.UpdateHealth(playerStats.Health);
             uiScript.UpdateFuel(fuelAmount);
             uiScript.UpdateShield(playerStats.Shield);
+            uiScript.UpdateKillsText(playerStats.Kills);
 
-            uiScript.UpdateAliveText(GameManagerScript.GetInstance().alivePlayerNumber);
+            uiScript.UpdateAliveText(GameManagerScript.alivePlayerNumber);
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;

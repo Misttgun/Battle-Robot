@@ -201,7 +201,7 @@ namespace BattleRobo
 //            uiScript.UpdateFuel(fuelAmount);
 //            uiScript.UpdateShield(myPhotonView.GetShield());
 
-            uiScript.UpdateAliveText(GameManagerScript.GetInstance().alivePlayerNumber);
+            uiScript.UpdateAliveText(GameManagerScript.alivePlayerNumber);
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -324,7 +324,7 @@ namespace BattleRobo
             if (!photonView.isMine)
                 return;
 
-            uiScript.UpdateAliveText(GameManagerScript.GetInstance().alivePlayerNumber);
+            uiScript.UpdateAliveText(GameManagerScript.alivePlayerNumber);
 
             //update the storm timer in the UI
             if (StormManagerScript.GetInstance().GetStormTimer() >= 0)
@@ -523,7 +523,7 @@ namespace BattleRobo
 
             //remove the player from the alive players dictionnary and decrease the number of player alive
             GameManagerScript.GetInstance().alivePlayers.Remove(id);
-            GameManagerScript.GetInstance().alivePlayerNumber--;
+            GameManagerScript.alivePlayerNumber--;
         }
 
         //called on the master client when a player kills the current player

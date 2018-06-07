@@ -9,14 +9,26 @@ namespace BattleRobo
         // The game over text
         [SerializeField]
         private Text gameOverText;
+        
+        // The rank text
+        [SerializeField]
+        private Text rankText;
+        
+        // The kill text
+        [SerializeField]
+        private Text killsText;
 
         /// <summary>
         /// Updates the game over text
         /// </summary>
         /// <param name="goText"></param>
-        public void UpdateGameOverText(string goText)
+        /// <param name="rank"></param>
+        /// <param name="kills"></param>
+        public void UpdateGameOverText(string goText, int rank, int kills)
         {
             gameOverText.text = goText;
+            rankText.text = "Rank: " + rank;
+            killsText.text = "Kills: " + kills;
         }
 
         /// <summary>
