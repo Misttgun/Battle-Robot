@@ -29,12 +29,12 @@ namespace BattleRobo
         /// <summary>
         /// The number of player alive text.
         /// </summary>
-        [SerializeField] private Text aliveTexT;
+        [SerializeField] private Text aliveText;
         
         /// <summary>
         /// The number of kills text.
         /// </summary>
-        [SerializeField] private Text killsTexT;
+        [SerializeField] private Text killsText;
 
         /// <summary>
         /// The pause logo
@@ -107,7 +107,7 @@ namespace BattleRobo
         /// <param name="numberPlayer"></param>
         public void UpdateAliveText(int numberPlayer)
         {
-            aliveTexT.text = "Players Alive: " + numberPlayer;
+            aliveText.text = "Players Alive: " + numberPlayer;
         }
         
         /// <summary>
@@ -116,7 +116,7 @@ namespace BattleRobo
         /// <param name="kills"></param>
         public void UpdateKillsText(int kills)
         {
-            aliveTexT.text = "Kills: " + kills;
+            killsText.text = "Kills: " + kills;
         }
         
         /// <summary>

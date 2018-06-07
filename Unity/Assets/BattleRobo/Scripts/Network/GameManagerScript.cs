@@ -7,7 +7,7 @@ namespace BattleRobo
     /// Manages game workflow and provides high-level access to networked logic during a game.
     /// It manages functions such as win and loose situation.
     /// </summary>
-    public class GameManagerScript : Photon.PunBehaviour
+	public class GameManagerScript : Photon.PunBehaviour, IPunObservable
     {
         // reference to this script instance
         private static GameManagerScript Instance;
@@ -77,7 +77,7 @@ namespace BattleRobo
             if (!localPlayer)
                 return;
 
-            if (!hasLost && alivePlayerNumber == 1)
+            if (!hasLost && alivePlayerNumber == 0)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
@@ -133,5 +133,17 @@ namespace BattleRobo
                 player.SetActive(false);
             }
         }
-    }
+
+		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+		{
+			if (stream.isWriting)
+			{
+				stream.SendNext(alivePlayerNumber);
+			}
+			else
+			{
+				alivePlayerNumber = (int)stream.ReceiveNext();
+			}
+		}
+	}
 }
