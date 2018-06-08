@@ -16,3 +16,4 @@ MonoBehaviour:
   range: 15
   fireRate: 1.5
   gunName: RMB-93
+  gunId: 3

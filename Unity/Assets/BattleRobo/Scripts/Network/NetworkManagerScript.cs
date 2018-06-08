@@ -24,21 +24,6 @@ namespace BattleRobo
 		/// </summary>
 		public int onlineSceneIndex = 1;
 
-		/// <summary>
-		/// Maximum amount of players per room.
-		/// </summary>
-		public int maxPlayers = 8;
-
-		/// <summary>
-		/// References to the available player prefabs located in a Resources folder.
-		/// </summary>
-		public GameObject[] playerPrefabs;
-
-		/// <summary>
-		/// Event fired when a connection to the matchmaker service failed.
-		/// </summary>
-		public static event Action connectionFailedEvent;
-
 		//initialize network view
 		private void Awake()
 		{
@@ -67,27 +52,6 @@ namespace BattleRobo
 		{
 			return Instance;
 		}
-
-
-		/// <summary>
-		/// Called if a connect call to the Photon server failed before the connection was established.
-		/// </summary>
-		public override void OnFailedToConnectToPhoton(DisconnectCause cause)
-		{
-			if (connectionFailedEvent != null)
-				connectionFailedEvent();
-		}
-
-
-		/// <summary>
-		/// Called when something causes the connection to fail (after it was established).
-		/// </summary>
-		public override void OnConnectionFail(DisconnectCause cause)
-		{
-			if (connectionFailedEvent != null)
-				connectionFailedEvent();
-		}
-
 
 		/// <summary>
 		/// Called when a remote player left the room.

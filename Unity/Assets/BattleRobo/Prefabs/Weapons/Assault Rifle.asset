@@ -16,3 +16,4 @@ MonoBehaviour:
   range: 100
   fireRate: 1
   gunName: M416
+  gunId: 1

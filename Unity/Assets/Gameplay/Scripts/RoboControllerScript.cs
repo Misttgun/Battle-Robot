@@ -168,10 +168,12 @@ namespace BattleRobo
         public float currentRot;
         private float networkCurrentRot;
         private Transform myTransform;
-        private bool isMooving;
+       
 
         //audio variables
         private bool playAudio;
+        private bool isJumpingAudio;
+        private bool isMoovingAudio;
 
         //safe zone variables
         public bool inStorm;
@@ -216,7 +218,7 @@ namespace BattleRobo
 
             //player add itself to the dictionnary of alive player using his player ID
             GameManagerScript.GetInstance().alivePlayers.Add(playerID, gameObject);
-            
+
             //set the player current rank
             currentRank = GameManagerScript.alivePlayerNumber;
         }
@@ -230,7 +232,8 @@ namespace BattleRobo
                 stream.SendNext(playerStats.Shield);
                 stream.SendNext(playerStats.Kills);
                 stream.SendNext(fuelAmount);
-                stream.SendNext(isMooving);
+                stream.SendNext(isMoovingAudio);
+                stream.SendNext(isJumpingAudio);
             }
             else
             {
@@ -239,7 +242,8 @@ namespace BattleRobo
                 playerStats.Shield = (int) stream.ReceiveNext();
                 playerStats.Kills = (int) stream.ReceiveNext();
                 fuelAmount = (float) stream.ReceiveNext();
-                isMooving = (bool) stream.ReceiveNext();
+                isMoovingAudio = (bool) stream.ReceiveNext();
+                isJumpingAudio = (bool) stream.ReceiveNext();
             }
         }
 
@@ -268,10 +272,11 @@ namespace BattleRobo
                     audioSource.Stop();
                 }
 
-                //Play the walk/run audio
-                if (isMooving && !audioSource.isPlaying)
+                //Play the run audio
+                if (isMoovingAudio && !audioSource.isPlaying)
                 {
-                    AudioManagerScript.Play3D(audioSource, audioClips[0], 1f);
+                    Debug.Log("Playing Walking Sound: " + playerID);
+                    AudioManagerScript.Play3D(audioSource, audioClips[0]);
                 }
 
                 // Animate the player for the ground animation
@@ -295,18 +300,6 @@ namespace BattleRobo
                 // Disable the thrusters when the player is not flying
                 thrusters.SetActive(true);
 
-                //Stop the walking/running sound if we are not grounded
-                if (audioSource.isPlaying && audioSource.clip == audioClips[0])
-                {
-                    audioSource.Stop();
-                }
-
-                //Play the jetpack sound
-                if (!audioSource.isPlaying)
-                {
-                    AudioManagerScript.Play3D(audioSource, audioClips[1], 1);
-                }
-
                 moveDirection = myTransform.TransformDirection(moveDirection);
 
                 // Jump!
@@ -320,7 +313,7 @@ namespace BattleRobo
             moveDirection.y -= gravity * Time.deltaTime;
 
             //Set the mooving bool
-            isMooving = Math.Abs(moveDirection.x) > 0.0001f || Math.Abs(moveDirection.z) > 0.0001f;
+            isMoovingAudio = Math.Abs(moveDirection.x) > 0.0001f || Math.Abs(moveDirection.z) > 0.0001f;
 
             // Move the controller, and set grounded true or false depending on whether we're standing on something
             grounded = (controller.Move(moveDirection * Time.deltaTime) & CollisionFlags.Below) != 0;
@@ -370,6 +363,30 @@ namespace BattleRobo
             //                uiScript.UpdateStormTimer(StormManagerScript.GetInstance().GetStormTimer() + 1);
             //            }
 
+            if (isJumpingAudio)
+            {
+                //Stop the running sound if we are not grounded
+                if (audioSource.isPlaying && audioSource.clip == audioClips[0])
+                {
+                    audioSource.Stop();
+                }
+
+                //Play the jetpack sound
+                if (!audioSource.isPlaying)
+                {
+                    Debug.Log("Playing JetPack Sound: " + playerID);
+                    AudioManagerScript.Play3D(audioSource, audioClips[1], 1.15f);
+                }
+            }
+            else
+            {
+                //Stop the jumping sound when we are falling
+                if (audioSource.isPlaying && audioSource.clip == audioClips[1])
+                {
+                    audioSource.Stop();
+                }
+            }
+
             if (!PhotonNetwork.isMasterClient)
             {
                 UpdateNetworkHeadRotation();
@@ -389,11 +406,14 @@ namespace BattleRobo
                     // We override the base layer when the player is jumping
                     animator.SetLayerWeight(1, 1);
 
+                    isJumpingAudio = true;
+
                     fly = Vector3.up * flyForce * consumedFuel;
                 }
             }
             else
             {
+                isJumpingAudio = false;
                 fuelAmount += fuelRegenSpeed * Time.deltaTime;
                 maxFuelAmount = fuelAmount;
             }
@@ -443,9 +463,9 @@ namespace BattleRobo
         /// </summary>
         public void TakeDamage(int hitPoint, int killerID = -1)
         {
-            if(!PhotonNetwork.isMasterClient)
+            if (!PhotonNetwork.isMasterClient)
                 return;
-            
+
             //store network variables temporary
             int health = playerStats.Health;
             int shield = playerStats.Shield;
@@ -479,7 +499,7 @@ namespace BattleRobo
 
                 //set the player current rank
                 currentRank = GameManagerScript.alivePlayerNumber;
-                
+
                 //tell all clients that the player is dead
                 myPhotonView.RPC("IsDeadRPC", PhotonTargets.All, playerID, currentRank);
 
@@ -520,6 +540,9 @@ namespace BattleRobo
                 //set the local values for the gameover screen
                 GameManagerScript.GetInstance().pRank = rank;
                 GameManagerScript.GetInstance().hasLost = true;
+                
+                //deactivate the network command gameobject
+                GameManagerScript.GetInstance().networkCommandObject.SetActive(false);
             }
         }
 
@@ -537,25 +560,20 @@ namespace BattleRobo
 
         //called on the server first but forwarded to all clients
         [PunRPC]
-        private void ShootRPC(int shooterId, int itemId)
+        private void ShootRPC(int shooterId)
         {
-            //fire the right weapon
-            var currentItem = LootSpawnerScript.GetLootTracker()[itemId].GetComponent<PlayerObjectScript>();
-            WeaponScript weapon = null;
-
-
-            if (currentItem)
-                weapon = currentItem.GetWeapon();
-
-            if (weapon != null)
+            if (weaponHolder.currentWeapon != null)
             {
+                //temp value in case we quicly change weapon after we shoot
+                var weapon = weaponHolder.currentWeapon;
+
                 weapon.Fire(playerCameraTransform, playerID);
 
                 //play the weapon sound
-                AudioManagerScript.Play3D(audioSource, weapon.weaponSound, 1f);
+                AudioManagerScript.Play3D(audioSource, weapon.weaponSound);
 
                 // the iteam can have changed since the player shoot. Update UI only if necessary
-                var update = playerInventory.getCurrentActive().GetLootTrackerIndex() == itemId;
+                var update = weapon == weaponHolder.currentWeapon;
                 if (playerID == shooterId && update)
                     uiScript.SetAmmoCounter(weapon.GetCurrentAmmo(), weapon.GetMagazineSize());
             }
@@ -564,6 +582,12 @@ namespace BattleRobo
         [PunRPC]
         private void EquipWeaponRPC(int weaponIndex, float currentAmmo)
         {
+            if (weaponIndex == -1)
+            {
+                //return the layer animation to normal
+                animator.SetLayerWeight(2, 0);
+            }
+
             weaponHolder.EquipWeapon(weaponIndex, currentAmmo);
         }
 
@@ -623,6 +647,9 @@ namespace BattleRobo
 
             // - unequip weapon
             weaponHolder.SetWeapon(null, 0f);
+
+            //return the layer animation to normal
+            animator.SetLayerWeight(2, 0);
         }
 
         [PunRPC]
@@ -645,6 +672,18 @@ namespace BattleRobo
             GameManagerScript.GetInstance().SetPause(false);
         }
 
+        [PunRPC]
+        private void DamageIndicatorRPC(Vector3 shooterPos)
+        {
+            uiScript.UpdateDamageIndicator(shooterPos);
+        }
+
+        [PunRPC]
+        private void HitMarkerRPC()
+        {
+            uiScript.UpdateHitMarker();
+        }
+
         public void ClientMovement(float inputX, float inputY, bool isJumping, Vector2 mouseInput)
         {
             playerState = new PlayerState(inputX, inputY, isJumping, mouseInput);
@@ -657,17 +696,15 @@ namespace BattleRobo
 
         public void ClientShooting()
         {
-            if (playerInventory.getCurrentActive() != null)
+            if (weaponHolder.currentWeapon != null)
             {
-                var weapon = playerInventory.getCurrentActive().GetWeapon();
+                var weapon = weaponHolder.currentWeapon;
 
                 if (weapon && weapon.CanFire())
                 {
-                    var itemId = playerInventory.getCurrentActive().GetLootTrackerIndex();
-
                     //send shot request to server. We must pass the current inventoryIndex because, if 
                     // the player switch very quickly after the, shot, the wrong weapon is used
-                    myPhotonView.RPC("ShootRPC", PhotonTargets.AllViaServer, playerID, itemId);
+                    myPhotonView.RPC("ShootRPC", PhotonTargets.MasterClient, playerID);
                 }
             }
         }
@@ -687,6 +724,11 @@ namespace BattleRobo
         public void ClientSwitchWeapon(int index)
         {
             playerInventory.SwitchActiveIndex(index);
+        }
+
+        public void ShowDamageIndicator(Vector3 shooterPos)
+        {
+            myPhotonView.RPC("DamageIndicatorRPC", PhotonTargets.AllViaServer, shooterPos);
         }
 
         public void SetUp()

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 namespace BattleRobo
 {
@@ -44,6 +45,11 @@ namespace BattleRobo
         /// </summary>
         [SerializeField]
         private GameObject gameCamera;
+        
+        /// <summary>
+        /// Reference to the network command gameobject.
+        /// </summary>
+        public GameObject networkCommandObject;
         
         // Number of player currently alive in the game
         public static int alivePlayerNumber;
@@ -117,6 +123,57 @@ namespace BattleRobo
             isGamePause = pause;
         }
 
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+		{
+			if (stream.isWriting)
+			{
+				stream.SendNext(alivePlayerNumber);
+			}
+			else
+			{
+				alivePlayerNumber = (int)stream.ReceiveNext();
+			}
+		}
+        
+        /// <summary>
+        /// Called when a remote player left the room.
+        /// </summary>
+        public override void OnPhotonPlayerDisconnected(PhotonPlayer player)
+        {
+            //tell all clients that the player is dead
+            photonView.RPC("HasLeftRPC", PhotonTargets.All, player.ID);
+        }
+        
+        /// <summary>
+        /// Called after disconnecting from the Photon server.
+        /// </summary>
+        public override void OnDisconnectedFromPhoton()
+        {
+            //switch from the online to the offline scene after connection is closed
+            if (SceneManager.GetActiveScene().buildIndex != 0)
+                SceneManager.LoadScene(0);
+        }
+
+        //called on all clients when the player left the room
+        [PunRPC]
+        private void HasLeftRPC(int id)
+        {
+            //remove the player from the alive players dictionnary and decrease the number of player alive
+            //out reference to the dead player
+            GameObject player;
+
+            //deactivate the dead player
+            var found = alivePlayers.TryGetValue(id, out player);
+
+            if (found)
+            {
+                player.SetActive(false);
+            }
+            
+            alivePlayers.Remove(id);
+            alivePlayerNumber--;
+        }
+        
         [PunRPC]
         private void DisablePlayerRPC(int id)
         {
@@ -131,17 +188,5 @@ namespace BattleRobo
                 player.SetActive(false);
             }
         }
-
-		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-		{
-			if (stream.isWriting)
-			{
-				stream.SendNext(alivePlayerNumber);
-			}
-			else
-			{
-				alivePlayerNumber = (int)stream.ReceiveNext();
-			}
-		}
 	}
 }

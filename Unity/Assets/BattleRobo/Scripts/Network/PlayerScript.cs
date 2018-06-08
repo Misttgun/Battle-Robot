@@ -317,7 +317,7 @@ namespace BattleRobo
                 return;
 
             //set the active weapon to the current weapon
-            activeWeapon = weaponHolder.currentWeapon;
+            //activeWeapon = weaponHolder.currentWeapon;
 
             timer += Time.deltaTime;
 
@@ -384,13 +384,13 @@ namespace BattleRobo
                 maxFuelAmount = fuelAmount;
             }
 
-            if (Input.GetButtonDown("Fire1") && playerInventory.getCurrentActive() != null)
+            if (Input.GetButtonDown("Fire1") && playerInventory.GetCurrentActive() != null)
             {
-                var weapon = playerInventory.getCurrentActive().GetWeapon();
+                var weapon = playerInventory.GetCurrentActive().GetWeapon();
 
                 if (weapon && weapon.CanFire())
                 {
-                    var itemId = playerInventory.getCurrentActive().GetLootTrackerIndex();
+                    var itemId = playerInventory.GetCurrentActive().GetLootTrackerIndex();
                     //send shot request to server. We must pas the curretn inventoryIndex because, if 
                     // the player switch very quickly after the, shot, the wrong weapon is used
                     myPhotonView.RPC("ShootRPC", PhotonTargets.AllViaServer, playerID, itemId);
@@ -559,7 +559,7 @@ namespace BattleRobo
 
 
             // the iteam can have changed since the player shoot. Update UI only if necessary
-            var update = playerInventory.getCurrentActive().GetLootTrackerIndex() == itemId;
+            var update = playerInventory.GetCurrentActive().GetLootTrackerIndex() == itemId;
             if (playerID == shooterId && update)
                 playerUI.GetComponent<PlayerUIScript>().SetAmmoCounter(weapon.GetCurrentAmmo(), weapon.GetMagazineSize());
         }

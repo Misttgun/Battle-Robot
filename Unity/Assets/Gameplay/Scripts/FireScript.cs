@@ -52,7 +52,6 @@ public class FireScript : MonoBehaviour {
             
             //zone touché
             hitPoint = shot.point; 
-            StopCoroutine("displayHitMarker");      
             hitMarker.enabled=true;                //afficher le hit marker sur le UI 
             StartCoroutine("displayHitMarker");
         }
@@ -64,8 +63,8 @@ public class FireScript : MonoBehaviour {
     
     private void bulletPropagation()
     {  
-        spawnBullet = Instantiate(bullet, bulletSpawn.position, camFPS.transform.rotation);
-        Destroy(spawnBullet, 1.2f);
+        spawnBullet = Instantiate(bullet, bulletSpawn.position, Quaternion.identity);
+        Destroy(spawnBullet, .5f);
         
     }
     

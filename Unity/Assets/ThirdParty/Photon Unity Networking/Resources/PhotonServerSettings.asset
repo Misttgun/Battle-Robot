@@ -75,4 +75,7 @@ MonoBehaviour:
   - DropRPC
   - LootRPC
   - SwitchWeaponRPC
+  - DamageIndicatorRPC
+  - HitMarkerRPC
+  - BulletSpawnRPC
   DisableAutoOpenWizard: 1

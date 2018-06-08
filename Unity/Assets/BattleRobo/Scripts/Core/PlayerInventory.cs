@@ -107,6 +107,13 @@ namespace BattleRobo
         /// </summary>
         public void SwitchActiveIndex(int index)
         {
+            //set the current ammo of the weapon in the inventory before the switch
+            var currentActive = GetCurrentActive();
+            if (currentActive)
+            {
+                currentActive.GetWeapon().SetCurrentAmmo(weaponHolder.currentWeapon.currentAmmo);
+            }
+            
             SetActiveItem(index);
 
             var item = inventory[index].GetItem();
@@ -222,7 +229,7 @@ namespace BattleRobo
             playerView.RPC("DropObject", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), position);
 
             // - Update ammo counter
-            playerView.RPC("UpdateWeapon", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), playerObject.GetWeapon().GetCurrentAmmo());
+            playerView.RPC("UpdateWeapon", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), weaponHolder.GetCurrentWeapon().GetCurrentAmmo());
 
 //            // - remove object from player inventory
 //            inventory[currentSlotIndex].Drop();
@@ -248,7 +255,7 @@ namespace BattleRobo
                 playerUI.SetAmmoCounter(-1f, -1f);
         }
 
-        public PlayerObjectScript getCurrentActive()
+        public PlayerObjectScript GetCurrentActive()
         {
             if (currentSlotIndex != -1)
                 return inventory[currentSlotIndex].GetItem();

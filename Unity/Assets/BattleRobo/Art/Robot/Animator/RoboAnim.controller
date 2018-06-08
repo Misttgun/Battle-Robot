@@ -42,7 +42,7 @@ AnimatorController:
   - serializedVersion: 5
     m_Name: Jump Layer
     m_StateMachine: {fileID: 1107193583261602144}
-    m_Mask: {fileID: 31900000, guid: 5aa30cdbabd30b343ac8630bc589cce2, type: 2}
+    m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
     m_BlendingMode: 0
@@ -125,8 +125,8 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400014, guid: d2e60b8ba34b70e48a7612804da4509f, type: 3}
-    m_Threshold: -90
+    m_Motion: {fileID: 7400016, guid: d2e60b8ba34b70e48a7612804da4509f, type: 3}
+    m_Threshold: -60
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -141,7 +141,7 @@ BlendTree:
     m_DirectBlendParameter: VelX
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400016, guid: d2e60b8ba34b70e48a7612804da4509f, type: 3}
+    m_Motion: {fileID: 7400014, guid: d2e60b8ba34b70e48a7612804da4509f, type: 3}
     m_Threshold: 60
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -150,7 +150,7 @@ BlendTree:
     m_Mirror: 0
   m_BlendParameter: AimAngle
   m_BlendParameterY: VelX
-  m_MinThreshold: -90
+  m_MinThreshold: -60
   m_MaxThreshold: 60
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0

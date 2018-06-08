@@ -16,3 +16,4 @@ MonoBehaviour:
   range: 40
   fireRate: 0.5
   gunName: P411
+  gunId: 2

@@ -13,22 +13,10 @@ namespace BattleRobo
         public WeaponScript currentWeapon;
 
         [SerializeField]
-        private RoboControllerScript _playerControllerScript;
-
-        [SerializeField]
         private PhotonView playerPhotonView;
 
-        private void Start()
-        {
-            //inventory = _playerControllerScript.GetInventory();
-            //inventory.SetWeaponHolder(this);
-
-
-            foreach (var weapon in equipWeapons)
-            {
-                weapon.playerPhotonView = playerPhotonView;
-            }
-        }
+        [SerializeField]
+        private GameObject bullet;
 
         public void SetWeapon(WeaponScript inventoryWeapon, float currentAmmo)
         {
@@ -45,7 +33,7 @@ namespace BattleRobo
             {
                 foreach (WeaponScript weapon in equipWeapons)
                 {
-                    if (inventoryWeapon && weapon.GetName() == inventoryWeapon.GetName())
+                    if (inventoryWeapon && weapon.GetId() == inventoryWeapon.GetId())
                     {
                         playerPhotonView.RPC("EquipWeaponRPC", PhotonTargets.All, index, currentAmmo);
                     }
@@ -86,6 +74,18 @@ namespace BattleRobo
         public WeaponScript GetCurrentWeapon()
         {
             return currentWeapon;
+        }
+
+        [PunRPC]
+        private void BulletSpawnRPC(Vector3 destination, Vector3 spawnPos, Quaternion rotation)
+        {
+            var spawnedBullet = PoolManagerScript.Spawn(bullet, spawnPos, rotation);
+            
+            var bulletScript = spawnedBullet.GetComponent<BulletScript>();
+            bulletScript.target = destination;
+            bulletScript.spawnPoint = spawnPos;
+            
+            PoolManagerScript.Despawn(spawnedBullet, 0.5f);
         }
     }
 }

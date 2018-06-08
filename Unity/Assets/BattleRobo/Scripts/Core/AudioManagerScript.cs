@@ -80,7 +80,7 @@ namespace BattleRobo
         /// <summary>
         /// Play sound clip passed in in 3D space.
         /// </summary>
-        public static void Play3D(AudioSource source, AudioClip clip, float pitch = 0f)
+        public static void Play3D(AudioSource source, AudioClip clip, float pitch = 1f)
         {
             //cancel execution if clip wasn't set
             if (clip == null) return;

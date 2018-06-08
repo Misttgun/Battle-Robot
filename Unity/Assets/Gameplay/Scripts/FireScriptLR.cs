@@ -42,21 +42,15 @@ public class FireScriptLR : MonoBehaviour {
             
             Debug.Log(" hit " + shot.collider.name);
             hitPoint = shot.point; 
-            StopCoroutine("displayHitMarker");
-            
             // Position du point B 
-            laserLine.SetPosition(1,shot.point); 
-            
-            hitMarker.enabled=true;
+            laserLine.SetPosition(1,shot.point);
             StartCoroutine("displayHitMarker");
+            hitMarker.enabled=true;
         }
         else
         {
-            StopCoroutine("displayHitMarker");
-            
             // Position du point B 
             laserLine.SetPosition(1,camFPS.transform.position+(camFPS.transform.forward * gun.range));
-            
             StartCoroutine("displayHitMarker");
         }
     }
@@ -66,7 +60,7 @@ public class FireScriptLR : MonoBehaviour {
     {
         // on trace ensuite la ligne entre le point A et B pendant un intervalle de temps 
         laserLine.enabled = true;
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(0.5f);
         hitMarker.enabled=false;
         laserLine.enabled = false;
     }

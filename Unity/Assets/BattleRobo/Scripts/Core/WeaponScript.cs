@@ -12,10 +12,24 @@ namespace BattleRobo
 
         public AudioClip weaponSound;
 
-        public PhotonView playerPhotonView;
+        [SerializeField]
+        private PhotonView playerPhotonView;
+        
+        [SerializeField]
+        private PhotonView weaponHolderPhotonView;
 
         public float currentAmmo;
+
         private float nextTimeToFire;
+
+        #region Bullet Region
+
+        [SerializeField]
+        private Transform bulletSpawn;
+        
+        private Vector3 hitPoint;
+
+        #endregion
 
         private void Start()
         {
@@ -56,15 +70,29 @@ namespace BattleRobo
                 if (Physics.Raycast(camTransform.position, camTransform.forward, out shot, currentGun.range, layerMask))
                 {
                     Debug.Log("Hit" + shot.transform.gameObject.name);
-                    //shot.transform.gameObject.GetComponent<PlayerScript>().TakeDamage(currentGun.damage, playerID);
-                    shot.transform.gameObject.GetComponent<RoboControllerScript>().TakeDamage(currentGun.damage, playerID);
+
+                    var hitRoboController = shot.transform.gameObject.GetComponent<RoboControllerScript>();
+                    playerPhotonView.RPC("HitMarkerRPC", PhotonTargets.AllViaServer);
+                    hitRoboController.TakeDamage(currentGun.damage, playerID);
+                    hitRoboController.ShowDamageIndicator(camTransform.position);
+                    hitPoint = shot.point;
                 }
+                else
+                {
+                    hitPoint = camTransform.position + camTransform.forward * currentGun.range;
+                }
+                weaponHolderPhotonView.RPC("BulletSpawnRPC", PhotonTargets.All, hitPoint, bulletSpawn.position, camTransform.rotation);
             }
         }
-
+        
         public string GetName()
         {
-            return currentGun.name;
+            return currentGun.gunName;
+        }
+
+        public int GetId()
+        {
+            return currentGun.gunId;
         }
 
         public int GetMagazineSize()
