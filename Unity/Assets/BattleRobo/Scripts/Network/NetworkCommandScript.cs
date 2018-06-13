@@ -1,5 +1,6 @@
 ﻿using System;
 using BattleRobo;
+using ExitGames.Demos.DemoAnimator;
 using Photon;
 using UnityEngine;
 using UnityEngine.AI;
@@ -30,6 +31,9 @@ public class NetworkCommandScript : PunBehaviour
     private bool isFiring;
     private bool isLooting;
     private bool isDropping;
+    
+    // game state
+    private bool isInPause;
 
     private void Start()
     {
@@ -39,7 +43,7 @@ public class NetworkCommandScript : PunBehaviour
     private void Update()
     {
         // Cursor lock
-        if (Input.GetKeyDown(KeyCode.F1))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -59,14 +63,19 @@ public class NetworkCommandScript : PunBehaviour
         isJumping = Input.GetButton("Jump");
 
         //player actions
-        isPausing = Input.GetKeyDown(KeyCode.Escape);
+        isPausing = Input.GetButtonDown("Pause");
         isFiring = Input.GetButtonDown("Fire1");
         isLooting = Input.GetButtonDown("Loot");
         isDropping = Input.GetButtonDown("Drop");
 
+        // - game state
+        isInPause = GameManagerScript.GetInstance().IsGamePause();
+        
+        
         playerState = new RoboControllerScript.PlayerState(inputX, inputY, isJumping, mouseInput);
+        
 
-        if (isFiring)
+        if (isFiring && !isInPause)
         {
             PhotonNetwork.RPC(photonView, "ShootingRPC", PhotonTargets.MasterClient, false, PhotonNetwork.player);
         }
@@ -77,38 +86,38 @@ public class NetworkCommandScript : PunBehaviour
             PhotonNetwork.RPC(photonView, "PauseRPC", PhotonTargets.MasterClient, false, PhotonNetwork.player);
         }
 
-        if (isLooting)
+        if (isLooting && !isInPause)
         {
             PhotonNetwork.RPC(photonView, "LootRPC", PhotonTargets.MasterClient, false, PhotonNetwork.player);
         }
 
-        if (isDropping)
+        if (isDropping && !isInPause)
         {
             PhotonNetwork.RPC(photonView, "DropRPC", PhotonTargets.MasterClient, false, PhotonNetwork.player);
         }
 
-        if (Input.GetButtonDown("Inventory1"))
+        if (Input.GetButtonDown("Inventory1") && !isInPause)
         {
             index = 0;
         }
-        else if (Input.GetButtonDown("Inventory2"))
+        else if (Input.GetButtonDown("Inventory2") && !isInPause)
         {
             index = 1;
         }
-        else if (Input.GetButtonDown("Inventory3"))
+        else if (Input.GetButtonDown("Inventory3") && !isInPause)
         {
             index = 2;
         }
-        else if (Input.GetButtonDown("Inventory4"))
+        else if (Input.GetButtonDown("Inventory4") && !isInPause)
         {
             index = 3;
         }
-        else if (Input.GetButtonDown("Inventory5"))
+        else if (Input.GetButtonDown("Inventory5") && !isInPause)
         {
             index = 4;
         }
 
-        if (currentIndex != index)
+        if (currentIndex != index && !isInPause)
         {
             PhotonNetwork.RPC(photonView, "SwitchWeaponRPC", PhotonTargets.AllViaServer, false, PhotonNetwork.player, index);
             currentIndex = index;
@@ -117,7 +126,7 @@ public class NetworkCommandScript : PunBehaviour
 
     private void FixedUpdate()
     {
-        if (!playerState.IsEqual(previousPlayerState))
+        if (!playerState.IsEqual(previousPlayerState) && !GameManagerScript.GetInstance().IsGamePause())
         {
             PhotonNetwork.RPC(photonView, "MovementRPC", PhotonTargets.MasterClient, false, PhotonNetwork.player, playerState.inputX, playerState.inputY, playerState.isJumping, playerState.mouseInput);
 

@@ -346,7 +346,11 @@ namespace BattleRobo
             }
 
             if (GameManagerScript.GetInstance().IsGamePause())
+            {
+                // - stop sound when in pause
+                audioSource.Stop();
                 return;
+            }
 
             timer += Time.deltaTime;
 
