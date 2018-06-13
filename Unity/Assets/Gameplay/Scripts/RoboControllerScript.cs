@@ -690,8 +690,13 @@ namespace BattleRobo
         }
 
         public void ClientPause()
-        {
+        {   
             myPhotonView.RPC(!GameManagerScript.GetInstance().IsGamePause() ? "SetPause" : "CancelPause", PhotonTargets.AllViaServer);
+        }
+        
+        public void ClientPauseTimeout()
+        {   
+            myPhotonView.RPC("CancelPause", PhotonTargets.AllViaServer);
         }
 
         public void ClientShooting()

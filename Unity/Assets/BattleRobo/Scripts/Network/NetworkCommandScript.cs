@@ -1,6 +1,8 @@
-﻿using BattleRobo;
+﻿using System;
+using BattleRobo;
 using Photon;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class NetworkCommandScript : PunBehaviour
 {
@@ -37,7 +39,7 @@ public class NetworkCommandScript : PunBehaviour
     private void Update()
     {
         // Cursor lock
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.F1))
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -71,6 +73,7 @@ public class NetworkCommandScript : PunBehaviour
 
         if (isPausing)
         {
+            Debug.Log("IsPausing");
             PhotonNetwork.RPC(photonView, "PauseRPC", PhotonTargets.MasterClient, false, PhotonNetwork.player);
         }
 
@@ -122,6 +125,17 @@ public class NetworkCommandScript : PunBehaviour
         }
     }
 
+    private void PauseTimeout()
+    {
+        // - the master client shall do the Timeout RPC to avoid that a corrupted client keep game in pause forever
+        bool isMasterClient = PhotonNetwork.player.IsMasterClient;
+        bool isStillInPause = GameManagerScript.GetInstance().IsGamePause();
+   
+        // - if still in pause, master client will send an RPC to exit pause
+        if (isMasterClient && isStillInPause)
+            PhotonNetwork.RPC(photonView, "PauseTimeoutRPC", PhotonTargets.MasterClient, false, PhotonNetwork.player);
+    }
+
     [PunRPC]
     public void MovementRPC(PhotonPlayer player, float x, float y, bool jumping, Vector2 mouse)
     {
@@ -146,7 +160,36 @@ public class NetworkCommandScript : PunBehaviour
     [PunRPC]
     public void PauseRPC(PhotonPlayer player)
     {
-        commandDispatcherScript.Pause(player.ID - IdShift);
+        int counter = 0;
+        bool isGamePause = GameManagerScript.GetInstance().IsGamePause();
+        bool found = GameManagerScript.GetInstance().pauseCounter.TryGetValue(player.ID, out counter);
+
+        if (!isGamePause)
+        {
+            // - set current player in pause
+            GameManagerScript.GetInstance().SetPlayerInPause(player.ID);
+                
+            // - increment pause counter
+            if (found)
+                GameManagerScript.GetInstance().pauseCounter[player.ID]++;
+
+            // - init pause counter if necessary
+            else
+                GameManagerScript.GetInstance().pauseCounter[player.ID] = 0;
+            
+            // - max pause duration is 10 sec
+            Invoke("PauseTimeout", 10);
+        }
+        
+        // - dispatch pause if the player havn't used it more than 3 times or if the game is already in pause
+        if (isGamePause && GameManagerScript.GetInstance().GetPlayerInPause() == player.ID || (!isGamePause && counter < 2))
+            commandDispatcherScript.Pause(player.ID - IdShift);
+    }
+
+    [PunRPC]
+    public void PauseTimeoutRPC(PhotonPlayer player)
+    {
+        commandDispatcherScript.PauseTimeout(player.ID - IdShift);
     }
 
     [PunRPC]

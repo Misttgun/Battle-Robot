@@ -24,6 +24,11 @@ namespace BattleRobo
         /// The dictionnary of all the players currently alive in the game.
         /// </summary>
         public Dictionary<int, GameObject> alivePlayers;
+        
+        /// <summary>
+        /// The dictionnary of pause used by players.
+        /// </summary>
+        public Dictionary<int, int> pauseCounter;
 
         /// <summary>
         /// Reference to the game over UI.
@@ -39,6 +44,11 @@ namespace BattleRobo
         /// Reference to the game over UI script.
         /// </summary>
         private bool isGamePause;
+
+        /// <summary>
+        /// Reference to the game over UI script.
+        /// </summary>
+        private int playerInPauseId;
 
         /// <summary>
         /// Reference to the game camera to show the game over UI.
@@ -65,6 +75,7 @@ namespace BattleRobo
 
             //we reserve 4 spots because that's the maximum number of players for now
             alivePlayers = new Dictionary<int, GameObject>(4);
+            pauseCounter = new Dictionary<int, int>();
         }
 
         private void Start()
@@ -121,6 +132,16 @@ namespace BattleRobo
         public void SetPause(bool pause)
         {
             isGamePause = pause;
+        }
+
+        public void SetPlayerInPause(int idPlayer)
+        {
+            playerInPauseId = idPlayer;
+        }
+        
+        public int GetPlayerInPause()
+        {
+            return playerInPauseId;
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

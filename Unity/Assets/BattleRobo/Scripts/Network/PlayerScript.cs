@@ -176,7 +176,7 @@ namespace BattleRobo
 
             //player add itself to the dictionnary of alive player using his player ID
             GameManagerScript.GetInstance().alivePlayers.Add(playerID, gameObject);
-
+           
             //called only for this client 
             if (!photonView.isMine)
                 return;
@@ -304,13 +304,14 @@ namespace BattleRobo
         private void Update()
         {
             // - Pause
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.F1))
             {
                 if (!GameManagerScript.GetInstance().IsGamePause())
                     myPhotonView.RPC("SetPause", PhotonTargets.AllViaServer);
 
                 else
                     myPhotonView.RPC("CancelPause", PhotonTargets.AllViaServer);
+                
             }
 
             if (GameManagerScript.GetInstance().IsGamePause())

@@ -46,6 +46,16 @@ public class CommandDispatcherScript : MonoBehaviour
         PlayerControllersScript[playerId].ClientPause();
     }
     
+    public void PauseTimeout(int playerId)
+    {
+        if (playerId < 0 || playerId >= PlayerControllersScript.Length)
+        {
+            return;
+        }
+
+        PlayerControllersScript[playerId].ClientPauseTimeout();
+    }
+    
     public void Loot(int playerId)
     {
         if (playerId < 0 || playerId >= PlayerControllersScript.Length)
