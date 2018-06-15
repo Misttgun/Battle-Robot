@@ -25,19 +25,24 @@ namespace BattleRobo
         [SerializeField]
         private int mapSpacing;
 
-        private void Start()
+        private int seed;
+
+        private void Awake()
         {
-            var seed = PhotonNetwork.inRoom ? System.Convert.ToInt32(PhotonNetwork.room.CustomProperties["seed"]) : 40;
-                
+            seed = PhotonNetwork.inRoom ? System.Convert.ToInt32(PhotonNetwork.room.CustomProperties["seed"]) : 42;
+
             //On doit avoir le même seed sinon la map est différente pour les joueurs :D
             Random.InitState(seed); //seed
+        }
 
+        private void Start()
+        {
             for (int i = 0; i < mapSize; i++)
             {
                 for (int j = 0; j < mapSize; j++)
                 {
                     var randomNum = Random.Range(0, prefabsToLoad.Length);
-                    
+
                     var platform = Instantiate(prefabsToLoad[randomNum], new Vector3(j * mapSpacing, prefabsToLoad[randomNum].transform.position.y, i * mapSpacing), Quaternion.identity);
 
                     //var platform = Instantiate(prefabsToLoad[randomNum], new Vector3(j * mapSpacing, prefabsToLoad[randomNum].transform.position.y, i * mapSpacing), Quaternion.identity);
@@ -47,7 +52,7 @@ namespace BattleRobo
             }
 
             int mMapSize = getMapMainSize();
-            float halfMapSize = (float)mMapSize / 2;
+            float halfMapSize = (float) mMapSize / 2;
             envExt.transform.localScale = new Vector3(mMapSize, height, mMapSize);
             envExt.transform.position = new Vector3(halfMapSize, -height / 5, halfMapSize);
 

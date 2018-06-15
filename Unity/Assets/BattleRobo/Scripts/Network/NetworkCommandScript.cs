@@ -1,9 +1,6 @@
-﻿using System;
-using BattleRobo;
-using ExitGames.Demos.DemoAnimator;
+﻿using BattleRobo;
 using Photon;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class NetworkCommandScript : PunBehaviour
 {

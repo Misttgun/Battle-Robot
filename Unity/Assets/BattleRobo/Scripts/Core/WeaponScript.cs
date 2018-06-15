@@ -14,7 +14,7 @@ namespace BattleRobo
 
         [SerializeField]
         private PhotonView playerPhotonView;
-        
+
         [SerializeField]
         private PhotonView weaponHolderPhotonView;
 
@@ -26,7 +26,7 @@ namespace BattleRobo
 
         [SerializeField]
         private Transform bulletSpawn;
-        
+
         private Vector3 hitPoint;
 
         #endregion
@@ -60,31 +60,35 @@ namespace BattleRobo
             //set the next time to fire and decrease ammo
             nextTimeToFire = Time.time + currentGun.fireRate;
 
-            if (currentAmmo > 0)
+            if (!(currentAmmo > 0))
+                return;
+
+            currentAmmo--;
+
+            if (!PhotonNetwork.isMasterClient)
+                return;
+
+            const int layerMask = 1 << 8;
+            RaycastHit shot;
+
+            if (Physics.Raycast(camTransform.position, camTransform.forward, out shot, currentGun.range, layerMask))
             {
-                currentAmmo--;
+                Debug.Log("Hit" + shot.transform.gameObject.name);
 
-                const int layerMask = 1 << 8;
-                RaycastHit shot;
-
-                if (Physics.Raycast(camTransform.position, camTransform.forward, out shot, currentGun.range, layerMask))
-                {
-                    Debug.Log("Hit" + shot.transform.gameObject.name);
-
-                    var hitRoboController = shot.transform.gameObject.GetComponent<RoboControllerScript>();
-                    playerPhotonView.RPC("HitMarkerRPC", PhotonTargets.AllViaServer);
-                    hitRoboController.TakeDamage(currentGun.damage, playerID);
-                    hitRoboController.ShowDamageIndicator(camTransform.position);
-                    hitPoint = shot.point;
-                }
-                else
-                {
-                    hitPoint = camTransform.position + camTransform.forward * currentGun.range;
-                }
-                weaponHolderPhotonView.RPC("BulletSpawnRPC", PhotonTargets.All, hitPoint, bulletSpawn.position, camTransform.rotation);
+                var hitRoboController = shot.transform.gameObject.GetComponent<RoboControllerScript>();
+                playerPhotonView.RPC("HitMarkerRPC", PhotonTargets.AllViaServer);
+                hitRoboController.TakeDamage(currentGun.damage, playerID);
+                hitRoboController.ShowDamageIndicator(camTransform.position);
+                hitPoint = shot.point;
             }
+            else
+            {
+                hitPoint = camTransform.position + camTransform.forward * currentGun.range;
+            }
+
+            weaponHolderPhotonView.RPC("BulletSpawnRPC", PhotonTargets.All, hitPoint, bulletSpawn.position, camTransform.rotation);
         }
-        
+
         public string GetName()
         {
             return currentGun.gunName;
@@ -103,11 +107,6 @@ namespace BattleRobo
         public void SetCurrentAmmo(float ammoNumber)
         {
             currentAmmo = ammoNumber;
-        }
-
-        public float GetCurrentAmmo()
-        {
-            return currentAmmo;
         }
     }
 }

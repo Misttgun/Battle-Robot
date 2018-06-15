@@ -75,7 +75,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1534484177851104
 GameObject:
   m_ObjectHideFlags: 1
@@ -95,7 +95,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1773787378561492
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,16 +543,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabsToLoad:
-  - {fileID: 1902533486901256, guid: 76d03a9512085464381dc8eae1b8c112, type: 2}
-  - {fileID: 1883118594089580, guid: 87e8549e1af5daa44b14d27863d799ac, type: 2}
-  - {fileID: 1163178141962272, guid: ac90b3c1808963f4599a3bcdf801da30, type: 2}
-  - {fileID: 1293242321711914, guid: 4ddb7c4084e805a43bb3a2094efaad9a, type: 2}
+  - {fileID: 1163467235849112, guid: d1a19a6a9dc27cf4b9f1a19e9e529909, type: 2}
+  - {fileID: 1321697567024506, guid: d50c2935765ce114184d93446e00f203, type: 2}
+  - {fileID: 1365510099511038, guid: b87b198132e3815409dc54319f6a665e, type: 2}
+  - {fileID: 1284845503863048, guid: 8bd11879de67cef43b6f7b99329e83dd, type: 2}
+  - {fileID: 1788969783174050, guid: b4e3e6c7c2edfdf40987c54cf0b7c7ab, type: 2}
+  - {fileID: 1791056943354046, guid: efaacc0b922de56479746f4a0461c27a, type: 2}
+  - {fileID: 1504223692465034, guid: 24a8949d6df4f4040894b86fc09c5635, type: 2}
+  - {fileID: 1684750217477328, guid: 5ff2d580874666941914e0aeba872094, type: 2}
+  - {fileID: 1230691216691734, guid: 573cd1c5d08de294f90c0cab12efa8b1, type: 2}
   envExt: {fileID: 1390921043914110}
   lake: {fileID: 1955796657201286}
   level: {fileID: 4691863081031262}
   height: 80
-  mapSize: 20
-  mapSpacing: 10
+  mapSize: 10
+  mapSpacing: 80
 --- !u!114 &114948700168133992
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -78,4 +78,5 @@ MonoBehaviour:
   - DamageIndicatorRPC
   - HitMarkerRPC
   - BulletSpawnRPC
+  - PauseTimeoutRPC
   DisableAutoOpenWizard: 1

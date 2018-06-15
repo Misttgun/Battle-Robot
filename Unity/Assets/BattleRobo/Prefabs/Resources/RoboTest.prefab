@@ -1036,7 +1036,7 @@ GameObject:
   m_Icon: {fileID: 8220585740371884164, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1582223062613300
 GameObject:
   m_ObjectHideFlags: 1
@@ -2212,7 +2212,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1576785755018944}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 15, z: 0}
+  m_LocalPosition: {x: 0, y: 30, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4384031498053674}
@@ -3030,8 +3030,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 200, y: 100, z: 200}
-  m_Center: {x: 0, y: 50, z: 0}
+  m_Size: {x: 160, y: 400, z: 160}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!81 &81316827935151208
 AudioListener:
   m_ObjectHideFlags: 1
@@ -4443,7 +4443,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 4107120129665116}
-  playerScript: {fileID: 114661827294788418}
+  playerScript: {fileID: 0}
   distance: 0
 --- !u!114 &114991985805647782
 MonoBehaviour:

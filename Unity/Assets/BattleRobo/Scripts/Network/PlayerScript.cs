@@ -562,7 +562,7 @@ namespace BattleRobo
             // the iteam can have changed since the player shoot. Update UI only if necessary
             var update = playerInventory.GetCurrentActive().GetLootTrackerIndex() == itemId;
             if (playerID == shooterId && update)
-                playerUI.GetComponent<PlayerUIScript>().SetAmmoCounter(weapon.GetCurrentAmmo(), weapon.GetMagazineSize());
+                playerUI.GetComponent<PlayerUIScript>().SetAmmoCounter(weapon.currentAmmo, weapon.GetMagazineSize());
         }
 
         [PunRPC]

@@ -38,20 +38,14 @@ namespace BattleRobo
             if (obj != null)
                 return;
 
-            var spawPosition = new Vector3(transform.position.x, transform.position.y + 2.5f, transform.position.z);
+            var spawPosition = new Vector3(transform.position.x, transform.position.y + 2.55f, transform.position.z);
             var spawnRotation = transform.rotation * Quaternion.Euler(0, 0, 90);
 
             //use the poolmanager to spawn the loot on top of the plateforme
             obj = PoolManagerScript.Spawn(prefabs[index], spawPosition, spawnRotation);
 
-            //TODO rendre cette partie du code plus propre(optimisation)
-            //set the reference on the instantiated object for cross-referencing
-            obj.GetComponent<LootScript>().spawner = this;
             obj.GetComponent<PlayerObjectScript>().SetLootTrackerIndex(LootTracker.Count);
             LootTracker.Add(obj);
-            obj.GetComponent<LootScript>().enabled = false;
-            obj.GetComponent<MeshRenderer>().enabled = false;
-            obj.GetComponent<WeaponScript>().enabled = false;
         }
 
         public static List<GameObject> GetLootTracker()

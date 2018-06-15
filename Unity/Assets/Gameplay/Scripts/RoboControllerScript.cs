@@ -168,7 +168,7 @@ namespace BattleRobo
         public float currentRot;
         private float networkCurrentRot;
         private Transform myTransform;
-       
+
 
         //audio variables
         private bool playAudio;
@@ -275,7 +275,6 @@ namespace BattleRobo
                 //Play the run audio
                 if (isMoovingAudio && !audioSource.isPlaying)
                 {
-                    Debug.Log("Playing Walking Sound: " + playerID);
                     AudioManagerScript.Play3D(audioSource, audioClips[0]);
                 }
 
@@ -362,10 +361,10 @@ namespace BattleRobo
             }
 
             //update the storm timer in the UI
-            //            if (StormManagerScript.GetInstance().GetStormTimer() >= 0)
-            //            {
-            //                uiScript.UpdateStormTimer(StormManagerScript.GetInstance().GetStormTimer() + 1);
-            //            }
+            if (StormManagerScript.GetInstance().GetStormTimer() >= 0)
+            {
+                uiScript.UpdateStormTimer(StormManagerScript.GetInstance().GetStormTimer() + 1);
+            }
 
             if (isJumpingAudio)
             {
@@ -378,7 +377,6 @@ namespace BattleRobo
                 //Play the jetpack sound
                 if (!audioSource.isPlaying)
                 {
-                    Debug.Log("Playing JetPack Sound: " + playerID);
                     AudioManagerScript.Play3D(audioSource, audioClips[1], 1.15f);
                 }
             }
@@ -544,7 +542,7 @@ namespace BattleRobo
                 //set the local values for the gameover screen
                 GameManagerScript.GetInstance().pRank = rank;
                 GameManagerScript.GetInstance().hasLost = true;
-                
+
                 //deactivate the network command gameobject
                 GameManagerScript.GetInstance().networkCommandObject.SetActive(false);
             }
@@ -568,7 +566,7 @@ namespace BattleRobo
         {
             if (weaponHolder.currentWeapon != null)
             {
-                //temp value in case we quicly change weapon after we shoot
+                //temp value in case we quickly change weapon after we shoot
                 var weapon = weaponHolder.currentWeapon;
 
                 weapon.Fire(playerCameraTransform, playerID);
@@ -576,10 +574,11 @@ namespace BattleRobo
                 //play the weapon sound
                 AudioManagerScript.Play3D(audioSource, weapon.weaponSound);
 
-                // the iteam can have changed since the player shoot. Update UI only if necessary
+                //the item can have changed since the player shoot. Update UI only if necessary
                 var update = weapon == weaponHolder.currentWeapon;
+                
                 if (playerID == shooterId && update)
-                    uiScript.SetAmmoCounter(weapon.GetCurrentAmmo(), weapon.GetMagazineSize());
+                    uiScript.SetAmmoCounter(weapon.currentAmmo, weapon.GetMagazineSize());
             }
         }
 
@@ -607,8 +606,8 @@ namespace BattleRobo
             if (slotIndex == playerInventory.currentSlotIndex)
             {
                 var weapon = playerObject.GetComponent<WeaponScript>();
-                weaponHolder.SetWeapon(weapon, weapon.GetCurrentAmmo());
-                uiScript.SetAmmoCounter(weapon.GetCurrentAmmo(), weapon.GetMagazineSize());
+                weaponHolder.SetWeapon(weapon, weapon.currentAmmo);
+                uiScript.SetAmmoCounter(weapon.currentAmmo, weapon.GetMagazineSize());
             }
 
             if (playerObject.IsAvailable())
@@ -694,12 +693,12 @@ namespace BattleRobo
         }
 
         public void ClientPause()
-        {   
+        {
             myPhotonView.RPC(!GameManagerScript.GetInstance().IsGamePause() ? "SetPause" : "CancelPause", PhotonTargets.AllViaServer);
         }
-        
+
         public void ClientPauseTimeout()
-        {   
+        {
             myPhotonView.RPC("CancelPause", PhotonTargets.AllViaServer);
         }
 
@@ -711,9 +710,8 @@ namespace BattleRobo
 
                 if (weapon && weapon.CanFire())
                 {
-                    //send shot request to server. We must pass the current inventoryIndex because, if 
-                    // the player switch very quickly after the, shot, the wrong weapon is used
-                    myPhotonView.RPC("ShootRPC", PhotonTargets.MasterClient, playerID);
+                    //send shot request to all
+                    myPhotonView.RPC("ShootRPC", PhotonTargets.All, playerID);
                 }
             }
         }

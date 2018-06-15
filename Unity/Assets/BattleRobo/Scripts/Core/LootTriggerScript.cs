@@ -9,12 +9,15 @@ namespace BattleRobo
 		
 		[SerializeField]
 		private PlayerObjectScript playerObjectScript;
-		
-		[SerializeField]
-		private LootScript lootScript;
 
 		[SerializeField]
 		private MeshRenderer meshRenderer;
+		
+		//[SerializeField]
+		//private LootScript lootScript;
+
+		[SerializeField]
+		private GameObject weaponLight;
 		
 		//variable qui compte le nombre de trigger en collision avec le loot
 		private int count;
@@ -35,9 +38,10 @@ namespace BattleRobo
 				return;
 			}
 			
-			lootScript.enabled = true;
+			//lootScript.enabled = false;
 			weaponScript.enabled = true;
 			meshRenderer.enabled = true;
+			weaponLight.SetActive(true);
 		}
         
 		private void OnTriggerExit(Collider other)
@@ -51,9 +55,8 @@ namespace BattleRobo
 
 		public void DespawnLoot()
 		{
-			weaponScript.enabled = false;
-			lootScript.enabled = false;
-			
+			//lootScript.enabled = false;
+			weaponScript.enabled = false;			
 			
 			if (playerObjectScript.IsAvailable() == false)
 			{
@@ -61,6 +64,7 @@ namespace BattleRobo
 			}
 			
 			meshRenderer.enabled = false;
+			weaponLight.SetActive(false);
 		}
 	}
 }
