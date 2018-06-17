@@ -1,0 +1,8 @@
+Note de release : 
+
+- Streaming de map
+- Pause
+- Serveur autoritaire
+- Direction de l'impact des balles
+- Serveur d'authentification
+- Ajout de l'audio
