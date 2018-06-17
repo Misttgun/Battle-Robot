@@ -79,4 +79,6 @@ MonoBehaviour:
   - HitMarkerRPC
   - BulletSpawnRPC
   - PauseTimeoutRPC
+  - SendDBTokenRPC
+  - WinnerRPC
   DisableAutoOpenWizard: 1

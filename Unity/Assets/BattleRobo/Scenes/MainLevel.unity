@@ -153,7 +153,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1576785755018944, guid: b9fca704ef2592c4c8a24994f3d461ad, type: 2}
       propertyPath: m_Name
-      value: RoboTest (3)
+      value: Robo (3)
       objectReference: {fileID: 0}
     - target: {fileID: 114382825329215052, guid: b9fca704ef2592c4c8a24994f3d461ad,
         type: 2}
@@ -378,7 +378,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1576785755018944, guid: b9fca704ef2592c4c8a24994f3d461ad, type: 2}
       propertyPath: m_Name
-      value: RoboTest (2)
+      value: Robo (2)
       objectReference: {fileID: 0}
     - target: {fileID: 114382825329215052, guid: b9fca704ef2592c4c8a24994f3d461ad,
         type: 2}
@@ -577,7 +577,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1576785755018944, guid: b9fca704ef2592c4c8a24994f3d461ad, type: 2}
       propertyPath: m_Name
-      value: RoboTest (4)
+      value: Robo (4)
       objectReference: {fileID: 0}
     - target: {fileID: 114382825329215052, guid: b9fca704ef2592c4c8a24994f3d461ad,
         type: 2}
@@ -667,7 +667,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1576785755018944, guid: b9fca704ef2592c4c8a24994f3d461ad, type: 2}
       propertyPath: m_Name
-      value: RoboTest (1)
+      value: Robo (1)
       objectReference: {fileID: 0}
     - target: {fileID: 114329646771077744, guid: b9fca704ef2592c4c8a24994f3d461ad,
         type: 2}

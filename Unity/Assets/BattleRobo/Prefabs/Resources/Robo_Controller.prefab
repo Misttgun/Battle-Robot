@@ -1176,9 +1176,7 @@ GameObject:
   - component: {fileID: 4927357356750178}
   - component: {fileID: 143480664789931444}
   - component: {fileID: 95656458639368154}
-  - component: {fileID: 114241827730057450}
   - component: {fileID: 114677400403899428}
-  - component: {fileID: 114791890928967840}
   m_Layer: 8
   m_Name: Robo_Controller
   m_TagString: Player
@@ -3758,8 +3756,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGun: {fileID: 11400000, guid: adb4cef86774ca645a1756cab39df7f5, type: 2}
   playerAnimator: {fileID: 95656458639368154}
+  weaponSound: {fileID: 0}
   playerPhotonView: {fileID: 0}
+  weaponHolderPhotonView: {fileID: 0}
   currentAmmo: 0
+  bulletSpawn: {fileID: 0}
 --- !u!114 &114186916825627630
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3986,32 +3987,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114241827730057450
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1646143191571626}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e7fc907c68df704d850445d48f1a465, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aimSensitivity: 2
-  walkSpeed: 6
-  runSpeed: 11
-  gravity: 20
-  fuelDecreaseSpeed: 2.5
-  fuelRegenSpeed: 0.15
-  flyForce: 30
-  controller: {fileID: 143480664789931444}
-  roboHead: {fileID: 4106065341562720}
-  myPhotonView: {fileID: 114677400403899428}
-  animator: {fileID: 95575983693702776}
-  thrusters: {fileID: 1793791596813206}
-  playerUI: {fileID: 0}
-  fuelAmount: 1
-  currentRot: 0
 --- !u!114 &114268756054295590
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4029,6 +4004,7 @@ MonoBehaviour:
   - {fileID: 114698196261415760}
   currentWeapon: {fileID: 0}
   playerPhotonView: {fileID: 0}
+  bullet: {fileID: 0}
 --- !u!114 &114287177914219074
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4150,8 +4126,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGun: {fileID: 11400000, guid: adb4cef86774ca645a1756cab39df7f5, type: 2}
   playerAnimator: {fileID: 95656458639368154}
+  weaponSound: {fileID: 0}
   playerPhotonView: {fileID: 0}
+  weaponHolderPhotonView: {fileID: 0}
   currentAmmo: 0
+  bulletSpawn: {fileID: 0}
 --- !u!114 &114596572191857380
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4265,8 +4244,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGun: {fileID: 11400000, guid: a7c0fcec51b56cb4eac7ae9059acb9d7, type: 2}
   playerAnimator: {fileID: 95656458639368154}
+  weaponSound: {fileID: 0}
   playerPhotonView: {fileID: 0}
+  weaponHolderPhotonView: {fileID: 0}
   currentAmmo: 0
+  bulletSpawn: {fileID: 0}
 --- !u!114 &114703864440019592
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4280,8 +4262,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGun: {fileID: 11400000, guid: ccf3c5e2b77a8104984a5e1f01d44b12, type: 2}
   playerAnimator: {fileID: 95656458639368154}
+  weaponSound: {fileID: 0}
   playerPhotonView: {fileID: 0}
+  weaponHolderPhotonView: {fileID: 0}
   currentAmmo: 0
+  bulletSpawn: {fileID: 0}
 --- !u!114 &114704524595120276
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4411,19 +4396,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114791890928967840
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1646143191571626}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7357c6bf2ae44245b1b6a2f7d53c9f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  life: 10
-  InTheStorm: 0
 --- !u!114 &114807665964939370
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4440,6 +4412,7 @@ MonoBehaviour:
   - {fileID: 114178622756220366}
   currentWeapon: {fileID: 0}
   playerPhotonView: {fileID: 0}
+  bullet: {fileID: 0}
 --- !u!114 &114822379239204084
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4479,7 +4452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 4186082191495618}
-  playerScript: {fileID: 114241827730057450}
+  playerScript: {fileID: 0}
   distance: 2.5
 --- !u!114 &114859618254465038
 MonoBehaviour:
@@ -4496,7 +4469,9 @@ MonoBehaviour:
   healthBar: {fileID: 114992887557117352}
   shieldBar: {fileID: 114228919439700184}
   fuelBar: {fileID: 114198719555532222}
-  aliveTexT: {fileID: 114069442809494960}
+  aliveText: {fileID: 0}
+  killsText: {fileID: 0}
+  pauseImage: {fileID: 0}
   inventorySlotUI:
   - {fileID: 0}
   - {fileID: 0}
@@ -4505,6 +4480,9 @@ MonoBehaviour:
   - {fileID: 0}
   stormTimer: {fileID: 0}
   ammoCounter: {fileID: 0}
+  damageIndicator: {fileID: 0}
+  hitMarker: {fileID: 0}
+  playerCam: {fileID: 0}
 --- !u!114 &114862390051564224
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4518,8 +4496,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentGun: {fileID: 11400000, guid: a7c0fcec51b56cb4eac7ae9059acb9d7, type: 2}
   playerAnimator: {fileID: 95656458639368154}
+  weaponSound: {fileID: 0}
   playerPhotonView: {fileID: 0}
+  weaponHolderPhotonView: {fileID: 0}
   currentAmmo: 0
+  bulletSpawn: {fileID: 0}
 --- !u!114 &114906566071563528
 MonoBehaviour:
   m_ObjectHideFlags: 1
