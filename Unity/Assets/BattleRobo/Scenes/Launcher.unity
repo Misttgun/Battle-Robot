@@ -549,8 +549,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1166801813}
-        m_MethodName: SetPlayerName
-        m_Mode: 0
+        m_MethodName: SetNewPlayerPassword
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1062,7 +1062,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1166801813}
-        m_MethodName: SetPlayerName
+        m_MethodName: SetPlayerPassword
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1207,7 +1207,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1166801813}
-        m_MethodName: SetPlayerName
+        m_MethodName: SetNewPlayerName
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2315,6 +2315,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectButton: {fileID: 1934238893}
   createButton: {fileID: 1880623597}
+  connectPseudo: {fileID: 1331599187}
+  connectPassword: {fileID: 1457068054}
+  createPseudo: {fileID: 418522599}
+  createPassword: {fileID: 561263276}
 --- !u!4 &1166801814
 Transform:
   m_ObjectHideFlags: 0
@@ -3358,7 +3362,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1538079879}
-        m_MethodName: Connect
+        m_MethodName: Authenticate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -20,9 +20,9 @@ namespace BattleRobo.Networking
         public GameObject errorPanel;
 
 		[SerializeField] private Text createPseudo;
-		[SerializeField] private Text createPassword;	
+		[SerializeField] private InputField createPassword;	
 		[SerializeField] private Text connectPseudo;
-		[SerializeField] private Text connectPassword;
+		[SerializeField] private InputField connectPassword;
 		[SerializeField] private Text error;
 
 
