@@ -343,9 +343,14 @@ namespace BattleRobo
                 uiScript.UpdateKillsText(playerStats.Kills);
                 previousKills = playerStats.Kills;
             }
+            
 
             if (GameManagerScript.GetInstance().IsGamePause())
             {
+                // - update pause timer
+                float pauseTimer = GameManagerScript.GetInstance().GetPauseTimer();
+                GameManagerScript.GetInstance().SetPauseTimer(pauseTimer - Time.deltaTime);
+                
                 // - stop sound when in pause
                 audioSource.Stop();
                 return;

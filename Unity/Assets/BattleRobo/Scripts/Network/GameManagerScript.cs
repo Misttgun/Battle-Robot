@@ -41,14 +41,19 @@ namespace BattleRobo
         public GameOverUIScript gameOverUiScript;
 
         /// <summary>
-        /// Reference to the game over UI script.
+        /// Current pause state of the game
         /// </summary>
         private bool isGamePause;
 
         /// <summary>
-        /// Reference to the game over UI script.
+        /// Reference the player who put the game in pause
         /// </summary>
         private int playerInPauseId;
+
+        /// <summary>
+        /// Pause timer
+        /// </summary>
+        private float pauseTimer;
 
         /// <summary>
         /// Reference to the game camera to show the game over UI.
@@ -132,6 +137,7 @@ namespace BattleRobo
         public void SetPause(bool pause)
         {
             isGamePause = pause;
+            pauseTimer = 10f;
         }
 
         public void SetPlayerInPause(int idPlayer)
@@ -142,6 +148,19 @@ namespace BattleRobo
         public int GetPlayerInPause()
         {
             return playerInPauseId;
+        }
+
+        public void SetPauseTimer(float timer)
+        {
+            pauseTimer = timer;
+
+            if (timer < 0f)
+                timer = 0f;
+        }
+
+        public float GetPauseTimer()
+        {
+            return pauseTimer;
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
