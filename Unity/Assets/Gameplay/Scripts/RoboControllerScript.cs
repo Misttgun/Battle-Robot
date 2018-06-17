@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using BattleRobo.Scripts.Network;
+using ExitGames.Demos.DemoAnimator;
 using Photon;
+using UnityEngine.SocialPlatforms;
 
 namespace BattleRobo
 {
@@ -192,6 +197,7 @@ namespace BattleRobo
         private int previousShield;
         private int previousAliveNumber;
         private int currentRank;
+        
 
         //Initialize server values for this player
         private void Awake()
@@ -218,7 +224,7 @@ namespace BattleRobo
 
             //player add itself to the dictionnary of alive player using his player ID
             GameManagerScript.GetInstance().alivePlayers.Add(playerID, gameObject);
-
+           
             //set the player current rank
             currentRank = GameManagerScript.alivePlayerNumber;
         }
@@ -506,6 +512,10 @@ namespace BattleRobo
 
                 //set the player current rank
                 currentRank = GameManagerScript.alivePlayerNumber;
+                
+                // set dead player stats
+                SetPlayerStats(playerStats.kills, 0, GameManagerScript.GetInstance().dbTokens[playerID]);
+                
 
                 //tell all clients that the player is dead
                 myPhotonView.RPC("IsDeadRPC", PhotonTargets.All, playerID, currentRank);
@@ -519,6 +529,8 @@ namespace BattleRobo
                 playerStats.Health = health;
             }
         }
+        
+        
 
         public PlayerInventory GetInventory()
         {
@@ -551,6 +563,30 @@ namespace BattleRobo
                 //deactivate the network command gameobject
                 GameManagerScript.GetInstance().networkCommandObject.SetActive(false);
             }
+
+            else
+            {
+                if (GameManagerScript.GetInstance().alivePlayers.Count == 1)
+                {
+                    int player_id = GameManagerScript.GetInstance().alivePlayers.Keys.First();
+                    // if the player is dead, remains one player, the winner
+                                        
+                    myPhotonView.RPC("WinnerRPC", PhotonTargets.MasterClient, player_id);
+                }
+            }
+        }
+
+        [PunRPC]
+        private void WinnerRPC(int id)
+        {
+            if (!PhotonNetwork.isMasterClient)
+                return;
+
+            int kills = playerStats.kills;
+            
+            // - check if there is only one player
+            if ( GameManagerScript.GetInstance().alivePlayers.Count == 1)
+                SetPlayerStats(kills, 1, GameManagerScript.GetInstance().dbTokens[id]);
         }
 
         //called on the master client when a player kills the current player
@@ -692,6 +728,22 @@ namespace BattleRobo
             uiScript.UpdateHitMarker();
         }
 
+        [PunRPC]
+        private void SendDBTokenRPC(int playerID, string token)
+        {
+            // only the master client should save the db token
+            if (PhotonNetwork.isMasterClient)
+                GameManagerScript.GetInstance().dbTokens.Add(playerID, token);
+        }
+
+        private void SetPlayerStats(int kills, int win, string token)
+        {
+            string url = "http://51.38.235.234:8080/update_player?token="+token+"&kill="+kills+"&win="+win;
+
+            // don't wait for response
+            WWW www = new WWW(url);
+        }
+        
         public void ClientMovement(float inputX, float inputY, bool isJumping, Vector2 mouseInput)
         {
             playerState = new PlayerState(inputX, inputY, isJumping, mouseInput);
@@ -781,6 +833,8 @@ namespace BattleRobo
 
             //set name in the UI
             uiScript.playerNameText.text = PhotonNetwork.player.NickName;
+            
+            myPhotonView.RPC("SendDBTokenRPC", PhotonTargets.MasterClient, playerID, PlayerInfoScript.GetInstance().GetDBToken());
         }
 
         private void UpdateNetworkHeadRotation()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BattleRobo.Scripts.Network;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,6 +25,7 @@ namespace BattleRobo.Networking
 		[SerializeField] private Text connectPseudo;
 		[SerializeField] private InputField connectPassword;
 		[SerializeField] private Text error;
+		[SerializeField] private PlayerInfoScript playerInfo;
 
 	    // - save previous panel for the back button
 	    private GameObject lastPanel;
@@ -84,6 +86,7 @@ namespace BattleRobo.Networking
 			if (www.responseHeaders ["STATUS"].Contains ("200")) 
 			{
 				createPanel.SetActive (false);
+				playerInfo.SetDBToken(www.text);
 				Connect ();
 			}
 			// - can't add player
@@ -96,8 +99,6 @@ namespace BattleRobo.Networking
 
 		public void Authenticate()
 		{
-			
-			
 			string url = "http://51.38.235.234:8080/auth?pseudo="+connectPseudo.text+"&pass="+connectPassword.text;
 
 			WWW www = new WWW(url);
@@ -106,9 +107,11 @@ namespace BattleRobo.Networking
 			while (!www.isDone);
 
 			// - player authenticate successfully
-			if (www.responseHeaders ["STATUS"].Contains ("200")) 
-				Connect ();
-
+			if (www.responseHeaders["STATUS"].Contains("200"))
+			{
+				Connect();
+				playerInfo.SetDBToken(www.text);
+			}
 			// - can't add player
 			else
 			{

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using BattleRobo.Scripts.Network;
 using UnityEngine.SceneManagement;
 
 namespace BattleRobo
@@ -24,6 +25,9 @@ namespace BattleRobo
         /// The dictionnary of all the players currently alive in the game.
         /// </summary>
         public Dictionary<int, GameObject> alivePlayers;
+        
+        // - masterClient only : <photonID, dbToken>
+        public Dictionary<int, string> dbTokens;
         
         /// <summary>
         /// The dictionnary of pause used by players.
@@ -80,7 +84,8 @@ namespace BattleRobo
 
             //we reserve 4 spots because that's the maximum number of players for now
             alivePlayers = new Dictionary<int, GameObject>(4);
-            pauseCounter = new Dictionary<int, int>();
+            pauseCounter = new Dictionary<int, int>(4);
+            dbTokens = new Dictionary<int, string>(4);
         }
 
         private void Start()
@@ -102,7 +107,7 @@ namespace BattleRobo
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 ShowGameOverScreen("You won !! Let's go baby !!", 1, localPlayer.playerStats.Kills);
-
+                
                 //desactivate the local player
                 photonView.RPC("DisablePlayerRPC", PhotonTargets.All, localPlayer.playerID);
             }
