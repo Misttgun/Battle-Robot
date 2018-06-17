@@ -72,6 +72,11 @@ namespace BattleRobo
 
                     stormTimer = 0f;
                 }
+                
+                else if (GameManagerScript.GetInstance().IsGamePause())
+                {
+                    // - do nothing
+                }
                 else
                 {
                     stormTimer -= Time.deltaTime;
@@ -99,7 +104,7 @@ namespace BattleRobo
             while (stormActive)
             {
                 startSize = stormSize;
-                endSize = stormSize - sizing;
+                endSize = GameManagerScript.GetInstance().IsGamePause() ? stormSize : stormSize - sizing;
                 lerping = true;
                 currentLerpTime = 0;
 
