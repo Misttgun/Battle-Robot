@@ -63,8 +63,6 @@ namespace BattleRobo.UI
 			string pseudo = createPseudo.text;
 			string password = createPassword.text;
 
-			Debug.Log (pseudo + " " + password);
-
 			return !string.IsNullOrEmpty (pseudo.Trim ()) && !string.IsNullOrEmpty (password.Trim ());
 		}
     }

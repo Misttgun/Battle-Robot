@@ -25,6 +25,9 @@ namespace BattleRobo.Networking
 		[SerializeField] private InputField connectPassword;
 		[SerializeField] private Text error;
 
+	    // - save previous panel for the back button
+	    private GameObject lastPanel;
+
 
 		/// <summary>
 		/// Game version. Only players with the same version will find each other.
@@ -42,6 +45,7 @@ namespace BattleRobo.Networking
         {
             progressLabel.SetActive(false);
             controlPanel.SetActive(true);
+	        lastPanel = controlPanel;
         }
 
         public override void OnJoinedLobby()
@@ -83,12 +87,17 @@ namespace BattleRobo.Networking
 				Connect ();
 			}
 			// - can't add player
-			else 
-				GoToErrorPanel (www.text);
+			else
+			{
+				lastPanel = createPanel;
+				GoToErrorPanel(www.text);
+			}
 		}
 
 		public void Authenticate()
 		{
+			
+			
 			string url = "http://51.38.235.234:8080/auth?pseudo="+connectPseudo.text+"&pass="+connectPassword.text;
 
 			WWW www = new WWW(url);
@@ -101,16 +110,13 @@ namespace BattleRobo.Networking
 				Connect ();
 
 			// - can't add player
-			else 
-				GoToErrorPanel (www.text);
+			else
+			{
+				lastPanel = controlPanel;
+				GoToErrorPanel(www.text);
+			}
 		}
 
-
-        public void GoToCreatePanel()
-        {
-            controlPanel.SetActive(false);
-            createPanel.SetActive(true);
-        }
 
         public void GoToErrorPanel(string error_text)
         {
@@ -118,22 +124,19 @@ namespace BattleRobo.Networking
 			error.text = error_text;
         }
 
-        public void GoToConnectPanel()
-        {
-            createPanel.SetActive(false);
-            controlPanel.SetActive(true);
-        }
+	    public void GoToCreatePanel()
+	    {
+		    controlPanel.SetActive(false);
+		    createPanel.SetActive(true);
+	    }
 
-        public void AuthentificationFailed()
-        {
-            controlPanel.SetActive(false);
-            GoToErrorPanel("Authentification failed");
-        }
-
-        public void UsernameExist()
-        {
-            createPanel.SetActive(false);
-            GoToErrorPanel("Username already exist");
-        }
+	    public void GoToLastPanel()
+	    {
+		    createPanel.SetActive(false);
+		    controlPanel.SetActive(false);
+		    errorPanel.SetActive(false);
+		    lastPanel.SetActive(true);
+		    lastPanel = controlPanel;
+	    }
     }
 }
