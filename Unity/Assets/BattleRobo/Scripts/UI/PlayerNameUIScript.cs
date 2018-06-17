@@ -6,6 +6,7 @@ namespace BattleRobo.UI
     public class PlayerNameUIScript : MonoBehaviour
     {
         [SerializeField] private Button connectButton;
+		[SerializeField] private Button createButton;
 
         private void Start()
         {

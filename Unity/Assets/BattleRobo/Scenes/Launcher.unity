@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -1283,7 +1283,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 701643438}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.3999939, y: 179.50003, z: 0}
+  m_LocalPosition: {x: -1.3999939, y: 163.00003, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 545714045}
@@ -1627,7 +1627,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 916806410}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 474.5, y: 256.5, z: 0}
+  m_LocalPosition: {x: 474, y: 240, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 576478953}
@@ -1728,7 +1728,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1020358365}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.3999939, y: 179.50003, z: 0}
+  m_LocalPosition: {x: -1.3999939, y: 163.00003, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1239682726}
@@ -1802,7 +1802,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1024083446}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.3999939, y: 179.5, z: 0}
+  m_LocalPosition: {x: -1.3999939, y: 163, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 576478953}
@@ -2314,6 +2314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connectButton: {fileID: 1934238893}
+  createButton: {fileID: 1880623597}
 --- !u!4 &1166801814
 Transform:
   m_ObjectHideFlags: 0
@@ -2917,7 +2918,12 @@ MonoBehaviour:
   controlPanel: {fileID: 576478952}
   progressLabel: {fileID: 439547900}
   createPanel: {fileID: 545714044}
-  errorPanel: {fileID: 0}
+  errorPanel: {fileID: 1239682725}
+  createPseudo: {fileID: 418522599}
+  createPassword: {fileID: 561263276}
+  connectPseudo: {fileID: 1331599187}
+  connectPassword: {fileID: 1457068054}
+  error: {fileID: 1761362398}
 --- !u!4 &1538079880
 Transform:
   m_ObjectHideFlags: 0
@@ -3103,7 +3109,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1761362396}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.3999634, y: 64.60004, z: 0}
+  m_LocalPosition: {x: -1.3999634, y: 48.100037, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1239682726}

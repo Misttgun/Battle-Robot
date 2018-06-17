@@ -19,6 +19,13 @@ namespace BattleRobo.Networking
         // The UI error Pannel
         public GameObject errorPanel;
 
+		[SerializeField] private Text createPseudo;
+		[SerializeField] private Text createPassword;	
+		[SerializeField] private Text connectPseudo;
+		[SerializeField] private Text connectPassword;
+		[SerializeField] private Text error;
+
+
 		/// <summary>
 		/// Game version. Only players with the same version will find each other.
 		/// </summary>
@@ -60,17 +67,44 @@ namespace BattleRobo.Networking
 			PhotonNetwork.ConnectToBestCloudServer(GameVersion);
         }
 
-        public void Create()
-        {
-            string url = "http://51.38.235.234:8080/add_player?pseudo=Kas&pass=password";
+		public void Create()
+		{
+			string url = "http://51.38.235.234:8080/add_player?pseudo="+createPseudo.text+"&pass="+createPassword.text;
 
-            WWW www = new WWW(url);
-            
-            // - wait response
-            while (!www.isDone);
-            
-            Debug.Log(" Test : " + (String)www.text + " " + www.responseHeaders["STATUS"]);
-        }
+			WWW www = new WWW(url);
+
+			// - wait response
+			while (!www.isDone);
+
+			// - player is add successfully
+			if (www.responseHeaders ["STATUS"].Contains ("200")) 
+			{
+				createPanel.SetActive (false);
+				Connect ();
+			}
+			// - can't add player
+			else 
+				GoToErrorPanel (www.text);
+		}
+
+		public void Authenticate()
+		{
+			string url = "http://51.38.235.234:8080/auth?pseudo="+connectPseudo.text+"&pass="+connectPassword.text;
+
+			WWW www = new WWW(url);
+
+			// - wait response
+			while (!www.isDone);
+
+			// - player authenticate successfully
+			if (www.responseHeaders ["STATUS"].Contains ("200")) 
+				Connect ();
+
+			// - can't add player
+			else 
+				GoToErrorPanel (www.text);
+		}
+
 
         public void GoToCreatePanel()
         {
@@ -78,9 +112,10 @@ namespace BattleRobo.Networking
             createPanel.SetActive(true);
         }
 
-        public void GoToErrorPanel(string error)
+        public void GoToErrorPanel(string error_text)
         {
             errorPanel.SetActive(true);
+			error.text = error_text;
         }
 
         public void GoToConnectPanel()
