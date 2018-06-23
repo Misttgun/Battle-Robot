@@ -131,7 +131,7 @@ namespace BattleRobo
         /// The collider box for the player level streamer.
         /// </summary>
         [SerializeField]
-        private GameObject playerLevelStreamer;
+        private PlayerLevelStreamerScript playerLevelStreamer;
 
         /// <summary>
         /// The player audiosource.
@@ -217,7 +217,8 @@ namespace BattleRobo
             //activate all the level streamer on the master client
             if (PhotonNetwork.isMasterClient)
             {
-                playerLevelStreamer.SetActive(true);
+                playerLevelStreamer.gameObject.SetActive(true);
+                playerLevelStreamer.target = transform;
             }
 
             myTransform = transform;
@@ -823,9 +824,10 @@ namespace BattleRobo
 
             thrusters.SetActive(false);
 
-            if (!playerLevelStreamer.activeSelf)
+            if (!playerLevelStreamer.gameObject.activeSelf)
             {
-                playerLevelStreamer.SetActive(true);
+                playerLevelStreamer.gameObject.SetActive(true);
+                playerLevelStreamer.target = transform;
             }
 
             //set a global reference to the local player

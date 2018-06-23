@@ -6,16 +6,23 @@ namespace BattleRobo
 {
     public class PlayerLevelStreamerScript : MonoBehaviour
     {
-        private Quaternion rotation;
+        //private Quaternion rotation;
+
+        public Transform target;
 
         private void Awake()
         {
-            rotation = transform.rotation;
+            //rotation = transform.rotation;
         }
 
-        private void LateUpdate()
+        private void Update()
         {
-            transform.rotation = rotation;
+            transform.position = target.position;
         }
+//
+//        private void LateUpdate()
+//        {
+//            transform.rotation = rotation;
+//        }
     }
 }

@@ -20,6 +20,7 @@ namespace BattleRobo
         private void OnTriggerEnter(Collider other)
         {
             ++count;
+            Debug.Log("OncollisionEnter: " + gameObject.name + " - Pos: " + transform.position +  " - Count: " + count);
             if (count > 1)
                 return;
 
@@ -30,6 +31,7 @@ namespace BattleRobo
         private void OnTriggerExit(Collider other)
         {
             --count;
+            Debug.Log("OncollisionExit: " + gameObject.name + " - Pos: " + transform.position +  " - Count: " + count);
             if (count > 0)
                 return;
 

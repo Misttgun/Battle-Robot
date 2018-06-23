@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 96542669560366038}
   - component: {fileID: 114820786135203788}
   m_Layer: 10
-  m_Name: Bullet
+  m_Name: bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -150,6 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 500
   target: {x: 0, y: 0, z: 0}
+  spawnPoint: {x: 0, y: 0, z: 0}
 --- !u!135 &135824132061297884
 SphereCollider:
   m_ObjectHideFlags: 1
