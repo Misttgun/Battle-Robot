@@ -1,11 +1,7 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using BattleRobo.Scripts.Network;
-using ExitGames.Demos.DemoAnimator;
 using Photon;
-using UnityEngine.SocialPlatforms;
 
 namespace BattleRobo
 {
@@ -562,7 +558,7 @@ namespace BattleRobo
                 GameManagerScript.GetInstance().hasLost = true;
 
                 //deactivate the network command gameobject
-                GameManagerScript.GetInstance().networkCommandObject.SetActive(false);
+                //GameManagerScript.GetInstance().networkCommandObject.SetActive(false);
             }
 
             else
@@ -703,7 +699,7 @@ namespace BattleRobo
             var myPlayerScript = GameManagerScript.GetInstance().localPlayer;
 
             // - Set Pause UI
-            myPlayerScript.playerUI.GetComponent<PlayerUIScript>().EnablePause(true);
+           // myPlayerScript.playerUI.GetComponent<PlayerUIScript>().EnablePause(true);
             GameManagerScript.GetInstance().SetPause(true);
         }
 
@@ -713,7 +709,7 @@ namespace BattleRobo
             var myPlayerScript = GameManagerScript.GetInstance().localPlayer;
 
             // - Set Pause UI
-            myPlayerScript.playerUI.GetComponent<PlayerUIScript>().EnablePause(false);
+            //myPlayerScript.playerUI.GetComponent<PlayerUIScript>().EnablePause(false);
             GameManagerScript.GetInstance().SetPause(false);
         }
 
@@ -831,7 +827,7 @@ namespace BattleRobo
             }
 
             //set a global reference to the local player
-            GameManagerScript.GetInstance().localPlayer = this;
+            //GameManagerScript.GetInstance().localPlayer = this;
 
             //set name in the UI
             uiScript.playerNameText.text = PhotonNetwork.player.NickName;

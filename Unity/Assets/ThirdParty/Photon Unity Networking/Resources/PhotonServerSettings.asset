@@ -81,4 +81,5 @@ MonoBehaviour:
   - PauseTimeoutRPC
   - SendDBTokenRPC
   - WinnerRPC
+  - UpdateServer
   DisableAutoOpenWizard: 1

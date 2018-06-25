@@ -2,7 +2,7 @@
 using System.Security.Principal;
 using UnityEngine;
 
-namespace BattleRobo.Scripts.Network
+namespace BattleRobo
 {
     public class PlayerInfoScript : MonoBehaviour
     {

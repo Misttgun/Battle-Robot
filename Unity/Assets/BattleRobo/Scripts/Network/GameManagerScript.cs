@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using BattleRobo.Scripts.Network;
 using UnityEngine.SceneManagement;
 
 namespace BattleRobo
@@ -19,7 +18,7 @@ namespace BattleRobo
         /// </summary>
         //[HideInInspector]
         //public PlayerScript localPlayer;
-        public RoboControllerScript localPlayer;
+        public RoboLogicScript localPlayer;
 
         /// <summary>
         /// The dictionnary of all the players currently alive in the game.
@@ -68,7 +67,7 @@ namespace BattleRobo
         /// <summary>
         /// Reference to the network command gameobject.
         /// </summary>
-        public GameObject networkCommandObject;
+        //public GameObject networkCommandObject;
         
         // Number of player currently alive in the game
         public static int alivePlayerNumber;
@@ -90,6 +89,7 @@ namespace BattleRobo
 
         private void Start()
         {
+            PhotonNetwork.Instantiate("Robo_Prediction", Vector3.zero, Quaternion.identity, 0);
             alivePlayerNumber = PhotonNetwork.room.PlayerCount;
             gameCamera.SetActive(false);
             
@@ -101,12 +101,14 @@ namespace BattleRobo
         {
             if (!localPlayer)
                 return;
+            
+            SetPauseTimer(pauseTimer - Time.deltaTime);
 
             if (!hasLost && alivePlayerNumber == 1)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
-                ShowGameOverScreen("You won !! Let's go baby !!", 1, localPlayer.playerStats.Kills);
+                ShowGameOverScreen("You won !! Let's go baby !!", 1, localPlayer.photonView.GetKills());
                 
                 //desactivate the local player
                 photonView.RPC("DisablePlayerRPC", PhotonTargets.All, localPlayer.playerID);
@@ -115,7 +117,7 @@ namespace BattleRobo
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
-                ShowGameOverScreen("You died... Feels bad man.", pRank, localPlayer.playerStats.Kills);
+                ShowGameOverScreen("You died... Feels bad man.", localPlayer.photonView.GetRank(), localPlayer.photonView.GetKills());
             }
         }
 

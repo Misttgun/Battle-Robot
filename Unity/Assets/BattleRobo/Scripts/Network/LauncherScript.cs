@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using BattleRobo.Scripts.Network;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace BattleRobo.Networking
