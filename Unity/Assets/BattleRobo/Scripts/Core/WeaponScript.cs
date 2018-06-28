@@ -53,7 +53,7 @@ namespace BattleRobo
             if (!PhotonNetwork.isMasterClient)
                 return;
 
-            const int layerMask = 1 << 16;
+            const int layerMask = 1 << 8;
             RaycastHit shot;
 
             if (Physics.Raycast(camTransform.position, camTransform.forward, out shot, currentGun.range, layerMask))

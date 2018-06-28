@@ -79,24 +79,17 @@ namespace BattleRobo
         public int playerID;
 
         //health variable
+        [HideInInspector]
         public int maxHealth = 100;
-
-        //fly variables
-        public float fuelAmount = 1f;
-        public float MaxFuelAmount = 1f;
 
         //audio variables
         private bool playAudio;
+
+        [HideInInspector]
         public bool isJumpingAudio;
+
+        [HideInInspector]
         public bool isMoovingAudio;
-
-        //safe zone variables
-        public bool inStorm;
-        private const float waitingTime = 1f;
-        private float timer;
-
-        //water variables
-        public bool inWater;
 
         //player inventory
         private PlayerInventory playerInventory;
@@ -104,12 +97,10 @@ namespace BattleRobo
         private int currentIndex = -1;
 
         //ui variables
-        private int previousHealth;
-        private int previousKills;
-        private int previousShield;
         private int previousAliveNumber;
 
         // game state
+        [HideInInspector]
         public bool isInPause;
 
         //Initialize server values for this player
@@ -158,7 +149,6 @@ namespace BattleRobo
 
             //update health, shield and fuel
             uiScript.UpdateHealth(photonView.GetHealth());
-            uiScript.UpdateFuel(fuelAmount);
             uiScript.UpdateShield(photonView.GetShield());
             uiScript.UpdateKillsText(photonView.GetKills());
 
@@ -197,7 +187,7 @@ namespace BattleRobo
         private void Update()
         {
             isInPause = GameManagerScript.GetInstance().IsGamePause();
-            
+
             // Cursor lock
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -249,34 +239,21 @@ namespace BattleRobo
                 return;
             }
 
-            //take storm and water damage only on the master client
-            if (PhotonNetwork.isMasterClient)
-            {
-                timer += Time.deltaTime;
-
-                //apply damage to player in the storm
-                if (inStorm)
-                {
-                    if (timer > waitingTime)
-                    {
-                        TakeDamage(StormManagerScript.GetInstance().stormDmg);
-                        timer = 0f;
-                    }
-                }
-
-                //apply damage to player in the water
-                if (inWater)
-                {
-                    //insta death when the player touches the water
-                    TakeDamage(300);
-                }
-            }
-
             if (!photonView.isMine)
                 return;
 
-            //constantly update fuel as it change constantly
-            uiScript.UpdateFuel(fuelAmount);
+            //update alive number on change
+            if (GameManagerScript.alivePlayerNumber != previousAliveNumber)
+            {
+                uiScript.UpdateAliveText(GameManagerScript.alivePlayerNumber);
+                previousAliveNumber = GameManagerScript.alivePlayerNumber;
+            }
+
+            //update the storm timer in the UI
+            if (StormManagerScript.GetInstance().GetStormTimer() >= 0)
+            {
+                uiScript.UpdateStormTimer(StormManagerScript.GetInstance().GetStormTimer() + 1);
+            }
 
             if (Input.GetButtonDown("Fire1"))
             {
@@ -332,73 +309,7 @@ namespace BattleRobo
             }
         }
 
-        /// <summary>
-        /// Server only: calculate damage to be taken by the Player,
-        /// triggers kills increase and workflow on death.
-        /// </summary>
-        public void TakeDamage(int hitPoint, int killerID = -1)
-        {
-            if (!PhotonNetwork.isMasterClient)
-                return;
-
-            //store network variables temporary
-            int health = photonView.GetHealth();
-            int shield = photonView.GetShield();
-
-            //reduce shield on hit
-            if (shield > 0 && killerID != -1)
-            {
-                var shieldDamage = shield - hitPoint;
-                if ( shieldDamage < 0)
-                {
-                    photonView.SetShield(0);
-                    photonView.SetHealth(health + shieldDamage);
-                }
-                
-                photonView.SetShield(shieldDamage);
-                return;
-            }
-
-            //if player is already dead, but we can still shoot him... don't ask me why
-            if (health <= 0)
-            {
-                return;
-            }
-
-            //substract health by damage
-            //locally for now, to only have one update later on
-            health -= hitPoint;
-
-            //the player is dead
-            if (health <= 0)
-            {
-                //if we took damage from another player
-                if (killerID != -1)
-                {
-                    //get killer and increase kills for that player
-                    photonView.RPC("UpdateKillsRPC", PhotonTargets.MasterClient, killerID);
-                }
-
-                //set the player current rank
-                photonView.SetRank(GameManagerScript.alivePlayerNumber);
-
-                // set dead player stats
-                SetPlayerStats(photonView.GetKills(), 0, GameManagerScript.GetInstance().dbTokens[playerID]);
-
-
-                //tell all clients that the player is dead
-                photonView.RPC("IsDeadRPC", PhotonTargets.All, playerID);
-
-                //decrease the number of player alive
-                GameManagerScript.alivePlayerNumber--;
-            }
-            else
-            {
-                //we didn't die, set health to new value
-                photonView.SetHealth(health);
-            }
-        }
-
+        //TODO déplacer la méthode dans une classe statique
         private void SetPlayerStats(int kills, int win, string token)
         {
             string url = "http://51.38.235.234:8080/update_player?token=" + token + "&kill=" + kills + "&win=" + win;
@@ -416,7 +327,7 @@ namespace BattleRobo
             if (isMasterClient && isInPause)
                 photonView.RPC("CancelPause", PhotonTargets.AllViaServer);
         }
-        
+
         public void ShowDamageIndicator(Vector3 shooterPos)
         {
             photonView.RPC("DamageIndicatorRPC", PhotonTargets.AllViaServer, shooterPos);
@@ -426,6 +337,9 @@ namespace BattleRobo
         [PunRPC]
         private void IsDeadRPC(int id)
         {
+            //decrease the number of player alive
+            GameManagerScript.alivePlayerNumber--;
+
             //out reference to the dead player
             GameObject player;
             //deactivate the dead player
@@ -593,7 +507,5 @@ namespace BattleRobo
             if (GameManagerScript.GetInstance().alivePlayers.Count == 1)
                 SetPlayerStats(photonView.GetKills(), 1, GameManagerScript.GetInstance().dbTokens[id]);
         }
-
-        //TODO Finir la logique du joueur avec les appels de RPC. Commencer à optimiser le code.
     }
 }

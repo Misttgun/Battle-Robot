@@ -76,6 +76,8 @@ namespace BattleRobo
 
         public bool hasLost;
 
+        private bool deactivate;
+
         private void Awake()
         {
             if (Instance == null)
@@ -115,12 +117,21 @@ namespace BattleRobo
 
                 //desactivate the local player
                 photonView.RPC("DisablePlayerRPC", PhotonTargets.All, localPlayer.playerID);
+
+                deactivate = true;
             }
             else if (hasLost)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 ShowGameOverScreen("You died... Feels bad man.", localPlayer.photonView.GetRank(), localPlayer.photonView.GetKills());
+                
+                deactivate = true;
+            }
+
+            if (deactivate)
+            {
+                gameObject.SetActive(false);
             }
         }
 

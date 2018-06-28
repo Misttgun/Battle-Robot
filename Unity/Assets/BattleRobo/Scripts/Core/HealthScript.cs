@@ -10,6 +10,42 @@ namespace BattleRobo
         [SerializeField]
         private float damageMultiplicator;
         
+        //safe zone variables
+        [HideInInspector]
+        public bool inStorm;
+        private const float waitingTime = 1f;
+        private float timer;
+
+        //water variables
+        [HideInInspector]
+        public bool inWater;
+
+        private void Update()
+        {
+            //take storm and water damage only on the master client
+            if (!PhotonNetwork.isMasterClient) 
+                return;
+            
+            timer += Time.deltaTime;
+
+            //apply damage to player in the storm
+            if (inStorm)
+            {
+                if (timer > waitingTime)
+                {
+                    TakeDamage(StormManagerScript.GetInstance().stormDmg);
+                    timer = 0f;
+                }
+            }
+
+            //apply damage to player in the water
+            if (inWater)
+            {
+                //insta death when the player touches the water
+                TakeDamage(300);
+            }
+        }
+
         public void ShowDamageIndicator(Vector3 shooterPos)
         {
             playerPhotonView.RPC("DamageIndicatorRPC", PhotonTargets.AllViaServer, shooterPos);
@@ -70,12 +106,8 @@ namespace BattleRobo
                 // set dead player stats
                 SetPlayerStats(playerPhotonView.GetKills(), 0, GameManagerScript.GetInstance().dbTokens[playerPhotonView.owner.ID]);
 
-
                 //tell all clients that the player is dead
                 playerPhotonView.RPC("IsDeadRPC", PhotonTargets.All, playerPhotonView.owner.ID);
-
-                //decrease the number of player alive
-                GameManagerScript.alivePlayerNumber--;
             }
             else
             {
@@ -84,6 +116,7 @@ namespace BattleRobo
             }
         }
         
+        //TODO déplacer la méthode dans une classe statique
         private void SetPlayerStats(int kills, int win, string token)
         {
             string url = "http://51.38.235.234:8080/update_player?token=" + token + "&kill=" + kills + "&win=" + win;

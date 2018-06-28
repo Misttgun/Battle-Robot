@@ -5,7 +5,7 @@ using UnityEngine;
 namespace BattleRobo
 {
     [RequireComponent(typeof(PhotonView))]
-    public class RoboMovementScript : PunBehaviour
+    public class RoboMovementScript : PunBehaviour, IPunObservable
     {
         /// <summary>
         /// Aim sensitivity.
@@ -25,18 +25,6 @@ namespace BattleRobo
         /// </summary>
         [SerializeField]
         private float gravity = 20.0f;
-
-        /// <summary>
-        /// Speed at which the fuel decrease.
-        /// </summary>
-        [SerializeField]
-        private float fuelDecreaseSpeed = 0.1f;
-
-        /// <summary>
-        /// Speed at which the fuel regenerate.
-        /// </summary>
-        [SerializeField]
-        private float fuelRegenSpeed = 0.05f;
 
         /// <summary>
         /// Fly force for the jetpack.
@@ -67,8 +55,9 @@ namespace BattleRobo
         private Vector3 moveDirection = Vector3.zero;
         private bool grounded;
 
-        //fly variables
-        public Vector3 fly;
+        //jump variables
+        public bool doubleJump;
+        private bool jump;
 
         private float currentRot;
 
@@ -107,7 +96,7 @@ namespace BattleRobo
             {
                 input.inputX = Input.GetAxis("Horizontal");
                 input.inputY = Input.GetAxis("Vertical");
-                input.jump = Input.GetButton("Jump");
+                input.jump = jump;
                 input.mouse.x = Input.GetAxisRaw("Mouse X");
                 input.mouse.y = Input.GetAxisRaw("Mouse Y");
 
@@ -118,11 +107,17 @@ namespace BattleRobo
 
                 inputBuffer[bufferSlot] = input;
 
-                Simulate(Time.fixedDeltaTime);
-
                 photonView.RPC("UpdateServer", PhotonTargets.Others, currentTick, input.inputX, input.inputY, input.jump, input.mouse);
 
+                Simulate(Time.fixedDeltaTime);
+
                 ++currentTick;
+
+                //the only to handle jump for the prediction...
+                if (jump)
+                {
+                    jump = false;
+                }
             }
         }
 
@@ -131,53 +126,11 @@ namespace BattleRobo
             if (roboLogic.isInPause)
                 return;
 
-            if (roboLogic.isJumpingAudio)
+            //the only to handle jump for the prediction...
+            if (!jump)
             {
-                //Stop the running sound if we are not grounded
-                if (roboLogic.audioSource.isPlaying && roboLogic.audioSource.clip == roboLogic.audioClips[0])
-                {
-                    roboLogic.audioSource.Stop();
-                }
-
-                //Play the jetpack sound
-                if (!roboLogic.audioSource.isPlaying)
-                {
-                    AudioManagerScript.Play3D(roboLogic.audioSource, roboLogic.audioClips[1], 1.15f);
-                }
+                jump = Input.GetButtonDown("Jump");
             }
-            else
-            {
-                //Stop the jumping sound when we are falling
-                if (roboLogic.audioSource.isPlaying && roboLogic.audioSource.clip == roboLogic.audioClips[1])
-                {
-                    roboLogic.audioSource.Stop();
-                }
-            }
-
-            fly = Vector3.zero;
-            if (input.jump && roboLogic.fuelAmount > 0f)
-            {
-                roboLogic.fuelAmount -= fuelDecreaseSpeed * Time.deltaTime;
-                var consumedFuel = roboLogic.MaxFuelAmount - roboLogic.fuelAmount;
-
-                if (roboLogic.fuelAmount >= 0.1f)
-                {
-                    // We override the base layer when the player is jumping
-                    roboLogic.animator.SetLayerWeight(1, 1);
-
-                    roboLogic.isJumpingAudio = true;
-
-                    fly = Vector3.up * flyForce * consumedFuel;
-                }
-            }
-            else
-            {
-                roboLogic.isJumpingAudio = false;
-                roboLogic.fuelAmount += fuelRegenSpeed * Time.deltaTime;
-                roboLogic.MaxFuelAmount = roboLogic.fuelAmount;
-            }
-
-            roboLogic.fuelAmount = Mathf.Clamp(roboLogic.fuelAmount, 0f, 1f);
         }
 
         private void LateUpdate()
@@ -185,12 +138,16 @@ namespace BattleRobo
             if (roboLogic.isInPause)
                 return;
 
-            // Rotate the player on the X axis
-            currentRot -= input.mouse.y * aimSensitivity;
-            currentRot = Mathf.Clamp(currentRot, -60f, 60f);
+            if (photonView.isMine)
+            {
+                // Rotate the player on the X axis
+                currentRot -= input.mouse.y * aimSensitivity;
+                currentRot = Mathf.Clamp(currentRot, -60f, 60f);
 
-            // Make the weapon loot in the same direction as the cam
-            roboLogic.animator.SetFloat("AimAngle", currentRot);
+                // Make the weapon loot in the same direction as the cam
+                roboLogic.animator.SetFloat("AimAngle", currentRot);
+            }
+
             roboHead.transform.localEulerAngles = new Vector3(currentRot, 0f, 0f);
         }
 
@@ -205,6 +162,9 @@ namespace BattleRobo
             // Handle the movement
             if (grounded)
             {
+                // Set double jump to true on grounded
+                doubleJump = true;
+
                 // Disable the jump layer when the player is on the ground
                 roboLogic.animator.SetLayerWeight(1, 0);
 
@@ -230,26 +190,69 @@ namespace BattleRobo
                 roboLogic.animator.SetFloat("VelY", moveDirection.z * speed);
 
                 moveDirection = transform.TransformDirection(moveDirection);
-
-                // Jump!
-                Jump();
             }
             else
             {
                 moveDirection.x = input.inputX * speed * inputModifyFactor;
                 moveDirection.z = input.inputY * speed * inputModifyFactor;
 
-                // Animate the player for the ground animation
-                roboLogic.animator.SetFloat("VelX", moveDirection.x * speed);
-                roboLogic.animator.SetFloat("VelY", moveDirection.z * speed);
+                // Animate the player for the fly animation
+                roboLogic.animator.SetFloat("VelX", 0f);
+                roboLogic.animator.SetFloat("VelY", 0f);
 
-                // Disable the thrusters when the player is not flying
-                roboLogic.thrusters.SetActive(true);
+                //only play the fly animation on the remote
+                if (!photonView.isMine)
+                {
+                    // Enable the thrusters when the player is flying
+                    roboLogic.thrusters.SetActive(true);
+                }
 
                 moveDirection = transform.TransformDirection(moveDirection);
+            }
 
-                // Jump!
-                Jump();
+            //Play audio only when we are going up
+            roboLogic.isJumpingAudio = moveDirection.y > 0;
+
+            if (roboLogic.isJumpingAudio)
+            {
+                //Stop the running sound if we are not grounded
+                if (roboLogic.audioSource.isPlaying && roboLogic.audioSource.clip == roboLogic.audioClips[0])
+                {
+                    roboLogic.audioSource.Stop();
+                }
+
+                //Play the jetpack sound
+                if (!roboLogic.audioSource.isPlaying)
+                {
+                    AudioManagerScript.Play3D(roboLogic.audioSource, roboLogic.audioClips[1], 1.15f);
+                }
+            }
+            else
+            {
+                //Stop the jumping sound when we are falling
+                if (roboLogic.audioSource.isPlaying && roboLogic.audioSource.clip == roboLogic.audioClips[1])
+                {
+                    roboLogic.audioSource.Stop();
+                }
+            }
+
+            if (input.jump)
+            {
+                // We override the base layer when the player is jumping
+                roboLogic.animator.SetLayerWeight(1, 1);
+
+                if (grounded)
+                {
+                    moveDirection.y = flyForce;
+                }
+                else
+                {
+                    if (doubleJump)
+                    {
+                        doubleJump = false;
+                        moveDirection.y = flyForce / 1.5f;
+                    }
+                }
             }
 
             // Rotate the player on the Y axis
@@ -265,11 +268,15 @@ namespace BattleRobo
             grounded = (controller.Move(moveDirection * dt) & CollisionFlags.Below) != 0;
         }
 
-        private void Jump()
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
-            if (fly != Vector3.zero)
+            if (stream.isWriting)
             {
-                moveDirection.y = fly.y;
+                stream.SendNext(currentRot);
+            }
+            else
+            {
+                currentRot = (float) stream.ReceiveNext();
             }
         }
 
@@ -309,12 +316,6 @@ namespace BattleRobo
             Simulate(Time.fixedDeltaTime);
 
             currentTick = moveNumber + 1;
-
-            int bufferSlot = currentTick % BufferSize;
-
-            stateBuffer[bufferSlot].position = transform.position;
-            stateBuffer[bufferSlot].rotation = transform.rotation;
-            inputBuffer[bufferSlot] = input;
         }
     }
 }

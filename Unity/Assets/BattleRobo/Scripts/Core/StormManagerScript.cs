@@ -124,12 +124,12 @@ namespace BattleRobo
 
         private void OnTriggerExit(Collider other)
         {
-            other.GetComponent<RoboLogicScript>().inStorm = true;
+            other.GetComponent<HealthScript>().inStorm = true;
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            other.GetComponent<RoboLogicScript>().inStorm = false;
+            other.GetComponent<HealthScript>().inStorm = false;
         }
 
         //called on the master client when the strom start to move
