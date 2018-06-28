@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Photon;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -62,12 +60,6 @@ namespace BattleRobo
         private WeaponHolderScript weaponHolder;
 
         /// <summary>
-        /// The collider box for the player level streamer.
-        /// </summary>
-        [SerializeField]
-        private PlayerLevelStreamerScript playerLevelStreamer;
-
-        /// <summary>
         /// The player audiosource.
         /// </summary>
         public AudioSource audioSource;
@@ -108,6 +100,8 @@ namespace BattleRobo
 
         //player inventory
         private PlayerInventory playerInventory;
+        private int index;
+        private int currentIndex = -1;
 
         //ui variables
         private int previousHealth;
@@ -133,14 +127,12 @@ namespace BattleRobo
 
             //set players current health value after joining
             photonView.SetHealth(maxHealth);
+            photonView.SetShield(maxHealth);
+            photonView.SetKills(0);
         }
 
         private void Start()
         {
-            //activate all the level streamer on every client
-            playerLevelStreamer.gameObject.SetActive(true);
-            playerLevelStreamer.target = transform;
-
             //player add itself to the dictionnary of alive player using his player ID
             GameManagerScript.GetInstance().alivePlayers.Add(playerID, gameObject);
 
@@ -205,6 +197,48 @@ namespace BattleRobo
         private void Update()
         {
             isInPause = GameManagerScript.GetInstance().IsGamePause();
+            
+            // Cursor lock
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.L))
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+
+            if (Input.GetButtonDown("Pause"))
+            {
+                int counter;
+                bool found = GameManagerScript.GetInstance().pauseCounter.TryGetValue(playerID, out counter);
+
+                if (!isInPause)
+                {
+                    // - set current player in pause
+                    GameManagerScript.GetInstance().SetPlayerInPause(playerID);
+
+                    // - increment pause counter
+                    if (found)
+                        GameManagerScript.GetInstance().pauseCounter[playerID]++;
+
+                    // - init pause counter if necessary
+                    else
+                        GameManagerScript.GetInstance().pauseCounter[playerID] = 0;
+
+                    // - max pause duration is 10 sec
+                    //TODO remplacer le Invoke
+                    //Invoke("PauseTimeout", 10);
+                }
+
+                // - dispatch pause if the player haven't used it more than 3 times or if the game is already in pause
+                if (isInPause && GameManagerScript.GetInstance().GetPlayerInPause() == playerID || !isInPause && counter < 2)
+                {
+                    photonView.RPC(!isInPause ? "SetPause" : "CancelPause", PhotonTargets.AllViaServer);
+                }
+            }
 
             if (isInPause)
             {
@@ -244,16 +278,57 @@ namespace BattleRobo
             //constantly update fuel as it change constantly
             uiScript.UpdateFuel(fuelAmount);
 
-            // Cursor lock
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetButtonDown("Fire1"))
             {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
+                if (weaponHolder.currentWeapon != null)
+                {
+                    var weapon = weaponHolder.currentWeapon;
+
+                    if (weapon && weapon.CanFire())
+                    {
+                        //send shot request to all
+                        photonView.RPC("ShootRPC", PhotonTargets.AllViaServer, playerID);
+                    }
+                }
             }
-            else if (Input.GetKeyDown(KeyCode.L))
+
+            if (Input.GetButtonDown("Inventory1"))
             {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+                index = 0;
+            }
+            else if (Input.GetButtonDown("Inventory2"))
+            {
+                index = 1;
+            }
+            else if (Input.GetButtonDown("Inventory3"))
+            {
+                index = 2;
+            }
+            else if (Input.GetButtonDown("Inventory4"))
+            {
+                index = 3;
+            }
+            else if (Input.GetButtonDown("Inventory5"))
+            {
+                index = 4;
+            }
+
+            if (currentIndex != index)
+            {
+                playerInventory.SwitchActiveIndex(index);
+                currentIndex = index;
+            }
+
+            if (Input.GetButtonDown("Loot"))
+            {
+                playerInventory.Collect();
+            }
+
+            if (Input.GetButtonDown("Drop"))
+            {
+                //on drop l'objet un peu plus haut que la position y du joueur sinon, l'objet rentre dans le sol et n'est plus ramassable
+                var newPositipn = transform.position + new Vector3(0f, 0.1f, 0f);
+                playerInventory.Drop(newPositipn);
             }
         }
 
@@ -273,7 +348,14 @@ namespace BattleRobo
             //reduce shield on hit
             if (shield > 0 && killerID != -1)
             {
-                photonView.SetShield(shield - hitPoint);
+                var shieldDamage = shield - hitPoint;
+                if ( shieldDamage < 0)
+                {
+                    photonView.SetShield(0);
+                    photonView.SetHealth(health + shieldDamage);
+                }
+                
+                photonView.SetShield(shieldDamage);
                 return;
             }
 
@@ -323,6 +405,21 @@ namespace BattleRobo
 
             // don't wait for response
             WWW www = new WWW(url);
+        }
+
+        private void PauseTimeout()
+        {
+            // - the master client shall do the Timeout RPC to avoid that a corrupted client keep game in pause forever
+            bool isMasterClient = PhotonNetwork.player.IsMasterClient;
+
+            // - if still in pause, master client will send an RPC to exit pause
+            if (isMasterClient && isInPause)
+                photonView.RPC("CancelPause", PhotonTargets.AllViaServer);
+        }
+        
+        public void ShowDamageIndicator(Vector3 shooterPos)
+        {
+            photonView.RPC("DamageIndicatorRPC", PhotonTargets.AllViaServer, shooterPos);
         }
 
         //called on all clients when the player is dead
@@ -382,14 +479,17 @@ namespace BattleRobo
 
                 weapon.Fire(playerCameraTransform, playerID);
 
-                //play the weapon sound
-                AudioManagerScript.Play3D(audioSource, weapon.weaponSound);
+                if (weapon.currentAmmo > 0)
+                {
+                    //play the weapon sound
+                    AudioManagerScript.Play3D(audioSource, weapon.weaponSound);
+                }
 
                 //the item can have changed since the player shoot. Update UI only if necessary
                 var update = weapon == weaponHolder.currentWeapon;
 
                 if (playerID == shooterId && update)
-                    uiScript.SetAmmoCounter(weapon.currentAmmo, weapon.GetMagazineSize());
+                    uiScript.SetAmmoCounter(weapon.currentAmmo);
             }
         }
 
@@ -408,18 +508,7 @@ namespace BattleRobo
         [PunRPC]
         private void TakeObject(int lootTrackerId, int slotIndex, int senderId)
         {
-            var playerObject = LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObjectScript>();
-
-            playerInventory.AddObject(playerObject, slotIndex);
-            uiScript.SetItemUISlot(playerObject, slotIndex);
-
-            // equip weapon if the index is already selected
-            if (slotIndex == playerInventory.currentSlotIndex)
-            {
-                var weapon = playerObject.GetComponent<WeaponScript>();
-                weaponHolder.SetWeapon(weapon, weapon.currentAmmo);
-                uiScript.SetAmmoCounter(weapon.currentAmmo, weapon.GetMagazineSize());
-            }
+            var playerObject = LootSpawnerScript.GetLootTracker()[lootTrackerId];
 
             if (playerObject.IsAvailable())
             {
@@ -427,40 +516,27 @@ namespace BattleRobo
                 playerObject.Hide();
             }
 
-            // - several player tried to loot the object at the same time, 
-            // only the first one should see it in its inventory
+            //several player tried to loot the object at the same time, only the first one should see it in its inventory
             else
             {
                 if (playerID == senderId)
                     playerInventory.CancelCollect(lootTrackerId);
             }
 
-            // - Object is no longer in looting mode
+            //object is no longer in looting mode
             playerObject.SetLooting(false);
         }
 
         [PunRPC]
         private void UpdateWeapon(int lootTrackerId, float ammoCount)
         {
-            LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<WeaponScript>().SetCurrentAmmo(ammoCount);
+            LootSpawnerScript.GetLootTracker()[lootTrackerId].GetWeapon().SetCurrentAmmo(ammoCount);
         }
 
         [PunRPC]
         private void DropObject(int lootTrackerId, Vector3 position)
         {
-            var playerObject = LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObjectScript>();
-
-            playerObject.Drop(position);
-
-            // - remove object from player inventory
-            playerInventory.inventory[playerInventory.currentSlotIndex].Drop();
-
-            // - update UI
-            uiScript.SetItemUISlot(null, playerInventory.currentSlotIndex);
-            uiScript.SetAmmoCounter(-1f, -1f);
-
-            // - unequip weapon
-            weaponHolder.SetWeapon(null, 0f);
+            LootSpawnerScript.GetLootTracker()[lootTrackerId].Drop(position);
 
             //return the layer animation to normal
             animator.SetLayerWeight(2, 0);
@@ -517,7 +593,7 @@ namespace BattleRobo
             if (GameManagerScript.GetInstance().alivePlayers.Count == 1)
                 SetPlayerStats(photonView.GetKills(), 1, GameManagerScript.GetInstance().dbTokens[id]);
         }
-        
+
         //TODO Finir la logique du joueur avec les appels de RPC. Commencer à optimiser le code.
     }
 }

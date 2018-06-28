@@ -8,7 +8,7 @@ namespace BattleRobo
     /// Manages game workflow and provides high-level access to networked logic during a game.
     /// It manages functions such as win and loose situation.
     /// </summary>
-	public class GameManagerScript : Photon.PunBehaviour, IPunObservable
+    public class GameManagerScript : Photon.PunBehaviour, IPunObservable
     {
         // reference to this script instance
         private static GameManagerScript Instance;
@@ -24,10 +24,10 @@ namespace BattleRobo
         /// The dictionnary of all the players currently alive in the game.
         /// </summary>
         public Dictionary<int, GameObject> alivePlayers;
-        
+
         // - masterClient only : <photonID, dbToken>
         public Dictionary<int, string> dbTokens;
-        
+
         /// <summary>
         /// The dictionnary of pause used by players.
         /// </summary>
@@ -63,12 +63,12 @@ namespace BattleRobo
         /// </summary>
         [SerializeField]
         private GameObject gameCamera;
-        
+
         /// <summary>
         /// Reference to the network command gameobject.
         /// </summary>
         //public GameObject networkCommandObject;
-        
+
         // Number of player currently alive in the game
         public static int alivePlayerNumber;
 
@@ -89,10 +89,10 @@ namespace BattleRobo
 
         private void Start()
         {
-            PhotonNetwork.Instantiate("Robo_Prediction", Vector3.zero, Quaternion.identity, 0);
+            PhotonNetwork.Instantiate("PlayerRobo", new Vector3(0, 30, 0), Quaternion.identity, 0);
             alivePlayerNumber = PhotonNetwork.room.PlayerCount;
             gameCamera.SetActive(false);
-            
+
             pRank = alivePlayerNumber;
             hasLost = false;
         }
@@ -101,15 +101,18 @@ namespace BattleRobo
         {
             if (!localPlayer)
                 return;
+
+            if(isGamePause)
+                SetPauseTimer(pauseTimer - Time.deltaTime);
             
-            SetPauseTimer(pauseTimer - Time.deltaTime);
+            //TODO Utiliser des delegate ou de events pour les codes à executer une seule fois
 
             if (!hasLost && alivePlayerNumber == 1)
             {
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 ShowGameOverScreen("You won !! Let's go baby !!", 1, localPlayer.photonView.GetKills());
-                
+
                 //desactivate the local player
                 photonView.RPC("DisablePlayerRPC", PhotonTargets.All, localPlayer.playerID);
             }
@@ -151,7 +154,7 @@ namespace BattleRobo
         {
             playerInPauseId = idPlayer;
         }
-        
+
         public int GetPlayerInPause()
         {
             return playerInPauseId;
@@ -159,10 +162,10 @@ namespace BattleRobo
 
         public void SetPauseTimer(float timer)
         {
-            pauseTimer = timer;
-
             if (timer < 0f)
                 timer = 0f;
+
+            pauseTimer = timer;
         }
 
         public float GetPauseTimer()
@@ -171,17 +174,17 @@ namespace BattleRobo
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-		{
-			if (stream.isWriting)
-			{
-				stream.SendNext(alivePlayerNumber);
-			}
-			else
-			{
-				alivePlayerNumber = (int)stream.ReceiveNext();
-			}
-		}
-        
+        {
+            if (stream.isWriting)
+            {
+                stream.SendNext(alivePlayerNumber);
+            }
+            else
+            {
+                alivePlayerNumber = (int) stream.ReceiveNext();
+            }
+        }
+
         /// <summary>
         /// Called when a remote player left the room.
         /// </summary>
@@ -190,7 +193,7 @@ namespace BattleRobo
             //tell all clients that the player is dead
             photonView.RPC("HasLeftRPC", PhotonTargets.All, player.ID);
         }
-        
+
         /// <summary>
         /// Called after disconnecting from the Photon server.
         /// </summary>
@@ -216,11 +219,11 @@ namespace BattleRobo
             {
                 player.SetActive(false);
             }
-            
+
             alivePlayers.Remove(id);
             alivePlayerNumber--;
         }
-        
+
         [PunRPC]
         private void DisablePlayerRPC(int id)
         {
@@ -235,5 +238,5 @@ namespace BattleRobo
                 player.SetActive(false);
             }
         }
-	}
+    }
 }

@@ -45,8 +45,10 @@ namespace BattleRobo
         public bool IsFull()
         {
             for (var i = 0; i < InventorySize; i++)
+            {
                 if (inventory[i].IsEmpty())
                     return false;
+            }
 
             return true;
         }
@@ -57,8 +59,10 @@ namespace BattleRobo
         public bool IsEmpty()
         {
             for (var i = 0; i < InventorySize; i++)
+            {
                 if (!inventory[i].IsEmpty())
                     return false;
+            }
 
             return true;
         }
@@ -69,8 +73,10 @@ namespace BattleRobo
         public int FindFirstEmptySlot()
         {
             for (var i = 0; i < InventorySize; i++)
+            {
                 if (inventory[i].IsEmpty())
                     return i;
+            }
 
             return -1;
         }
@@ -140,10 +146,8 @@ namespace BattleRobo
 
 
         /// <summary>
-        /// Collect an item. Shoot a raycast to see if the player
-        /// is targeting an item, then check distance. If the player
-        /// can collect the item, try to find a slot on the inventory
-        /// and add it if the inventory is not full
+        /// Collect an item. Shoot a raycast to see if the player is targeting an item, then check distance.
+        /// If the player can collect the item, try to find a slot on the inventory and add it if the inventory is not full
         /// </summary>
         public void Collect()
         {
@@ -179,18 +183,17 @@ namespace BattleRobo
             {
                 // - the object is is looting state until the TakeObject RPC disable it
                 playerObject.SetLooting(true);
-                playerView.RPC("TakeObject", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), slotIndex, playerView.viewID - 1);
+                playerView.RPC("TakeObject", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), slotIndex, playerView.ownerId);
+                AddObject(playerObject, slotIndex);
+                playerUI.SetItemUISlot(playerObject, slotIndex);
 
-//                AddObject(playerObject, slotIndex);
-//                playerUI.SetItemUISlot(playerObject, slotIndex);
-//
-//                // equip weapon if the index is already selected
-//                if (slotIndex == currentSlotIndex)
-//                {
-//                    var weapon = playerObject.GetComponent<WeaponScript>();
-//                    weaponHolder.SetWeapon(weapon, weapon.GetCurrentAmmo());
-//                    playerUI.SetAmmoCounter(weapon.GetCurrentAmmo(), weapon.GetMagazineSize());
-//                }
+                // equip weapon if the index is already selected
+                if (slotIndex == currentSlotIndex)
+                {
+                    var weapon = playerObject.GetWeapon();
+                    weaponHolder.SetWeapon(weapon, weapon.currentAmmo);
+                    playerUI.SetAmmoCounter(weapon.currentAmmo);
+                }
             }
         }
 
@@ -202,7 +205,7 @@ namespace BattleRobo
 
             // - update UI
             playerUI.SetItemUISlot(null, currentSlotIndex);
-            playerUI.SetAmmoCounter(-1f, -1f);
+            playerUI.SetAmmoCounter(-1f);
 
             // - unequip weapon if necessary
             if (slotToClear == currentSlotIndex)
@@ -225,21 +228,21 @@ namespace BattleRobo
             if (!playerObject)
                 return;
 
+            // - Update ammo counter
+            playerView.RPC("UpdateWeapon", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), weaponHolder.currentWeapon.currentAmmo);
+            
             // - place the weapon on the map and show it
             playerView.RPC("DropObject", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), position);
 
-            // - Update ammo counter
-            playerView.RPC("UpdateWeapon", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), weaponHolder.GetCurrentWeapon().currentAmmo);
+            // - remove object from player inventory
+            inventory[currentSlotIndex].Drop();
 
-//            // - remove object from player inventory
-//            inventory[currentSlotIndex].Drop();
-//
-//            // - update UI
-//            playerUI.SetItemUISlot(null, currentSlotIndex);
-//            playerUI.SetAmmoCounter(-1f, -1f);
-//
-//            // - unequip weapon
-//            weaponHolder.SetWeapon(null, 0f);
+            // - update UI
+            playerUI.SetItemUISlot(null, currentSlotIndex);
+            playerUI.SetAmmoCounter(-1f);
+
+            // - unequip weapon
+            weaponHolder.SetWeapon(null, 0f);
         }
 
         public void SetActiveItem(int index)
@@ -250,9 +253,9 @@ namespace BattleRobo
             var item = inventory[currentSlotIndex].GetItem();
 
             if (item && item.GetWeapon() != null)
-                playerUI.SetAmmoCounter(item.GetWeapon().currentAmmo, item.GetWeapon().GetMagazineSize());
+                playerUI.SetAmmoCounter(item.GetWeapon().currentAmmo);
             else
-                playerUI.SetAmmoCounter(-1f, -1f);
+                playerUI.SetAmmoCounter(-1f);
         }
 
         public PlayerObjectScript GetCurrentActive()
@@ -266,11 +269,6 @@ namespace BattleRobo
         public int GetActiveIndex()
         {
             return currentSlotIndex;
-        }
-
-        public void SetWeaponHolder(WeaponHolderScript weaponHolderScript)
-        {
-            weaponHolder = weaponHolderScript;
         }
 
         public void Show()

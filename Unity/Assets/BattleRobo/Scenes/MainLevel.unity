@@ -4504,7 +4504,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &102175899
 Transform:
   m_ObjectHideFlags: 0
@@ -14712,9 +14712,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 465599848}
   weaponSound: {fileID: 8300000, guid: dc8c8fd3173a0eb4b9df1740619caa6d, type: 3}
   playerPhotonView: {fileID: 465599846}
-  weaponHolderPhotonView: {fileID: 988089489}
   currentAmmo: 0
-  bulletSpawn: {fileID: 930956527}
 --- !u!1 &386630413
 GameObject:
   m_ObjectHideFlags: 0
@@ -15928,7 +15926,6 @@ MonoBehaviour:
   - {fileID: 1250161135}
   currentWeapon: {fileID: 0}
   playerPhotonView: {fileID: 880289342}
-  bullet: {fileID: 1404648672959114, guid: e139fd0925c5c0b40b51b193e41d377d, type: 2}
 --- !u!4 &461948499
 Transform:
   m_ObjectHideFlags: 0
@@ -15969,8 +15966,8 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 10
-  instantiationId: 10
+  viewIdField: 6
+  instantiationId: 6
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!1 &462625822
@@ -19775,9 +19772,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 880289344}
   weaponSound: {fileID: 8300000, guid: dc8c8fd3173a0eb4b9df1740619caa6d, type: 3}
   playerPhotonView: {fileID: 880289342}
-  weaponHolderPhotonView: {fileID: 461948500}
   currentAmmo: 0
-  bulletSpawn: {fileID: 549338252}
 --- !u!1 &853977313
 GameObject:
   m_ObjectHideFlags: 0
@@ -23857,8 +23852,8 @@ MonoBehaviour:
   - {fileID: 880289340}
   - {fileID: 976367057}
   ObservedComponentsFoldoutOpen: 1
-  viewIdField: 1
-  instantiationId: 1
+  viewIdField: 7
+  instantiationId: 7
   currentMasterID: -1
   isRuntimeInstantiated: 0
 --- !u!82 &880289343
@@ -24157,7 +24152,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &894165935
 Transform:
   m_ObjectHideFlags: 0
@@ -24527,9 +24522,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 2061279774}
   weaponSound: {fileID: 8300000, guid: dc8c8fd3173a0eb4b9df1740619caa6d, type: 3}
   playerPhotonView: {fileID: 2061279772}
-  weaponHolderPhotonView: {fileID: 1288296861}
   currentAmmo: 0
-  bulletSpawn: {fileID: 1784359461}
 --- !u!1 &913941671
 GameObject:
   m_ObjectHideFlags: 0
@@ -24943,7 +24936,6 @@ MonoBehaviour:
   - {fileID: 1742896809}
   currentWeapon: {fileID: 0}
   playerPhotonView: {fileID: 465599846}
-  bullet: {fileID: 1404648672959114, guid: e139fd0925c5c0b40b51b193e41d377d, type: 2}
 --- !u!4 &988089488
 Transform:
   m_ObjectHideFlags: 0
@@ -26435,7 +26427,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1134245671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31352,9 +31344,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 880289344}
   weaponSound: {fileID: 8300000, guid: dc8c8fd3173a0eb4b9df1740619caa6d, type: 3}
   playerPhotonView: {fileID: 880289342}
-  weaponHolderPhotonView: {fileID: 461948500}
   currentAmmo: 0
-  bulletSpawn: {fileID: 1771159743}
 --- !u!4 &1250161136
 Transform:
   m_ObjectHideFlags: 0
@@ -31624,7 +31614,6 @@ MonoBehaviour:
   - {fileID: 2138097243}
   currentWeapon: {fileID: 0}
   playerPhotonView: {fileID: 2061279772}
-  bullet: {fileID: 1404648672959114, guid: e139fd0925c5c0b40b51b193e41d377d, type: 2}
 --- !u!4 &1288296860
 Transform:
   m_ObjectHideFlags: 0
@@ -32564,9 +32553,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 1343977492}
   weaponSound: {fileID: 8300000, guid: dc8c8fd3173a0eb4b9df1740619caa6d, type: 3}
   playerPhotonView: {fileID: 1343977490}
-  weaponHolderPhotonView: {fileID: 2069942392}
   currentAmmo: 0
-  bulletSpawn: {fileID: 1344052983}
 --- !u!4 &1352810044
 Transform:
   m_ObjectHideFlags: 0
@@ -38106,7 +38093,6 @@ MonoBehaviour:
   gameOverUI: {fileID: 0}
   gameOverUiScript: {fileID: 0}
   gameCamera: {fileID: 966811994}
-  networkCommandObject: {fileID: 1965460416}
   pRank: 0
   hasLost: 0
 --- !u!4 &1513734522
@@ -38456,9 +38442,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 1343977492}
   weaponSound: {fileID: 8300000, guid: dc8c8fd3173a0eb4b9df1740619caa6d, type: 3}
   playerPhotonView: {fileID: 1343977490}
-  weaponHolderPhotonView: {fileID: 2069942392}
   currentAmmo: 0
-  bulletSpawn: {fileID: 310853079}
 --- !u!1 &1534492337
 GameObject:
   m_ObjectHideFlags: 0
@@ -38545,7 +38529,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1536003237
 Transform:
   m_ObjectHideFlags: 0
@@ -39030,9 +39014,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 2061279774}
   weaponSound: {fileID: 8300000, guid: dc8c8fd3173a0eb4b9df1740619caa6d, type: 3}
   playerPhotonView: {fileID: 2061279772}
-  weaponHolderPhotonView: {fileID: 1288296861}
   currentAmmo: 0
-  bulletSpawn: {fileID: 1781398143}
 --- !u!1 &1580310323
 GameObject:
   m_ObjectHideFlags: 0
@@ -40837,9 +40819,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 1343977492}
   weaponSound: {fileID: 8300000, guid: dc8c8fd3173a0eb4b9df1740619caa6d, type: 3}
   playerPhotonView: {fileID: 1343977490}
-  weaponHolderPhotonView: {fileID: 2069942392}
   currentAmmo: 0
-  bulletSpawn: {fileID: 1943999705}
 --- !u!1 &1728650788
 GameObject:
   m_ObjectHideFlags: 0
@@ -40967,9 +40947,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 465599848}
   weaponSound: {fileID: 8300000, guid: dc8c8fd3173a0eb4b9df1740619caa6d, type: 3}
   playerPhotonView: {fileID: 465599846}
-  weaponHolderPhotonView: {fileID: 988089489}
   currentAmmo: 0
-  bulletSpawn: {fileID: 1166182326}
 --- !u!4 &1742896810
 Transform:
   m_ObjectHideFlags: 0
@@ -42349,9 +42327,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 880289344}
   weaponSound: {fileID: 8300000, guid: dc8c8fd3173a0eb4b9df1740619caa6d, type: 3}
   playerPhotonView: {fileID: 880289342}
-  weaponHolderPhotonView: {fileID: 461948500}
   currentAmmo: 0
-  bulletSpawn: {fileID: 1352733981}
 --- !u!1 &1894680554
 GameObject:
   m_ObjectHideFlags: 0
@@ -46733,9 +46709,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 465599848}
   weaponSound: {fileID: 8300000, guid: dc8c8fd3173a0eb4b9df1740619caa6d, type: 3}
   playerPhotonView: {fileID: 465599846}
-  weaponHolderPhotonView: {fileID: 988089489}
   currentAmmo: 0
-  bulletSpawn: {fileID: 1751613006}
 --- !u!1 &1962147591
 GameObject:
   m_ObjectHideFlags: 0
@@ -46781,7 +46755,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1963662450
 Transform:
   m_ObjectHideFlags: 0
@@ -46813,7 +46787,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1965460417
 Transform:
   m_ObjectHideFlags: 0
@@ -47241,7 +47215,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1982615154
 Transform:
   m_ObjectHideFlags: 0
@@ -51896,7 +51870,6 @@ MonoBehaviour:
   - {fileID: 1352810043}
   currentWeapon: {fileID: 0}
   playerPhotonView: {fileID: 1343977490}
-  bullet: {fileID: 1404648672959114, guid: e139fd0925c5c0b40b51b193e41d377d, type: 2}
 --- !u!4 &2069942391
 Transform:
   m_ObjectHideFlags: 0
@@ -52864,9 +52837,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 2061279774}
   weaponSound: {fileID: 8300000, guid: dc8c8fd3173a0eb4b9df1740619caa6d, type: 3}
   playerPhotonView: {fileID: 2061279772}
-  weaponHolderPhotonView: {fileID: 1288296861}
   currentAmmo: 0
-  bulletSpawn: {fileID: 857473184}
 --- !u!4 &2138097244
 Transform:
   m_ObjectHideFlags: 0

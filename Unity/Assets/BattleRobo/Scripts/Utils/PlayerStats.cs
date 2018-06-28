@@ -36,7 +36,7 @@ namespace BattleRobo
         /// </summary>
         public static void SetHealth(this PhotonView player, int value)
         {
-            player.owner.SetCustomProperties(new Hashtable {{health, (byte) value}});
+            player.owner.SetCustomProperties(new Hashtable {{health, value}});
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace BattleRobo
         /// </summary>
         public static void SetShield(this PhotonView player, int value)
         {
-            player.owner.SetCustomProperties(new Hashtable {{shield, (byte) value}});
+            player.owner.SetCustomProperties(new Hashtable {{shield, value}});
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace BattleRobo
         /// </summary>
         public static void SetKills(this PhotonView player, int value)
         {
-            player.owner.SetCustomProperties(new Hashtable {{kills, (byte) value}});
+            player.owner.SetCustomProperties(new Hashtable {{kills, value}});
         }
         
         /// <summary>
@@ -95,7 +95,7 @@ namespace BattleRobo
         /// </summary>
         public static void SetRank(this PhotonView player, int value)
         {
-            player.owner.SetCustomProperties(new Hashtable {{rank, (byte) value}});
+            player.owner.SetCustomProperties(new Hashtable {{rank, value}});
         }
 
         /// <summary>
@@ -105,9 +105,9 @@ namespace BattleRobo
         {
             player.owner.SetCustomProperties(new Hashtable
             {
-                {health, (byte) 0},
-                {kills, (byte) 0},
-                {shield, (byte) 0}
+                {health, 0},
+                {kills, 0},
+                {shield, 0}
             });
         }
     }

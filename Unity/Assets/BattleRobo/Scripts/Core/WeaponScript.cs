@@ -15,23 +15,11 @@ namespace BattleRobo
         [SerializeField]
         private PhotonView playerPhotonView;
 
-        [SerializeField]
-        private PhotonView weaponHolderPhotonView;
-
         public float currentAmmo;
 
         private float nextTimeToFire;
 
-        #region Bullet Region
-
-        [SerializeField]
-        private Transform bulletSpawn;
-
-        private Vector3 hitPoint;
-
-        #endregion
-
-        private void Start()
+        private void Awake()
         {
             currentAmmo = currentGun.magazineSize;
         }
@@ -39,9 +27,6 @@ namespace BattleRobo
         private void Update()
         {
             if (!playerPhotonView) //player photon view is null
-                return;
-
-            if (!playerPhotonView.isMine)
                 return;
 
             playerAnimator.SetLayerWeight(2, 1);
@@ -68,40 +53,23 @@ namespace BattleRobo
             if (!PhotonNetwork.isMasterClient)
                 return;
 
-            const int layerMask = 1 << 8;
+            const int layerMask = 1 << 16;
             RaycastHit shot;
 
             if (Physics.Raycast(camTransform.position, camTransform.forward, out shot, currentGun.range, layerMask))
             {
                 Debug.Log("Hit" + shot.transform.gameObject.name);
 
-                var hitRoboController = shot.transform.gameObject.GetComponent<RoboControllerScript>();
+                var hitRoboBodyPart = shot.transform.gameObject.GetComponent<HealthScript>();
                 playerPhotonView.RPC("HitMarkerRPC", PhotonTargets.AllViaServer);
-                hitRoboController.TakeDamage(currentGun.damage, playerID);
-                hitRoboController.ShowDamageIndicator(camTransform.position);
-                hitPoint = shot.point;
+                hitRoboBodyPart.TakeDamage(currentGun.damage, playerID);
+                hitRoboBodyPart.ShowDamageIndicator(camTransform.position);
             }
-            else
-            {
-                hitPoint = camTransform.position + camTransform.forward * currentGun.range;
-            }
-
-            weaponHolderPhotonView.RPC("BulletSpawnRPC", PhotonTargets.All, hitPoint, bulletSpawn.position, camTransform.rotation);
-        }
-
-        public string GetName()
-        {
-            return currentGun.gunName;
         }
 
         public int GetId()
         {
             return currentGun.gunId;
-        }
-
-        public int GetMagazineSize()
-        {
-            return currentGun.magazineSize;
         }
 
         public void SetCurrentAmmo(float ammoNumber)

@@ -89,9 +89,9 @@ namespace BattleRobo
 
         private void FixedUpdate()
         {
-            if(roboLogic.isInPause)
+            if (roboLogic.isInPause)
                 return;
-            
+
             timer += Time.fixedDeltaTime;
 
             if (PhotonNetwork.isMasterClient)
@@ -128,9 +128,9 @@ namespace BattleRobo
 
         private void Update()
         {
-            if(roboLogic.isInPause)
+            if (roboLogic.isInPause)
                 return;
-            
+
             if (roboLogic.isJumpingAudio)
             {
                 //Stop the running sound if we are not grounded
@@ -153,7 +153,7 @@ namespace BattleRobo
                     roboLogic.audioSource.Stop();
                 }
             }
-            
+
             fly = Vector3.zero;
             if (input.jump && roboLogic.fuelAmount > 0f)
             {
@@ -182,9 +182,9 @@ namespace BattleRobo
 
         private void LateUpdate()
         {
-            if(roboLogic.isInPause)
+            if (roboLogic.isInPause)
                 return;
-            
+
             // Rotate the player on the X axis
             currentRot -= input.mouse.y * aimSensitivity;
             currentRot = Mathf.Clamp(currentRot, -60f, 60f);
@@ -196,9 +196,9 @@ namespace BattleRobo
 
         private void Simulate(float dt)
         {
-            if(roboLogic.isInPause)
+            if (roboLogic.isInPause)
                 return;
-            
+
             // Limit the diagonal speed
             float inputModifyFactor = Math.Abs(input.inputX) > 0.0001f && Math.Abs(input.inputY) > 0.0001f ? .7071f : 1.0f;
 
@@ -211,7 +211,7 @@ namespace BattleRobo
                 // Disable the thrusters when the player is not flying
                 roboLogic.thrusters.SetActive(false);
 
-                moveDirection = new Vector3(input.inputX * inputModifyFactor, 0f, input.inputY * inputModifyFactor);
+                moveDirection = new Vector3(input.inputX * inputModifyFactor * speed, 0f, input.inputY * inputModifyFactor * speed);
 
                 //Stop the jetpack sound if we are grounded
                 if (roboLogic.audioSource.isPlaying && roboLogic.audioSource.clip == roboLogic.audioClips[1])
@@ -229,8 +229,8 @@ namespace BattleRobo
                 roboLogic.animator.SetFloat("VelX", moveDirection.x * speed);
                 roboLogic.animator.SetFloat("VelY", moveDirection.z * speed);
 
-                moveDirection = transform.TransformDirection(moveDirection) * speed;
-                
+                moveDirection = transform.TransformDirection(moveDirection);
+
                 // Jump!
                 Jump();
             }
@@ -240,14 +240,14 @@ namespace BattleRobo
                 moveDirection.z = input.inputY * speed * inputModifyFactor;
 
                 // Animate the player for the ground animation
-                roboLogic.animator.SetFloat("VelX", moveDirection.x);
-                roboLogic.animator.SetFloat("VelY", moveDirection.z);
+                roboLogic.animator.SetFloat("VelX", moveDirection.x * speed);
+                roboLogic.animator.SetFloat("VelY", moveDirection.z * speed);
 
                 // Disable the thrusters when the player is not flying
                 roboLogic.thrusters.SetActive(true);
 
                 moveDirection = transform.TransformDirection(moveDirection);
-                
+
                 // Jump!
                 Jump();
             }
@@ -278,9 +278,9 @@ namespace BattleRobo
         {
             int bufferSlot = tick % BufferSize;
 
-            if (!((pos - stateBuffer[bufferSlot].position).sqrMagnitude > 0.01f) && !(Quaternion.Dot(rot, stateBuffer[bufferSlot].rotation) < 0.99f)) 
+            if (!((pos - stateBuffer[bufferSlot].position).sqrMagnitude > 0.01f) && !(Quaternion.Dot(rot, stateBuffer[bufferSlot].rotation) < 0.99f))
                 return;
-            
+
             transform.position = pos;
             transform.rotation = rot;
 

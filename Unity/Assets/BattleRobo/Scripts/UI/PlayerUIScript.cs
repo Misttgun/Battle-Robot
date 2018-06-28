@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -73,7 +74,7 @@ namespace BattleRobo
         /// </summary>
         [SerializeField]
         private Image damageIndicator;
-        
+
         /// <summary>
         /// Hit marker
         /// </summary>
@@ -85,6 +86,9 @@ namespace BattleRobo
         /// </summary>
         [SerializeField]
         private Camera playerCam;
+
+        private readonly WaitForSeconds damageIndicatorTimer = new WaitForSeconds(1.5f);
+        private readonly WaitForSeconds hitMarkerIndicatorTimer = new WaitForSeconds(0.5f);
 
 
         public void UpdateStormTimer(float countdown)
@@ -173,14 +177,9 @@ namespace BattleRobo
         /// Update the ammo counter
         /// </summary>
         /// <param name="currentAmmo"></param>
-        /// <param name="magazineSize"></param>
-        public void SetAmmoCounter(float currentAmmo, float magazineSize)
+        public void SetAmmoCounter(float currentAmmo)
         {
-            if (Math.Abs(currentAmmo + 1f) > 0.0001f && Math.Abs(magazineSize + 1f) > 0.0001f)
-                ammoCounter.text = currentAmmo + " / " + magazineSize;
-
-            else
-                ammoCounter.text = "";
+            ammoCounter.text = Math.Abs(currentAmmo + 1f) > 0.0001f ? currentAmmo.ToString(CultureInfo.CurrentCulture) : "";
         }
 
         /// <summary>
@@ -190,7 +189,7 @@ namespace BattleRobo
         public void UpdateDamageIndicator(Vector3 shooterTransform)
         {
             damageIndicator.enabled = true;
-            
+
             //donne la position de la personne qui vous a tiré en fonction du champ du vision de la caméra
             Vector3 direction = playerCam.WorldToScreenPoint(shooterTransform);
 
@@ -202,7 +201,7 @@ namespace BattleRobo
             if (direction.z < 0)
             {
                 // faire en sorte que le damage indicator indique la position de l'ennemie derrière nous 
-                pointing.z = pointing.z + 180; 
+                pointing.z = pointing.z + 180;
             }
 
             damageIndicator.transform.rotation = Quaternion.Euler(pointing);
@@ -211,10 +210,10 @@ namespace BattleRobo
             if (gameObject.activeInHierarchy)
             {
                 //disable damage indicator after 1.5 second
-                StartCoroutine(DisableIndicator(damageIndicator, 1.5f));
+                StartCoroutine(DisableIndicator(damageIndicator, damageIndicatorTimer));
             }
         }
-        
+
         /// <summary>
         /// Update the damage indicator
         /// </summary>
@@ -226,19 +225,19 @@ namespace BattleRobo
             if (gameObject.activeInHierarchy)
             {
                 //disable damage indicator after 1.5 second
-                StartCoroutine(DisableIndicator(hitMarker, 0.5f));
+                StartCoroutine(DisableIndicator(hitMarker, hitMarkerIndicatorTimer));
             }
         }
-        
+
         /// <summary>
         /// Disable the indicator image
         /// </summary>
         /// <param name="image"></param>
         /// <param name="timer"></param>
         /// <returns></returns>
-        private IEnumerator DisableIndicator(Image image, float timer)
+        private IEnumerator DisableIndicator(Image image, WaitForSeconds timer)
         {
-            yield return new WaitForSeconds(timer);
+            yield return timer;
             image.enabled = false;
         }
 

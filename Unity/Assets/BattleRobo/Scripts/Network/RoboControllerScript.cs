@@ -616,7 +616,7 @@ namespace BattleRobo
                 var update = weapon == weaponHolder.currentWeapon;
                 
                 if (playerID == shooterId && update)
-                    uiScript.SetAmmoCounter(weapon.currentAmmo, weapon.GetMagazineSize());
+                    uiScript.SetAmmoCounter(weapon.currentAmmo);
             }
         }
 
@@ -635,7 +635,7 @@ namespace BattleRobo
         [PunRPC]
         private void TakeObject(int lootTrackerId, int slotIndex, int senderId)
         {
-            var playerObject = LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObjectScript>();
+            var playerObject = LootSpawnerScript.GetLootTracker()[lootTrackerId];
 
             playerInventory.AddObject(playerObject, slotIndex);
             uiScript.SetItemUISlot(playerObject, slotIndex);
@@ -645,7 +645,7 @@ namespace BattleRobo
             {
                 var weapon = playerObject.GetComponent<WeaponScript>();
                 weaponHolder.SetWeapon(weapon, weapon.currentAmmo);
-                uiScript.SetAmmoCounter(weapon.currentAmmo, weapon.GetMagazineSize());
+                uiScript.SetAmmoCounter(weapon.currentAmmo);
             }
 
             if (playerObject.IsAvailable())
@@ -669,13 +669,13 @@ namespace BattleRobo
         [PunRPC]
         private void UpdateWeapon(int lootTrackerId, float ammoCount)
         {
-            LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<WeaponScript>().SetCurrentAmmo(ammoCount);
+            LootSpawnerScript.GetLootTracker()[lootTrackerId].GetWeapon().SetCurrentAmmo(ammoCount);
         }
 
         [PunRPC]
         private void DropObject(int lootTrackerId, Vector3 position)
         {
-            var playerObject = LootSpawnerScript.GetLootTracker()[lootTrackerId].GetComponent<PlayerObjectScript>();
+            var playerObject = LootSpawnerScript.GetLootTracker()[lootTrackerId];
 
             playerObject.Drop(position);
 
@@ -684,7 +684,7 @@ namespace BattleRobo
 
             // - update UI
             uiScript.SetItemUISlot(null, playerInventory.currentSlotIndex);
-            uiScript.SetAmmoCounter(-1f, -1f);
+            uiScript.SetAmmoCounter(-1f);
 
             // - unequip weapon
             weaponHolder.SetWeapon(null, 0f);

@@ -26,6 +26,8 @@ namespace BattleRobo
         private Button cancelButton;
 
         private bool isMoreThanTwo;
+        
+        private readonly WaitForSeconds timer = new WaitForSeconds(1f);
 
         private void Start()
         {
@@ -137,7 +139,7 @@ namespace BattleRobo
 
         private IEnumerator LoadGame()
         {
-            // TODO Delete while true and find a better way
+            // TODO Delete while true and find a better way -> Use an RPC to the master client
             // Waiting for one more player
             while (true)
             {
@@ -160,7 +162,7 @@ namespace BattleRobo
                 }
 
                 countDown--;
-                yield return new WaitForSeconds(1f);
+                yield return timer;
             }
 
             // Close the room so that a new player can not join the game

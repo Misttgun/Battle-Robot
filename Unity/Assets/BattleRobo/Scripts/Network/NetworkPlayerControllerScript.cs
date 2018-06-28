@@ -1,7 +1,4 @@
-using System.Collections.Generic;
-using BattleRobo.Networking;
 using Photon;
-using UnityEngine;
 
 public class NetworkPlayerControllerScript : PunBehaviour
 {

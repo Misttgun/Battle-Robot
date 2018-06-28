@@ -18,13 +18,13 @@ namespace BattleRobo
         //[HideInInspector]
         public GameObject obj;
 
-        private static List<GameObject> LootTracker;
+        private static List<PlayerObjectScript> LootTracker;
 
         private void Start()
         {
             // instantiate the LootTracker only one time !
             if (LootTracker == null)
-                LootTracker = new List<GameObject>();
+                LootTracker = new List<PlayerObjectScript>();
 
             SpawnLoot();
         }
@@ -44,11 +44,13 @@ namespace BattleRobo
             //use the poolmanager to spawn the loot on top of the plateforme
             obj = PoolManagerScript.Spawn(prefabs[index], spawPosition, spawnRotation);
 
-            obj.GetComponent<PlayerObjectScript>().SetLootTrackerIndex(LootTracker.Count);
-            LootTracker.Add(obj);
+            var pObject = obj.GetComponent<PlayerObjectScript>();
+
+            pObject.SetLootTrackerIndex(LootTracker.Count);
+            LootTracker.Add(pObject);
         }
 
-        public static List<GameObject> GetLootTracker()
+        public static List<PlayerObjectScript> GetLootTracker()
         {
             return LootTracker;
         }
