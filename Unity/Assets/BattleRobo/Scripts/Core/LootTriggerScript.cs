@@ -21,15 +21,12 @@ namespace BattleRobo
 		
 		//variable qui compte le nombre de trigger en collision avec le loot
 		private int count;
-		
-		private void Start()
-		{
-			count = 0;
-		}
+	
 
 		private void OnTriggerEnter(Collider other)
 		{
 			++count;
+			
 			if (count > 1)
 				return;
 			
@@ -43,7 +40,23 @@ namespace BattleRobo
 			meshRenderer.enabled = true;
 			weaponLight.SetActive(true);
 		}
-        
+
+		private void OnTriggerStay(Collider other)
+		{
+			if (count > 1)
+				return;
+			
+			if (playerObjectScript.IsAvailable() == false)
+			{
+				return;
+			}
+			
+			//lootScript.enabled = false;
+			weaponScript.enabled = true;
+			meshRenderer.enabled = true;
+			weaponLight.SetActive(true);
+		}
+
 		private void OnTriggerExit(Collider other)
 		{
 			--count;

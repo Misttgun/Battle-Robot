@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Configuration;
+using UnityEngine;
 
 namespace BattleRobo
 {
@@ -18,6 +19,8 @@ namespace BattleRobo
         public float currentAmmo;
 
         private float nextTimeToFire;
+
+        private const int layerMask = 1 << 8;
 
         private void Awake()
         {
@@ -53,7 +56,6 @@ namespace BattleRobo
             if (!PhotonNetwork.isMasterClient)
                 return;
 
-            const int layerMask = 1 << 8;
             RaycastHit shot;
 
             if (Physics.Raycast(camTransform.position, camTransform.forward, out shot, currentGun.range, layerMask))

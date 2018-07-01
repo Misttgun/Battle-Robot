@@ -11,9 +11,8 @@ public class PathGenerator : MonoBehaviour
     [SerializeField] private GameObject vehicle;
     [SerializeField] private float speed;
     private Transform vehicleTarget;
-    private float h;
     private float m;
-    private int c=0;
+    private int c;
 
     private void Start()
     {
@@ -33,7 +32,7 @@ public class PathGenerator : MonoBehaviour
             if (c >= pathVehicle.Length)
             {
                 //Detruit le bus après un tour complet 
-                Destroy(vehicle);                                                                                       
+                vehicle.SetActive(false);                                                                                       
                 return;
             }    
             c++;
@@ -45,14 +44,13 @@ public class PathGenerator : MonoBehaviour
     private void pathTransform()
     {
         m = mapGenerator.getMapMainSize();
-        h = mapGenerator.getHeight();
   
-        vehicle.transform.position = new Vector3(-m/6 , h/2 , -m/6);
+        vehicle.transform.position = new Vector3(0, 40 , 0);
         
-        pathVehicle[0].position = new Vector3(-m/6 , h/2 , 7*m/6);
-        pathVehicle[1].position = new Vector3(7*m/6 , h/2 , 7*m/6);
-        pathVehicle[2].position = new Vector3(7*m/6 , h/2 , -m/6);
-        pathVehicle[3].position = new Vector3(-m/6 , h/2 , -m/6);
+        pathVehicle[0].position = new Vector3(0 , 40 , 0);
+        pathVehicle[1].position = new Vector3(0 , 40 , m);
+        pathVehicle[2].position = new Vector3(m , 40 , m);
+        pathVehicle[3].position = new Vector3(m , 40 , 0);
         
         vehicleTarget = pathVehicle[0];
     }

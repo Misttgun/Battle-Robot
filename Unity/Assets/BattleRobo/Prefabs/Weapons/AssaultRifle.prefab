@@ -179,9 +179,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 0}
   weaponSound: {fileID: 8300000, guid: dc8c8fd3173a0eb4b9df1740619caa6d, type: 3}
   playerPhotonView: {fileID: 0}
-  weaponHolderPhotonView: {fileID: 0}
   currentAmmo: 0
-  bulletSpawn: {fileID: 0}
 --- !u!114 &114416066884990822
 MonoBehaviour:
   m_ObjectHideFlags: 1

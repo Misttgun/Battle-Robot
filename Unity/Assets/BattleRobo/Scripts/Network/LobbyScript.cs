@@ -26,7 +26,7 @@ namespace BattleRobo
         private Button cancelButton;
 
         private bool isMoreThanTwo;
-        
+
         private readonly WaitForSeconds timer = new WaitForSeconds(1f);
 
         private void Start()
@@ -66,31 +66,21 @@ namespace BattleRobo
 
         public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
         {
-            Debug.Log("BattleRobo/Launcher: OnPhotonRandomJoinFailed() was called by PUN");
-
-            //int seed = Random.Range(0, 100);
-            int seed = 40;
-            RoomOptions roomOptions = new RoomOptions
-            {
-                CustomRoomPropertiesForLobby = new[] {"seed"},
-                CustomRoomProperties = new Hashtable {{"seed", seed}},
-                MaxPlayers = maxPlayersPerRoom
-            };
-
             // We failed to join a random room, we create a new room.
-            PhotonNetwork.CreateRoom(null, roomOptions, null);
+            PhotonNetwork.CreateRoom(null, new RoomOptions {MaxPlayers = maxPlayersPerRoom}, null);
         }
 
         public override void OnJoinedRoom()
         {
-            Debug.Log("BattleRobo/Launcher: OnJoinedRoom() called by PUN");
-
             // Show the loading screen
             startMenuCanvas.SetActive(false);
             loadingScreenCanvas.SetActive(true);
 
             if (PhotonNetwork.isMasterClient)
             {
+                int seed = 42;
+                Hashtable properties = new Hashtable {{"seed", seed}};
+                PhotonNetwork.room.SetCustomProperties(properties);
                 StartCoroutine(LoadGame());
             }
         }
@@ -105,6 +95,10 @@ namespace BattleRobo
             AudioManagerScript.PlayMusic(0);
             if (PhotonNetwork.inRoom)
             {
+                // Close the room so that a new player can not join the game
+                PhotonNetwork.room.IsOpen = false;
+                PhotonNetwork.room.IsVisible = false;
+
                 PhotonNetwork.LeaveRoom();
             }
 
@@ -128,6 +122,13 @@ namespace BattleRobo
         {
             //stop the waiting music
             AudioManagerScript.GetInstance().musicSource.Stop();
+
+            StopAllCoroutines();
+
+            // Close the room so that a new player can not join the game
+            PhotonNetwork.room.IsOpen = false;
+            PhotonNetwork.room.IsVisible = false;
+
             // We leave the room
             PhotonNetwork.LeaveRoom();
 
@@ -169,7 +170,6 @@ namespace BattleRobo
             PhotonNetwork.room.IsOpen = false;
             PhotonNetwork.room.IsVisible = false;
 
-            Debug.Log("Load level");
             // We load the game
             PhotonNetwork.LoadLevel(2);
         }

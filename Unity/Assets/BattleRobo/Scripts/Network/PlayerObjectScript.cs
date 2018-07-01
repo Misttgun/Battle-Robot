@@ -46,7 +46,7 @@ namespace BattleRobo
         /// </summary>
         private bool isLooting;
 
-        public void Start()
+        private void Start()
         {
             isAvailable = true;
             isLooting = false;

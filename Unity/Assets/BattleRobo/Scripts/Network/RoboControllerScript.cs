@@ -554,7 +554,7 @@ namespace BattleRobo
             if (GameManagerScript.GetInstance().localPlayer == this)
             {
                 //set the local values for the gameover screen
-                GameManagerScript.GetInstance().pRank = rank;
+//                GameManagerScript.GetInstance().pRank = rank;
                 GameManagerScript.GetInstance().hasLost = true;
 
                 //deactivate the network command gameobject

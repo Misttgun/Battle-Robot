@@ -78,7 +78,7 @@ namespace BattleRobo
 
         private void FixedUpdate()
         {
-            if (roboLogic.isInPause)
+            if (roboLogic.isInPause || !GameManagerScript.canPlayerMove)
                 return;
 
             timer += Time.fixedDeltaTime;
@@ -107,13 +107,13 @@ namespace BattleRobo
 
                 inputBuffer[bufferSlot] = input;
 
-                photonView.RPC("UpdateServer", PhotonTargets.Others, currentTick, input.inputX, input.inputY, input.jump, input.mouse);
-
                 Simulate(Time.fixedDeltaTime);
+                
+                photonView.RPC("UpdateServer", PhotonTargets.Others, currentTick, input.inputX, input.inputY, input.jump, input.mouse);
 
                 ++currentTick;
 
-                //the only to handle jump for the prediction...
+                //the only way to handle jump for the prediction...
                 if (jump)
                 {
                     jump = false;
@@ -123,10 +123,10 @@ namespace BattleRobo
 
         private void Update()
         {
-            if (roboLogic.isInPause)
+            if (roboLogic.isInPause || !GameManagerScript.canPlayerMove)
                 return;
 
-            //the only to handle jump for the prediction...
+            //the only way to handle jump for the prediction...
             if (!jump)
             {
                 jump = Input.GetButtonDown("Jump");
@@ -285,7 +285,7 @@ namespace BattleRobo
         {
             int bufferSlot = tick % BufferSize;
 
-            if (!((pos - stateBuffer[bufferSlot].position).sqrMagnitude > 0.01f) && !(Quaternion.Dot(rot, stateBuffer[bufferSlot].rotation) < 0.99f))
+            if (!((pos - stateBuffer[bufferSlot].position).sqrMagnitude > 0.01f) || !(Quaternion.Dot(rot, stateBuffer[bufferSlot].rotation) < 0.99f))
                 return;
 
             transform.position = pos;
@@ -306,11 +306,11 @@ namespace BattleRobo
         }
 
         [PunRPC]
-        private void UpdateServer(int moveNumber, float inputX, float inputY, bool jump, Vector2 mouse)
+        private void UpdateServer(int moveNumber, float inputX, float inputY, bool rJump, Vector2 mouse)
         {
             input.inputX = inputX;
             input.inputY = inputY;
-            input.jump = jump;
+            input.jump = rJump;
             input.mouse = mouse;
 
             Simulate(Time.fixedDeltaTime);

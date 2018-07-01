@@ -53,14 +53,10 @@ namespace BattleRobo
 
         private void Update()
         {
-            if (PhotonNetwork.isMasterClient && !startTimer)
+            if (GameManagerScript.ready && !startTimer)
             {
-                timer += Time.deltaTime;
-                if (timer >= 2f)
-                {
                     //start the storm countdown at the same time on all client
                     photonView.RPC("StartTimerRPC", PhotonTargets.AllViaServer);
-                }
             }
 
             if (startTimer)
@@ -71,8 +67,7 @@ namespace BattleRobo
 
 
                     stormTimer = 0f;
-                }
-                
+                }      
                 else if (GameManagerScript.GetInstance().IsGamePause())
                 {
                     // - do nothing

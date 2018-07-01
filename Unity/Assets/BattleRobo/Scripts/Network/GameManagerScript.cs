@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngineInternal;
 
 namespace BattleRobo
 {
@@ -8,7 +10,7 @@ namespace BattleRobo
     /// Manages game workflow and provides high-level access to networked logic during a game.
     /// It manages functions such as win and loose situation.
     /// </summary>
-    public class GameManagerScript : Photon.PunBehaviour, IPunObservable
+    public class GameManagerScript : Photon.PunBehaviour
     {
         // reference to this script instance
         private static GameManagerScript Instance;
@@ -65,14 +67,24 @@ namespace BattleRobo
         private GameObject gameCamera;
 
         /// <summary>
-        /// Reference to the network command gameobject.
+        /// Reference to the waiting screen game object.
         /// </summary>
-        //public GameObject networkCommandObject;
+        [SerializeField]
+        private GameObject waitingScreen;
+
+        /// <summary>
+        /// Reference to the spawnGenerator Script.
+        /// </summary>
+        public SpawnGeneratorScript spawnGenerator;
+
+
+        public static bool canPlayerMove;
 
         // Number of player currently alive in the game
         public static int alivePlayerNumber;
 
-        public int pRank;
+        private int readyCount;
+        public static bool ready;
 
         public bool hasLost;
 
@@ -87,15 +99,21 @@ namespace BattleRobo
             alivePlayers = new Dictionary<int, GameObject>(4);
             pauseCounter = new Dictionary<int, int>(4);
             dbTokens = new Dictionary<int, string>(4);
+
+            //set the ready count
+            readyCount = 0;
         }
 
         private void Start()
         {
-            PhotonNetwork.Instantiate("PlayerRobo", new Vector3(0, 30, 0), Quaternion.identity, 0);
+            PhotonNetwork.Instantiate("Robo_Pred", spawnGenerator.spawnPositions[PhotonNetwork.player.ID - 1], Quaternion.identity, 0);
+
+            //tell the master client that we are ready
+            photonView.RPC("PlayerReadyRPC", PhotonTargets.MasterClient);
+
             alivePlayerNumber = PhotonNetwork.room.PlayerCount;
             gameCamera.SetActive(false);
 
-            pRank = alivePlayerNumber;
             hasLost = false;
         }
 
@@ -104,9 +122,9 @@ namespace BattleRobo
             if (!localPlayer)
                 return;
 
-            if(isGamePause)
+            if (isGamePause)
                 SetPauseTimer(pauseTimer - Time.deltaTime);
-            
+
             //TODO Utiliser des delegate ou de events pour les codes à executer une seule fois
 
             if (!hasLost && alivePlayerNumber == 1)
@@ -125,7 +143,7 @@ namespace BattleRobo
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 ShowGameOverScreen("You died... Feels bad man.", localPlayer.photonView.GetRank(), localPlayer.photonView.GetKills());
-                
+
                 deactivate = true;
             }
 
@@ -184,18 +202,6 @@ namespace BattleRobo
             return pauseTimer;
         }
 
-        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-        {
-            if (stream.isWriting)
-            {
-                stream.SendNext(alivePlayerNumber);
-            }
-            else
-            {
-                alivePlayerNumber = (int) stream.ReceiveNext();
-            }
-        }
-
         /// <summary>
         /// Called when a remote player left the room.
         /// </summary>
@@ -248,6 +254,30 @@ namespace BattleRobo
             {
                 player.SetActive(false);
             }
+        }
+
+        [PunRPC]
+        private void PlayerReadyRPC()
+        {
+            readyCount++;
+
+            if (readyCount == alivePlayerNumber)
+                StartCoroutine(WaitingScreenTimer());
+        }
+
+        [PunRPC]
+        private void MatchBeginRPC()
+        {
+            waitingScreen.SetActive(false);
+            canPlayerMove = true;
+        }
+
+        private IEnumerator WaitingScreenTimer()
+        {
+            yield return new WaitForSeconds(5f);
+
+            ready = true;
+            photonView.RPC("MatchBeginRPC", PhotonTargets.AllViaServer);
         }
     }
 }

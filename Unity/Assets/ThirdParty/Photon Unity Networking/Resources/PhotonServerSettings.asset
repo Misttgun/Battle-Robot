@@ -82,4 +82,6 @@ MonoBehaviour:
   - SendDBTokenRPC
   - WinnerRPC
   - UpdateServer
+  - PlayerReadyRPC
+  - MatchBeginRPC
   DisableAutoOpenWizard: 1

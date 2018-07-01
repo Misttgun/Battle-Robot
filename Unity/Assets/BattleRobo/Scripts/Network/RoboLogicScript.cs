@@ -230,7 +230,7 @@ namespace BattleRobo
                 }
             }
 
-            if (isInPause)
+            if (isInPause || !GameManagerScript.canPlayerMove)
             {
                 //stop sound when in pause
                 if (audioSource.isPlaying)
