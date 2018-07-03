@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c72bf5960b1a79b4f9eae585787ed5c3, type: 3}
+  m_Name: ShieldBoost
+  m_EditorClassIdentifier: 
+  lifeBonus: 0
+  shieldBonus: 50
+  stackSize: 5
+  castTime: 5
+  consommableName: Shield Boost
+  consommableId: 1

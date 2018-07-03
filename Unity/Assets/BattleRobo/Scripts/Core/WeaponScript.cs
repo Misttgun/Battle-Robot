@@ -78,5 +78,10 @@ namespace BattleRobo
         {
             currentAmmo = ammoNumber;
         }
+
+        public int GetPlayerObjectType()
+        {
+            return 0;
+        }
     }
 }

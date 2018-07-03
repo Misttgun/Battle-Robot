@@ -34,6 +34,7 @@ namespace BattleRobo
         /// </summary>
         private void SpawnLoot()
         {
+            Debug.Log("COUNT PREFABS : " + prefabs.Count);
             int index = Random.Range(0, prefabs.Count);
             if (obj != null)
                 return;

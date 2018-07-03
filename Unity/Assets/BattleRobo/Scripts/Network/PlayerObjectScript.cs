@@ -10,7 +10,6 @@ namespace BattleRobo
         [SerializeField] private int maxStackSize;
         [SerializeField] private Sprite itemSprite;
 
-
         /// <summary>
         /// - position on the map
         /// </summary>
@@ -26,6 +25,12 @@ namespace BattleRobo
         /// </summary>
         [SerializeField]
         private WeaponScript weaponScript;
+
+        /// <summary>
+        /// - Update Model to ItemScript for more genericity
+        /// </summary>
+        [SerializeField]
+        private ConsommableScript consommableScript;
 
         [SerializeField]
         private LootTriggerScript lootTriggerScript;
@@ -73,6 +78,11 @@ namespace BattleRobo
         public WeaponScript GetWeapon()
         {
             return weaponScript;
+        }
+
+        public ConsommableScript GetConsommable()
+        {
+            return consommableScript;
         }
 
         public Sprite GetSprite()

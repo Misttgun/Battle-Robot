@@ -6,6 +6,9 @@ namespace BattleRobo
 	{		
 		[SerializeField]
 		private WeaponScript weaponScript;
+
+        [SerializeField]
+        private ConsommableScript consommableScript;
 		
 		[SerializeField]
 		private PlayerObjectScript playerObjectScript;
@@ -34,9 +37,14 @@ namespace BattleRobo
 			{
 				return;
 			}
-			
-			//lootScript.enabled = false;
-			weaponScript.enabled = true;
+
+            //lootScript.enabled = false;
+
+            if (weaponScript)
+			    weaponScript.enabled = true;
+            if (consommableScript)
+                consommableScript.enabled = true;
+
 			meshRenderer.enabled = true;
 			weaponLight.SetActive(true);
 		}
@@ -52,7 +60,10 @@ namespace BattleRobo
 			}
 			
 			//lootScript.enabled = false;
-			weaponScript.enabled = true;
+            if (weaponScript)
+			    weaponScript.enabled = true;
+            if (consommableScript)
+                consommableScript.enabled = true;
 			meshRenderer.enabled = true;
 			weaponLight.SetActive(true);
 		}
@@ -69,7 +80,10 @@ namespace BattleRobo
 		public void DespawnLoot()
 		{
 			//lootScript.enabled = false;
-			weaponScript.enabled = false;			
+            if (weaponScript)
+			    weaponScript.enabled = false;
+            if (consommableScript)
+                consommableScript.enabled = false;
 			
 			if (playerObjectScript.IsAvailable() == false)
 			{
