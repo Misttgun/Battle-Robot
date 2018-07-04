@@ -205,17 +205,15 @@ namespace BattleRobo
 
         private void FillLeaderboard()
         {
-            string url = "http://51.38.235.234:8080/leaderboard";
+            int status;
+            string response;
 
-            WWW www = new WWW(url);
-
-            // - wait response
-            while (!www.isDone) ;
+            DatabaseRequester.GetInstance().SyncQuery("/leaderboard", out status, out response);
 
             // - leaderboard is loaded successfully
-            if (www.responseHeaders["STATUS"].Contains("200"))
+            if (status == 200)
             {
-                var csv_text = www.text;
+                var csv_text = response;
                 var rows = csv_text.Split('\n');
 
                 for (int i = 0; i < rows.Length; i++)

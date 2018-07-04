@@ -735,10 +735,9 @@ namespace BattleRobo
 
         private void SetPlayerStats(int kills, int win, string token)
         {
-            string url = "http://51.38.235.234:8080/update_player?token="+token+"&kill="+kills+"&win="+win;
+            string query = "/update_player?token=" + token + "&kill=" + kills + "&win=" + win;
 
-            // don't wait for response
-            WWW www = new WWW(url);
+            DatabaseRequester.GetInstance().AsyncQuery(query);
         }
         
         public void ClientMovement(float inputX, float inputY, bool isJumping, Vector2 mouseInput)

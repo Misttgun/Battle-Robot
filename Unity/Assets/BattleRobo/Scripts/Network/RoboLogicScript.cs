@@ -312,10 +312,9 @@ namespace BattleRobo
         //TODO déplacer la méthode dans une classe statique
         private void SetPlayerStats(int kills, int win, string token)
         {
-            string url = "http://51.38.235.234:8080/update_player?token=" + token + "&kill=" + kills + "&win=" + win;
+            string query = "/update_player?token=" + token + "&kill=" + kills + "&win=" + win;
 
-            // don't wait for response
-            WWW www = new WWW(url);
+            DatabaseRequester.GetInstance().AsyncQuery(query);
         }
 
         private void PauseTimeout()
