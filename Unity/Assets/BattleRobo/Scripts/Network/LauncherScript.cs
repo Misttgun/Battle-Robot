@@ -81,48 +81,47 @@ namespace BattleRobo.Networking
 
         public void Create()
         {
-            string url = "http://51.38.235.234:8080/add_player?pseudo=" + createPseudo.text + "&pass=" + createPassword.text;
+            int status;
+            string response;
+            string query = "/add_player?pseudo=" + createPseudo.text + "&pass=" + createPassword.text;
 
-            WWW www = new WWW(url);
-
-            // - wait response
-            while (!www.isDone) ;
+            DatabaseRequester.GetInstance().SyncQuery(query, out status, out response);
 
             // - player is add successfully
-            if (www.responseHeaders["STATUS"].Contains("200"))
+            if (status == 200)
             {
                 createPanel.SetActive(false);
-                playerInfo.SetDBToken(www.text);
+                playerInfo.SetDBToken(response);
                 Connect();
             }
+
             // - can't add player
             else
             {
                 lastPanel = createPanel;
-                GoToErrorPanel(www.text);
+                GoToErrorPanel(response);
             }
         }
 
         public void Authenticate()
         {
-            string url = "http://51.38.235.234:8080/auth?pseudo=" + connectPseudo.text + "&pass=" + connectPassword.text;
+            int status;
+            string response;
+            string query = "/auth?pseudo=" + connectPseudo.text + "&pass=" + connectPassword.text;
 
-            WWW www = new WWW(url);
-
-            // - wait response
-            while (!www.isDone) ;
-
+            DatabaseRequester.GetInstance().SyncQuery(query, out status, out response);
+            
             // - player authenticate successfully
-            if (www.responseHeaders["STATUS"].Contains("200"))
+            if (status == 200)
             {
                 Connect();
-                playerInfo.SetDBToken(www.text);
+                playerInfo.SetDBToken(response);
             }
             // - can't add player
             else
             {
                 lastPanel = controlPanel;
-                GoToErrorPanel(www.text);
+                GoToErrorPanel(response);
             }
         }
 
