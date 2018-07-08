@@ -104,6 +104,10 @@ public class ManagorSettings : MonoBehaviour
 		saveSettings();
 		
 	}
+	public void returnButtonClick()
+	{
+		loadSettings();  
+	}
 	
 	
 	public void mouseSensitivityChange(float sensitivity)

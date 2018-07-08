@@ -1,16 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.UIElements;
 using UnityEngine.SceneManagement;
+using Button = UnityEngine.UI.Button;
 
 public class MainMenuController : MonoBehaviour {
 
     [SerializeField]
     private Animator anim;
     [SerializeField]
-    private string newGameSceneName;
+    private Animator envAnim;
     [SerializeField]
-    private int quickSaveSlotID;
+    private string newGameSceneName;
+
+    [SerializeField] 
+    private Button startButton;
+    [SerializeField] 
+    private Button[] backButton;
+    
 
     [Header("Options Panel")]
     [SerializeField]
@@ -23,18 +31,11 @@ public class MainMenuController : MonoBehaviour {
     private GameObject GfxPanel;
     [SerializeField]
     private GameObject LoadGamePanel;
-    
 
-    // Use this for initialization
-    void Start () {
-        //new key
-        
-        //PlayerPrefs.SetInt("quickSaveSlot", quickSaveSlotID);
-    }
 
     #region Open Different panels
 
-    public void openOptions()
+    private void openOptions()
     {
         //enable respective panel
         MainOptionsPanel.SetActive(true);
@@ -42,7 +43,10 @@ public class MainMenuController : MonoBehaviour {
 
         //play anim for opening main options panel
         anim.Play("buttonTweenAnims_on");
-
+        envAnim.Play("EnvSlide");
+        //play anim env style
+        
+        
         //play click sfx
         playClickSound();
 
@@ -51,7 +55,7 @@ public class MainMenuController : MonoBehaviour {
        
     }
 
-    public void openStartGameOptions()
+    private void openStartGameOptions()
     {
         //enable respective panel
         MainOptionsPanel.SetActive(false);
@@ -59,7 +63,8 @@ public class MainMenuController : MonoBehaviour {
 
         //play anim for opening main options panel
         anim.Play("buttonTweenAnims_on");
-
+        envAnim.Play("EnvSlide");
+        
         //play click sfx
         playClickSound();
 
@@ -68,7 +73,7 @@ public class MainMenuController : MonoBehaviour {
         
     }
 
-    public void openOptions_Game()
+    private void openOptions_Game()
     {
         //enable respective panel
         ControlsPanel.SetActive(false);
@@ -77,12 +82,13 @@ public class MainMenuController : MonoBehaviour {
 
         //play anim for opening game options panel
         anim.Play("OptTweenAnim_on");
-
+        envAnim.Play("EnvSlide");
+        
         //play click sfx
         playClickSound();
 
     }
-    public void openOptions_Controls()
+    private void openOptions_Controls()
     {
         //enable respective panel
         ControlsPanel.SetActive(true);
@@ -96,22 +102,23 @@ public class MainMenuController : MonoBehaviour {
         playClickSound();
 
     }
-    public void openOptions_Gfx()
+    private void openOptions_Gfx()
     {
         //enable respective panel
         ControlsPanel.SetActive(false);
         GfxPanel.SetActive(true);
         LoadGamePanel.SetActive(false);
-
+        
         //play anim for opening game options panel
         anim.Play("OptTweenAnim_on");
+        envAnim.Play("GFXMenu");
 
         //play click sfx
         playClickSound();
 
     }
 
-    public void openContinue_Load()
+    private void openContinue_Load()
     {
         //enable respective panel
         ControlsPanel.SetActive(false);
@@ -126,7 +133,7 @@ public class MainMenuController : MonoBehaviour {
 
     }
 
-    public void newGame()
+    private void newGame()
     {
         if (!string.IsNullOrEmpty(newGameSceneName))
             SceneManager.LoadScene(newGameSceneName);
@@ -142,10 +149,11 @@ public class MainMenuController : MonoBehaviour {
     {
         //simply play anim for CLOSING main options panel
         anim.Play("buttonTweenAnims_off");
+        envAnim.Play("EnvSlideB");
         MainOptionsPanel.SetActive(false);
         //disable BLUR
        // Camera.main.GetComponent<Animator>().Play("BlurOff");
-
+        
         //play click sfx
         playClickSound();
     }
@@ -154,6 +162,7 @@ public class MainMenuController : MonoBehaviour {
     {
         //simply play anim for CLOSING main options panel
         anim.Play("OptTweenAnim_off");
+        envAnim.Play("EnvSlide");
         ControlsPanel.SetActive(false);
         //play click sfx
         playClickSound();
