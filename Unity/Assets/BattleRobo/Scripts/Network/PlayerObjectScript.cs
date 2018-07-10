@@ -130,5 +130,15 @@ namespace BattleRobo
         {
             return maxStackSize;
         }
+
+        public bool IsWeapon()
+        {
+            return weaponScript != null;
+        }
+
+        public bool isConsommable()
+        {
+            return consommableScript != null;
+        }
     }
 }

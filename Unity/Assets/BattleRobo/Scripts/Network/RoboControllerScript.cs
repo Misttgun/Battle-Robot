@@ -124,6 +124,12 @@ namespace BattleRobo
         private WeaponHolderScript weaponHolder;
 
         /// <summary>
+        /// The consommable holder script.
+        /// </summary>
+        [SerializeField]
+        private ConsommableHolderScript consommableHolder;
+
+        /// <summary>
         /// The collider box for the player level streamer.
         /// </summary>
         [SerializeField]
@@ -202,7 +208,7 @@ namespace BattleRobo
             playerID = myPhotonView.viewID - 1;
 
             //initialise player inventory
-            playerInventory = new PlayerInventory(playerCameraTransform, uiScript, myPhotonView, weaponHolder);
+            playerInventory = new PlayerInventory(playerCameraTransform, uiScript, myPhotonView, weaponHolder, consommableHolder);
 
             //set players current health value after joining
             playerStats.Health = maxHealth;
@@ -602,6 +608,7 @@ namespace BattleRobo
         [PunRPC]
         private void ShootRPC(int shooterId)
         {
+            Debug.Log("ShootRPC : " + weaponHolder.currentWeapon);
             if (weaponHolder.currentWeapon != null)
             {
                 //temp value in case we quickly change weapon after we shoot
@@ -630,6 +637,12 @@ namespace BattleRobo
             }
 
             weaponHolder.EquipWeapon(weaponIndex, currentAmmo);
+        }
+
+        [PunRPC]
+        private void EquipConsommableRPC(int consommableIndex)
+        {
+            Debug.Log("EQUIP CONSOMMABLE");
         }
 
         [PunRPC]
@@ -767,6 +780,11 @@ namespace BattleRobo
                     myPhotonView.RPC("ShootRPC", PhotonTargets.All, playerID);
                 }
             }
+
+            else
+            {
+
+            }
         }
 
         public void ClientLoot()
@@ -784,6 +802,11 @@ namespace BattleRobo
         public void ClientSwitchWeapon(int index)
         {
             playerInventory.SwitchActiveIndex(index);
+        }
+
+        public void ClientSetConso(ConsommableScript consommable)
+        {
+            
         }
 
         public void ShowDamageIndicator(Vector3 shooterPos)

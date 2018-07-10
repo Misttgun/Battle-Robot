@@ -22,16 +22,18 @@ namespace BattleRobo
         private readonly PhotonView playerView;
 
         private WeaponHolderScript weaponHolder;
+        private ConsommableHolderScript consommableHolder;
 
         /// <summary>
         /// Constructor : instatiate the inventory slots
         /// </summary>
-        public PlayerInventory(Transform cameraTransform, [CanBeNull] PlayerUIScript ui, PhotonView playerPhotonView, WeaponHolderScript weaponHolder)
+        public PlayerInventory(Transform cameraTransform, [CanBeNull] PlayerUIScript ui, PhotonView playerPhotonView, WeaponHolderScript weaponHolder, ConsommableHolderScript consommableHolder)
         {
             playerView = playerPhotonView;
             camera = cameraTransform;
             inventory = new PlayerInventorySlot[5];
             this.weaponHolder = weaponHolder;
+            this.consommableHolder = consommableHolder;
 
             playerUI = ui;
 
@@ -116,7 +118,7 @@ namespace BattleRobo
             //TODO Trouver une solution pour le switch des armes (quand c'est trop rapide, il mets 0)
             //set the current ammo of the weapon in the inventory before the switch
             var currentActive = GetCurrentActive();
-            if (currentActive)
+            if (currentActive && currentActive.IsWeapon())
             {
                 currentActive.GetWeapon().SetCurrentAmmo(weaponHolder.currentWeapon.currentAmmo);
             }
@@ -125,14 +127,24 @@ namespace BattleRobo
 
             var item = inventory[index].GetItem();
 
-            if (item && item.GetWeapon() != null)
+            if (item && item.IsWeapon())
             {
                 var weapon = item.GetWeapon();
                 weaponHolder.SetWeapon(weapon, weapon.currentAmmo);
+                consommableHolder.SetConsommable(null);
             }
+            
+            else if (item && item.isConsommable())
+            {
+                var consommable = item.GetConsommable();
+                consommableHolder.SetConsommable(consommable);
+                weaponHolder.SetWeapon(null, 0f);
+            }
+            
             else
             {
                 weaponHolder.SetWeapon(null, 0f);
+                consommableHolder.SetConsommable(null);
             }
         }
 
@@ -190,9 +202,19 @@ namespace BattleRobo
                 // equip weapon if the index is already selected
                 if (slotIndex == currentSlotIndex)
                 {
-                    var weapon = playerObject.GetWeapon();
-                    weaponHolder.SetWeapon(weapon, weapon.currentAmmo);
-                    playerUI.SetAmmoCounter(weapon.currentAmmo);
+                    if (playerObject.IsWeapon())
+                    {
+                        var weapon = playerObject.GetWeapon();
+                        weaponHolder.SetWeapon(weapon, weapon.currentAmmo);
+                        playerUI.SetAmmoCounter(weapon.currentAmmo);
+                    }
+
+                    else if(playerObject.isConsommable())
+                    {
+                        var consommableId = playerObject.GetConsommable().GetId();
+                        weaponHolder.SetWeapon(null, 0f);
+                        consommableHolder.EquipConsommable(consommableId);
+                    }
                 }
             }
         }

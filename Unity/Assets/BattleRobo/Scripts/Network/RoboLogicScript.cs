@@ -58,6 +58,12 @@ namespace BattleRobo
         /// </summary>
         [SerializeField]
         private WeaponHolderScript weaponHolder;
+        
+        // <summary>
+        /// The weapon holder script.
+        /// </summary>
+        [SerializeField]
+        private ConsommableHolderScript consommableHolder;
 
         /// <summary>
         /// The player audiosource.
@@ -110,7 +116,7 @@ namespace BattleRobo
             playerID = photonView.ownerId;
 
             //initialise player inventory
-            playerInventory = new PlayerInventory(playerCameraTransform, uiScript, photonView, weaponHolder);
+            playerInventory = new PlayerInventory(playerCameraTransform, uiScript, photonView, weaponHolder, consommableHolder);
 
             //only let the master do initialization
             if (!PhotonNetwork.isMasterClient)
@@ -267,6 +273,13 @@ namespace BattleRobo
                         photonView.RPC("ShootRPC", PhotonTargets.AllViaServer, playerID);
                     }
                 }
+
+                if (consommableHolder.currentConsommable != null)
+                {
+                    var consommable = consommableHolder.currentConsommable;
+                    
+                    Debug.Log("CURRENT CONSOMMABLE : " + consommable.GetId());
+                }
             }
 
             if (Input.GetButtonDown("Inventory1"))
@@ -417,6 +430,13 @@ namespace BattleRobo
 
             weaponHolder.EquipWeapon(weaponIndex, currentAmmo);
         }
+        
+        [PunRPC]
+        private void EquipConsommableRPC(int consommableIndex)
+        {
+            consommableHolder.EquipConsommable(consommableIndex);
+        }
+
 
         [PunRPC]
         private void TakeObject(int lootTrackerId, int slotIndex, int senderId)
