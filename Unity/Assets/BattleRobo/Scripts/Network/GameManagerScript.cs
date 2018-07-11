@@ -219,6 +219,9 @@ namespace BattleRobo
             //switch from the online to the offline scene after connection is closed
             if (SceneManager.GetActiveScene().buildIndex != 0)
                 SceneManager.LoadScene(0);
+
+            var playerToken = PlayerInfoScript.GetInstance().GetDBToken();
+            DatabaseRequester.GetInstance().AsyncQuery("logout?token="+playerToken);
         }
 
         //called on all clients when the player left the room

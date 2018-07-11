@@ -2,71 +2,87 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DatabaseRequester : MonoBehaviour
+namespace BattleRobo
 {
-    [SerializeField]
-    private bool isAuthenticationServerEnabled;
-
-    [SerializeField]
-    private string ip;
-
-    [SerializeField]
-    private string port;
-
-    [SerializeField]
-    private bool useHttps;
-
-    private static DatabaseRequester instance;
-
-    // Sets the instance reference
-    private void Awake()
+    public class DatabaseRequester : MonoBehaviour
     {
-        if (instance != null)
-            return;
+        [SerializeField]
+        private bool isAuthenticationServerEnabled;
 
-        instance = this;
-        DontDestroyOnLoad(gameObject);
+        [SerializeField]
+        private string ip;
+
+        [SerializeField]
+        private string port;
+
+        [SerializeField]
+        private bool useHttps;
+
+        private static DatabaseRequester instance;
+
+        // Sets the instance reference
+        private void Awake()
+        {
+            if (instance != null)
+                return;
+
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+
+        public void AsyncQuery(string query)
+        {
+            // - create query (use stringBuilder ?)
+            string url = useHttps ? "https://" : "http://";
+            url += ip + ":" + port + "/" + query;
+
+            // - don't wait for response
+            WWW www = new WWW(url);
+        }
+
+        public void SyncQuery(string query, out int status, out string res)
+        {
+            // - create query (use stringBuilder ?)
+            string url = useHttps ? "https://" : "http://";
+            url += ip + ":" + port + "/" + query;
+
+            WWW www = new WWW(url);
+
+            // - wait response
+            while (!www.isDone) ;
+
+            Debug.Log(www.error);
+            if (www.responseHeaders["STATUS"].Contains("200"))
+                status = 200;
+
+            else
+                status = 400;
+
+            res = www.text;
+        }
+
+        public void EnableAuthenticationServer(bool enable)
+        {
+            isAuthenticationServerEnabled = enable;
+        }
+
+        public static DatabaseRequester GetInstance()
+        {
+            return instance;
+        }
+
+        // HANDLE DISCONNECTION FROM PLAYER
+        // - Handle ALT F4
+        public void OnApplicationQuit()
+        {
+            var playerToken = PlayerInfoScript.GetInstance().GetDBToken();
+            DatabaseRequester.GetInstance().AsyncQuery("logout?token=" + playerToken);
+        }
+
+        public void Quit()
+        {
+            var playerToken = PlayerInfoScript.GetInstance().GetDBToken();
+            DatabaseRequester.GetInstance().AsyncQuery("logout?token=" + playerToken);
+        }
     }
-
-    public void AsyncQuery(string query)
-    {
-        // - create query (use stringBuilder ?)
-        string url = useHttps ? "https://" : "http://";
-        url += ip + ":" + port + "/" + query;
-
-        // - don't wait for response
-        WWW www = new WWW(url);
-    }
-
-    public void SyncQuery(string query, out int status, out string res)
-    {
-        // - create query (use stringBuilder ?)
-        string url = useHttps ? "https://" : "http://";
-        url += ip + ":" + port + "/" + query;
-
-        WWW www = new WWW(url);
-
-        // - wait response
-        while (!www.isDone);
-
-        Debug.Log(www.error);
-        if (www.responseHeaders["STATUS"].Contains("200"))
-            status = 200;
-
-        else
-            status = 400;
-
-        res = www.text;
-    }
-
-    public void EnableAuthenticationServer(bool enable)
-    {
-        isAuthenticationServerEnabled = enable;
-    }
-
-    public static DatabaseRequester GetInstance()
-    {
-        return instance;
-    }
-
 }
