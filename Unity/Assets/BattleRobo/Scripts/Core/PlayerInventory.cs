@@ -251,7 +251,13 @@ namespace BattleRobo
                 return;
 
             // - Update ammo counter
-            playerView.RPC("UpdateWeapon", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), weaponHolder.currentWeapon.currentAmmo);
+            if (playerObject.IsWeapon())
+            {
+                playerView.RPC("UpdateWeapon", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), weaponHolder.currentWeapon.currentAmmo);
+                weaponHolder.SetWeapon(null, 0f);
+                playerUI.SetAmmoCounter(-1f);
+            }
+            
             
             // - place the weapon on the map and show it
             playerView.RPC("DropObject", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), position);
@@ -261,10 +267,6 @@ namespace BattleRobo
 
             // - update UI
             playerUI.SetItemUISlot(null, currentSlotIndex);
-            playerUI.SetAmmoCounter(-1f);
-
-            // - unequip weapon
-            weaponHolder.SetWeapon(null, 0f);
         }
 
         public void SetActiveItem(int index)
@@ -286,6 +288,24 @@ namespace BattleRobo
                 return inventory[currentSlotIndex].GetItem();
 
             return null;
+        }
+
+        public void UseItem(int index)
+        {
+            var itemSlot = inventory[index];
+            var item = itemSlot.GetItem();
+            
+            if (item.isConsommable())
+            {
+                itemSlot.Use();
+            
+                // - remove ui sprite if stack is empty
+                if (itemSlot.GetStackSize() == 0)
+                {
+                    playerUI.SetItemUISlot(null, currentSlotIndex);
+                    consommableHolder.currentConsommable = null;
+                } 
+            }   
         }
 
         public int GetActiveIndex()

@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Photon;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -278,7 +281,7 @@ namespace BattleRobo
                 {
                     var consommable = consommableHolder.currentConsommable;
                     
-                    Debug.Log("CURRENT CONSOMMABLE : " + consommable.GetId());
+                    photonView.RPC("ShootRPC", PhotonTargets.AllViaServer, playerID);
                 }
             }
 
@@ -321,10 +324,37 @@ namespace BattleRobo
                 playerInventory.Drop(newPositipn);
             }
         }
+        
+        private IEnumerator ApplyBonusOverTime(float seconds, int health, int shield)
+        {
+            var hot = health / seconds;
+            var sot = shield / seconds;
+
+            Debug.Log("START STATS : " + photonView.GetHealth() + " :: " + photonView.GetShield());
+            for (var tick = 0; tick < seconds; tick++)
+            {
+                Debug.Log("APPLY BONUS OVER TIME !");
+                var newHealth = photonView.GetHealth() + hot;
+                var newShield = photonView.GetShield() + sot;
+
+                // - limit heal and shield
+                if (newHealth > PlayerStats.maxHealth)
+                    newShield += newHealth - PlayerStats.maxHealth;
+
+                newShield = Math.Min(newShield, PlayerStats.maxShield);
+                
+                photonView.SetHealth((int)newHealth);
+                photonView.SetShield((int)newShield);
+                
+                yield return new WaitForSeconds(1);
+            }
+            Debug.Log("END STATS : " + photonView.GetHealth() + " :: " + photonView.GetShield());
+        }
 
         //TODO déplacer la méthode dans une classe statique
         private void SetPlayerStats(int kills, int win, string token)
         {
+            Debug.Log("Update player : " + token + " " + kills + " " + win);
             string query = "/update_player?token=" + token + "&kill=" + kills + "&win=" + win;
 
             DatabaseRequester.GetInstance().AsyncQuery(query);
@@ -385,6 +415,7 @@ namespace BattleRobo
         [PunRPC]
         private void UpdateKillsRPC(int id)
         {
+            Debug.Log("ADD KILL !");
             GameObject player;
             GameManagerScript.GetInstance().alivePlayers.TryGetValue(id, out player);
 
@@ -398,11 +429,11 @@ namespace BattleRobo
         [PunRPC]
         private void ShootRPC(int shooterId)
         {
-            if (weaponHolder.currentWeapon != null)
+            var weapon = weaponHolder.currentWeapon;
+            var consommable = consommableHolder.currentConsommable;
+            
+            if (weapon != null)
             {
-                //temp value in case we quickly change weapon after we shoot
-                var weapon = weaponHolder.currentWeapon;
-
                 weapon.Fire(playerCameraTransform, playerID);
 
                 if (weapon.currentAmmo > 0)
@@ -416,6 +447,12 @@ namespace BattleRobo
 
                 if (playerID == shooterId && update)
                     uiScript.SetAmmoCounter(weapon.currentAmmo);
+            }
+            
+            else if (consommable != null)
+            {
+                playerInventory.UseItem(playerInventory.currentSlotIndex);
+                StartCoroutine(ApplyBonusOverTime(consommable.GetTime(), consommable.GetHealth(), consommable.GetShield()));
             }
         }
 

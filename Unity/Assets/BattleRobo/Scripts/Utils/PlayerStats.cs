@@ -1,4 +1,6 @@
-﻿using Hashtable = ExitGames.Client.Photon.Hashtable;
+﻿using System;
+using System.Linq.Expressions;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace BattleRobo
 {
@@ -13,6 +15,8 @@ namespace BattleRobo
         public const string shield = "shield";
         public const string kills = "kills";
         public const string rank = "rank";
+        public const int maxHealth = 100;
+        public const int maxShield = 100;
 
 
         /// <summary>
@@ -36,6 +40,7 @@ namespace BattleRobo
         /// </summary>
         public static void SetHealth(this PhotonView player, int value)
         {
+            value = Math.Min(value, maxHealth);
             player.owner.SetCustomProperties(new Hashtable {{health, value}});
         }
 
@@ -52,6 +57,7 @@ namespace BattleRobo
         /// </summary>
         public static void SetShield(this PhotonView player, int value)
         {
+            value = Math.Min(value, maxShield);
             player.owner.SetCustomProperties(new Hashtable {{shield, value}});
         }
 

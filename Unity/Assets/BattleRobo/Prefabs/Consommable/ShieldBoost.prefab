@@ -208,6 +208,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9335ec4e73ba8c94abe97bd5ce7e802d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentConsommable: {fileID: 11400000, guid: 629aff778552e1f48b76c3653d091194, type: 2}
-  playerAnimator: {fileID: 0}
-  playerPhotonView: {fileID: 0}
+  consommableStat: {fileID: 11400000, guid: 629aff778552e1f48b76c3653d091194, type: 2}

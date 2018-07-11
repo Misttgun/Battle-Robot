@@ -285,7 +285,7 @@ namespace BattleRobo
         {
             int bufferSlot = tick % BufferSize;
 
-            if (!((pos - stateBuffer[bufferSlot].position).sqrMagnitude > 0.01f) || !(Quaternion.Dot(rot, stateBuffer[bufferSlot].rotation) < 0.99f))
+            if (!((pos - stateBuffer[bufferSlot].position).sqrMagnitude > 0.01f) && !(Quaternion.Dot(rot, stateBuffer[bufferSlot].rotation) < 0.99f))
                 return;
 
             transform.position = pos;

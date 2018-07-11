@@ -11,11 +11,5 @@ namespace BattleRobo
             Debug.LogWarning("Dans l'eau");
             other.GetComponent<HealthScript>().inWater = true;
         }
-        
-        private void OnTriggerExit(Collider other)
-        {
-            Debug.LogWarning("Dans l'eau");
-            other.GetComponent<HealthScript>().inWater = false;
-        }
     }
 }

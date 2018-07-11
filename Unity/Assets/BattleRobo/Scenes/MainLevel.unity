@@ -206,6 +206,11 @@ Prefab:
       propertyPath: preLoad
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 114851602941090778, guid: 9c1da32c83a945948a9508812c27b536,
+        type: 2}
+      propertyPath: numSpawnPoints
+      value: 64
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9c1da32c83a945948a9508812c27b536, type: 2}
   m_IsPrefabParent: 0

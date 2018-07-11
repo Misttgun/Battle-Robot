@@ -6,48 +6,26 @@ namespace BattleRobo
     public class ConsommableScript : MonoBehaviour
     {
         [SerializeField]
-        private Consommable currentConsommable;
-
-        [SerializeField]
-        private Animator playerAnimator;
-
-        //public AudioClip consommableSound;
-
-        [SerializeField]
-        private PhotonView playerPhotonView;
-
-        private const int layerMask = 1 << 8;
-
-        private void Awake()
-        {
-            
-        }
-
-        private void Update()
-        {
-            if (!playerPhotonView) //player photon view is null
-                return;
-
-            playerAnimator.SetLayerWeight(2, 1);
-        }
-
-        /// <summary>
-        /// Fire the gun and deals the gun damage
-        /// </summary>
-        public void Use(int playerID)
-        {
-            if (!PhotonNetwork.isMasterClient)
-                return;
-        }
+        private Consommable consommableStat;
 
         public int GetId()
         {
-            return currentConsommable.consommableId;
+            return consommableStat.consommableId;
         }
 
-        public int GetPlayerObjectType()
+        public int GetHealth()
         {
-            return 1;
+            return consommableStat.lifeBonus;
+        }
+
+        public int GetShield()
+        {
+            return consommableStat.shieldBonus;
+        }
+
+        public float GetTime()
+        {
+            return consommableStat.castTime;
         }
     }
 }

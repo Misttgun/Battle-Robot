@@ -192,9 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9335ec4e73ba8c94abe97bd5ce7e802d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentConsommable: {fileID: 11400000, guid: be2b609e9488ccc40af03fc830b668e2, type: 2}
-  playerAnimator: {fileID: 0}
-  playerPhotonView: {fileID: 0}
+  consommableStat: {fileID: 11400000, guid: be2b609e9488ccc40af03fc830b668e2, type: 2}
 --- !u!114 &114666622146599062
 MonoBehaviour:
   m_ObjectHideFlags: 1

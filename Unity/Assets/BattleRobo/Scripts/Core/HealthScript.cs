@@ -41,6 +41,7 @@ namespace BattleRobo
             //apply damage to player in the water
             if (inWater)
             {
+                Debug.Log("IN WATER, TAKE DAMAGE");
                 //insta death when the player touches the water
                 TakeDamage(300);
             }
@@ -70,13 +71,16 @@ namespace BattleRobo
             if (shield > 0 && killerID != -1)
             {
                 var shieldDamage = shield - damage;
+                
                 if (shieldDamage < 0)
                 {
                     playerPhotonView.SetShield(0);
                     playerPhotonView.SetHealth(health + shieldDamage);
                 }
 
-                playerPhotonView.SetShield(shieldDamage);
+                else
+                    playerPhotonView.SetShield(shieldDamage);
+                
                 return;
             }
 

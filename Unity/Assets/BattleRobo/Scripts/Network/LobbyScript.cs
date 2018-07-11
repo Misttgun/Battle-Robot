@@ -220,7 +220,7 @@ namespace BattleRobo
                 {
                     var row = rows[i].Split(',');
 
-                    if (row.Length == 4)
+                    if (row.Length == 4 && i < leaderboardRows.Count)
                     {
                         GameObject leaderboardRow = leaderboardRows[i];
 

@@ -25,7 +25,7 @@ namespace BattleRobo
 		//variable qui compte le nombre de trigger en collision avec le loot
 		private int count;
 	
-
+		/*
 		private void OnTriggerEnter(Collider other)
 		{
 			++count;
@@ -48,6 +48,7 @@ namespace BattleRobo
 			meshRenderer.enabled = true;
 			weaponLight.SetActive(true);
 		}
+		*/
 
 		private void OnTriggerStay(Collider other)
 		{
