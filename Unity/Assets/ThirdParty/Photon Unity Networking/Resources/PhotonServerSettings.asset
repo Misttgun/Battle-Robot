@@ -84,4 +84,5 @@ MonoBehaviour:
   - UpdateServer
   - PlayerReadyRPC
   - MatchBeginRPC
+  - EquipConsommableRPC
   DisableAutoOpenWizard: 1
