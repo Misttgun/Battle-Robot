@@ -998,8 +998,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAuthenticationServerEnabled: 1
   ip: 51.38.235.234
-  port: 8080
   useHttps: 0
+  timeout: 5000
 --- !u!4 &603657389
 Transform:
   m_ObjectHideFlags: 0
