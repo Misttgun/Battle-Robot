@@ -1,9 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using UnityEngine;
 using System.Net.Security;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 
@@ -19,13 +21,16 @@ namespace BattleRobo
         private string ip;
 
         [SerializeField]
-        private string port;
-
-        [SerializeField]
         private bool useHttps;
 
+        // timeout in ms
+        [SerializeField] 
+        private int timeout;
+        
         private static DatabaseRequester instance;
-
+        private int httpPort = 8080;
+        private int httpsPort = 4300;
+        
         // Sets the instance reference
         private void Awake()
         {
@@ -73,8 +78,10 @@ namespace BattleRobo
         {
             // - create query (use stringBuilder ?)
             string url = useHttps ? "https://" : "http://";
-            url += ip + ":" + port + "/" + query;
-
+            var port = useHttps ? httpsPort : httpPort;
+            url += ip + ":" + port + query;
+            
+            Debug.Log("ASYNC QUERY : " + url);
             // - don't wait for response
             ServicePointManager.ServerCertificateValidationCallback = TrustCertificate;
  
@@ -88,20 +95,34 @@ namespace BattleRobo
         public void SyncQuery(string query, out int status, out string res)
         {
             string url = useHttps ? "https://" : "http://";
-            url += ip + ":" + port + "/" + query;
+            var port = useHttps ? httpsPort : httpPort;
+            url += ip + ":" + port + query;
             
             ServicePointManager.ServerCertificateValidationCallback = TrustCertificate;
- 
             HttpWebRequest request = (HttpWebRequest) WebRequest.Create(url);
-            HttpWebResponse response = (HttpWebResponse) request.GetResponse();
+            request.Timeout = timeout;
 
-            Stream dataStream = response.GetResponseStream ();
-            StreamReader reader = new StreamReader (dataStream);
-            string responseFromServer = reader.ReadToEnd ();
- 
-            status = (int) response.StatusCode;
-            res = responseFromServer;
-            Debug.Log("STATUS : " + status + " - " + res + "URL USED : " + url);
+            try
+            {
+                HttpWebResponse response = (HttpWebResponse) request.GetResponse();
+
+                var dataStream = response.GetResponseStream();
+                var reader = new StreamReader(dataStream);
+                string responseFromServer = reader.ReadToEnd();
+
+                status = (int) response.StatusCode;
+                res = responseFromServer;
+            }
+            
+            catch (WebException e)
+            {
+                Debug.Log(url);
+                var stream = e.Response.GetResponseStream();
+                var reader = new StreamReader(stream);
+
+                status = 400;
+                res = reader.ReadToEnd();
+            }   
         }
         
         private static bool TrustCertificate(object sender, X509Certificate x509Certificate, X509Chain x509Chain, SslPolicyErrors sslPolicyErrors)
