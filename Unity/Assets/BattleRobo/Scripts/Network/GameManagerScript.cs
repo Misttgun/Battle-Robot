@@ -133,9 +133,11 @@ namespace BattleRobo
                 Cursor.visible = true;
                 ShowGameOverScreen("You won !! Let's go baby !!", 1, localPlayer.photonView.GetKills());
 
+                localPlayer.photonView.RPC("WinnerRPC", PhotonTargets.MasterClient, localPlayer.playerID);
+                
                 //desactivate the local player
                 photonView.RPC("DisablePlayerRPC", PhotonTargets.All, localPlayer.playerID);
-
+            
                 deactivate = true;
             }
             else if (hasLost)

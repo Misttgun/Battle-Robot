@@ -406,7 +406,7 @@ namespace BattleRobo
                 {
                     int player_id = GameManagerScript.GetInstance().alivePlayers.Keys.First();
 
-                    photonView.RPC("WinnerRPC", PhotonTargets.MasterClient, player_id);
+                    //photonView.RPC("WinnerRPC", PhotonTargets.MasterClient, player_id);
                 }
             }
         }
