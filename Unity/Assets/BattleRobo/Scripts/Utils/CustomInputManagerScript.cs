@@ -3,19 +3,19 @@ using UnityEngine;
 
 namespace BattleRobo
 {
-	public class CustomInputManager : MonoBehaviour
+	public class CustomInputManagerScript : MonoBehaviour
 	{
-		public static Dictionary<string, KeyCode> keyBind = new Dictionary<string, KeyCode>();
+		public static readonly Dictionary<string, KeyCode> keyBind = new Dictionary<string, KeyCode>(15);
 
 		private void Awake()
 		{
 			DontDestroyOnLoad(gameObject);
+			
 			keyBind.Add("Up", (KeyCode) System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Up", "Z")));
 			keyBind.Add("Down", (KeyCode) System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Down", "S")));
 			keyBind.Add("Right", (KeyCode) System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Right", "D")));
 			keyBind.Add("Left", (KeyCode) System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Left", "Q")));
 			keyBind.Add("Fly", (KeyCode) System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Fly", "Space")));
-			
 			keyBind.Add("Drop", (KeyCode) System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Drop", "G")));
 			keyBind.Add("Loot", (KeyCode) System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Loot", "F")));
 			keyBind.Add("Slot1", (KeyCode) System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Slot1", "Alpha1")));

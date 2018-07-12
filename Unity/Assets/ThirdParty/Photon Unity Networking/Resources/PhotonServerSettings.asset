@@ -85,4 +85,5 @@ MonoBehaviour:
   - PlayerReadyRPC
   - MatchBeginRPC
   - EquipConsommableRPC
+  - OnClientRoomJoinedRPC
   DisableAutoOpenWizard: 1
