@@ -7416,6 +7416,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pausePanel: {fileID: 1345738146513840}
   settingsPanel: {fileID: 1088275504957370}
+  timerText: {fileID: 114055530207050120}
+  pauseCounter: {fileID: 114508105449947502}
 --- !u!114 &114788320184257618
 MonoBehaviour:
   m_ObjectHideFlags: 1

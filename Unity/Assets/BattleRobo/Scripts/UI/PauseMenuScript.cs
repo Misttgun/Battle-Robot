@@ -1,6 +1,4 @@
-﻿using System;
-using System.Globalization;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -8,11 +6,13 @@ namespace BattleRobo
 {
     public class PauseMenuScript : Photon.PunBehaviour
     {
-        [SerializeField]
-        private GameObject pausePanel;
-        
-        [SerializeField]
-        private GameObject settingsPanel;
+        [SerializeField] private GameObject pausePanel;
+
+        [SerializeField] private GameObject settingsPanel;
+
+        [SerializeField] private Text timerText;
+
+        [SerializeField] private Text pauseCounter;
 
         public void ShowPause()
         {
@@ -31,10 +31,17 @@ namespace BattleRobo
             pausePanel.SetActive(false);
             settingsPanel.SetActive(false);
         }
-        
-        /// <summary>
-        /// Return the player to the lobby
-        /// </summary>
+
+        public void UpdateTimer(float timer)
+        {
+            timerText.text = timer.ToString("F0");
+        }
+
+        public void UpdatePauseCount(int count)
+        {
+            pauseCounter.text = count.ToString();
+        }
+
         public void BackToLobby()
         {
             PhotonNetwork.LeaveRoom();

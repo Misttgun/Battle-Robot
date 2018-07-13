@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   magazineSize: 20
   damage: 50
-  range: 15
+  range: 30
   fireRate: 1.5
   gunName: RMB-93
   gunId: 3

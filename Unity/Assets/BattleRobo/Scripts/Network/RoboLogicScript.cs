@@ -13,20 +13,17 @@ namespace BattleRobo
         /// <summary>
         /// The camera transform for the shooting.
         /// </summary>
-        [SerializeField]
-        private Transform playerCameraTransform;
+        [SerializeField] private Transform playerCameraTransform;
 
         /// <summary>
         /// The camera component.
         /// </summary>
-        [SerializeField]
-        private Camera playerCamera;
+        [SerializeField] private Camera playerCamera;
 
         /// <summary>
         /// The camera audio listener.
         /// </summary>
-        [SerializeField]
-        private AudioListener playerCameraAudio;
+        [SerializeField] private AudioListener playerCameraAudio;
 
         /// <summary>
         /// The player animator.
@@ -41,26 +38,22 @@ namespace BattleRobo
         /// <summary>
         /// The in game UI script.
         /// </summary>
-        [SerializeField]
-        private PlayerUIScript uiScript;
+        [SerializeField] private PlayerUIScript uiScript;
 
         /// <summary>
         /// The in game UI script.
         /// </summary>
-        [SerializeField]
-        private GameObject playerUI;
+        [SerializeField] private GameObject playerUI;
 
         /// <summary>
         /// The weapon holder script.
         /// </summary>
-        [SerializeField]
-        private WeaponHolderScript weaponHolder;
-        
+        [SerializeField] private WeaponHolderScript weaponHolder;
+
         // <summary>
         /// The weapon holder script.
         /// </summary>
-        [SerializeField]
-        private ConsommableHolderScript consommableHolder;
+        [SerializeField] private ConsommableHolderScript consommableHolder;
 
         /// <summary>
         /// The player audiosource.
@@ -72,30 +65,26 @@ namespace BattleRobo
         /// </summary>
         public AudioClip[] audioClips;
 
-        [SerializeField]
-        private SkinnedMeshRenderer[] playerSkinedMesh;
+        [SerializeField] private SkinnedMeshRenderer[] playerSkinedMesh;
 
         /// <summary>
         /// Photon player ID.
         /// </summary>
-        [HideInInspector]
-        public int playerID;
+        [HideInInspector] public int playerID;
 
         //health variable
-        [HideInInspector]
-        public int maxHealth = 100;
+        [HideInInspector] public int maxHealth = 100;
 
         //audio variables
         private bool playAudio;
 
-        [HideInInspector]
-        public bool isJumpingAudio;
+        [HideInInspector] public bool isJumpingAudio;
 
-        [HideInInspector]
-        public bool isMoovingAudio;
+        [HideInInspector] public bool isMoovingAudio;
 
         //player inventory
         private PlayerInventory playerInventory;
+
         private int index;
         private int currentIndex = -1;
 
@@ -103,8 +92,7 @@ namespace BattleRobo
         private int previousAliveNumber;
 
         // game state
-        [HideInInspector]
-        public bool isInPause;
+        [HideInInspector] public bool isInPause;
 
         //Initialize server values for this player
         private void Awake()
@@ -113,7 +101,8 @@ namespace BattleRobo
             playerID = photonView.ownerId;
 
             //initialise player inventory
-            playerInventory = new PlayerInventory(playerCameraTransform, uiScript, photonView, weaponHolder, consommableHolder);
+            playerInventory = new PlayerInventory(playerCameraTransform, uiScript, photonView, weaponHolder,
+                consommableHolder);
 
             //only let the master do initialization
             if (!PhotonNetwork.isMasterClient)
@@ -159,7 +148,8 @@ namespace BattleRobo
             //set a global reference to the local player
             GameManagerScript.GetInstance().localPlayer = this;
 
-            photonView.RPC("SendDBTokenRPC", PhotonTargets.MasterClient, playerID, PlayerInfoScript.GetInstance().GetDBToken());
+            photonView.RPC("SendDBTokenRPC", PhotonTargets.MasterClient, playerID,
+                PlayerInfoScript.GetInstance().GetDBToken());
 
             for (int i = 0; i < playerSkinedMesh.Length; i++)
             {
@@ -206,14 +196,17 @@ namespace BattleRobo
                 {
                     // - set current player in pause
                     GameManagerScript.GetInstance().SetPlayerInPause(playerID);
-
-                    // - increment pause counter
+                    
                     if (found)
-                        GameManagerScript.GetInstance().pauseCounter[playerID]++;
-
-                    // - init pause counter if necessary
+                    {
+                        // - decrement pause counter
+                        GameManagerScript.GetInstance().pauseCounter[playerID]--;
+                    }
                     else
-                        GameManagerScript.GetInstance().pauseCounter[playerID] = 0;
+                    {
+                        // - init pause counter if necessary
+                        GameManagerScript.GetInstance().pauseCounter[playerID] = 3;
+                    }
 
                     // - max pause duration is 10 sec
                     //TODO remplacer le Invoke
@@ -221,7 +214,8 @@ namespace BattleRobo
                 }
 
                 // - dispatch pause if the player haven't used it more than 3 times or if the game is already in pause
-                if (isInPause && GameManagerScript.GetInstance().GetPlayerInPause() == playerID || !isInPause && counter < 2)
+                if (isInPause && GameManagerScript.GetInstance().GetPlayerInPause() == playerID ||
+                    !isInPause && counter >= 0)
                 {
                     photonView.RPC(!isInPause ? "SetPause" : "CancelPause", PhotonTargets.AllViaServer);
                 }
@@ -268,7 +262,7 @@ namespace BattleRobo
                 if (consommableHolder.currentConsommable != null)
                 {
                     var consommable = consommableHolder.currentConsommable;
-                    
+
                     photonView.RPC("ShootRPC", PhotonTargets.AllViaServer, playerID);
                 }
             }
@@ -312,7 +306,7 @@ namespace BattleRobo
                 playerInventory.Drop(newPositipn);
             }
         }
-        
+
         private IEnumerator ApplyBonusOverTime(float seconds, int health, int shield)
         {
             var hot = health / seconds;
@@ -330,10 +324,10 @@ namespace BattleRobo
                     newShield += newHealth - PlayerStats.maxHealth;
 
                 newShield = Math.Min(newShield, PlayerStats.maxShield);
-                
-                photonView.SetHealth((int)newHealth);
-                photonView.SetShield((int)newShield);
-                
+
+                photonView.SetHealth((int) newHealth);
+                photonView.SetShield((int) newShield);
+
                 yield return new WaitForSeconds(1);
             }
             Debug.Log("END STATS : " + photonView.GetHealth() + " :: " + photonView.GetShield());
@@ -417,7 +411,7 @@ namespace BattleRobo
         {
             var weapon = weaponHolder.currentWeapon;
             var consommable = consommableHolder.currentConsommable;
-            
+
             if (weapon != null)
             {
                 weapon.Fire(playerCameraTransform, playerID);
@@ -434,11 +428,12 @@ namespace BattleRobo
                 if (playerID == shooterId && update)
                     uiScript.SetAmmoCounter(weapon.currentAmmo);
             }
-            
+
             else if (consommable != null)
             {
                 playerInventory.UseItem(playerInventory.currentSlotIndex);
-                StartCoroutine(ApplyBonusOverTime(consommable.GetTime(), consommable.GetHealth(), consommable.GetShield()));
+                StartCoroutine(ApplyBonusOverTime(consommable.GetTime(), consommable.GetHealth(),
+                    consommable.GetShield()));
             }
         }
 
@@ -453,7 +448,7 @@ namespace BattleRobo
 
             weaponHolder.EquipWeapon(weaponIndex, currentAmmo);
         }
-        
+
         [PunRPC]
         private void EquipConsommableRPC(int consommableIndex)
         {

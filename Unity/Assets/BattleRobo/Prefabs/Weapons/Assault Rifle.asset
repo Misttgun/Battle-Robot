@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   magazineSize: 90
   damage: 30
-  range: 100
+  range: 200
   fireRate: 1
   gunName: M416
   gunId: 1

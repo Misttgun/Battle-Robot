@@ -44,6 +44,16 @@ namespace BattleRobo
         /// Reference to the game over UI script.
         /// </summary>
         public GameOverUIScript gameOverUiScript;
+        
+        /// <summary>
+        /// Reference to the game over UI.
+        /// </summary>
+        public GameObject pauseMenuUI;
+
+        /// <summary>
+        /// Reference to the game over UI script.
+        /// </summary>
+        public PauseMenuScript pauseMenuScript;
 
         /// <summary>
         /// Current pause state of the game
@@ -123,8 +133,20 @@ namespace BattleRobo
                 return;
 
             if (isGamePause)
+            {
+                pauseMenuUI.SetActive(true);
                 SetPauseTimer(pauseTimer - Time.deltaTime);
-
+                pauseMenuScript.UpdateTimer(pauseTimer);
+                pauseMenuScript.UpdatePauseCount(pauseCounter[localPlayer.playerID]);
+            }
+            else
+            {
+                if (pauseMenuUI.activeSelf)
+                {
+                    pauseMenuUI.SetActive(false);
+                }
+            }
+                
             //TODO Utiliser des delegate ou de events pour les codes à executer une seule fois
 
             if (!hasLost && alivePlayerNumber == 1)
