@@ -87,9 +87,28 @@ namespace BattleRobo
  
             HttpWebRequest request = (HttpWebRequest) WebRequest.Create(url);
             
+            try
+            {
+                request.BeginGetResponse(FinishWebRequest, null);
+            }
+            
+            catch (WebException e)
+            {
+                Debug.Log("Exception occured when trying to reach : " + url);          
+            }
+            
+            /*
             // - fire and forget pattern
             ThreadPool.QueueUserWorkItem(o=>{ request.GetResponse(); });
             
+            */
+            
+        }
+        
+        private void FinishWebRequest(IAsyncResult result)
+        {
+            HttpWebResponse response = (result.AsyncState as HttpWebRequest).EndGetResponse(result) as HttpWebResponse;
+            Debug.Log("ASYNC REQUEST IS OVER !");
         }
 
         public void SyncQuery(string query, out int status, out string res)
@@ -98,10 +117,13 @@ namespace BattleRobo
             var port = useHttps ? httpsPort : httpPort;
             url += ip + ":" + port + query;
             
+            
+            Debug.Log("SYNC QUERY : " + url);
+            
             ServicePointManager.ServerCertificateValidationCallback = TrustCertificate;
             HttpWebRequest request = (HttpWebRequest) WebRequest.Create(url);
             request.Timeout = timeout;
-
+            
             try
             {
                 HttpWebResponse response = (HttpWebResponse) request.GetResponse();
@@ -112,16 +134,27 @@ namespace BattleRobo
 
                 status = (int) response.StatusCode;
                 res = responseFromServer;
+                response.Close();
             }
             
             catch (WebException e)
             {
-                Debug.Log(url);
-                var stream = e.Response.GetResponseStream();
-                var reader = new StreamReader(stream);
+                if (e.Status == WebExceptionStatus.Timeout)
+                {
+                    Debug.Log("Exception TIMEOUT occured when trying to reach : " + url);
+                    status = 400;
+                    res = "Timeout : Can't Battle Robo server";
+                }
 
-                status = 400;
-                res = reader.ReadToEnd();
+                else
+                {
+                    Debug.Log("Exception OTHER occured when trying to reach : " + url);
+                    var stream = e.Response.GetResponseStream();
+                    var reader = new StreamReader(stream);
+
+                    status = 400;
+                    res = reader.ReadToEnd();
+                }                
             }   
         }
         
@@ -146,13 +179,13 @@ namespace BattleRobo
         public void OnApplicationQuit()
         {
             var playerToken = PlayerInfoScript.GetInstance().GetDBToken();
-            DatabaseRequester.GetInstance().AsyncQuery("logout?token=" + playerToken);
+            DatabaseRequester.GetInstance().AsyncQuery("/logout?token=" + playerToken);
         }
 
         public void Quit()
         {
             var playerToken = PlayerInfoScript.GetInstance().GetDBToken();
-            DatabaseRequester.GetInstance().AsyncQuery("logout?token=" + playerToken);
+            DatabaseRequester.GetInstance().AsyncQuery("/logout?token=" + playerToken);
         }
     }
 }

@@ -123,7 +123,7 @@ namespace BattleRobo
         {
             // We quit the application
             var playerToken = PlayerInfoScript.GetInstance().GetDBToken();
-            DatabaseRequester.GetInstance().AsyncQuery("logout?token=" + playerToken);
+            DatabaseRequester.GetInstance().AsyncQuery("/logout?token=" + playerToken);
             Application.Quit();
         }
 

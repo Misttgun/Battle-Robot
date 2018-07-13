@@ -354,7 +354,6 @@ namespace BattleRobo
         //TODO déplacer la méthode dans une classe statique
         private void SetPlayerStats(int kills, int win, string token)
         {
-            Debug.Log("Update player : " + token + " " + kills + " " + win);
             string query = "/update_player?token=" + token + "&kill=" + kills + "&win=" + win;
 
             DatabaseRequester.GetInstance().AsyncQuery(query);
@@ -415,7 +414,6 @@ namespace BattleRobo
         [PunRPC]
         private void UpdateKillsRPC(int id)
         {
-            Debug.Log("ADD KILL !");
             GameObject player;
             GameManagerScript.GetInstance().alivePlayers.TryGetValue(id, out player);
 

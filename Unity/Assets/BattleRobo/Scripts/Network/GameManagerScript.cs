@@ -223,7 +223,7 @@ namespace BattleRobo
                 SceneManager.LoadScene(0);
 
             var playerToken = PlayerInfoScript.GetInstance().GetDBToken();
-            DatabaseRequester.GetInstance().AsyncQuery("logout?token="+playerToken);
+            DatabaseRequester.GetInstance().AsyncQuery("/logout?token="+playerToken);
         }
 
         //called on all clients when the player left the room
