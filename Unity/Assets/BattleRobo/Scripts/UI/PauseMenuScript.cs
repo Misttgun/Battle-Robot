@@ -9,6 +9,12 @@ namespace BattleRobo
         [SerializeField] private GameObject pausePanel;
 
         [SerializeField] private GameObject settingsPanel;
+        
+        [SerializeField] private GameObject graphicsPanel;
+
+        [SerializeField] private GameObject keysBiddingPanel;
+        
+        [SerializeField] private GameObject keyEnterPanel;
 
         [SerializeField] private Text timerText;
 
@@ -18,18 +24,15 @@ namespace BattleRobo
         {
             pausePanel.SetActive(true);
             settingsPanel.SetActive(false);
+            graphicsPanel.SetActive(false);
+            keysBiddingPanel.SetActive(false);
+            keyEnterPanel.SetActive(false);
         }
 
         public void ShowSettings()
         {
             pausePanel.SetActive(false);
             settingsPanel.SetActive(true);
-        }
-
-        public void Resume()
-        {
-            pausePanel.SetActive(false);
-            settingsPanel.SetActive(false);
         }
 
         public void UpdateTimer(float timer)
@@ -50,6 +53,18 @@ namespace BattleRobo
         public override void OnLeftRoom()
         {
             SceneManager.LoadScene(1);
+        }
+
+        private void OnEnable()
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+        private void OnDisable()
+        {
+//            Cursor.lockState = CursorLockMode.Locked;
+//            Cursor.visible = false;
         }
     }
 }

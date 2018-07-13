@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
@@ -44,7 +45,7 @@ namespace BattleRobo
         /// Reference to the game over UI script.
         /// </summary>
         public GameOverUIScript gameOverUiScript;
-        
+
         /// <summary>
         /// Reference to the game over UI.
         /// </summary>
@@ -68,7 +69,8 @@ namespace BattleRobo
         /// <summary>
         /// Pause timer
         /// </summary>
-        private float pauseTimer;
+        [SerializeField]
+        private float pauseTimerAmount;
 
         /// <summary>
         /// Reference to the game camera to show the game over UI.
@@ -87,18 +89,18 @@ namespace BattleRobo
         /// </summary>
         public SpawnGeneratorScript spawnGenerator;
 
-
+        public static bool ready;
         public static bool canPlayerMove;
+        private int readyCount;
 
         // Number of player currently alive in the game
         public static int alivePlayerNumber;
 
-        private int readyCount;
-        public static bool ready;
-
         public bool hasLost;
 
         private bool deactivate;
+        
+        private float pauseTimer;
 
         private void Awake()
         {
@@ -134,19 +136,11 @@ namespace BattleRobo
 
             if (isGamePause)
             {
-                pauseMenuUI.SetActive(true);
                 SetPauseTimer(pauseTimer - Time.deltaTime);
                 pauseMenuScript.UpdateTimer(pauseTimer);
                 pauseMenuScript.UpdatePauseCount(pauseCounter[localPlayer.playerID]);
             }
-            else
-            {
-                if (pauseMenuUI.activeSelf)
-                {
-                    pauseMenuUI.SetActive(false);
-                }
-            }
-                
+
             //TODO Utiliser des delegate ou de events pour les codes à executer une seule fois
 
             if (!hasLost && alivePlayerNumber == 1)
@@ -156,10 +150,10 @@ namespace BattleRobo
                 ShowGameOverScreen("You won !! Let's go baby !!", 1, localPlayer.photonView.GetKills());
 
                 localPlayer.photonView.RPC("WinnerRPC", PhotonTargets.MasterClient, localPlayer.playerID);
-                
+
                 //desactivate the local player
                 photonView.RPC("DisablePlayerRPC", PhotonTargets.All, localPlayer.playerID);
-            
+
                 deactivate = true;
             }
             else if (hasLost)
@@ -200,7 +194,7 @@ namespace BattleRobo
         public void SetPause(bool pause)
         {
             isGamePause = pause;
-            pauseTimer = 10f;
+            pauseTimer = pauseTimerAmount;
         }
 
         public void SetPlayerInPause(int idPlayer)
@@ -219,6 +213,11 @@ namespace BattleRobo
                 timer = 0f;
 
             pauseTimer = timer;
+
+            if (Math.Abs(pauseTimer) < 0.00001f)
+            {
+                PauseTimeout();
+            }
         }
 
         public float GetPauseTimer()
@@ -245,7 +244,7 @@ namespace BattleRobo
                 SceneManager.LoadScene(0);
 
             var playerToken = PlayerInfoScript.GetInstance().GetDBToken();
-            DatabaseRequester.GetInstance().AsyncQuery("/logout?token="+playerToken);
+            DatabaseRequester.GetInstance().AsyncQuery("/logout?token=" + playerToken);
         }
 
         //called on all clients when the player left the room
@@ -305,6 +304,58 @@ namespace BattleRobo
 
             ready = true;
             photonView.RPC("MatchBeginRPC", PhotonTargets.AllViaServer);
+        }
+
+        public void PauseLogic()
+        {
+            int counter;
+            bool found = pauseCounter.TryGetValue(localPlayer.playerID, out counter);
+
+            if (!isGamePause)
+            {
+                // - set current player in pause
+                SetPlayerInPause(localPlayer.playerID);
+
+                if (found)
+                {
+                    pauseCounter[localPlayer.playerID]--;
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            // - dispatch pause if the player haven't used it more than 3 times or if the game is already in pause
+            if (isGamePause && GetPlayerInPause() == localPlayer.playerID || !isGamePause && counter > 0)
+            {
+                photonView.RPC(!isGamePause ? "SetPause" : "CancelPause", PhotonTargets.AllViaServer);
+            }
+        }
+
+        private void PauseTimeout()
+        {
+            // - if still in pause, master client will send an RPC to exit pause
+            if (PhotonNetwork.player.IsMasterClient && isGamePause)
+                photonView.RPC("CancelPause", PhotonTargets.AllViaServer);
+        }
+
+        [PunRPC]
+        private void SetPause()
+        {
+            pauseMenuUI.SetActive(true);
+            SetPause(true);
+        }
+
+        [PunRPC]
+        private void CancelPause()
+        {
+            SetPause(false);
+            pauseMenuScript.ShowPause();
+            pauseMenuUI.SetActive(false);
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
     }
 }

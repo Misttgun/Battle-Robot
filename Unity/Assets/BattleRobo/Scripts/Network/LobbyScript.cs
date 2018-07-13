@@ -22,6 +22,9 @@ namespace BattleRobo
         {
             PhotonNetwork.autoCleanUpPlayerObjects = false;
             PhotonNetwork.automaticallySyncScene = true;
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
 
 //        private void Update()

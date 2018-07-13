@@ -13,17 +13,20 @@ namespace BattleRobo
         /// <summary>
         /// The camera transform for the shooting.
         /// </summary>
-        [SerializeField] private Transform playerCameraTransform;
+        [SerializeField]
+        private Transform playerCameraTransform;
 
         /// <summary>
         /// The camera component.
         /// </summary>
-        [SerializeField] private Camera playerCamera;
+        [SerializeField]
+        private Camera playerCamera;
 
         /// <summary>
         /// The camera audio listener.
         /// </summary>
-        [SerializeField] private AudioListener playerCameraAudio;
+        [SerializeField]
+        private AudioListener playerCameraAudio;
 
         /// <summary>
         /// The player animator.
@@ -38,22 +41,26 @@ namespace BattleRobo
         /// <summary>
         /// The in game UI script.
         /// </summary>
-        [SerializeField] private PlayerUIScript uiScript;
+        [SerializeField]
+        private PlayerUIScript uiScript;
 
         /// <summary>
         /// The in game UI script.
         /// </summary>
-        [SerializeField] private GameObject playerUI;
+        [SerializeField]
+        private GameObject playerUI;
 
         /// <summary>
         /// The weapon holder script.
         /// </summary>
-        [SerializeField] private WeaponHolderScript weaponHolder;
+        [SerializeField]
+        private WeaponHolderScript weaponHolder;
 
         // <summary>
         /// The weapon holder script.
         /// </summary>
-        [SerializeField] private ConsommableHolderScript consommableHolder;
+        [SerializeField]
+        private ConsommableHolderScript consommableHolder;
 
         /// <summary>
         /// The player audiosource.
@@ -65,22 +72,27 @@ namespace BattleRobo
         /// </summary>
         public AudioClip[] audioClips;
 
-        [SerializeField] private SkinnedMeshRenderer[] playerSkinedMesh;
+        [SerializeField]
+        private SkinnedMeshRenderer[] playerSkinedMesh;
 
         /// <summary>
         /// Photon player ID.
         /// </summary>
-        [HideInInspector] public int playerID;
+        [HideInInspector]
+        public int playerID;
 
         //health variable
-        [HideInInspector] public int maxHealth = 100;
+        [HideInInspector]
+        public int maxHealth = 100;
 
         //audio variables
         private bool playAudio;
 
-        [HideInInspector] public bool isJumpingAudio;
+        [HideInInspector]
+        public bool isJumpingAudio;
 
-        [HideInInspector] public bool isMoovingAudio;
+        [HideInInspector]
+        public bool isMoovingAudio;
 
         //player inventory
         private PlayerInventory playerInventory;
@@ -92,7 +104,8 @@ namespace BattleRobo
         private int previousAliveNumber;
 
         // game state
-        [HideInInspector] public bool isInPause;
+        [HideInInspector]
+        public bool isInPause;
 
         //Initialize server values for this player
         private void Awake()
@@ -101,8 +114,7 @@ namespace BattleRobo
             playerID = photonView.ownerId;
 
             //initialise player inventory
-            playerInventory = new PlayerInventory(playerCameraTransform, uiScript, photonView, weaponHolder,
-                consommableHolder);
+            playerInventory = new PlayerInventory(playerCameraTransform, uiScript, photonView, weaponHolder, consommableHolder);
 
             //only let the master do initialization
             if (!PhotonNetwork.isMasterClient)
@@ -118,6 +130,9 @@ namespace BattleRobo
         {
             //player add itself to the dictionnary of alive player using his player ID
             GameManagerScript.GetInstance().alivePlayers.Add(playerID, gameObject);
+
+            //intialization of the pause counter for all players
+            GameManagerScript.GetInstance().pauseCounter.Add(playerID, 3);
 
             //called only for this client 
             if (!photonView.isMine)
@@ -148,8 +163,7 @@ namespace BattleRobo
             //set a global reference to the local player
             GameManagerScript.GetInstance().localPlayer = this;
 
-            photonView.RPC("SendDBTokenRPC", PhotonTargets.MasterClient, playerID,
-                PlayerInfoScript.GetInstance().GetDBToken());
+            photonView.RPC("SendDBTokenRPC", PhotonTargets.MasterClient, playerID, PlayerInfoScript.GetInstance().GetDBToken());
 
             for (int i = 0; i < playerSkinedMesh.Length; i++)
             {
@@ -176,50 +190,26 @@ namespace BattleRobo
             isInPause = GameManagerScript.GetInstance().IsGamePause();
 
             // Cursor lock
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-            else if (Input.GetKeyDown(KeyCode.L))
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
+//            if (Input.GetKeyDown(KeyCode.Escape) && Cursor.visible)
+//            {
+//                Cursor.lockState = CursorLockMode.Locked;
+//                Cursor.visible = false;
+//                
+//            }
+//            else if (Input.GetKeyDown(KeyCode.Escape) && !Cursor.visible)
+//            {
+//                Cursor.lockState = CursorLockMode.None;
+//                Cursor.visible = true;
+//            }
 
-            if (Input.GetButtonDown("Pause"))
+            if (photonView.isMine)
             {
-                int counter;
-                bool found = GameManagerScript.GetInstance().pauseCounter.TryGetValue(playerID, out counter);
-
-                if (!isInPause)
+                if (Input.GetKeyDown(KeyCode.Escape))
                 {
-                    // - set current player in pause
-                    GameManagerScript.GetInstance().SetPlayerInPause(playerID);
-                    
-                    if (found)
-                    {
-                        // - decrement pause counter
-                        GameManagerScript.GetInstance().pauseCounter[playerID]--;
-                    }
-                    else
-                    {
-                        // - init pause counter if necessary
-                        GameManagerScript.GetInstance().pauseCounter[playerID] = 3;
-                    }
-
-                    // - max pause duration is 10 sec
-                    //TODO remplacer le Invoke
-                    //Invoke("PauseTimeout", 10);
-                }
-
-                // - dispatch pause if the player haven't used it more than 3 times or if the game is already in pause
-                if (isInPause && GameManagerScript.GetInstance().GetPlayerInPause() == playerID ||
-                    !isInPause && counter >= 0)
-                {
-                    photonView.RPC(!isInPause ? "SetPause" : "CancelPause", PhotonTargets.AllViaServer);
+                    GameManagerScript.GetInstance().PauseLogic();
                 }
             }
+
 
             if (isInPause || !GameManagerScript.canPlayerMove)
             {
@@ -232,6 +222,7 @@ namespace BattleRobo
 
             if (!photonView.isMine)
                 return;
+
 
             //update alive number on change
             if (GameManagerScript.alivePlayerNumber != previousAliveNumber)
@@ -330,6 +321,7 @@ namespace BattleRobo
 
                 yield return new WaitForSeconds(1);
             }
+
             Debug.Log("END STATS : " + photonView.GetHealth() + " :: " + photonView.GetShield());
         }
 
@@ -339,16 +331,6 @@ namespace BattleRobo
             string query = "/update_player?token=" + token + "&kill=" + kills + "&win=" + win;
 
             DatabaseRequester.GetInstance().AsyncQuery(query);
-        }
-
-        private void PauseTimeout()
-        {
-            // - the master client shall do the Timeout RPC to avoid that a corrupted client keep game in pause forever
-            bool isMasterClient = PhotonNetwork.player.IsMasterClient;
-
-            // - if still in pause, master client will send an RPC to exit pause
-            if (isMasterClient && isInPause)
-                photonView.RPC("CancelPause", PhotonTargets.AllViaServer);
         }
 
         public void ShowDamageIndicator(Vector3 shooterPos)
@@ -380,15 +362,6 @@ namespace BattleRobo
             {
                 //set the local values for the gameover screen
                 GameManagerScript.GetInstance().hasLost = true;
-            }
-            else
-            {
-                if (GameManagerScript.GetInstance().alivePlayers.Count == 1)
-                {
-                    int player_id = GameManagerScript.GetInstance().alivePlayers.Keys.First();
-
-                    //photonView.RPC("WinnerRPC", PhotonTargets.MasterClient, player_id);
-                }
             }
         }
 
@@ -432,8 +405,7 @@ namespace BattleRobo
             else if (consommable != null)
             {
                 playerInventory.UseItem(playerInventory.currentSlotIndex);
-                StartCoroutine(ApplyBonusOverTime(consommable.GetTime(), consommable.GetHealth(),
-                    consommable.GetShield()));
+                StartCoroutine(ApplyBonusOverTime(consommable.GetTime(), consommable.GetHealth(), consommable.GetShield()));
             }
         }
 
@@ -494,26 +466,6 @@ namespace BattleRobo
         }
 
         [PunRPC]
-        private void SetPause()
-        {
-            var myPlayerScript = GameManagerScript.GetInstance().localPlayer;
-
-            // - Set Pause UI
-            // myPlayerScript.playerUI.GetComponent<PlayerUIScript>().EnablePause(true);
-            GameManagerScript.GetInstance().SetPause(true);
-        }
-
-        [PunRPC]
-        private void CancelPause()
-        {
-            var myPlayerScript = GameManagerScript.GetInstance().localPlayer;
-
-            // - Set Pause UI
-            //myPlayerScript.playerUI.GetComponent<PlayerUIScript>().EnablePause(false);
-            GameManagerScript.GetInstance().SetPause(false);
-        }
-
-        [PunRPC]
         private void DamageIndicatorRPC(Vector3 shooterPos)
         {
             uiScript.UpdateDamageIndicator(shooterPos);
@@ -534,6 +486,7 @@ namespace BattleRobo
         }
 
 
+        //TODO déplacer dans le GameManager
         [PunRPC]
         private void WinnerRPC(int id)
         {
