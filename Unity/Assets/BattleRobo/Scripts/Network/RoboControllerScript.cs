@@ -329,8 +329,6 @@ namespace BattleRobo
 
         private void Update()
         {
-            //constantly update fuel as it change constantly
-            uiScript.UpdateFuel(fuelAmount);
 
             //update player health on change
             if (previousHealth != playerStats.Health)
@@ -831,7 +829,6 @@ namespace BattleRobo
 
             //update health, shield and fuel
             uiScript.UpdateHealth(playerStats.Health);
-            uiScript.UpdateFuel(fuelAmount);
             uiScript.UpdateShield(playerStats.Shield);
             uiScript.UpdateKillsText(playerStats.Kills);
 

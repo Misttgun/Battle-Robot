@@ -58,6 +58,8 @@ namespace BattleRobo
 
         public override void OnJoinedRoom()
         {
+            photonView.RPC("OnRoomJoinedRPC", PhotonTargets.All);
+
             // Show the loading screen
             mainMenuScript.ShowLoadingScreen();
 
@@ -68,10 +70,15 @@ namespace BattleRobo
                 PhotonNetwork.room.SetCustomProperties(properties);
                 StartCoroutine(LoadGame());
             }
-            else
-            {
-                photonView.RPC("OnClientRoomJoinedRPC", PhotonTargets.All);
-            }
+        }
+
+        /// <summary>
+        /// Called after disconnecting from the Photon server.
+        /// </summary>
+        public override void OnDisconnectedFromPhoton()
+        {
+            var playerToken = PlayerInfoScript.GetInstance().GetDBToken();
+            DatabaseRequester.GetInstance().AsyncQuery("logout?token=" + playerToken);
         }
 
 
@@ -166,7 +173,7 @@ namespace BattleRobo
         }
 
         [PunRPC]
-        private void OnClientRoomJoinedRPC()
+        private void OnRoomJoinedRPC()
         {
             // Set the number of player on the loading screen
             mainMenuScript.SetPlayerNumbersLabel(PhotonNetwork.room.PlayerCount);
