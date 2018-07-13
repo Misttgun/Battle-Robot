@@ -362,8 +362,6 @@ namespace BattleRobo
                 Cursor.visible = false;
             }
 
-            uiScript.UpdateFuel(fuelAmount);
-
             fly = Vector3.zero;
             if (Input.GetButton("Jump") && fuelAmount > 0f)
             {

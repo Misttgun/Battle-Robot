@@ -27,8 +27,8 @@ namespace BattleRobo
         public void UpdateGameOverText(string goText, int rank, int kills)
         {
             gameOverText.text = goText;
-            rankText.text = "Rank: " + rank;
-            killsText.text = "Kills: " + kills;
+            rankText.text = rank.ToString();
+            killsText.text = kills.ToString();
         }
 
         /// <summary>

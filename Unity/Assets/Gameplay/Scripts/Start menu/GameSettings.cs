@@ -7,7 +7,6 @@ public class GameSettings
 	public int antialiasing;
 	public int resolution;
 	public int texture;
-	public float sfxvolume;
 	public int graphics;
 	public float sensitivity;
 }

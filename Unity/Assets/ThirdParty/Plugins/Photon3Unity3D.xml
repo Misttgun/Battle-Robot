@@ -827,7 +827,7 @@
         </member>
         <member name="P:ExitGames.Client.Photon.PhotonPeer.IsEncryptionAvailable">
             <summary>
-            This property is set internally, when OpExchangeKeysForEncryption successfully finished.
+            This property is set internally, when OpExChangeKeysForEncryption successfully finished.
             While it's true, encryption can be used for operations.
             </summary>
         </member>
@@ -1315,7 +1315,7 @@
         <member name="P:ExitGames.Client.Photon.PeerBase.rhttpMaxConnections">
             <summary> (default=6) Rhttp: maximum number of open connections, should be &gt; rhttpMinConnections </summary>
         </member>
-        <member name="M:ExitGames.Client.Photon.PeerBase.ExchangeKeysForEncryption(System.Object)">
+        <member name="M:ExitGames.Client.Photon.PeerBase.ExChangeKeysForEncryption(System.Object)">
             <summary>
             Internally uses an operation to exchange encryption keys with the server.
             </summary>

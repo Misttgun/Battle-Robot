@@ -26,12 +26,6 @@ namespace BattleRobo
         private Slider shieldBar;
 
         /// <summary>
-        /// The fuel bar.
-        /// </summary>
-        [SerializeField]
-        private Slider fuelBar;
-
-        /// <summary>
         /// The number of player alive text.
         /// </summary>
         [SerializeField]
@@ -126,21 +120,12 @@ namespace BattleRobo
         }
 
         /// <summary>
-        /// Updates the player fuel
-        /// </summary>
-        /// <param name="fuel"></param>
-        public void UpdateFuel(float fuel)
-        {
-            fuelBar.value = fuel;
-        }
-
-        /// <summary>
         /// Updates the number of player alive in the game
         /// </summary>
         /// <param name="numberPlayer"></param>
         public void UpdateAliveText(int numberPlayer)
         {
-            aliveText.text = "Players Alive: " + numberPlayer;
+            aliveText.text = numberPlayer.ToString();
         }
 
         /// <summary>
@@ -149,7 +134,7 @@ namespace BattleRobo
         /// <param name="kills"></param>
         public void UpdateKillsText(int kills)
         {
-            killsText.text = "Kills: " + kills;
+            killsText.text =kills.ToString();
         }
 
         /// <summary>

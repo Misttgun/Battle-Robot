@@ -12,28 +12,7 @@ namespace BattleRobo
         private const byte maxPlayersPerRoom = 4;
 
         [SerializeField]
-        private GameObject startMenuCanvas;
-
-        [SerializeField]
-        private GameObject loadingScreenCanvas;
-
-        [SerializeField]
-        private Text playerNumbersLabel;
-
-        [SerializeField]
-        private Text loadingMessageLabel;
-
-        [SerializeField]
-        private Button cancelButton;
-
-        [SerializeField]
-        private GameObject lobbyPanel;
-
-        [SerializeField]
-        private GameObject leaderboardPanel;
-
-        [SerializeField]
-        private List<GameObject> leaderboardRows;
+        private MainMenuScript mainMenuScript;
 
         private bool isMoreThanTwo;
 
@@ -41,37 +20,34 @@ namespace BattleRobo
 
         private void Start()
         {
-            startMenuCanvas.SetActive(true);
-            loadingScreenCanvas.SetActive(false);
-
             PhotonNetwork.autoCleanUpPlayerObjects = false;
             PhotonNetwork.automaticallySyncScene = true;
         }
 
-        private void Update()
-        {
-            if (PhotonNetwork.inRoom)
-            {
-                // Set the number of player on the loading screen
-                SetPlayerNumbersLabel(PhotonNetwork.room.PlayerCount);
-
-                // We get out of this loop when we have 2 or more players
-                if (PhotonNetwork.room.PlayerCount >= 2)
-                {
-                    // Change the loading message
-                    loadingMessageLabel.text = "The game is starting...";
-                    cancelButton.interactable = false;
-                    isMoreThanTwo = true;
-                }
-                else
-                {
-                    // Change the loading message
-                    loadingMessageLabel.text = "Waiting for more players...";
-                    cancelButton.interactable = true;
-                    isMoreThanTwo = false;
-                }
-            }
-        }
+//        private void Update()
+//        {
+//            if (PhotonNetwork.inRoom)
+//            {
+//                // Set the number of player on the loading screen
+//                mainMenuScript.SetPlayerNumbersLabel(PhotonNetwork.room.PlayerCount);
+//
+//                // We get out of this loop when we have 2 or more players
+//                if (PhotonNetwork.room.PlayerCount >= 2)
+//                {
+//                    // Change the loading message
+//                    mainMenuScript.loadingMessageLabel.text = "The game is starting...";
+//                    mainMenuScript.cancelButton.interactable = false;
+//                    isMoreThanTwo = true;
+//                }
+//                else
+//                {
+//                    // Change the loading message
+//                    mainMenuScript.loadingMessageLabel.text = "Waiting for more players...";
+//                    mainMenuScript.cancelButton.interactable = true;
+//                    isMoreThanTwo = false;
+//                }
+//            }
+//        }
 
 
         public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
@@ -82,9 +58,10 @@ namespace BattleRobo
 
         public override void OnJoinedRoom()
         {
+            photonView.RPC("OnRoomJoinedRPC", PhotonTargets.All);
+
             // Show the loading screen
-            startMenuCanvas.SetActive(false);
-            loadingScreenCanvas.SetActive(true);
+            mainMenuScript.ShowLoadingScreen();
 
             if (PhotonNetwork.isMasterClient)
             {
@@ -93,6 +70,15 @@ namespace BattleRobo
                 PhotonNetwork.room.SetCustomProperties(properties);
                 StartCoroutine(LoadGame());
             }
+        }
+
+        /// <summary>
+        /// Called after disconnecting from the Photon server.
+        /// </summary>
+        public override void OnDisconnectedFromPhoton()
+        {
+            var playerToken = PlayerInfoScript.GetInstance().GetDBToken();
+            DatabaseRequester.GetInstance().AsyncQuery("logout?token=" + playerToken);
         }
 
 
@@ -127,6 +113,7 @@ namespace BattleRobo
             Application.Quit();
         }
 
+
         /// <summary>
         /// Cancel matchmaking and return to lobby
         /// </summary>
@@ -145,8 +132,7 @@ namespace BattleRobo
             PhotonNetwork.LeaveRoom();
 
             // We show the main menu
-            startMenuCanvas.SetActive(true);
-            loadingScreenCanvas.SetActive(false);
+            mainMenuScript.ShowMainMenu();
         }
 
 
@@ -186,62 +172,26 @@ namespace BattleRobo
             PhotonNetwork.LoadLevel(2);
         }
 
-        private void SetPlayerNumbersLabel(int number)
+        [PunRPC]
+        private void OnRoomJoinedRPC()
         {
-            playerNumbersLabel.text = "Numbers of players : " + number;
-        }
+            // Set the number of player on the loading screen
+            mainMenuScript.SetPlayerNumbersLabel(PhotonNetwork.room.PlayerCount);
 
-        public void GoToLeaderboardPanel()
-        {
-            lobbyPanel.SetActive(false);
-            leaderboardPanel.SetActive(true);
-            FillLeaderboard();
-        }
-
-        public void GoToLobbyPanel()
-        {
-            lobbyPanel.SetActive(true);
-            leaderboardPanel.SetActive(false);
-            
-        }
-
-        private void FillLeaderboard()
-        {
-            int status;
-            string response;
-
-            DatabaseRequester.GetInstance().SyncQuery("/leaderboard", out status, out response);
-
-            // - leaderboard is loaded successfully
-            if (status == 200)
+            // We get out of this loop when we have 2 or more players
+            if (PhotonNetwork.room.PlayerCount >= 2)
             {
-                var csv_text = response;
-                var rows = csv_text.Split('\n');
-
-                for (int i = 0; i < rows.Length; i++)
-                {
-                    var row = rows[i].Split(',');
-
-                    if (row.Length == 4 && i < leaderboardRows.Count)
-                    {
-                        GameObject leaderboardRow = leaderboardRows[i];
-
-                        Text playerText = (Text)leaderboardRow.transform.GetChild(1).GetComponent("Text");
-                        Text killText = (Text)leaderboardRow.transform.GetChild(2).GetComponent("Text");
-                        Text winText = (Text)leaderboardRow.transform.GetChild(3).GetComponent("Text");
-                        Text scoreText = (Text)leaderboardRow.transform.GetChild(4).GetComponent("Text");
-
-                        playerText.text = row[0];
-                        winText.text = row[1];
-                        killText.text = row[2];
-                        scoreText.text = row[3];
-                    }
-                }
+                // Change the loading message
+                mainMenuScript.loadingMessageLabel.text = "The game is starting...";
+                mainMenuScript.cancelButton.interactable = false;
+                isMoreThanTwo = true;
             }
-
             else
             {
-                // TODO ERROR MESSAGE
+                // Change the loading message
+                mainMenuScript.loadingMessageLabel.text = "Waiting for more players...";
+                mainMenuScript.cancelButton.interactable = true;
+                isMoreThanTwo = false;
             }
         }
     }
