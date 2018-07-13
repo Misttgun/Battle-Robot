@@ -78,7 +78,7 @@ namespace BattleRobo
         public override void OnDisconnectedFromPhoton()
         {
             var playerToken = PlayerInfoScript.GetInstance().GetDBToken();
-            DatabaseRequester.GetInstance().AsyncQuery("logout?token=" + playerToken);
+            DatabaseRequester.GetInstance().AsyncQuery("/logout?token=" + playerToken);
         }
 
 
