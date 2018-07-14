@@ -793,8 +793,8 @@ namespace BattleRobo
         public void ClientDrop()
         {
             //on drop l'objet un peu plus haut que la position y du joueur sinon, l'objet rentre dans le sol et n'est plus ramassable
-            var newPositipn = myTransform.position + new Vector3(0f, 0.1f, 0f);
-            playerInventory.Drop(newPositipn);
+            var newPosition = myTransform.position + new Vector3(0f, 0.1f, 0f);
+            playerInventory.Drop(newPosition, playerInventory.currentSlotIndex);
         }
 
         public void ClientSwitchWeapon(int index)
