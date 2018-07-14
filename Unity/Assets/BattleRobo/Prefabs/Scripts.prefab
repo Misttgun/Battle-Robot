@@ -234,6 +234,9 @@ MonoBehaviour:
   localPlayer: {fileID: 0}
   gameOverUI: {fileID: 0}
   gameOverUiScript: {fileID: 0}
+  pauseMenuUI: {fileID: 0}
+  pauseMenuScript: {fileID: 0}
+  pauseTimerAmount: 20
   gameCamera: {fileID: 0}
   waitingScreen: {fileID: 0}
   spawnGenerator: {fileID: 114851602941090778}

@@ -7,9 +7,24 @@ namespace BattleRobo
 	{
 		public static readonly Dictionary<string, KeyCode> keyBind = new Dictionary<string, KeyCode>(15);
 
+		private static CustomInputManagerScript instance;
+
 		private void Awake()
 		{
-			DontDestroyOnLoad(gameObject);
+			DontDestroyOnLoad(this);
+
+			if (instance == null)
+			{
+				instance = this;
+			}
+			else
+			{
+				DestroyObject(gameObject);
+			}
+			
+			//if the dictionnary is already full return
+			if(keyBind.Count != 0)
+				return;
 			
 			keyBind.Add("Up", (KeyCode) System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Up", "Z")));
 			keyBind.Add("Down", (KeyCode) System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Down", "S")));

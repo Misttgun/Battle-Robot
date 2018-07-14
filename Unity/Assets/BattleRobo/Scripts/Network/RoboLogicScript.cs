@@ -55,7 +55,7 @@ namespace BattleRobo
         /// </summary>
         [SerializeField]
         private WeaponHolderScript weaponHolder;
-        
+
         // <summary>
         /// The weapon holder script.
         /// </summary>
@@ -96,6 +96,7 @@ namespace BattleRobo
 
         //player inventory
         private PlayerInventory playerInventory;
+
         private int index;
         private int currentIndex = -1;
 
@@ -129,6 +130,9 @@ namespace BattleRobo
         {
             //player add itself to the dictionnary of alive player using his player ID
             GameManagerScript.GetInstance().alivePlayers.Add(playerID, gameObject);
+
+            //intialization of the pause counter for all players
+            GameManagerScript.GetInstance().pauseCounter.Add(playerID, 3);
 
             //called only for this client 
             if (!photonView.isMine)
@@ -187,46 +191,26 @@ namespace BattleRobo
             bool isAltPressed = Input.GetKey(KeyCode.LeftAlt);
 
             // Cursor lock
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-            else if (Input.GetKeyDown(KeyCode.L))
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
+//            if (Input.GetKeyDown(KeyCode.Escape) && Cursor.visible)
+//            {
+//                Cursor.lockState = CursorLockMode.Locked;
+//                Cursor.visible = false;
+//                
+//            }
+//            else if (Input.GetKeyDown(KeyCode.Escape) && !Cursor.visible)
+//            {
+//                Cursor.lockState = CursorLockMode.None;
+//                Cursor.visible = true;
+//            }
 
-            if (Input.GetButtonDown("Pause"))
+            if (photonView.isMine)
             {
-                int counter;
-                bool found = GameManagerScript.GetInstance().pauseCounter.TryGetValue(playerID, out counter);
-
-                if (!isInPause)
+                if (Input.GetKeyDown(KeyCode.Escape))
                 {
-                    // - set current player in pause
-                    GameManagerScript.GetInstance().SetPlayerInPause(playerID);
-
-                    // - increment pause counter
-                    if (found)
-                        GameManagerScript.GetInstance().pauseCounter[playerID]++;
-
-                    // - init pause counter if necessary
-                    else
-                        GameManagerScript.GetInstance().pauseCounter[playerID] = 0;
-
-                    // - max pause duration is 10 sec
-                    //TODO remplacer le Invoke
-                    //Invoke("PauseTimeout", 10);
-                }
-
-                // - dispatch pause if the player haven't used it more than 3 times or if the game is already in pause
-                if (isInPause && GameManagerScript.GetInstance().GetPlayerInPause() == playerID || !isInPause && counter < 2)
-                {
-                    photonView.RPC(!isInPause ? "SetPause" : "CancelPause", PhotonTargets.AllViaServer);
+                    GameManagerScript.GetInstance().PauseLogic();
                 }
             }
+
 
             if (isInPause || !GameManagerScript.canPlayerMove)
             {
@@ -239,6 +223,7 @@ namespace BattleRobo
 
             if (!photonView.isMine)
                 return;
+
 
             //update alive number on change
             if (GameManagerScript.alivePlayerNumber != previousAliveNumber)
@@ -269,7 +254,7 @@ namespace BattleRobo
                 if (consommableHolder.currentConsommable != null)
                 {
                     var consommable = consommableHolder.currentConsommable;
-                    
+
                     photonView.RPC("ShootRPC", PhotonTargets.AllViaServer, playerID);
                 }
             }
@@ -333,7 +318,7 @@ namespace BattleRobo
                 playerInventory.Drop(newPosition);
             }
         }
-        
+
         private IEnumerator ApplyBonusOverTime(float seconds, int health, int shield)
         {
             var hot = health / seconds;
@@ -349,10 +334,10 @@ namespace BattleRobo
                     newShield += newHealth - PlayerStats.maxHealth;
 
                 newShield = Math.Min(newShield, PlayerStats.maxShield);
-                
-                photonView.SetHealth((int)newHealth);
-                photonView.SetShield((int)newShield);
-                
+
+                photonView.SetHealth((int) newHealth);
+                photonView.SetShield((int) newShield);
+
                 yield return new WaitForSeconds(1);
             }
         }
@@ -363,16 +348,6 @@ namespace BattleRobo
             string query = "/update_player?token=" + token + "&kill=" + kills + "&win=" + win;
 
             DatabaseRequester.GetInstance().AsyncQuery(query);
-        }
-
-        private void PauseTimeout()
-        {
-            // - the master client shall do the Timeout RPC to avoid that a corrupted client keep game in pause forever
-            bool isMasterClient = PhotonNetwork.player.IsMasterClient;
-
-            // - if still in pause, master client will send an RPC to exit pause
-            if (isMasterClient && isInPause)
-                photonView.RPC("CancelPause", PhotonTargets.AllViaServer);
         }
 
         public void ShowDamageIndicator(Vector3 shooterPos)
@@ -405,15 +380,6 @@ namespace BattleRobo
                 //set the local values for the gameover screen
                 GameManagerScript.GetInstance().hasLost = true;
             }
-            else
-            {
-                if (GameManagerScript.GetInstance().alivePlayers.Count == 1)
-                {
-                    int player_id = GameManagerScript.GetInstance().alivePlayers.Keys.First();
-
-                    //photonView.RPC("WinnerRPC", PhotonTargets.MasterClient, player_id);
-                }
-            }
         }
 
         //called on the master client when a player kills the current player
@@ -435,7 +401,7 @@ namespace BattleRobo
         {
             var weapon = weaponHolder.currentWeapon;
             var consommable = consommableHolder.currentConsommable;
-            
+
             if (weapon != null)
             {
                 weapon.Fire(playerCameraTransform, playerID);
@@ -452,7 +418,7 @@ namespace BattleRobo
                 if (playerID == shooterId && update)
                     uiScript.SetAmmoCounter(weapon.currentAmmo);
             }
-            
+
             else if (consommable != null)
             {
                 playerInventory.UseItem(playerInventory.currentSlotIndex);
@@ -471,7 +437,7 @@ namespace BattleRobo
 
             weaponHolder.EquipWeapon(weaponIndex, currentAmmo);
         }
-        
+
         [PunRPC]
         private void EquipConsommableRPC(int consommableIndex)
         {
@@ -517,26 +483,6 @@ namespace BattleRobo
         }
 
         [PunRPC]
-        private void SetPause()
-        {
-            var myPlayerScript = GameManagerScript.GetInstance().localPlayer;
-
-            // - Set Pause UI
-            // myPlayerScript.playerUI.GetComponent<PlayerUIScript>().EnablePause(true);
-            GameManagerScript.GetInstance().SetPause(true);
-        }
-
-        [PunRPC]
-        private void CancelPause()
-        {
-            var myPlayerScript = GameManagerScript.GetInstance().localPlayer;
-
-            // - Set Pause UI
-            //myPlayerScript.playerUI.GetComponent<PlayerUIScript>().EnablePause(false);
-            GameManagerScript.GetInstance().SetPause(false);
-        }
-
-        [PunRPC]
         private void DamageIndicatorRPC(Vector3 shooterPos)
         {
             uiScript.UpdateDamageIndicator(shooterPos);
@@ -557,6 +503,7 @@ namespace BattleRobo
         }
 
 
+        //TODO déplacer dans le GameManager
         [PunRPC]
         private void WinnerRPC(int id)
         {
