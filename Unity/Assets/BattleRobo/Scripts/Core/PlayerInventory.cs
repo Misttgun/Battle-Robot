@@ -304,6 +304,9 @@ namespace BattleRobo
 
         public void UseItem(int index)
         {
+            if (index < 0 || index > inventory.Length)
+                return;
+
             var itemSlot = inventory[index];
             var item = itemSlot.GetItem();
             

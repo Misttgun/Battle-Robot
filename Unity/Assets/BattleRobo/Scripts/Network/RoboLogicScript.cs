@@ -421,8 +421,11 @@ namespace BattleRobo
 
             else if (consommable != null)
             {
-                playerInventory.UseItem(playerInventory.currentSlotIndex);
-                StartCoroutine(ApplyBonusOverTime(consommable.GetTime(), consommable.GetHealth(), consommable.GetShield()));
+                if (playerID == shooterId)
+                {
+                    playerInventory.UseItem(playerInventory.currentSlotIndex);
+                    StartCoroutine(ApplyBonusOverTime(consommable.GetTime(), consommable.GetHealth(), consommable.GetShield()));
+                }
             }
         }
 
