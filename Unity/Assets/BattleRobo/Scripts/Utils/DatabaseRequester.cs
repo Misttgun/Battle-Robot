@@ -23,6 +23,8 @@ namespace BattleRobo
         [SerializeField]
         private bool useHttps;
 
+        private String pseudo;
+
         // timeout in ms
         [SerializeField] 
         private int timeout;
@@ -153,6 +155,16 @@ namespace BattleRobo
         {
             var playerToken = PlayerInfoScript.GetInstance().GetDBToken();
             DatabaseRequester.GetInstance().AsyncQuery("/logout?token=" + playerToken);
+        }
+
+        public String GetPlayerPseudo()
+        {
+            return pseudo;
+        }
+
+        public void SetPseudo(String p)
+        {
+            pseudo = p;
         }
 
 

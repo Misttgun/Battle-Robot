@@ -93,6 +93,8 @@ namespace BattleRobo.Networking
                 createPanel.SetActive(false);
                 playerInfo.SetDBToken(response);
                 Connect();
+                DatabaseRequester.GetInstance().PingServer();
+                DatabaseRequester.GetInstance().SetPseudo(createPseudo.text);
             }
 
             // - can't add player
@@ -117,6 +119,7 @@ namespace BattleRobo.Networking
                 Connect();
                 playerInfo.SetDBToken(response);
                 DatabaseRequester.GetInstance().PingServer();
+                DatabaseRequester.GetInstance().SetPseudo(connectPseudo.text);
             }
             // - can't add player
             else

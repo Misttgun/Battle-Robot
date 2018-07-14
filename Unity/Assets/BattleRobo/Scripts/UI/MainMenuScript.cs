@@ -32,6 +32,9 @@ namespace BattleRobo
         [SerializeField]
         private List<GameObject> leaderboardRows;
 
+        [SerializeField]
+        private Color playerColor;
+
         private void Start()
         {
             lobbyPanel.SetActive(true);
@@ -81,8 +84,9 @@ namespace BattleRobo
         {
             int status;
             string response;
+            bool hasFoundPlayer = false;
 
-            DatabaseRequester.GetInstance().SyncQuery("/leaderboard", out status, out response);
+            DatabaseRequester.GetInstance().SyncQuery("/leaderboard?token=" + PlayerInfoScript.GetInstance().GetDBToken(), out status, out response);
 
             // - leaderboard is loaded successfully
             if (status == 200)
@@ -94,20 +98,68 @@ namespace BattleRobo
                 {
                     var row = rows[i].Split(',');
 
-                    if (row.Length == 4 && i < leaderboardRows.Count)
+                    if (row.Length == 5 && i < leaderboardRows.Count)
                     {
                         GameObject leaderboardRow = leaderboardRows[i];
 
+                        Text rankText = (Text)leaderboardRow.transform.GetChild(0).GetComponent("Text");
                         Text playerText = (Text) leaderboardRow.transform.GetChild(1).GetComponent("Text");
                         Text killText = (Text) leaderboardRow.transform.GetChild(2).GetComponent("Text");
                         Text winText = (Text) leaderboardRow.transform.GetChild(3).GetComponent("Text");
-                        Text scoreText = (Text) leaderboardRow.transform.GetChild(4).GetComponent("Text");
+                        Text playedText = (Text)leaderboardRow.transform.GetChild(4).GetComponent("Text");
+                        Text scoreText = (Text) leaderboardRow.transform.GetChild(5).GetComponent("Text");
 
                         playerText.text = row[0];
-                        winText.text = row[1];
-                        killText.text = row[2];
-                        scoreText.text = row[3];
+                        killText.text = row[1];
+                        winText.text = row[2];
+                        playedText.text = row[3];
+                        scoreText.text = row[4];
+                        
+                        if (System.String.Equals(row[0], DatabaseRequester.GetInstance().GetPlayerPseudo(), System.StringComparison.OrdinalIgnoreCase))
+                        {
+                            rankText.color = playerColor;
+                            playerText.color = playerColor;
+                            winText.color = playerColor;
+                            killText.color = playerColor;
+                            playedText.color = playerColor;
+                            scoreText.color = playerColor;
+                            hasFoundPlayer = true;
+                        }
                     }
+                }
+
+                if (hasFoundPlayer)
+                {
+                    leaderboardRows[10].SetActive(false);
+                }
+
+                else
+                {
+                    var row = rows[10].Split(',');
+                    leaderboardRows[10].SetActive(true);
+                    GameObject leaderboardRow = leaderboardRows[10];
+
+                    Text rankText = (Text)leaderboardRow.transform.GetChild(0).GetComponent("Text");
+                    Text playerText = (Text)leaderboardRow.transform.GetChild(1).GetComponent("Text");
+                    Text killText = (Text)leaderboardRow.transform.GetChild(2).GetComponent("Text");
+                    Text winText = (Text)leaderboardRow.transform.GetChild(3).GetComponent("Text");
+                    Text playedText = (Text)leaderboardRow.transform.GetChild(4).GetComponent("Text");
+                    Text scoreText = (Text)leaderboardRow.transform.GetChild(5).GetComponent("Text");
+
+                    rankText.text = row[0];
+                    playerText.text = row[1];
+                    killText.text = row[2];
+                    winText.text = row[3];
+                    playedText.text = row[4];
+                    scoreText.text = row[5];
+
+                    rankText.color = playerColor;
+                    playerText.color = playerColor;
+                    winText.color = playerColor;
+                    killText.color = playerColor;
+                    playedText.color = playerColor;
+                    scoreText.color = playerColor;
+                    hasFoundPlayer = true;
                 }
             }
 
