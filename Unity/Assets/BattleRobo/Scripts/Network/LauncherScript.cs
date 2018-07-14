@@ -116,6 +116,7 @@ namespace BattleRobo.Networking
             {
                 Connect();
                 playerInfo.SetDBToken(response);
+                DatabaseRequester.GetInstance().PingServer();
             }
             // - can't add player
             else
