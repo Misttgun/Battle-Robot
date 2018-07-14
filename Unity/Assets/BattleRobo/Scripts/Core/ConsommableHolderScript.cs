@@ -18,10 +18,10 @@ namespace BattleRobo
         public void SetConsommable(ConsommableScript consommableScript)
         {
             int consommableId = consommableScript ? consommableScript.GetId() : -1;
-
-            playerPhotonView.RPC("EquipConsommableRPC", PhotonTargets.All, -1);
+            playerPhotonView.RPC("EquipConsommableRPC", PhotonTargets.All, consommableId);
         }
 
+        
         public void EquipConsommable(int consommableIndex)
         {
             var consommable = consommableIndex != -1 ? consommableList[consommableIndex] : null;

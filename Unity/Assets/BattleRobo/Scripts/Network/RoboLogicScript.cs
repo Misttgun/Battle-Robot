@@ -184,6 +184,7 @@ namespace BattleRobo
         private void Update()
         {
             isInPause = GameManagerScript.GetInstance().IsGamePause();
+            bool isAltPressed = Input.GetKey(KeyCode.LeftAlt);
 
             // Cursor lock
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -272,26 +273,46 @@ namespace BattleRobo
                     photonView.RPC("ShootRPC", PhotonTargets.AllViaServer, playerID);
                 }
             }
-
+            
             if (Input.GetButtonDown("Inventory1"))
             {
-                index = 0;
+                if (isAltPressed)
+                    playerInventory.SwapInventorySlot(currentIndex, 0);
+                
+                else
+                    index = 0;
             }
             else if (Input.GetButtonDown("Inventory2"))
             {
-                index = 1;
+                if (isAltPressed)
+                    playerInventory.SwapInventorySlot(currentIndex, 1);
+                
+                else               
+                    index = 1;
             }
             else if (Input.GetButtonDown("Inventory3"))
             {
-                index = 2;
+                if (isAltPressed)
+                    playerInventory.SwapInventorySlot(currentIndex, 2);
+                
+                else
+                    index = 2;
             }
             else if (Input.GetButtonDown("Inventory4"))
             {
-                index = 3;
+                if (isAltPressed)
+                    playerInventory.SwapInventorySlot(currentIndex, 3);
+                
+                else
+                    index = 3;
             }
             else if (Input.GetButtonDown("Inventory5"))
             {
-                index = 4;
+                if (isAltPressed)
+                    playerInventory.SwapInventorySlot(currentIndex, 4);
+                
+                else
+                    index = 4;
             }
 
             if (currentIndex != index)
@@ -308,8 +329,8 @@ namespace BattleRobo
             if (Input.GetButtonDown("Drop"))
             {
                 //on drop l'objet un peu plus haut que la position y du joueur sinon, l'objet rentre dans le sol et n'est plus ramassable
-                var newPositipn = transform.position + new Vector3(0f, 0.1f, 0f);
-                playerInventory.Drop(newPositipn);
+                var newPosition = transform.position + new Vector3(0f, 0.1f, 0f);
+                playerInventory.Drop(newPosition);
             }
         }
         
@@ -318,10 +339,8 @@ namespace BattleRobo
             var hot = health / seconds;
             var sot = shield / seconds;
 
-            Debug.Log("START STATS : " + photonView.GetHealth() + " :: " + photonView.GetShield());
             for (var tick = 0; tick < seconds; tick++)
             {
-                Debug.Log("APPLY BONUS OVER TIME !");
                 var newHealth = photonView.GetHealth() + hot;
                 var newShield = photonView.GetShield() + sot;
 
@@ -336,7 +355,6 @@ namespace BattleRobo
                 
                 yield return new WaitForSeconds(1);
             }
-            Debug.Log("END STATS : " + photonView.GetHealth() + " :: " + photonView.GetShield());
         }
 
         //TODO déplacer la méthode dans une classe statique

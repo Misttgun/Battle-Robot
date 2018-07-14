@@ -118,11 +118,13 @@ namespace BattleRobo
             //TODO Trouver une solution pour le switch des armes (quand c'est trop rapide, il mets 0)
             //set the current ammo of the weapon in the inventory before the switch
             var currentActive = GetCurrentActive();
-            if (currentActive && currentActive.IsWeapon())
+
+            if (currentActive && currentActive.IsWeapon() && weaponHolder.currentWeapon)
             {
                 currentActive.GetWeapon().SetCurrentAmmo(weaponHolder.currentWeapon.currentAmmo);
             }
             
+
             SetActiveItem(index);
 
             var item = inventory[index].GetItem();
@@ -133,14 +135,14 @@ namespace BattleRobo
                 weaponHolder.SetWeapon(weapon, weapon.currentAmmo);
                 consommableHolder.SetConsommable(null);
             }
-            
+
             else if (item && item.isConsommable())
             {
                 var consommable = item.GetConsommable();
                 consommableHolder.SetConsommable(consommable);
                 weaponHolder.SetWeapon(null, 0f);
             }
-            
+
             else
             {
                 weaponHolder.SetWeapon(null, 0f);
@@ -267,6 +269,16 @@ namespace BattleRobo
 
             // - update UI
             playerUI.SetItemUISlot(null, currentSlotIndex);
+        }
+
+        public void SwapInventorySlot(int slotIndexSrc, int slotIndexDest)
+        {
+            PlayerInventorySlot tmp = inventory[slotIndexDest];
+            inventory[slotIndexDest] = inventory[slotIndexSrc];
+            inventory[slotIndexSrc] = tmp;
+            playerUI.SetItemUISlot(inventory[slotIndexSrc].GetItem(), slotIndexSrc);
+            playerUI.SetItemUISlot(inventory[slotIndexDest].GetItem(), slotIndexDest);
+            SwitchActiveIndex(slotIndexSrc);
         }
 
         public void SetActiveItem(int index)
