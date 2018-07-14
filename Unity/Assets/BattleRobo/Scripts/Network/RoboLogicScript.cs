@@ -300,7 +300,7 @@ namespace BattleRobo
             {
                 //on drop l'objet un peu plus haut que la position y du joueur sinon, l'objet rentre dans le sol et n'est plus ramassable
                 var newPosition = transform.position + new Vector3(0f, 0.1f, 0f);
-                playerInventory.Drop(newPosition);
+                playerInventory.Drop(newPosition, playerInventory.currentSlotIndex);
             }
         }
 
@@ -362,6 +362,7 @@ namespace BattleRobo
 
             if (GameManagerScript.GetInstance().localPlayer == this)
             {
+                playerInventory.DropAll(player.transform.position);
                 //set the local values for the gameover screen
                 GameManagerScript.GetInstance().hasLost = true;
             }
@@ -406,8 +407,11 @@ namespace BattleRobo
 
             else if (consommable != null)
             {
-                playerInventory.UseItem(playerInventory.currentSlotIndex);
-                StartCoroutine(ApplyBonusOverTime(consommable.GetTime(), consommable.GetHealth(), consommable.GetShield()));
+                if (playerID == shooterId)
+                {
+                    playerInventory.UseItem(playerInventory.currentSlotIndex);
+                    StartCoroutine(ApplyBonusOverTime(consommable.GetTime(), consommable.GetHealth(), consommable.GetShield()));
+                }
             }
         }
 

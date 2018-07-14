@@ -245,9 +245,10 @@ namespace BattleRobo
             return -1;
         }
 
-        public void Drop(Vector3 position)
+        public void Drop(Vector3 position, int index)
         {
-            var playerObject = inventory[currentSlotIndex].GetItem();
+            Debug.Log("Object is drop");
+            var playerObject = inventory[index].GetItem();
 
             if (!playerObject)
                 return;
@@ -255,20 +256,20 @@ namespace BattleRobo
             // - Update ammo counter
             if (playerObject.IsWeapon())
             {
-                playerView.RPC("UpdateWeapon", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), weaponHolder.currentWeapon.currentAmmo);
+                playerView.RPC("UpdateWeapon", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), playerObject.GetWeapon().currentAmmo);
+
                 weaponHolder.SetWeapon(null, 0f);
                 playerUI.SetAmmoCounter(-1f);
             }
-            
             
             // - place the weapon on the map and show it
             playerView.RPC("DropObject", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), position);
 
             // - remove object from player inventory
-            inventory[currentSlotIndex].Drop();
+            inventory[index].Drop();
 
             // - update UI
-            playerUI.SetItemUISlot(null, currentSlotIndex);
+            playerUI.SetItemUISlot(null, index);
         }
 
         public void SwapInventorySlot(int slotIndexSrc, int slotIndexDest)
@@ -304,6 +305,9 @@ namespace BattleRobo
 
         public void UseItem(int index)
         {
+            if (index < 0 || index > inventory.Length)
+                return;
+
             var itemSlot = inventory[index];
             var item = itemSlot.GetItem();
             
@@ -331,6 +335,21 @@ namespace BattleRobo
             {
                 var item = inventory[i].GetItem();
                 Debug.Log("Slot[" + i + "] : " + item);
+            }
+        }
+
+        public void DropAll(Vector3 position)
+        {
+            Vector3 newPosition = position;
+            for (var i = 0; i < InventorySize; i++)
+            {
+                if (i == 1) newPosition = position + new Vector3(-2f, 0f, 0f);
+                else if (i == 2) newPosition = position + new Vector3(2f, 0f, 0f);
+                else if (i == 3) newPosition = position + new Vector3(0f, 0f, -2f);
+                else if (i == 4) newPosition = position + new Vector3(0f, 0f, 2f);
+
+                if (!inventory[i].IsEmpty())
+                    Drop(newPosition, i);
             }
         }
     }
