@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 8
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0, g: 0, b: 0, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.01
@@ -4347,7 +4347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a11c785e1fc5b2b46b945c5a542d2b66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1242744087837680, guid: 73bfe636d01fa3943baa0034a14374bb, type: 2}
+  prefab: {fileID: 1875819394979236, guid: 493f9950ad4b7974a8f95aad72472dd0, type: 2}
   preLoad: 15
   limit: 0
   maxCount: 0
@@ -4364,7 +4364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a11c785e1fc5b2b46b945c5a542d2b66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1354159922565958, guid: 83e778ccb2a07644aa6ebf4fbaaceaef, type: 2}
+  prefab: {fileID: 1198606690915428, guid: a8431df445151a147860f273a7a6503c, type: 2}
   preLoad: 15
   limit: 0
   maxCount: 0
@@ -4381,7 +4381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a11c785e1fc5b2b46b945c5a542d2b66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1817471088239094, guid: 570a7e8f3623b6b43a6f30828a2fe386, type: 2}
+  prefab: {fileID: 1563735630387836, guid: 8bd86ae70ebb08b49a26d530b9fde1f0, type: 2}
   preLoad: 15
   limit: 0
   maxCount: 0
@@ -4453,7 +4453,7 @@ MonoBehaviour:
   gravity: 20
   fuelDecreaseSpeed: 0.35
   fuelRegenSpeed: 1
-  flyForce: 25
+  flyForce: 100
   controller: {fileID: 408531288}
   roboHead: {fileID: 678285796}
   playerCamera: {fileID: 885594202}
@@ -9543,7 +9543,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1534484177851104, guid: d3ccad306abfbec49ae7e8e7672c5a40, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1390921043914110, guid: d3ccad306abfbec49ae7e8e7672c5a40, type: 2}
       propertyPath: m_IsActive
@@ -10331,7 +10331,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1551197037}
   - component: {fileID: 1551197039}
-  - component: {fileID: 1551197038}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -10358,34 +10357,6 @@ Transform:
   m_Father: {fileID: 2139834643}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1551197038
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 95575983693702776, guid: 2f7ae7adaacbc1347ad2a386f238d725,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1551197036}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: b210c57da52c52e48b1f01316c76dc7d, type: 3}
-  m_Controller: {fileID: 9100000, guid: d744dc5a362edd74fa396c94125ff02a, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) use transforms that are
-    already bound by a Humanoid avatar. These transforms can only be changed by Humanoid
-    clips.\n\tTransform 'torso'\n\tTransform 'U Leg.L'\n\tTransform 'thumb1.L'\n\tTransform
-    'foot2.L.001'\n\tTransform 'foot2.L'\n\tTransform 'chest'\n\tTransform 'finger.R.004'\n\tTransform
-    'finger.R.003'\n\tTransform 'foot1.L'\n\tTransform 'U_arm.R'\n\tand more ...\n\tFrom
-    animation clip 'Armature|Idle_w'\n\tFrom animation clip 'Armature|Run_w'\n\tFrom
-    animation clip 'Armature|Walk_BackW_w'\n\tFrom animation clip 'Armature|Strafe_Run_L_w'\n\tFrom
-    animation clip 'Armature|Strafe_Run_R_w'\n\tFrom animation clip 'Armature|Fly_Idle'\n\tFrom
-    animation clip 'Armature|Fly_forward'\n\tFrom animation clip 'Armature|Fly_backward'\n\tFrom
-    animation clip 'Armature|Fly_Strafe_L'\n\tFrom animation clip 'Armature|Fly_Strafe_R'\n\tand
-    more ..."
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!205 &1551197039
 LODGroup:
   m_ObjectHideFlags: 0
@@ -11880,7 +11851,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 408531285}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 10, z: 30}
+  m_LocalPosition: {x: 0, y: 30, z: 30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1551197037}

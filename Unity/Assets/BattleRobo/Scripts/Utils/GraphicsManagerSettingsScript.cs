@@ -106,8 +106,6 @@ namespace BattleRobo
             PlayerPrefs.SetString("Texture", textureDropdown.value.ToString());
             PlayerPrefs.SetString("Graphics", graphicsDropdown.value.ToString());
 
-            PlayerPrefs.Save();
-
             LoadSettings();
         }
 

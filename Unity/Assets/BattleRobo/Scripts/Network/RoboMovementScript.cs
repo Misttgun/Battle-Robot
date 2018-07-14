@@ -54,6 +54,8 @@ namespace BattleRobo
         //movement variable
         private Vector3 moveDirection = Vector3.zero;
         private bool grounded;
+        private float horizontal;
+        private float vertical;
 
         //jump variables
         public bool doubleJump;
@@ -74,6 +76,9 @@ namespace BattleRobo
         private void Start()
         {
             currentTick = 0;
+
+            if (photonView.isMine)
+                SetMouseSensitivity(Convert.ToSingle(PlayerPrefs.GetString("Sensitivity", "5.0")));
         }
 
         private void FixedUpdate()
@@ -94,11 +99,13 @@ namespace BattleRobo
 
             if (photonView.isMine)
             {
-                input.inputX = Input.GetAxis("Horizontal");
-                input.inputY = Input.GetAxis("Vertical");
+                PollInputs();
+
+                input.inputX = horizontal;
+                input.inputY = vertical;
                 input.jump = jump;
-                input.mouse.x = Input.GetAxisRaw("Mouse X");
-                input.mouse.y = Input.GetAxisRaw("Mouse Y");
+                input.mouse.x = Input.GetAxis("Mouse X");
+                input.mouse.y = Input.GetAxis("Mouse Y");
 
                 int bufferSlot = currentTick % BufferSize;
 
@@ -108,7 +115,7 @@ namespace BattleRobo
                 inputBuffer[bufferSlot] = input;
 
                 Simulate(Time.fixedDeltaTime);
-                
+
                 photonView.RPC("UpdateServer", PhotonTargets.Others, currentTick, input.inputX, input.inputY, input.jump, input.mouse);
 
                 ++currentTick;
@@ -129,7 +136,7 @@ namespace BattleRobo
             //the only way to handle jump for the prediction...
             if (!jump)
             {
-                jump = Input.GetButtonDown("Jump");
+                jump = Input.GetKeyDown(CustomInputManagerScript.keyBind["Jump"]);
             }
         }
 
@@ -149,6 +156,35 @@ namespace BattleRobo
             }
 
             roboHead.transform.localEulerAngles = new Vector3(currentRot, 0f, 0f);
+        }
+
+        private void PollInputs()
+        {
+            if (Input.GetKey(CustomInputManagerScript.keyBind["Up"]))
+            {
+                vertical = 1f;
+            }
+            else if (Input.GetKey(CustomInputManagerScript.keyBind["Down"]))
+            {
+                vertical = -1f;
+            }
+            else
+            {
+                vertical = 0f;
+            }
+
+            if (Input.GetKey(CustomInputManagerScript.keyBind["Right"]))
+            {
+                horizontal = 1f;
+            }
+            else if (Input.GetKey(CustomInputManagerScript.keyBind["Left"]))
+            {
+                horizontal = -1f;
+            }
+            else
+            {
+                horizontal = 0f;
+            }
         }
 
         private void Simulate(float dt)
@@ -268,9 +304,9 @@ namespace BattleRobo
             grounded = (controller.Move(moveDirection * dt) & CollisionFlags.Below) != 0;
         }
 
-        public void SetMouseSensitivity()
+        public void SetMouseSensitivity(float sensi)
         {
-            photonView.RPC("SetMouseSensitivityRPC", PhotonTargets.AllViaServer);
+            photonView.RPC("SetMouseSensitivityRPC", PhotonTargets.AllViaServer, sensi);
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -324,9 +360,9 @@ namespace BattleRobo
         }
 
         [PunRPC]
-        private void SetMouseSensitivityRPC()
+        private void SetMouseSensitivityRPC(float sensi)
         {
-            aimSensitivity = Convert.ToSingle(PlayerPrefs.GetString("Sensitivity", "5.0"));
+            aimSensitivity = sensi;
         }
     }
 }

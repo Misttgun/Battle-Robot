@@ -61,8 +61,6 @@ namespace BattleRobo
             {
                 PlayerPrefs.SetString(key.Key, key.Value.ToString());
             }
-
-            PlayerPrefs.Save();
         }
 
         public void LoadKeys()
@@ -71,7 +69,7 @@ namespace BattleRobo
             down.text = CustomInputManagerScript.keyBind["Down"].ToString();
             right.text = CustomInputManagerScript.keyBind["Right"].ToString();
             left.text = CustomInputManagerScript.keyBind["Left"].ToString();
-            fly.text = CustomInputManagerScript.keyBind["Fly"].ToString();
+            fly.text = CustomInputManagerScript.keyBind["Jump"].ToString();
             slot1.text = CustomInputManagerScript.keyBind["Slot1"].ToString();
             slot2.text = CustomInputManagerScript.keyBind["Slot2"].ToString();
             slot3.text = CustomInputManagerScript.keyBind["Slot3"].ToString();

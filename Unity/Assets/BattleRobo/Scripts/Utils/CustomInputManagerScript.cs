@@ -30,7 +30,7 @@ namespace BattleRobo
 			keyBind.Add("Down", (KeyCode) System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Down", "S")));
 			keyBind.Add("Right", (KeyCode) System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Right", "D")));
 			keyBind.Add("Left", (KeyCode) System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Left", "Q")));
-			keyBind.Add("Fly", (KeyCode) System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Fly", "Space")));
+			keyBind.Add("Jump", (KeyCode) System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Jump", "Space")));
 			keyBind.Add("Drop", (KeyCode) System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Drop", "G")));
 			keyBind.Add("Loot", (KeyCode) System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Loot", "F")));
 			keyBind.Add("Slot1", (KeyCode) System.Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("Slot1", "Alpha1")));

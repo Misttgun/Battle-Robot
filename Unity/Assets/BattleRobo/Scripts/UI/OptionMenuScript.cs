@@ -78,8 +78,6 @@ namespace BattleRobo
             graphicsPanel.SetActive(false);
             controlsPanel.SetActive(false);
             settingsPanel.SetActive(true);
-            
-            PlayerPrefs.Save();
         }
     }
 }

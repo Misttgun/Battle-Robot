@@ -67,14 +67,14 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1425721747137622}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4195562882192394}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!23 &23762341566365340
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -137,8 +137,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 8
   m_Type: 2
-  m_Color: {r: 0.8745098, g: 0.7411765, b: 0, a: 1}
-  m_Intensity: 15
+  m_Color: {r: 0.8745098, g: 0, b: 0, a: 1}
+  m_Intensity: 10
   m_Range: 25
   m_SpotAngle: 35
   m_CookieSize: 10
@@ -195,6 +195,7 @@ MonoBehaviour:
   maxStackSize: 1
   itemSprite: {fileID: 21300000, guid: 6e8ea354be655a94ca1c30bfa104697c, type: 3}
   weaponScript: {fileID: 114324941174691914}
+  consommableScript: {fileID: 0}
   lootTriggerScript: {fileID: 114758905484709646}
 --- !u!114 &114758905484709646
 MonoBehaviour:
@@ -208,6 +209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponScript: {fileID: 114324941174691914}
+  consommableScript: {fileID: 0}
   playerObjectScript: {fileID: 114390680583603706}
   meshRenderer: {fileID: 23762341566365340}
   weaponLight: {fileID: 1761824355600010}

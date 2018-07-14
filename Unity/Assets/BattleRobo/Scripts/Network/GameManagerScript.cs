@@ -99,7 +99,7 @@ namespace BattleRobo
         public bool hasLost;
 
         private bool deactivate;
-        
+
         private float pauseTimer;
 
         private void Awake()
@@ -335,6 +335,9 @@ namespace BattleRobo
 
         private void PauseTimeout()
         {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = false;
+            
             // - if still in pause, master client will send an RPC to exit pause
             if (PhotonNetwork.player.IsMasterClient && isGamePause)
                 photonView.RPC("CancelPause", PhotonTargets.AllViaServer);
@@ -354,7 +357,10 @@ namespace BattleRobo
             pauseMenuScript.ShowPause();
             pauseMenuUI.SetActive(false);
 
-            Cursor.lockState = CursorLockMode.Locked;
+            if (localPlayer)
+                localPlayer.GetComponent<RoboMovementScript>().SetMouseSensitivity(Convert.ToSingle(PlayerPrefs.GetString("Sensitivity", "5.0")));
+
+            Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = false;
         }
     }

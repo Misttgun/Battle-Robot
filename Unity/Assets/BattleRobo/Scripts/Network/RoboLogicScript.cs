@@ -244,7 +244,7 @@ namespace BattleRobo
                 }
             }
             
-            if (Input.GetButtonDown("Inventory1"))
+            if (Input.GetKeyDown(CustomInputManagerScript.keyBind["Slot1"]))
             {
                 if (isAltPressed)
                     playerInventory.SwapInventorySlot(currentIndex, 0);
@@ -252,7 +252,7 @@ namespace BattleRobo
                 else
                     index = 0;
             }
-            else if (Input.GetButtonDown("Inventory2"))
+            else if (Input.GetKeyDown(CustomInputManagerScript.keyBind["Slot2"]))
             {
                 if (isAltPressed)
                     playerInventory.SwapInventorySlot(currentIndex, 1);
@@ -260,7 +260,7 @@ namespace BattleRobo
                 else               
                     index = 1;
             }
-            else if (Input.GetButtonDown("Inventory3"))
+            else if (Input.GetKeyDown(CustomInputManagerScript.keyBind["Slot3"]))
             {
                 if (isAltPressed)
                     playerInventory.SwapInventorySlot(currentIndex, 2);
@@ -268,7 +268,7 @@ namespace BattleRobo
                 else
                     index = 2;
             }
-            else if (Input.GetButtonDown("Inventory4"))
+            else if (Input.GetKeyDown(CustomInputManagerScript.keyBind["Slot4"]))
             {
                 if (isAltPressed)
                     playerInventory.SwapInventorySlot(currentIndex, 3);
@@ -276,7 +276,7 @@ namespace BattleRobo
                 else
                     index = 3;
             }
-            else if (Input.GetButtonDown("Inventory5"))
+            else if (Input.GetKeyDown(CustomInputManagerScript.keyBind["Slot5"]))
             {
                 if (isAltPressed)
                     playerInventory.SwapInventorySlot(currentIndex, 4);
@@ -291,12 +291,12 @@ namespace BattleRobo
                 currentIndex = index;
             }
 
-            if (Input.GetButtonDown("Loot"))
+            if (Input.GetKeyDown(CustomInputManagerScript.keyBind["Loot"]))
             {
                 playerInventory.Collect();
             }
 
-            if (Input.GetButtonDown("Drop"))
+            if (Input.GetKeyDown(CustomInputManagerScript.keyBind["Drop"]))
             {
                 //on drop l'objet un peu plus haut que la position y du joueur sinon, l'objet rentre dans le sol et n'est plus ramassable
                 var newPosition = transform.position + new Vector3(0f, 0.1f, 0f);

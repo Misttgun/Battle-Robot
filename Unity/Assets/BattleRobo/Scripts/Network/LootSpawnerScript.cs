@@ -43,7 +43,7 @@ namespace BattleRobo
             var spawnRotation = transform.rotation * Quaternion.Euler(0, 0, 90);
 
             //use the poolmanager to spawn the loot on top of the plateforme
-            obj = PoolManagerScript.Spawn(prefabs[index], spawPosition, spawnRotation);
+            obj = PoolManagerScript.Spawn(prefabs[index], spawPosition , prefabs[index].gameObject.transform.localRotation);
 
             var pObject = obj.GetComponent<PlayerObjectScript>();
 
