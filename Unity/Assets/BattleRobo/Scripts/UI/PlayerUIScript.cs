@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,12 +17,24 @@ namespace BattleRobo
         /// </summary>
         [SerializeField]
         private Slider healthBar;
+        
+        /// <summary>
+        /// The health value text.
+        /// </summary>
+        [SerializeField]
+        private Text healthValue;
 
         /// <summary>
         /// The shield bar.
         /// </summary>
         [SerializeField]
         private Slider shieldBar;
+        
+        /// <summary>
+        /// The shield value text.
+        /// </summary>
+        [SerializeField]
+        private Text shieldValue;
 
         /// <summary>
         /// The number of player alive text.
@@ -36,12 +47,6 @@ namespace BattleRobo
         /// </summary>
         [SerializeField]
         private Text killsText;
-
-        /// <summary>
-        /// The pause logo
-        /// </summary>
-        [SerializeField]
-        private Image pauseImage;
 
         /// <summary>
         /// The player inventory
@@ -87,14 +92,7 @@ namespace BattleRobo
 
         public void UpdateStormTimer(float countdown)
         {
-            if (countdown > 1)
-            {
-                stormTimer.text = "Strom will move in... " + Mathf.Floor(countdown) + "s";
-            }
-            else
-            {
-                stormTimer.text = "";
-            }
+            stormTimer.text = countdown > 1 ? countdown.ToString("F0") : "";
         }
 
         /// <summary>
@@ -105,6 +103,7 @@ namespace BattleRobo
         public void UpdateHealth(float currHealth, float maxHealth = 100f)
         {
             var health = currHealth / maxHealth;
+            healthValue.text = currHealth.ToString("F0");
             healthBar.value = health;
         }
 
@@ -116,6 +115,7 @@ namespace BattleRobo
         public void UpdateShield(float currShield, float maxShield = 100f)
         {
             var shield = currShield / maxShield;
+            shieldValue.text = currShield.ToString("F0");
             shieldBar.value = shield;
         }
 
@@ -144,7 +144,7 @@ namespace BattleRobo
         public void SetActiveUISlot(int index)
         {
             inventorySlotUI[currentActiveSlotIndex].transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 255, 255, 96);
-            inventorySlotUI[index].transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 0, 0, 100);
+            inventorySlotUI[index].transform.GetChild(0).GetComponent<Image>().color = new Color32(253, 238, 28, 100);
             currentActiveSlotIndex = index;
         }
 
@@ -164,7 +164,7 @@ namespace BattleRobo
         /// <param name="currentAmmo"></param>
         public void SetAmmoCounter(float currentAmmo)
         {
-            ammoCounter.text = Math.Abs(currentAmmo + 1f) > 0.0001f ? currentAmmo.ToString(CultureInfo.CurrentCulture) : "";
+            ammoCounter.text = Math.Abs(currentAmmo + 1f) > 0.0001f ? currentAmmo.ToString("F0") : "";
         }
 
         /// <summary>
@@ -220,17 +220,10 @@ namespace BattleRobo
         /// <param name="image"></param>
         /// <param name="timer"></param>
         /// <returns></returns>
-        private IEnumerator DisableIndicator(Image image, WaitForSeconds timer)
+        private IEnumerator DisableIndicator(Behaviour image, WaitForSeconds timer)
         {
             yield return timer;
             image.enabled = false;
-        }
-
-        public void EnablePause(bool enable)
-        {
-            Debug.Log(enable ? "ENABLE PAUSE !" : "DISABLE PAUSE !");
-
-            pauseImage.gameObject.SetActive(enable);
         }
     }
 }

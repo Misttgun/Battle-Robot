@@ -87,4 +87,5 @@ MonoBehaviour:
   - EquipConsommableRPC
   - OnClientRoomJoinedRPC
   - OnRoomJoinedRPC
+  - PlayerLeftRPC
   DisableAutoOpenWizard: 1
