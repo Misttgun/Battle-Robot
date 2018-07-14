@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using Photon;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -56,7 +54,7 @@ namespace BattleRobo
         [SerializeField]
         private WeaponHolderScript weaponHolder;
 
-        // <summary>
+        /// <summary>
         /// The weapon holder script.
         /// </summary>
         [SerializeField]
@@ -122,7 +120,7 @@ namespace BattleRobo
 
             //set players current health value after joining
             photonView.SetHealth(maxHealth);
-            photonView.SetShield(maxHealth);
+            photonView.SetShield(0);
             photonView.SetKills(0);
         }
 
@@ -188,19 +186,6 @@ namespace BattleRobo
         private void Update()
         {
             isInPause = GameManagerScript.GetInstance().IsGamePause();
-
-            // Cursor lock
-//            if (Input.GetKeyDown(KeyCode.Escape) && Cursor.visible)
-//            {
-//                Cursor.lockState = CursorLockMode.Locked;
-//                Cursor.visible = false;
-//                
-//            }
-//            else if (Input.GetKeyDown(KeyCode.Escape) && !Cursor.visible)
-//            {
-//                Cursor.lockState = CursorLockMode.None;
-//                Cursor.visible = true;
-//            }
 
             if (photonView.isMine)
             {

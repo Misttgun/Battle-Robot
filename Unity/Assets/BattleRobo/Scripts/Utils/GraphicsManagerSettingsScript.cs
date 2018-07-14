@@ -35,12 +35,6 @@ namespace BattleRobo
         private void Start()
         {
             LoadSettings();
-            
-            resolutions = Screen.resolutions;
-            foreach (Resolution resolution in resolutions)
-            {
-                resolutionDropdown.options.Add(new Dropdown.OptionData(resolution.ToString()));
-            }
 
             // mettre en plein écran si le paramètre enregistré est true
             if (Convert.ToBoolean(PlayerPrefs.GetString("FullScreen", "true")))
@@ -51,11 +45,20 @@ namespace BattleRobo
 
         private void OnEnable()
         {
-            //resolutionDropdown.onValueChanged.AddListener(delegate { OnResolutionChange(); });
             antialiasingDropdown.onValueChanged.AddListener(delegate { OnAntialiasingChange(); });
             vSyncDropdown.onValueChanged.AddListener(delegate { OnVSyncChange(); });
             textureDropdown.onValueChanged.AddListener(delegate { OnTextureQChange(); });
             graphicsDropdown.onValueChanged.AddListener(delegate { OnGraphicsQChange(); });
+            
+            resolutions = Screen.resolutions;
+            
+            if (resolutionDropdown.options.Count == 0)
+            {
+                foreach (Resolution resolution in resolutions)
+                {
+                    resolutionDropdown.options.Add(new Dropdown.OptionData(resolution.ToString()));
+                }
+            }
         }
 
         /// <summary>

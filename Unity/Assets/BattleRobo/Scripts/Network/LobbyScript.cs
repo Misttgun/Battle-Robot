@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace BattleRobo
@@ -14,43 +14,26 @@ namespace BattleRobo
         [SerializeField]
         private MainMenuScript mainMenuScript;
 
-        private bool isMoreThanTwo;
+        [SerializeField]
+        private int countDowntimer;
+
+        private int playerNumber;
+
+        private readonly Hashtable test = new Hashtable();
 
         private readonly WaitForSeconds timer = new WaitForSeconds(1f);
+
 
         private void Start()
         {
             PhotonNetwork.autoCleanUpPlayerObjects = false;
             PhotonNetwork.automaticallySyncScene = true;
 
+            test.Add("timer", countDowntimer);
+
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-
-//        private void Update()
-//        {
-//            if (PhotonNetwork.inRoom)
-//            {
-//                // Set the number of player on the loading screen
-//                mainMenuScript.SetPlayerNumbersLabel(PhotonNetwork.room.PlayerCount);
-//
-//                // We get out of this loop when we have 2 or more players
-//                if (PhotonNetwork.room.PlayerCount >= 2)
-//                {
-//                    // Change the loading message
-//                    mainMenuScript.loadingMessageLabel.text = "The game is starting...";
-//                    mainMenuScript.cancelButton.interactable = false;
-//                    isMoreThanTwo = true;
-//                }
-//                else
-//                {
-//                    // Change the loading message
-//                    mainMenuScript.loadingMessageLabel.text = "Waiting for more players...";
-//                    mainMenuScript.cancelButton.interactable = true;
-//                    isMoreThanTwo = false;
-//                }
-//            }
-//        }
 
 
         public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
@@ -69,10 +52,20 @@ namespace BattleRobo
             if (PhotonNetwork.isMasterClient)
             {
                 int seed = 42;
-                Hashtable properties = new Hashtable {{"seed", seed}};
+                Hashtable properties = new Hashtable {{"seed", seed}, {"timer", countDowntimer}};
                 PhotonNetwork.room.SetCustomProperties(properties);
-                StartCoroutine(LoadGame());
             }
+        }
+
+        /// <summary>
+        /// Called when a remote player left the room.
+        /// </summary>
+        public override void OnPhotonPlayerDisconnected(PhotonPlayer player)
+        {
+            if (PhotonNetwork.player.Equals(player))
+                return;
+            //tell all clients that the player is dead
+            photonView.RPC("PlayerLeftRPC", PhotonTargets.All);
         }
 
         /// <summary>
@@ -82,6 +75,15 @@ namespace BattleRobo
         {
             var playerToken = PlayerInfoScript.GetInstance().GetDBToken();
             DatabaseRequester.GetInstance().AsyncQuery("/logout?token=" + playerToken);
+
+            //switch from the online to the offline scene after connection is closed
+            if (SceneManager.GetActiveScene().buildIndex != 0)
+                SceneManager.LoadScene(0);
+        }
+
+        public override void OnPhotonCustomRoomPropertiesChanged(Hashtable propertiesThatChanged)
+        {
+            mainMenuScript.redyCountDownLabel.text = Convert.ToInt32(propertiesThatChanged["timer"]).ToString();
         }
 
 
@@ -141,20 +143,8 @@ namespace BattleRobo
 
         private IEnumerator LoadGame()
         {
-            // TODO Delete while true and find a better way -> Use an RPC to the master client
-            // Waiting for one more player
-            while (true)
-            {
-                if (isMoreThanTwo)
-                {
-                    break;
-                }
-
-                yield return null;
-            }
-
             // We wait 10 seconds
-            int countDown = 4;
+            int countDown = countDowntimer;
             while (countDown > 0)
             {
                 // We stop the countdown when the room is full
@@ -163,7 +153,9 @@ namespace BattleRobo
                     break;
                 }
 
-                countDown--;
+                --countDown;
+                test["timer"] = countDown;
+                PhotonNetwork.room.SetCustomProperties(test);
                 yield return timer;
             }
 
@@ -178,23 +170,49 @@ namespace BattleRobo
         [PunRPC]
         private void OnRoomJoinedRPC()
         {
+            playerNumber = PhotonNetwork.room.PlayerCount;
             // Set the number of player on the loading screen
-            mainMenuScript.SetPlayerNumbersLabel(PhotonNetwork.room.PlayerCount);
+            mainMenuScript.SetPlayerNumbersLabel(playerNumber);
 
+            UpdateLoadingUI();
+
+            if (playerNumber == 2 && PhotonNetwork.isMasterClient)
+            {
+                StartCoroutine(LoadGame());
+            }
+        }
+
+        [PunRPC]
+        private void PlayerLeftRPC()
+        {
+            playerNumber = PhotonNetwork.room.PlayerCount;
+            // Set the number of player on the loading screen
+            mainMenuScript.SetPlayerNumbersLabel(playerNumber);
+
+            UpdateLoadingUI();
+
+            if (playerNumber < 2 && PhotonNetwork.isMasterClient)
+            {
+                StopAllCoroutines();
+            }
+        }
+
+        private void UpdateLoadingUI()
+        {
             // We get out of this loop when we have 2 or more players
-            if (PhotonNetwork.room.PlayerCount >= 2)
+            if (playerNumber >= 2)
             {
                 // Change the loading message
-                mainMenuScript.loadingMessageLabel.text = "The game is starting...";
+                mainMenuScript.loadingMessageLabel.SetActive(false);
+                mainMenuScript.readyMessageLabel.SetActive(true);
                 mainMenuScript.cancelButton.interactable = false;
-                isMoreThanTwo = true;
             }
             else
             {
                 // Change the loading message
-                mainMenuScript.loadingMessageLabel.text = "Waiting for more players...";
+                mainMenuScript.loadingMessageLabel.SetActive(true);
+                mainMenuScript.readyMessageLabel.SetActive(false);
                 mainMenuScript.cancelButton.interactable = true;
-                isMoreThanTwo = false;
             }
         }
     }

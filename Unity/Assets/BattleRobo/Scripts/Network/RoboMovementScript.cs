@@ -268,6 +268,11 @@ namespace BattleRobo
             grounded = (controller.Move(moveDirection * dt) & CollisionFlags.Below) != 0;
         }
 
+        public void SetMouseSensitivity()
+        {
+            photonView.RPC("SetMouseSensitivityRPC", PhotonTargets.AllViaServer);
+        }
+
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
             if (stream.isWriting)
@@ -316,6 +321,12 @@ namespace BattleRobo
             Simulate(Time.fixedDeltaTime);
 
             currentTick = moveNumber + 1;
+        }
+
+        [PunRPC]
+        private void SetMouseSensitivityRPC()
+        {
+            aimSensitivity = Convert.ToSingle(PlayerPrefs.GetString("Sensitivity", "5.0"));
         }
     }
 }

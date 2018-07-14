@@ -43,5 +43,11 @@ namespace BattleRobo
         {
             SceneManager.LoadScene(1);
         }
+
+        private void OnEnable()
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
     }
 }

@@ -12,7 +12,11 @@ namespace BattleRobo
         [SerializeField]
         private Text playerNumbersLabel;
 
-        public Text loadingMessageLabel;
+        public GameObject loadingMessageLabel;
+
+        public GameObject readyMessageLabel;
+
+        public Text redyCountDownLabel;
 
         public Button cancelButton;
 
@@ -111,6 +115,12 @@ namespace BattleRobo
             {
                 // TODO ERROR MESSAGE
             }
+        }
+
+        private void OnEnable()
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 }

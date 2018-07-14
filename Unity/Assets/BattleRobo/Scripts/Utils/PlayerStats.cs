@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Linq.Expressions;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
+using ExitGames.Client.Photon;
 
 namespace BattleRobo
 {
@@ -32,7 +31,7 @@ namespace BattleRobo
         /// </summary>
         public static int GetHealth(this PhotonView player)
         {
-            return System.Convert.ToInt32(player.owner.CustomProperties[health]);
+            return Convert.ToInt32(player.owner.CustomProperties[health]);
         }
 
         /// <summary>
@@ -49,7 +48,7 @@ namespace BattleRobo
         /// </summary>
         public static int GetShield(this PhotonView player)
         {
-            return System.Convert.ToInt32(player.owner.CustomProperties[shield]);
+            return Convert.ToInt32(player.owner.CustomProperties[shield]);
         }
 
         /// <summary>
@@ -66,7 +65,7 @@ namespace BattleRobo
         /// </summary>
         public static int GetKills(this PhotonView player)
         {
-            return System.Convert.ToInt32(player.owner.CustomProperties[kills]);
+            return Convert.ToInt32(player.owner.CustomProperties[kills]);
         }
 
         /// <summary>
@@ -87,13 +86,13 @@ namespace BattleRobo
         {
             player.owner.SetCustomProperties(new Hashtable {{kills, value}});
         }
-        
+
         /// <summary>
         /// Returns the networked shield value of the player out of properties.
         /// </summary>
         public static int GetRank(this PhotonView player)
         {
-            return System.Convert.ToInt32(player.owner.CustomProperties[rank]);
+            return Convert.ToInt32(player.owner.CustomProperties[rank]);
         }
 
         /// <summary>
