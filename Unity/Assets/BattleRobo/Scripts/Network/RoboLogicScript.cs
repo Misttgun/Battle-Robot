@@ -254,7 +254,12 @@ namespace BattleRobo
                 {
                     var consommable = consommableHolder.currentConsommable;
 
-                    photonView.RPC("ShootRPC", PhotonTargets.AllViaServer, playerID);
+                    // - cancel use if the player is full life
+                    var cancel_use = (consommable.GetHealth() > 0 && consommable.GetShield() == 0 && photonView.GetHealth() == PlayerStats.maxHealth);
+                    cancel_use = cancel_use || (consommable.GetShield() > 0 && consommable.GetHealth() == 0 && photonView.GetShield() == PlayerStats.maxShield);
+
+                    if (!cancel_use)
+                        photonView.RPC("ShootRPC", PhotonTargets.AllViaServer, playerID);
                 }
             }
 
@@ -328,10 +333,7 @@ namespace BattleRobo
                 var newHealth = photonView.GetHealth() + hot;
                 var newShield = photonView.GetShield() + sot;
 
-                // - limit heal and shield
-                if (newHealth > PlayerStats.maxHealth)
-                    newShield += newHealth - PlayerStats.maxHealth;
-
+                newHealth = Math.Min(newHealth, PlayerStats.maxHealth);
                 newShield = Math.Min(newShield, PlayerStats.maxShield);
 
                 photonView.SetHealth((int) newHealth);
