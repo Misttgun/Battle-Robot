@@ -138,7 +138,7 @@ namespace BattleRobo
 
         public IEnumerator PingServerCorountine()
         {
-            while (true)
+            while (dbToken != null)
             {
                 this.AsyncQuery("/is_alive?token=" + dbToken);
                 yield return new WaitForSeconds(10);
@@ -166,7 +166,8 @@ namespace BattleRobo
 
         public static void Logout()
         {
-            instance.AsyncQuery("/logout?token=" + dbToken);
+            if (dbToken != null)
+                instance.AsyncQuery("/logout?token=" + dbToken);
         }
 
         public static void AddPlayer(string pseudo, string password, out int status, out string response)
