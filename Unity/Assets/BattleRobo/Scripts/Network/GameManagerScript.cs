@@ -3,7 +3,6 @@ using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
-using UnityEngineInternal;
 
 namespace BattleRobo
 {
@@ -64,7 +63,7 @@ namespace BattleRobo
         /// <summary>
         /// Reference the player who put the game in pause
         /// </summary>
-        private int playerInPauseId;
+        private int playerInPauseId = -1;
 
         /// <summary>
         /// Pause timer
@@ -312,9 +311,6 @@ namespace BattleRobo
 
             if (!isGamePause)
             {
-                // - set current player in pause
-                SetPlayerInPause(localPlayer.playerID);
-
                 if (found)
                 {
                     pauseCounter[localPlayer.playerID]--;
@@ -326,9 +322,16 @@ namespace BattleRobo
             }
 
             // - dispatch pause if the player haven't used it more than 3 times or if the game is already in pause
-            if (isGamePause && GetPlayerInPause() == localPlayer.playerID || !isGamePause && counter > 0)
+            if ((!isGamePause || GetPlayerInPause() != localPlayer.playerID) && (isGamePause || counter <= 0))
+                return;
+
+            if (!isGamePause)
             {
-                photonView.RPC(!isGamePause ? "SetPause" : "CancelPause", PhotonTargets.AllViaServer);
+                photonView.RPC("SetPause", PhotonTargets.AllViaServer, localPlayer.playerID);
+            }
+            else
+            {
+                photonView.RPC("CancelPause", PhotonTargets.AllViaServer);
             }
         }
 
@@ -343,8 +346,11 @@ namespace BattleRobo
         }
 
         [PunRPC]
-        private void SetPause()
+        private void SetPause(int playerId)
         {
+            //set current player in pause
+            SetPlayerInPause(playerId);
+
             pauseMenuUI.SetActive(true);
             SetPause(true);
         }
@@ -352,6 +358,9 @@ namespace BattleRobo
         [PunRPC]
         private void CancelPause()
         {
+            //set current player in pause
+            SetPlayerInPause(-1);
+
             SetPause(false);
             pauseMenuScript.ShowPause();
             pauseMenuUI.SetActive(false);

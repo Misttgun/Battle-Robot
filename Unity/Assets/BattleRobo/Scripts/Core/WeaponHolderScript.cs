@@ -4,7 +4,6 @@ namespace BattleRobo
 {
     public class WeaponHolderScript : MonoBehaviour
     {
-        //TODO Rendre le code plus propre avec le system d'inventaire et de pickup
         public WeaponScript[] equipWeapons;
 
         public WeaponScript currentWeapon;

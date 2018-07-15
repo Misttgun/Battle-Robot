@@ -21,8 +21,8 @@ namespace BattleRobo
 
         private readonly PhotonView playerView;
 
-        private WeaponHolderScript weaponHolder;
-        private ConsommableHolderScript consommableHolder;
+        private readonly WeaponHolderScript weaponHolder;
+        private readonly ConsommableHolderScript consommableHolder;
 
         /// <summary>
         /// Constructor : instatiate the inventory slots
@@ -115,7 +115,6 @@ namespace BattleRobo
         /// </summary>
         public void SwitchActiveIndex(int index)
         {
-            //TODO Trouver une solution pour le switch des armes (quand c'est trop rapide, il mets 0)
             //set the current ammo of the weapon in the inventory before the switch
             var currentActive = GetCurrentActive();
 
@@ -257,12 +256,7 @@ namespace BattleRobo
             // - Update ammo counter
             if (playerObject.IsWeapon())
             {
-                float ammoCounter;
-
-                if (weaponHolder.currentWeapon == playerObject.GetWeapon())
-                    ammoCounter = weaponHolder.currentWeapon.currentAmmo;
-                else
-                    ammoCounter = playerObject.GetWeapon().currentAmmo;
+                var ammoCounter = weaponHolder.currentWeapon == playerObject.GetWeapon() ? weaponHolder.currentWeapon.currentAmmo : playerObject.GetWeapon().currentAmmo;
 
                 playerView.RPC("UpdateWeapon", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), ammoCounter);
 
@@ -305,10 +299,7 @@ namespace BattleRobo
 
         public PlayerObjectScript GetCurrentActive()
         {
-            if (currentSlotIndex != -1)
-                return inventory[currentSlotIndex].GetItem();
-
-            return null;
+            return currentSlotIndex != -1 ? inventory[currentSlotIndex].GetItem() : null;
         }
 
         public void UseItem(int index)
@@ -342,15 +333,6 @@ namespace BattleRobo
         public int GetActiveIndex()
         {
             return currentSlotIndex;
-        }
-
-        public void Show()
-        {
-            for (var i = 0; i < InventorySize; i++)
-            {
-                var item = inventory[i].GetItem();
-                Debug.Log("Slot[" + i + "] : " + item);
-            }
         }
 
         public void DropAll(Vector3 position)

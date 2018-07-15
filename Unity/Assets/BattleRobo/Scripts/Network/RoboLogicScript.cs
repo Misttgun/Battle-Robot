@@ -111,6 +111,8 @@ namespace BattleRobo
         [HideInInspector]
         public bool isInPause;
 
+        private WaitForSeconds waitOneSec = new WaitForSeconds(1);
+
         //Initialize server values for this player
         private void Awake()
         {
@@ -228,7 +230,7 @@ namespace BattleRobo
             //update the storm timer in the UI
             if (StormManagerScript.GetInstance().GetStormTimer() >= 0)
             {
-                uiScript.UpdateStormTimer(StormManagerScript.GetInstance().GetStormTimer() + 1);
+                uiScript.UpdateStormTimer(StormManagerScript.GetInstance().GetStormTimer());
             }
 
             if (Input.GetButtonDown("Fire2"))
@@ -339,7 +341,7 @@ namespace BattleRobo
                 photonView.SetHealth((int) newHealth);
                 photonView.SetShield((int) newShield);
 
-                yield return new WaitForSeconds(1);
+                yield return waitOneSec;
             }
         }
 

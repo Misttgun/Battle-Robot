@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace BattleRobo
@@ -24,7 +25,7 @@ namespace BattleRobo
 
         private float stormSize; // à calculer avec la taille de la map generator
         private Vector3 size;
-        private const float LerpTime = 1f;
+        private const float LerpTime = 0.5f;
         private float currentLerpTime;
 
         private float timer;
@@ -55,26 +56,36 @@ namespace BattleRobo
         {
             if (GameManagerScript.ready && !startTimer)
             {
-                    //start the storm countdown at the same time on all client
-                    photonView.RPC("StartTimerRPC", PhotonTargets.AllViaServer);
+                //start the storm countdown at the same time on all client
+                photonView.RPC("StartTimerRPC", PhotonTargets.AllViaServer);
             }
 
-            if (startTimer)
+            if (GameManagerScript.GetInstance().IsGamePause())
+                return;
+
+            if (Math.Abs(stormSize - sizing) < 0.00001f)
             {
-                if (stormTimer <= 0)
-                {
-                    StartCoroutine(StormManageScale());
+                stormActive = false;
+            }
 
-
-                    stormTimer = 0f;
-                }      
-                else if (GameManagerScript.GetInstance().IsGamePause())
-                {
-                    // - do nothing
-                }
-                else
+            if (startTimer && stormActive)
+            {
+                if (stormTimer > 0)
                 {
                     stormTimer -= Time.deltaTime;
+
+                    timer = stormTimer;
+                }
+
+                if (timer <= 0)
+                {
+                    StormManageScale();
+
+                    timer = waitTime;
+                } 
+                else
+                {
+                    timer -= Time.deltaTime;
                 }
             }
 
@@ -88,30 +99,24 @@ namespace BattleRobo
                 }
 
                 float ratio = currentLerpTime / LerpTime;
-                stormSize = Mathf.Clamp(Mathf.Lerp(startSize, endSize, ratio), 10f, 10000f); //1000f peut etre changer
+                stormSize = Mathf.Clamp(Mathf.Lerp(startSize, endSize, ratio), sizing, 10000f); //1000f peut etre changer
                 transform.localScale = new Vector3(stormSize, stormSize * h, stormSize);
             }
         }
 
-        private IEnumerator StormManageScale()
+        private void StormManageScale()
         {
-            stormActive = true;
-            while (stormActive)
-            {
-                startSize = stormSize;
-                endSize = GameManagerScript.GetInstance().IsGamePause() ? stormSize : stormSize - sizing;
-                lerping = true;
-                currentLerpTime = 0;
-
-                yield return new WaitForSeconds(waitTime);
-            }
+            startSize = stormSize;
+            endSize = GameManagerScript.GetInstance().IsGamePause() ? stormSize : stormSize - sizing;
+            lerping = true;
+            currentLerpTime = 0;
         }
 
         private void StormTransform() //taille de la storm
         {
             m = mapGenerator.GetMapMainSize();
             h = mapGenerator.GetHeight() / 6;
-            stormSize = m + m/5;
+            stormSize = m + m / 5;
             float stormCenterPos = (float) m / 2;
             transform.localScale = new Vector3(stormSize, stormSize * h, stormSize);
             transform.position = new Vector3(stormCenterPos, h / 2, stormCenterPos);
@@ -132,6 +137,7 @@ namespace BattleRobo
         private void StartTimerRPC()
         {
             startTimer = true;
+            stormActive = true;
         }
 
         /// <summary>

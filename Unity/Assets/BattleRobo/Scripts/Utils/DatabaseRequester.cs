@@ -20,17 +20,19 @@ namespace BattleRobo
         private bool useHttps;
 
 
-        private static String pseudo;
+        private static string pseudo;
         private static string dbToken;
 
         // timeout in ms
-        [SerializeField] 
+        [SerializeField]
         private int timeout;
-        
+
         private static DatabaseRequester instance;
-        private int httpPort = 8080;
-        private int httpsPort = 4300;
-        
+        private const int httpPort = 8080;
+        private const int httpsPort = 4300;
+
+        private readonly WaitForSeconds wait10Sec = new WaitForSeconds(10);
+
         // Sets the instance reference
         private void Awake()
         {
@@ -47,23 +49,22 @@ namespace BattleRobo
             string url = useHttps ? "https://" : "http://";
             var port = useHttps ? httpsPort : httpPort;
             url += ip + ":" + port + query;
-            
+
             ServicePointManager.ServerCertificateValidationCallback = TrustCertificate;
- 
+
             HttpWebRequest request = (HttpWebRequest) WebRequest.Create(url);
-            
+
             try
             {
                 // - don't wait for response
                 request.GetResponse().Close();
             }
-
             catch (WebException e)
             {
                 // - ignore this exception, due to the response.Close() launch even if the response in not fully received
                 if (e.Status != WebExceptionStatus.ReceiveFailure)
-                    Debug.Log("Exception occured when trying to reach " + url + " : " + e.Status);          
-            } 
+                    Debug.Log("Exception occured when trying to reach " + url + " : " + e.Status);
+            }
         }
 
         public void SyncQuery(string query, out int status, out string res)
@@ -71,45 +72,60 @@ namespace BattleRobo
             string url = useHttps ? "https://" : "http://";
             var port = useHttps ? httpsPort : httpPort;
             url += ip + ":" + port + query;
-            
+
             ServicePointManager.ServerCertificateValidationCallback = TrustCertificate;
             HttpWebRequest request = (HttpWebRequest) WebRequest.Create(url);
             request.Timeout = timeout;
-            
+
             try
             {
                 HttpWebResponse response = (HttpWebResponse) request.GetResponse();
 
                 var dataStream = response.GetResponseStream();
-                var reader = new StreamReader(dataStream);
-                string responseFromServer = reader.ReadToEnd();
+                if (dataStream != null)
+                {
+                    var reader = new StreamReader(dataStream);
+                    string responseFromServer = reader.ReadToEnd();
 
-                status = (int) response.StatusCode;
-                res = responseFromServer;
+                    status = (int) response.StatusCode;
+                    res = responseFromServer;
+                }
+                else
+                {
+                    status = 500;
+                    res = "KO";
+                }
+
                 response.Close();
             }
-            
             catch (WebException e)
             {
                 if (e.Status == WebExceptionStatus.Timeout)
                 {
-                    Debug.Log("Exception TIMEOUT occured when trying to reach : " + url);
+                    //Debug.Log("Exception TIMEOUT occured when trying to reach : " + url);
                     status = 400;
                     res = "Timeout : Can't Battle Robo server";
                 }
-
                 else
                 {
-                    Debug.Log("Exception OTHER occured when trying to reach : " + url);
+                    //Debug.Log("Exception OTHER occured when trying to reach : " + url);
                     var stream = e.Response.GetResponseStream();
-                    var reader = new StreamReader(stream);
+                    if (stream != null)
+                    {
+                        var reader = new StreamReader(stream);
 
-                    status = 400;
-                    res = reader.ReadToEnd();
-                }                
-            }   
+                        status = 400;
+                        res = reader.ReadToEnd();
+                    }
+                    else
+                    {
+                        status = 500;
+                        res = "KO";
+                    }
+                }
+            }
         }
-        
+
         private static bool TrustCertificate(object sender, X509Certificate x509Certificate, X509Chain x509Chain, SslPolicyErrors sslPolicyErrors)
         {
             // all Certificates are accepted
@@ -137,7 +153,7 @@ namespace BattleRobo
             while (dbToken != null)
             {
                 AsyncQuery("/is_alive?token=" + dbToken);
-                yield return new WaitForSeconds(10);
+                yield return wait10Sec;
             }
         }
 
@@ -166,16 +182,16 @@ namespace BattleRobo
                 instance.AsyncQuery("/logout?token=" + dbToken);
         }
 
-        public static void AddPlayer(string pseudo, string password, out int status, out string response)
+        public static void AddPlayer(string username, string password, out int status, out string response)
         {
-            string query = "/add_player?pseudo=" + pseudo + "&pass=" + password;
+            string query = "/add_player?pseudo=" + username + "&pass=" + password;
 
             instance.SyncQuery(query, out status, out response);
         }
 
-        public static void Authenticate(string pseudo, string password, out int status, out string response)
+        public static void Authenticate(string username, string password, out int status, out string response)
         {
-            string query = "/auth?pseudo=" + pseudo + "&pass=" + password;
+            string query = "/auth?pseudo=" + username + "&pass=" + password;
 
             instance.SyncQuery(query, out status, out response);
         }

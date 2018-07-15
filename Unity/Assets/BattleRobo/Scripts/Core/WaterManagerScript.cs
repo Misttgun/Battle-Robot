@@ -6,9 +6,8 @@ namespace BattleRobo
 {
     public class WaterManagerScript : MonoBehaviour
     {
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerStay(Collider other)
         {
-            Debug.LogWarning("Dans l'eau");
             other.GetComponent<HealthScript>().inWater = true;
         }
     }

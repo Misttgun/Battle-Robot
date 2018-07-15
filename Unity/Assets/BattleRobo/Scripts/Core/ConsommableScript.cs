@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace BattleRobo
 {

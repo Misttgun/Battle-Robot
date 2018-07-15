@@ -5974,7 +5974,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Ultra High
+  m_Text: Medium
 --- !u!114 &114175841086860336
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9497,7 +9497,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: None
+  m_Text: Low
 --- !u!114 &114567579243515794
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9774,20 +9774,16 @@ MonoBehaviour:
   m_CaptionImage: {fileID: 0}
   m_ItemText: {fileID: 114653173657451514}
   m_ItemImage: {fileID: 0}
-  m_Value: 4
+  m_Value: 3
   m_Options:
     m_Options:
-    - m_Text: Very Low
-      m_Image: {fileID: 0}
     - m_Text: Low
       m_Image: {fileID: 0}
     - m_Text: Medium
       m_Image: {fileID: 0}
     - m_Text: High
       m_Image: {fileID: 0}
-    - m_Text: Very High
-      m_Image: {fileID: 0}
-    - m_Text: Ultra High
+    - m_Text: Ultra
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -10942,7 +10938,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Don't Sync
+  m_Text: Every V Blank
 --- !u!114 &114690587571043376
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -13317,7 +13313,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Toto
+  m_Text: 
 --- !u!114 &114969848355523152
 MonoBehaviour:
   m_ObjectHideFlags: 1

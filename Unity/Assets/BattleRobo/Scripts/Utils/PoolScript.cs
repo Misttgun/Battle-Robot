@@ -61,7 +61,7 @@ namespace BattleRobo
         {
             if (prefab == null)
             {
-                Debug.LogWarning("Prefab in pool empty! No Preload happening. Please check references.");
+                //Debug.LogWarning("Prefab in pool empty! No Preload happening. Please check references.");
                 return;
             }
 
@@ -145,7 +145,7 @@ namespace BattleRobo
             //search in active instances for this instance
             if (!active.Contains(instance))
             {
-                Debug.LogWarning("Can't despawn - Instance not found: " + instance.name + " in PoolScript " + name);
+                //Debug.LogWarning("Can't despawn - Instance not found: " + instance.name + " in PoolScript " + name);
                 return;
             }
 
@@ -240,7 +240,7 @@ namespace BattleRobo
             //the amount which was passed in exceeds the amount of inactive instances
             if (count > inactive.Count)
             {
-                Debug.LogWarning("Destroy Count value: " + count + " is greater than inactive Count: " + inactive.Count + ". Destroying all available inactive objects of type: " + prefab.name + ". Use DestroyUnused(false) instead to achieve the same.");
+                //Debug.LogWarning("Destroy Count value: " + count + " is greater than inactive Count: " + inactive.Count + ". Destroying all available inactive objects of type: " + prefab.name + ". Use DestroyUnused(false) instead to achieve the same.");
                 DestroyUnused(false);
                 return;
             }

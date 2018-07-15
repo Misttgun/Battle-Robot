@@ -5,7 +5,6 @@ namespace BattleRobo
 {
     public class PlayerObjectScript : PunBehaviour
     {
-        //TODO Should be move in item script
         [SerializeField] private int id;
         [SerializeField] private int maxStackSize;
         [SerializeField] private Sprite itemSprite;

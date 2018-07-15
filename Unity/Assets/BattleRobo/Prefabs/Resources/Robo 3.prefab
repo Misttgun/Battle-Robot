@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 4904651815525562}
   - component: {fileID: 33336342926184492}
   - component: {fileID: 23124415548645138}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: C_Mag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 4116508500031536}
   - component: {fileID: 33375075495700702}
   - component: {fileID: 23762477035602060}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: R_FusionSource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -327,7 +327,7 @@ GameObject:
   - component: {fileID: 4516356646303210}
   - component: {fileID: 33358522187143272}
   - component: {fileID: 23774754565615296}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: R_Sight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -377,7 +377,7 @@ GameObject:
   - component: {fileID: 4526549562912362}
   - component: {fileID: 33313919528277714}
   - component: {fileID: 23538804801909378}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: P_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -518,7 +518,7 @@ GameObject:
   - component: {fileID: 4806425509097034}
   - component: {fileID: 33816418191320542}
   - component: {fileID: 23567744643599844}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: P_Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -551,7 +551,7 @@ GameObject:
   - component: {fileID: 4352143012404340}
   - component: {fileID: 33997565311136100}
   - component: {fileID: 23080730462620686}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: R_Clip1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -630,7 +630,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4785243250795854}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: Pistol_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -772,7 +772,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4848717349398594}
   - component: {fileID: 114948251443914490}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: Rifles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -854,7 +854,7 @@ GameObject:
   - component: {fileID: 4203055463348170}
   - component: {fileID: 33093702184992942}
   - component: {fileID: 23132911000003832}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: P_Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -931,7 +931,7 @@ GameObject:
   - component: {fileID: 4022777070387630}
   - component: {fileID: 33748067365232150}
   - component: {fileID: 23336783049327540}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: P_Sight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1012,7 +1012,7 @@ GameObject:
   - component: {fileID: 4339791100024058}
   - component: {fileID: 33224301515457312}
   - component: {fileID: 23208880043451192}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: P_Hammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1161,7 +1161,7 @@ GameObject:
   - component: {fileID: 114410829662046340}
   - component: {fileID: 114825126606523712}
   m_Layer: 8
-  m_Name: Robo 4
+  m_Name: Robo 3
   m_TagString: Player
   m_Icon: {fileID: 8220585740371884164, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1226,7 +1226,7 @@ GameObject:
   - component: {fileID: 4964111742620758}
   - component: {fileID: 33797114663687074}
   - component: {fileID: 23854162255122026}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: R_Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1287,7 +1287,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4360297962863078}
   - component: {fileID: 114701712287591250}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: Pistols
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1302,7 +1302,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4841508720893494}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: Rifle_06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1332,7 +1332,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4037074101320548}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: Heavy_08
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1491,7 +1491,7 @@ GameObject:
   - component: {fileID: 4492854660605154}
   - component: {fileID: 33382242748419018}
   - component: {fileID: 23666534303655216}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: C_Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1638,7 +1638,7 @@ GameObject:
   - component: {fileID: 4042878555612780}
   - component: {fileID: 33057006139137832}
   - component: {fileID: 23614564339501742}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: R_Clip2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1670,7 +1670,7 @@ GameObject:
   - component: {fileID: 4170148202557384}
   - component: {fileID: 33353577233177474}
   - component: {fileID: 23708130853930730}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: P_Slide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1732,7 +1732,7 @@ GameObject:
   - component: {fileID: 4374616343759310}
   - component: {fileID: 33018047523776654}
   - component: {fileID: 23241604226063974}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: C_BeamBattery
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1749,7 +1749,7 @@ GameObject:
   - component: {fileID: 4523239039238500}
   - component: {fileID: 33543781828572568}
   - component: {fileID: 23517299103622004}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: C_MainBattery
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1879,7 +1879,7 @@ GameObject:
   - component: {fileID: 4085305366221106}
   - component: {fileID: 33187603021014352}
   - component: {fileID: 23776761491869706}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: C_Sight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1928,7 +1928,7 @@ GameObject:
   - component: {fileID: 4411855325053080}
   - component: {fileID: 33114557731681724}
   - component: {fileID: 23124886367814244}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: C_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1976,7 +1976,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4320189581801246}
   - component: {fileID: 114169257354277524}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: Heavys
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2071,7 +2071,7 @@ GameObject:
   - component: {fileID: 4358900587872748}
   - component: {fileID: 33153331467821342}
   - component: {fileID: 23266853805074540}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: R_Grip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2184,7 +2184,7 @@ GameObject:
   - component: {fileID: 4880257564584650}
   - component: {fileID: 33214352879051672}
   - component: {fileID: 23249937812875082}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: P_Magazine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2280,7 +2280,7 @@ GameObject:
   - component: {fileID: 4273440082315960}
   - component: {fileID: 33487243452857314}
   - component: {fileID: 23778288660678496}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: R_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3765,7 +3765,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 65536
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -3800,7 +3800,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294965247
+    m_Bits: 4294901759
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

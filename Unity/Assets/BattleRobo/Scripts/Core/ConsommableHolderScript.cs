@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace BattleRobo
@@ -10,7 +9,7 @@ namespace BattleRobo
         public ConsommableScript currentConsommable;
 
         [SerializeField]
-        public List<BattleRobo.ConsommableScript> consommableList;
+        public List<ConsommableScript> consommableList;
         
         [SerializeField]
         private PhotonView playerPhotonView;

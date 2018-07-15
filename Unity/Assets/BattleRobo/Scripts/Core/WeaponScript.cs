@@ -63,8 +63,6 @@ namespace BattleRobo
 
             if (Physics.Raycast(camTransform.position, camTransform.forward, out shot, currentGun.range, layerMask))
             {
-                Debug.Log("Hit" + shot.transform.gameObject.name);
-
                 var hitRoboBodyPart = shot.transform.gameObject.GetComponent<HealthScript>();
                 playerPhotonView.RPC("HitMarkerRPC", PhotonTargets.AllViaServer);
                 hitRoboBodyPart.TakeDamage(currentGun.damage, playerID);

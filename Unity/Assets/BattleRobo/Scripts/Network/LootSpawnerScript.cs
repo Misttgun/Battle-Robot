@@ -64,11 +64,11 @@ namespace BattleRobo
             {
                 index = 0;
             }
-            else if (random >= 40 && random <= 54)
+            else if (random >= 40 && random <= 64)
             {
                 index = 1;
             }
-            else if (random >= 55 && random <= 74)
+            else if (random >= 65 && random <= 74)
             {
                 index = 2;
             }

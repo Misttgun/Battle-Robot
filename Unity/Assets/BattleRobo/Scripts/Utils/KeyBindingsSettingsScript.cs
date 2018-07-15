@@ -1,19 +1,20 @@
-﻿using BattleRobo;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace BattleRobo
 {
     public class KeyBindingsSettingsScript : MonoBehaviour
     {
+        #pragma warning disable
         [SerializeField]
         private Text up, down, right, left, fly, loot, drop, slot1, slot2, slot3, slot4, slot5;
+        #pragma warning enable
 
         private GameObject currentKey;
 
         [SerializeField]
         private GameObject enterKeyLayer;
-        
+
         [SerializeField]
         private GameObject settingsPanel;
 
@@ -30,9 +31,9 @@ namespace BattleRobo
                 if (keyEvent.isKey)
                 {
                     // changer la touche séléctionée par la prochaine touche entrée
-                    CustomInputManagerScript.keyBind[currentKey.name] = keyEvent.keyCode; 
+                    CustomInputManagerScript.keyBind[currentKey.name] = keyEvent.keyCode;
                     // remplacer le text du bouton sélectionné par la touche entrée
-                    currentKey.transform.GetChild(0).GetComponent<Text>().text = keyEvent.keyCode.ToString(); 
+                    currentKey.transform.GetChild(0).GetComponent<Text>().text = keyEvent.keyCode.ToString();
                     currentKey = null;
 
                     enterKeyLayer.SetActive(false);
@@ -78,7 +79,7 @@ namespace BattleRobo
             loot.text = CustomInputManagerScript.keyBind["Loot"].ToString();
             drop.text = CustomInputManagerScript.keyBind["Drop"].ToString();
         }
-        
+
         public void ShowSettings()
         {
             gameObject.SetActive(false);

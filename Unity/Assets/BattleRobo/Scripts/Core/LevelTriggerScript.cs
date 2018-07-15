@@ -12,10 +12,9 @@ namespace BattleRobo
         //variable qui compte le nombre de trigger en collision avec le level
         private int count;
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerStay(Collider other)
         {
             ++count;
-            //Debug.LogWarning("OncollisionEnter: " + gameObject.name + " - Pos: " + transform.position +  " - Count: " + count);
             if (count > 1)
                 return;
 
@@ -26,7 +25,6 @@ namespace BattleRobo
         private void OnTriggerExit(Collider other)
         {
             --count;
-            //Debug.LogWarning("OncollisionExit: " + gameObject.name + " - Pos: " + transform.position +  " - Count: " + count);
             if (count > 0)
                 return;
 

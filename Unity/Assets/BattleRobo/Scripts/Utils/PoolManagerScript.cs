@@ -17,14 +17,14 @@ namespace BattleRobo
             //check if the PoolScript does not contain a prefab
             if (poolScript.prefab == null)
             {
-                Debug.LogError("Prefab of poolScript: " + poolScript.gameObject.name + " is empty! Can't add poolScript to Pools Dictionary.");
+                //Debug.LogError("Prefab of poolScript: " + poolScript.gameObject.name + " is empty! Can't add poolScript to Pools Dictionary.");
                 return;
             }
 
             //check if the PoolScript has been added already
             if (Pools.ContainsKey(poolScript.prefab))
             {
-                Debug.LogError("PoolScript with prefab " + poolScript.prefab.name + " has already been added to Pools Dictionary.");
+                //Debug.LogError("PoolScript with prefab " + poolScript.prefab.name + " has already been added to Pools Dictionary.");
                 return;
             }
 
@@ -42,7 +42,7 @@ namespace BattleRobo
             //debug error if poolScript was already added before 
             if (Pools.ContainsKey(prefab))
             {
-                Debug.LogError("PoolScript Manager already contains PoolScript for prefab: " + prefab.name);
+                //Debug.LogError("PoolScript Manager already contains PoolScript for prefab: " + prefab.name);
                 return;
             }
 
@@ -69,7 +69,7 @@ namespace BattleRobo
             //this is not critical as then we create a new PoolScript for it at runtime
             if (!Pools.ContainsKey(prefab))
             {
-                Debug.Log("Prefab not found in existing poolScript: " + prefab.name + " New PoolScript has been created.");
+                //Debug.Log("Prefab not found in existing poolScript: " + prefab.name + " New PoolScript has been created.");
                 CreatePool(prefab, 0, false, 0);
             }
 
@@ -102,7 +102,7 @@ namespace BattleRobo
             }
 
             //the instance could not be found in a PoolScript
-            Debug.LogError("PoolManagerScript couldn't find PoolScript for instance: " + instance.name);
+            //Debug.LogError("PoolManagerScript couldn't find PoolScript for instance: " + instance.name);
             return null;
         }
 
@@ -115,7 +115,7 @@ namespace BattleRobo
             //debug error if PoolScript wasn't already added before
             if (!Pools.ContainsKey(prefab))
             {
-                Debug.LogError("PoolManagerScript couldn't find PoolScript for prefab to deactivate: " + prefab.name);
+                //Debug.LogError("PoolManagerScript couldn't find PoolScript for prefab to deactivate: " + prefab.name);
                 return;
             }
 
@@ -150,7 +150,7 @@ namespace BattleRobo
             //debug error if PoolScript wasn't already added before
             if (!Pools.ContainsKey(prefab))
             {
-                Debug.LogError("PoolManagerScript couldn't find PoolScript for prefab to destroy: " + prefab.name);
+                //Debug.LogError("PoolManagerScript couldn't find PoolScript for prefab to destroy: " + prefab.name);
                 return;
             }
 
@@ -177,7 +177,7 @@ namespace BattleRobo
 
         //static variables always keep their values over scene changes
         //so we need to reset them when the game ended or switching scenes
-        void OnDestroy()
+        private void OnDestroy()
         {
             Pools.Clear();
         }

@@ -313,7 +313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 1417471721097700, guid: d8041a3bc102b8743ba0c62152d0d4c9, type: 2}
-  preLoad: 20
+  preLoad: 50
   limit: 0
   maxCount: 0
   active: []
@@ -364,7 +364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 1198606690915428, guid: a8431df445151a147860f273a7a6503c, type: 2}
-  preLoad: 20
+  preLoad: 15
   limit: 0
   maxCount: 0
   active: []
@@ -432,7 +432,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 1371601689539106, guid: 9e2ab16afe569a5498269db28828a911, type: 2}
-  preLoad: 20
+  preLoad: 70
   limit: 0
   maxCount: 0
   active: []
@@ -484,7 +484,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapGenerator: {fileID: 0}
   spawnPositions: []
-  numSpawnPoints: 64
+  numSpawnPoints: 4
 --- !u!114 &114859302497117012
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -497,7 +497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 1484406994542028, guid: 137e1e64a205c3d46b7220f6b8f6565c, type: 2}
-  preLoad: 20
+  preLoad: 30
   limit: 0
   maxCount: 0
   active: []

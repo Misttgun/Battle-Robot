@@ -11,9 +11,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6417b7f17e7853247a97b4a4945dd6c1, type: 3}
   m_Name: Pump ShotGun
   m_EditorClassIdentifier: 
-  magazineSize: 20
-  damage: 50
-  range: 30
+  magazineSize: 10
+  damage: 60
+  range: 150
   fireRate: 1.5
   gunName: RMB-93
   animLayer: 4

@@ -8,9 +8,6 @@ namespace BattleRobo
         private GameObject[] prefabsToLoad;
 
         [SerializeField]
-        private GameObject envExt;
-
-        [SerializeField]
         private GameObject lake;
 
         [SerializeField]
@@ -44,9 +41,6 @@ namespace BattleRobo
 
             int mMapSize = GetMapMainSize();
             float halfMapSize = (float) mMapSize / 2;
-            envExt.transform.localScale = new Vector3(mMapSize, height, mMapSize);
-            envExt.transform.position = new Vector3(halfMapSize, -height / 5, halfMapSize);
-
 
             lake.transform.localScale = new Vector3(mMapSize, lake.transform.localScale.y, mMapSize);
             lake.transform.position = new Vector3(halfMapSize, lake.transform.position.y, halfMapSize);

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Globalization;
-using System.IO;
-using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,15 +38,15 @@ namespace BattleRobo
             {
                 Screen.fullScreen = true;
             }
-        }
-
-        private void OnEnable()
-        {
+            
             antialiasingDropdown.onValueChanged.AddListener(delegate { OnAntialiasingChange(); });
             vSyncDropdown.onValueChanged.AddListener(delegate { OnVSyncChange(); });
             textureDropdown.onValueChanged.AddListener(delegate { OnTextureQChange(); });
             graphicsDropdown.onValueChanged.AddListener(delegate { OnGraphicsQChange(); });
-            
+        }
+
+        private void OnEnable()
+        {
             resolutions = Screen.resolutions;
             
             if (resolutionDropdown.options.Count == 0)
@@ -117,7 +114,7 @@ namespace BattleRobo
             vSyncDropdown.value = Convert.ToInt32(PlayerPrefs.GetString("VSync", "0"));
             antialiasingDropdown.value = Convert.ToInt32(PlayerPrefs.GetString("Antialiasing", "0"));
             textureDropdown.value = Convert.ToInt32(PlayerPrefs.GetString("Texture", "0"));
-            graphicsDropdown.value = Convert.ToInt32(PlayerPrefs.GetString("Graphics", "5"));
+            graphicsDropdown.value = Convert.ToInt32(PlayerPrefs.GetString("Graphics", "3"));
 
             QualitySettings.SetQualityLevel(graphicsDropdown.value);
             resolutionDropdown.RefreshShownValue();
