@@ -1,0 +1,17 @@
+Release note : 
+
+ - optimisation du code
+ - ajout de nouveaux modeles
+ - support du https pour la communication avec le serveur
+ - ajout des consommables
+ - possibilité de switch les armes dans l'inventaire (alt + [1/2/3/4/5] pour déplacer l'objet actif dans la nouvelle touche)
+ - menu de configuration des touches
+ - menu de configuration des graphismes
+ - Modification de l'UI
+ - prédiction fonctionnelle
+ - streaming de map fonctionnel
+ - ajout du market + choix de skins
+ - blocage de la connexion si le joueur est déjà authentifié
+ - deconnexion du joueur en cas de coupure de connexion (la déconnexion côté serveur peut prendre jusqu'à 20 secondes)
+ - spawning aléatoire fonctionnel
+ - correction de bugs sur la pause
