@@ -257,7 +257,14 @@ namespace BattleRobo
             // - Update ammo counter
             if (playerObject.IsWeapon())
             {
-                playerView.RPC("UpdateWeapon", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), playerObject.GetWeapon().currentAmmo);
+                float ammoCounter;
+
+                if (weaponHolder.currentWeapon == playerObject.GetWeapon())
+                    ammoCounter = weaponHolder.currentWeapon.currentAmmo;
+                else
+                    ammoCounter = playerObject.GetWeapon().currentAmmo;
+
+                playerView.RPC("UpdateWeapon", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), ammoCounter);
 
                 weaponHolder.SetWeapon(null, 0f);
                 playerUI.SetAmmoCounter(-1f);
