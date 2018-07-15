@@ -79,7 +79,6 @@ public class NetworkCommandScript : PunBehaviour
 
         if (isPausing)
         {
-            Debug.Log("IsPausing");
             PhotonNetwork.RPC(photonView, "PauseRPC", PhotonTargets.MasterClient, false, PhotonNetwork.player);
         }
 

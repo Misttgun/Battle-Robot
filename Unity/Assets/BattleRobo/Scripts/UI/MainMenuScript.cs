@@ -128,8 +128,6 @@ namespace BattleRobo
                     }
                 }
 
-                Debug.Log(DatabaseRequester.GetPlayerPseudo() + " :: " + DatabaseRequester.GetDBToken());
-
                 if (hasFoundPlayer)
                 {
                     leaderboardRows[10].SetActive(false);

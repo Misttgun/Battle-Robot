@@ -606,7 +606,6 @@ namespace BattleRobo
         [PunRPC]
         private void ShootRPC(int shooterId)
         {
-            Debug.Log("ShootRPC : " + weaponHolder.currentWeapon);
             if (weaponHolder.currentWeapon != null)
             {
                 //temp value in case we quickly change weapon after we shoot
@@ -635,12 +634,6 @@ namespace BattleRobo
             }
 
             weaponHolder.EquipWeapon(weaponIndex, currentAmmo);
-        }
-
-        [PunRPC]
-        private void EquipConsommableRPC(int consommableIndex)
-        {
-            Debug.Log("EQUIP CONSOMMABLE");
         }
 
         [PunRPC]
