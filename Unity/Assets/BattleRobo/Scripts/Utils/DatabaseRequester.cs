@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using UnityEngine;
 using System.Net.Security;
-using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
-using System.Threading;
-
+using UnityEngine;
 
 namespace BattleRobo
 {
@@ -140,7 +136,7 @@ namespace BattleRobo
         {
             while (dbToken != null)
             {
-                this.AsyncQuery("/is_alive?token=" + dbToken);
+                AsyncQuery("/is_alive?token=" + dbToken);
                 yield return new WaitForSeconds(10);
             }
         }
@@ -149,12 +145,12 @@ namespace BattleRobo
         // - Handle ALT F4
         public void OnApplicationQuit()
         {
-            DatabaseRequester.Logout();
+            Logout();
         }
 
         public void Quit()
         {
-            DatabaseRequester.Logout();
+            Logout();
         }
 
         public static void SetPlayerStat(int kills, int win, string token)
@@ -202,7 +198,7 @@ namespace BattleRobo
 
         public static void SetDBToken(string token)
         {
-            DatabaseRequester.dbToken = token;
+            dbToken = token;
         }
 
         public static string GetDBToken()

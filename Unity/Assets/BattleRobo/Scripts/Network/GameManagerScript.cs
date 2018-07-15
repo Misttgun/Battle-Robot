@@ -149,6 +149,7 @@ namespace BattleRobo
                 Cursor.visible = true;
                 ShowGameOverScreen("You won !! Let's go baby !!", 1, localPlayer.photonView.GetKills());
 
+                //send the player stats to database
                 localPlayer.photonView.RPC("WinnerRPC", PhotonTargets.MasterClient, localPlayer.playerID);
 
                 //desactivate the local player
@@ -335,7 +336,7 @@ namespace BattleRobo
         {
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = false;
-            
+
             // - if still in pause, master client will send an RPC to exit pause
             if (PhotonNetwork.player.IsMasterClient && isGamePause)
                 photonView.RPC("CancelPause", PhotonTargets.AllViaServer);

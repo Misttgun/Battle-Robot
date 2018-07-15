@@ -300,6 +300,11 @@ Prefab:
       propertyPath: instantiationId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114851602941090778, guid: 9c1da32c83a945948a9508812c27b536,
+        type: 2}
+      propertyPath: numSpawnPoints
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9c1da32c83a945948a9508812c27b536, type: 2}
   m_IsPrefabParent: 0
@@ -342,39 +347,25 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114948700168133992, guid: d3ccad306abfbec49ae7e8e7672c5a40,
+    - target: {fileID: 114822890940300948, guid: d3ccad306abfbec49ae7e8e7672c5a40,
         type: 2}
       propertyPath: viewIdField
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114948700168133992, guid: d3ccad306abfbec49ae7e8e7672c5a40,
+    - target: {fileID: 114822890940300948, guid: d3ccad306abfbec49ae7e8e7672c5a40,
         type: 2}
       propertyPath: instantiationId
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114822890940300948, guid: d3ccad306abfbec49ae7e8e7672c5a40,
+    - target: {fileID: 114948700168133992, guid: d3ccad306abfbec49ae7e8e7672c5a40,
         type: 2}
       propertyPath: viewIdField
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114822890940300948, guid: d3ccad306abfbec49ae7e8e7672c5a40,
+    - target: {fileID: 114948700168133992, guid: d3ccad306abfbec49ae7e8e7672c5a40,
         type: 2}
       propertyPath: instantiationId
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 65525368075988042, guid: d3ccad306abfbec49ae7e8e7672c5a40,
-        type: 2}
-      propertyPath: m_Size.y
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 65525368075988042, guid: d3ccad306abfbec49ae7e8e7672c5a40,
-        type: 2}
-      propertyPath: m_Center.y
-      value: -5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1390921043914110, guid: d3ccad306abfbec49ae7e8e7672c5a40, type: 2}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d3ccad306abfbec49ae7e8e7672c5a40, type: 2}

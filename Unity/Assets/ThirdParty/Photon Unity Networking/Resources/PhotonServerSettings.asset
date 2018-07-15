@@ -89,4 +89,5 @@ MonoBehaviour:
   - OnRoomJoinedRPC
   - PlayerLeftRPC
   - SetMouseSensitivityRPC
+  - SetPauseRPC
   DisableAutoOpenWizard: 1

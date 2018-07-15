@@ -75,7 +75,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1534484177851104
 GameObject:
   m_ObjectHideFlags: 1
@@ -307,7 +307,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: dddacbc38cb4b17428ac04387c6f7901, type: 2}
+  - {fileID: 2100000, guid: a867a345123be79448a416a169e8e239, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -404,8 +404,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.9583333, y: 0.00000011247164, z: 1.9583334}
-  m_Center: {x: 0, y: -0.0000000018281412, z: 0}
+  m_Size: {x: 1.9583333, y: 10, z: 1.9583334}
+  m_Center: {x: 0, y: -5, z: 0}
 --- !u!108 &108762392033602646
 Light:
   m_ObjectHideFlags: 1

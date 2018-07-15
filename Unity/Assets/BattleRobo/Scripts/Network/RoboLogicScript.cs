@@ -25,6 +25,12 @@ namespace BattleRobo
         /// </summary>
         [SerializeField]
         private AudioListener playerCameraAudio;
+        
+        /// <summary>
+        /// The weapon depth camera.
+        /// </summary>
+        [SerializeField]
+        private Camera depthCamera;
 
         /// <summary>
         /// The player animator.
@@ -142,6 +148,9 @@ namespace BattleRobo
             //activate camera only for this player
             playerCamera.enabled = true;
             playerCameraAudio.enabled = true;
+            
+            //activate depth camera only for this player
+            depthCamera.enabled = true;
 
             //set name in the UI
             uiScript.playerNameText.text = photonView.GetName();
@@ -186,16 +195,14 @@ namespace BattleRobo
         private void Update()
         {
             isInPause = GameManagerScript.GetInstance().IsGamePause();
-            bool isAltPressed = Input.GetKey(KeyCode.LeftAlt);
 
-            if (photonView.isMine)
+            if (photonView.isMine && GameManagerScript.canPlayerMove)
             {
                 if (Input.GetKeyDown(KeyCode.Escape))
                 {
                     GameManagerScript.GetInstance().PauseLogic();
                 }
             }
-
 
             if (isInPause || !GameManagerScript.canPlayerMove)
             {
@@ -209,6 +216,7 @@ namespace BattleRobo
             if (!photonView.isMine)
                 return;
 
+            bool isAltPressed = Input.GetKey(KeyCode.LeftAlt);
 
             //update alive number on change
             if (GameManagerScript.alivePlayerNumber != previousAliveNumber)
@@ -221,6 +229,12 @@ namespace BattleRobo
             if (StormManagerScript.GetInstance().GetStormTimer() >= 0)
             {
                 uiScript.UpdateStormTimer(StormManagerScript.GetInstance().GetStormTimer() + 1);
+            }
+
+            if (Input.GetButtonDown("Fire2"))
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
             }
 
             if (Input.GetButtonDown("Fire1"))
@@ -243,12 +257,12 @@ namespace BattleRobo
                     photonView.RPC("ShootRPC", PhotonTargets.AllViaServer, playerID);
                 }
             }
-            
+
             if (Input.GetKeyDown(CustomInputManagerScript.keyBind["Slot1"]))
             {
                 if (isAltPressed)
                     playerInventory.SwapInventorySlot(currentIndex, 0);
-                
+
                 else
                     index = 0;
             }
@@ -256,15 +270,15 @@ namespace BattleRobo
             {
                 if (isAltPressed)
                     playerInventory.SwapInventorySlot(currentIndex, 1);
-                
-                else               
+
+                else
                     index = 1;
             }
             else if (Input.GetKeyDown(CustomInputManagerScript.keyBind["Slot3"]))
             {
                 if (isAltPressed)
                     playerInventory.SwapInventorySlot(currentIndex, 2);
-                
+
                 else
                     index = 2;
             }
@@ -272,7 +286,7 @@ namespace BattleRobo
             {
                 if (isAltPressed)
                     playerInventory.SwapInventorySlot(currentIndex, 3);
-                
+
                 else
                     index = 3;
             }
@@ -280,7 +294,7 @@ namespace BattleRobo
             {
                 if (isAltPressed)
                     playerInventory.SwapInventorySlot(currentIndex, 4);
-                
+
                 else
                     index = 4;
             }
@@ -327,12 +341,6 @@ namespace BattleRobo
             }
         }
 
-        //TODO déplacer la méthode dans une classe statique
-        private void SetPlayerStats(int kills, int win, string token)
-        {
-            DatabaseRequester.SetPlayerStat(kills, win, token);
-        }
-
         public void ShowDamageIndicator(Vector3 shooterPos)
         {
             photonView.RPC("DamageIndicatorRPC", PhotonTargets.AllViaServer, shooterPos);
@@ -350,10 +358,10 @@ namespace BattleRobo
             //deactivate the dead player
             var found = GameManagerScript.GetInstance().alivePlayers.TryGetValue(id, out player);
 
-            if (found)
-            {
-                player.SetActive(false);
-            }
+            if (!found)
+                return;
+
+            player.SetActive(false);
 
             //remove the player from the alive players dictionnary
             GameManagerScript.GetInstance().alivePlayers.Remove(id);
@@ -416,12 +424,6 @@ namespace BattleRobo
         [PunRPC]
         private void EquipWeaponRPC(int weaponIndex, float currentAmmo)
         {
-            if (weaponIndex == -1)
-            {
-                //return the layer animation to normal
-                animator.SetLayerWeight(2, 0);
-            }
-
             weaponHolder.EquipWeapon(weaponIndex, currentAmmo);
         }
 
@@ -464,9 +466,6 @@ namespace BattleRobo
         private void DropObject(int lootTrackerId, Vector3 position)
         {
             LootSpawnerScript.GetLootTracker()[lootTrackerId].Drop(position);
-
-            //return the layer animation to normal
-            animator.SetLayerWeight(2, 0);
         }
 
         [PunRPC]
@@ -487,9 +486,7 @@ namespace BattleRobo
             // only the master client should save the db token
             GameManagerScript.GetInstance().dbTokens.Add(id, token);
         }
-
-
-        //TODO déplacer dans le GameManager
+        
         [PunRPC]
         private void WinnerRPC(int id)
         {
@@ -498,7 +495,7 @@ namespace BattleRobo
 
             //check if there is only one player
             if (GameManagerScript.GetInstance().alivePlayers.Count == 1)
-                SetPlayerStats(photonView.GetKills(), 1, GameManagerScript.GetInstance().dbTokens[id]);
+                DatabaseRequester.SetPlayerStat(photonView.GetKills(), 1, GameManagerScript.GetInstance().dbTokens[id]);
         }
     }
 }

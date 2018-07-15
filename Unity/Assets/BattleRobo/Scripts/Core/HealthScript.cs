@@ -108,7 +108,7 @@ namespace BattleRobo
                 playerPhotonView.SetRank(GameManagerScript.alivePlayerNumber);
 
                 // set dead player stats
-                SetPlayerStats(playerPhotonView.GetKills(), 0, GameManagerScript.GetInstance().dbTokens[playerPhotonView.owner.ID]);
+                DatabaseRequester.SetPlayerStat(playerPhotonView.GetKills(), 0, GameManagerScript.GetInstance().dbTokens[playerPhotonView.owner.ID]);
 
                 //tell all clients that the player is dead
                 playerPhotonView.RPC("IsDeadRPC", PhotonTargets.All, playerPhotonView.owner.ID);
@@ -118,11 +118,6 @@ namespace BattleRobo
                 //we didn't die, set health to new value
                 playerPhotonView.SetHealth(health);
             }
-        }
-        
-        private void SetPlayerStats(int kills, int win, string token)
-        {
-            DatabaseRequester.SetPlayerStat(kills, win, token);
         }
     }
 }
