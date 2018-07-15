@@ -118,7 +118,7 @@ namespace BattleRobo
 
         private void Start()
         {
-            PhotonNetwork.Instantiate("Robo_Pred", spawnGenerator.spawnPositions[PhotonNetwork.player.ID - 1], Quaternion.identity, 0);
+            PhotonNetwork.Instantiate("Robo", spawnGenerator.spawnPositions[PhotonNetwork.player.ID - 1], Quaternion.identity, 0);
 
             //tell the master client that we are ready
             photonView.RPC("PlayerReadyRPC", PhotonTargets.MasterClient);

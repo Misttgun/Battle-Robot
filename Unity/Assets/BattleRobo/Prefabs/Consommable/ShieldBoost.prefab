@@ -26,7 +26,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1875819394979236
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   maxStackSize: 5
-  itemSprite: {fileID: 21300092, guid: 6eedfc74195a44648b72bcf755811a88, type: 3}
+  itemSprite: {fileID: 21300000, guid: 775d51fcb5fe1bf4c820af463d0752f5, type: 3}
   weaponScript: {fileID: 0}
   consommableScript: {fileID: 114264043582937802}
   lootTriggerScript: {fileID: 114459841495488730}

@@ -193,7 +193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   maxStackSize: 5
-  itemSprite: {fileID: 21300092, guid: 6eedfc74195a44648b72bcf755811a88, type: 3}
+  itemSprite: {fileID: 21300000, guid: 52ac5203c9827de46a6015e94c5bf270, type: 3}
   weaponScript: {fileID: 0}
   consommableScript: {fileID: 114996447984844890}
   lootTriggerScript: {fileID: 114608061272818062}

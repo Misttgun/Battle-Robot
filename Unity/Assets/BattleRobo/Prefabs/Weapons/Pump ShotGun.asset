@@ -16,4 +16,5 @@ MonoBehaviour:
   range: 30
   fireRate: 1.5
   gunName: RMB-93
+  animLayer: 4
   gunId: 3

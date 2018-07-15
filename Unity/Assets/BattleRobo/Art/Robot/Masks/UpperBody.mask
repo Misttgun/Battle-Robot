@@ -1,0 +1,142 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: UpperBody
+  m_Mask: 00000000010000000100000000000000000000000100000001000000010000000100000000000000000000000000000000000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Armature
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones/torso
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones/torso/chest
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones/torso/chest/head
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones/torso/chest/head/head_end
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones/torso/chest/head/head_end/head_end_end
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.L
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.L/L_arm.L
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.L/L_arm.L/palm.L
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.L/L_arm.L/palm.L/finger.L
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.L/L_arm.L/palm.L/finger.L/finger.L.001
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.L/L_arm.L/palm.L/finger.L/finger.L.001/finger.L.002
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.L/L_arm.L/palm.L/finger.L/finger.L.001/finger.L.002/finger.L.002_end
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.L/L_arm.L/palm.L/finger.L/finger.L.001/finger.L.002/finger.L.002_end/finger.L.002_end_end
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.L/L_arm.L/palm.L/finger.L.003
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.L/L_arm.L/palm.L/finger.L.003/finger.L.004
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.L/L_arm.L/palm.L/finger.L.003/finger.L.004/finger.L.005
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.L/L_arm.L/palm.L/finger.L.003/finger.L.004/finger.L.005/finger.L.005_end
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.L/L_arm.L/palm.L/finger.L.003/finger.L.004/finger.L.005/finger.L.005_end/finger.L.005_end_end
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.L/L_arm.L/palm.L/thumb1.L
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.L/L_arm.L/palm.L/thumb1.L/thumb2.L
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.L/L_arm.L/palm.L/thumb1.L/thumb2.L/thumb3.L
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.L/L_arm.L/palm.L/thumb1.L/thumb2.L/thumb3.L/thumb3.L_end
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.L/L_arm.L/palm.L/thumb1.L/thumb2.L/thumb3.L/thumb3.L_end/thumb3.L_end_end
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.R
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.R/L_arm.R
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.R/L_arm.R/palm.R
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.R/L_arm.R/palm.R/finger.R
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.R/L_arm.R/palm.R/finger.R/finger.R.001
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.R/L_arm.R/palm.R/finger.R/finger.R.001/finger.R.002
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.R/L_arm.R/palm.R/finger.R/finger.R.001/finger.R.002/finger.R.002_end
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.R/L_arm.R/palm.R/finger.R/finger.R.001/finger.R.002/finger.R.002_end/finger.R.002_end_end
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.R/L_arm.R/palm.R/finger.R.003
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.R/L_arm.R/palm.R/finger.R.003/finger.R.004
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.R/L_arm.R/palm.R/finger.R.003/finger.R.004/finger.R.005
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.R/L_arm.R/palm.R/finger.R.003/finger.R.004/finger.R.005/finger.R.005_end
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.R/L_arm.R/palm.R/finger.R.003/finger.R.004/finger.R.005/finger.R.005_end/finger.R.005_end_end
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.R/L_arm.R/palm.R/thumb1.R
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.R/L_arm.R/palm.R/thumb1.R/thumb2.R
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.R/L_arm.R/palm.R/thumb1.R/thumb2.R/thumb3.R
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.R/L_arm.R/palm.R/thumb1.R/thumb2.R/thumb3.R/thumb3.R_end
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/chest/U_arm.R/L_arm.R/palm.R/thumb1.R/thumb2.R/thumb3.R/thumb3.R_end/thumb3.R_end_end
+    m_Weight: 1
+  - m_Path: Armature/Master_Control_Bones/torso/U Leg.L
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones/torso/U Leg.L/L leg.L
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones/torso/U Leg.L/L leg.L/foot1.L
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones/torso/U Leg.L/L leg.L/foot1.L/foot2.L
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones/torso/U Leg.L/L leg.L/foot1.L/foot2.L/foot2.L.001
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones/torso/U Leg.L/L leg.L/foot1.L/foot2.L/foot2.L.001/foot2.L.001_end
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones/torso/U Leg.L/L leg.L/foot1.L/foot2.L/foot2.L.001/foot2.L.001_end/foot2.L.001_end_end
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones/torso/U Leg.R
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones/torso/U Leg.R/L leg.R
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones/torso/U Leg.R/L leg.R/foot1.R
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones/torso/U Leg.R/L leg.R/foot1.R/foot2.R
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones/torso/U Leg.R/L leg.R/foot1.R/foot2.R/foot2.R.001
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones/torso/U Leg.R/L leg.R/foot1.R/foot2.R/foot2.R.001/foot2.R.001_end
+    m_Weight: 0
+  - m_Path: Armature/Master_Control_Bones/torso/U Leg.R/L leg.R/foot1.R/foot2.R/foot2.R.001/foot2.R.001_end/foot2.R.001_end_end
+    m_Weight: 0
+  - m_Path: Body_LOD0
+    m_Weight: 1
+  - m_Path: Body_LOD1
+    m_Weight: 1
+  - m_Path: Body_LOD2
+    m_Weight: 1
+  - m_Path: Body_LOD3
+    m_Weight: 1
+  - m_Path: Head_LOD0
+    m_Weight: 1
+  - m_Path: Head_LOD1
+    m_Weight: 1
+  - m_Path: Head_LOD2
+    m_Weight: 1
+  - m_Path: Head_LOD3
+    m_Weight: 1

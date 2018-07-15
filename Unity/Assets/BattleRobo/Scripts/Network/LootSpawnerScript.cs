@@ -34,16 +34,16 @@ namespace BattleRobo
         /// </summary>
         private void SpawnLoot()
         {
-            Debug.Log("COUNT PREFABS : " + prefabs.Count);
-            int index = Random.Range(0, prefabs.Count);
+            var random = Random.Range(0, 100);
+            int index = CalculateRandom(random);
+            
             if (obj != null)
                 return;
 
             var spawPosition = new Vector3(transform.position.x, transform.position.y + 2.55f, transform.position.z);
-            var spawnRotation = transform.rotation * Quaternion.Euler(0, 0, 90);
 
             //use the poolmanager to spawn the loot on top of the plateforme
-            obj = PoolManagerScript.Spawn(prefabs[index], spawPosition , prefabs[index].gameObject.transform.localRotation);
+            obj = PoolManagerScript.Spawn(prefabs[index], spawPosition, prefabs[index].gameObject.transform.localRotation);
 
             var pObject = obj.GetComponent<PlayerObjectScript>();
 
@@ -54,6 +54,38 @@ namespace BattleRobo
         public static List<PlayerObjectScript> GetLootTracker()
         {
             return LootTracker;
+        }
+
+        private int CalculateRandom(int random)
+        {
+            int index = 0;
+
+            if (random >= 0 && random <= 39)
+            {
+                index = 0;
+            }
+            else if (random >= 40 && random <= 54)
+            {
+                index = 1;
+            }
+            else if (random >= 55 && random <= 74)
+            {
+                index = 2;
+            }
+            else if (random >= 75 && random <= 84)
+            {
+                index = 3;
+            }
+            else if (random >= 85 && random <= 94)
+            {
+                index = 4;
+            }
+            else if (random >= 95 && random <= 99)
+            {
+                index = 5;
+            }
+
+            return index;
         }
 
         /// <summary>

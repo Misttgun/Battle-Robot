@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace BattleRobo
 {
@@ -27,13 +26,25 @@ namespace BattleRobo
             currentAmmo = currentGun.magazineSize;
         }
 
-        private void Update()
+        private void OnEnable()
         {
-            if (!playerPhotonView) //player photon view is null
-                return;
-
-            playerAnimator.SetLayerWeight(2, 1);
+            if (playerAnimator)
+                playerAnimator.SetLayerWeight(currentGun.animLayer, 1);
         }
+
+        private void OnDisable()
+        {
+            if (playerAnimator)
+                playerAnimator.SetLayerWeight(currentGun.animLayer, 0);
+        }
+
+//        private void Update()
+//        {
+//            if (!playerPhotonView) //player photon view is null
+//                return;
+//
+//            playerAnimator.SetLayerWeight(currentGun.animLayer, 1);
+//        }
 
         public bool CanFire()
         {

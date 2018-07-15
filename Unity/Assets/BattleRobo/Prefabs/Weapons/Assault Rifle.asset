@@ -16,4 +16,5 @@ MonoBehaviour:
   range: 200
   fireRate: 1
   gunName: M416
+  animLayer: 3
   gunId: 1

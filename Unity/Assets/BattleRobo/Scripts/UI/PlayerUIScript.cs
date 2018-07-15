@@ -17,7 +17,7 @@ namespace BattleRobo
         /// </summary>
         [SerializeField]
         private Slider healthBar;
-        
+
         /// <summary>
         /// The health value text.
         /// </summary>
@@ -29,7 +29,7 @@ namespace BattleRobo
         /// </summary>
         [SerializeField]
         private Slider shieldBar;
-        
+
         /// <summary>
         /// The shield value text.
         /// </summary>
@@ -63,6 +63,12 @@ namespace BattleRobo
         private Text stormTimer;
 
         /// <summary>
+        /// Message of the storm
+        /// </summary>
+        [SerializeField]
+        private Text stormMessage;
+
+        /// <summary>
         /// Ammo counter
         /// </summary>
         [SerializeField]
@@ -92,7 +98,15 @@ namespace BattleRobo
 
         public void UpdateStormTimer(float countdown)
         {
-            stormTimer.text = countdown > 1 ? countdown.ToString("F0") : "";
+            if (countdown > 1)
+            {
+                stormTimer.text = countdown.ToString("F0");
+            }
+            else
+            {
+                stormTimer.text = "";
+                stormMessage.enabled = false;
+            }
         }
 
         /// <summary>
@@ -134,7 +148,7 @@ namespace BattleRobo
         /// <param name="kills"></param>
         public void UpdateKillsText(int kills)
         {
-            killsText.text =kills.ToString();
+            killsText.text = kills.ToString();
         }
 
         /// <summary>
@@ -144,7 +158,7 @@ namespace BattleRobo
         public void SetActiveUISlot(int index)
         {
             inventorySlotUI[currentActiveSlotIndex].transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 255, 255, 96);
-            inventorySlotUI[index].transform.GetChild(0).GetComponent<Image>().color = new Color32(253, 238, 28, 100);
+            inventorySlotUI[index].transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 0, 0, 96);
             currentActiveSlotIndex = index;
         }
 
