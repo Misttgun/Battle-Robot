@@ -27,10 +27,22 @@ namespace BattleRobo
         private GameObject leaderboardPanel;
 
         [SerializeField]
+        private GameObject marketPanel;
+
+        [SerializeField]
+        private GameObject skinPanel;
+
+        [SerializeField]
         private GameObject settingsPanel;
 
         [SerializeField]
         private List<GameObject> leaderboardRows;
+
+        [SerializeField]
+        private List<GameObject> marketRows;
+
+        [SerializeField]
+        private List<GameObject> skinRows;
 
         [SerializeField]
         private Color playerColor;
@@ -58,21 +70,47 @@ namespace BattleRobo
             leaderboardPanel.SetActive(true);
             lobbyPanel.SetActive(false);
             settingsPanel.SetActive(false);
+            marketPanel.SetActive(false);
+            skinPanel.SetActive(false);
             FillLeaderboard();
         }
 
         public void ShowLobby()
         {
             leaderboardPanel.SetActive(false);
+            marketPanel.SetActive(false);
+            skinPanel.SetActive(false);
             lobbyPanel.SetActive(true);
             settingsPanel.SetActive(false);
         }
 
         public void ShowSettings()
         {
+            marketPanel.SetActive(false);
+            skinPanel.SetActive(false);
             leaderboardPanel.SetActive(false);
             lobbyPanel.SetActive(false);
             settingsPanel.SetActive(true);
+        }
+
+        public void ShowSkin()
+        {
+            leaderboardPanel.SetActive(false);
+            marketPanel.SetActive(false);
+            skinPanel.SetActive(true);
+            lobbyPanel.SetActive(false);
+            settingsPanel.SetActive(false);
+            FillSkin();
+        }
+
+        public void ShowMarket()
+        {
+            leaderboardPanel.SetActive(false);
+            marketPanel.SetActive(true);
+            skinPanel.SetActive(false);
+            lobbyPanel.SetActive(false);
+            settingsPanel.SetActive(false);
+            FillMarket();
         }
 
         public void SetPlayerNumbersLabel(int number)
@@ -163,11 +201,95 @@ namespace BattleRobo
                     hasFoundPlayer = true;
                 }
             }
+        }
 
-            else
+        private void FillMarket()
+        {
+            int status;
+            string response;
+
+            DatabaseRequester.Market(out status, out response);
+
+            // - leaderboard is loaded successfully
+            if (status == 200)
             {
-                // TODO ERROR MESSAGE
+                var csv_text = response;
+                var rows = csv_text.Split('\n');
+
+                
+                for (int i = 0; i < marketRows.Count; i++)
+                {
+                    // - no more skin to buy
+                    if (i >= rows.Length || string.Equals(rows[i], ""))
+                    {
+                        marketRows[i].SetActive(false);
+                        continue;
+                    }
+
+
+                    marketRows[i].SetActive(true);
+
+                    var row = rows[i].Split(',');
+
+                    GameObject marketRow = marketRows[i];
+
+                    Text nameText = (Text)marketRow.transform.GetChild(1).GetComponent("Text");
+                    Text costText = (Text)marketRow.transform.GetChild(2).GetComponent("Text");
+                    Button buyButton = (Button)marketRow.transform.GetChild(3).GetComponent("Button");
+
+                    nameText.text = row[1];
+                    costText.text = row[2];
+                    buyButton.onClick.AddListener(delegate { BuySkin(row[0], marketRow); });
+                }
             }
+        }
+
+        private void FillSkin()
+        {
+            int status;
+            string response;
+
+            DatabaseRequester.Skin(out status, out response);
+
+            // - leaderboard is loaded successfully
+            if (status == 200)
+            {
+                var csv_text = response;
+                var rows = csv_text.Split('\n');
+
+
+                for (int i = 0; i < skinRows.Count; i++)
+                {
+                    // - no more skin to buy
+                    if (i >= rows.Length || string.Equals(rows[i], ""))
+                    {
+                        skinRows[i].SetActive(false);
+                        continue;
+                    }
+
+
+                    skinRows[i].SetActive(true);
+
+                    var row = rows[i].Split(',');
+
+                    GameObject skinRow = skinRows[i];
+
+                    Text nameText = (Text)skinRow.transform.GetChild(1).GetComponent("Text");
+
+                    nameText.text = row[1];
+                }
+            }
+        }
+
+        private void BuySkin(string skin_id, GameObject row)
+        {
+            int status;
+            string response;
+
+            DatabaseRequester.Buy(skin_id, out status, out response);
+
+            if (status == 200)
+                row.SetActive(false);
         }
 
         private void OnEnable()

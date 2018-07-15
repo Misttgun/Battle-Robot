@@ -185,6 +185,20 @@ namespace BattleRobo
             instance.SyncQuery("/leaderboard?token=" + dbToken, out status, out response);
         }
 
+        public static void Market(out int status, out string response)
+        {
+            instance.SyncQuery("/get_buyable_skin_list?token=" + dbToken, out status, out response);
+        }
+
+        public static void Skin(out int status, out string response)
+        {
+            instance.SyncQuery("/get_owned_skin_list?token=" + dbToken, out status, out response);
+        }
+
+        public static void Buy(string skin_id, out int status, out string response)
+        {
+            instance.SyncQuery("/buy?token=" + dbToken + "&skin_id=" + skin_id, out status, out response);
+        }
 
         public static String GetPlayerPseudo()
         {
