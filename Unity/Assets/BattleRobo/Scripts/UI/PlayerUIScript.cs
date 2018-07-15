@@ -85,6 +85,12 @@ namespace BattleRobo
         /// </summary>
         [SerializeField]
         private Image hitMarker;
+        
+        /// <summary>
+        /// Default inventory sprite
+        /// </summary>
+        [SerializeField]
+        private Sprite defaultInvImage;
 
         /// <summary>
         /// The player owning this UI camera
@@ -157,8 +163,8 @@ namespace BattleRobo
         /// <param name="index"></param>
         public void SetActiveUISlot(int index)
         {
-            inventorySlotUI[currentActiveSlotIndex].transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 255, 255, 96);
-            inventorySlotUI[index].transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 0, 0, 96);
+            inventorySlotUI[currentActiveSlotIndex].transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 255, 255, 150);
+            inventorySlotUI[index].transform.GetChild(0).GetComponent<Image>().color = new Color32(255, 0, 0, 150);
             currentActiveSlotIndex = index;
         }
 
@@ -169,7 +175,7 @@ namespace BattleRobo
         /// <param name="index"></param>
         public void SetItemUISlot(PlayerObjectScript obj, int index)
         {
-            inventorySlotUI[index].transform.GetChild(0).GetComponent<Image>().sprite = obj != null ? obj.GetSprite() : null;
+            inventorySlotUI[index].transform.GetChild(1).GetComponent<Image>().sprite = obj != null ? obj.GetSprite() : defaultInvImage;
         }
 
         /// <summary>

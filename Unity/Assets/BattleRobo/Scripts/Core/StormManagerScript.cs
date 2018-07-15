@@ -109,8 +109,8 @@ namespace BattleRobo
 
         private void StormTransform() //taille de la storm
         {
-            m = mapGenerator.getMapMainSize();
-            h = mapGenerator.getHeight() / 6;
+            m = mapGenerator.GetMapMainSize();
+            h = mapGenerator.GetHeight() / 6;
             stormSize = m + m/5;
             float stormCenterPos = (float) m / 2;
             transform.localScale = new Vector3(stormSize, stormSize * h, stormSize);

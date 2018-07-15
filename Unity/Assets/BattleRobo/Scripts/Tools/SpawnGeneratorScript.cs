@@ -11,6 +11,7 @@ public class SpawnGeneratorScript : MonoBehaviour
 
     // The number of spawn points
     [Tooltip("The number must be a mutliple of 4")]
+    [RangeStep(4, 64, 4)]
     public int numSpawnPoints;
 
     private void Awake()
@@ -23,7 +24,8 @@ public class SpawnGeneratorScript : MonoBehaviour
     private void GenenrateSpawnPoints()
     {
         int numBeforeChange = numSpawnPoints / 4;
-        int step = mapGenerator.mapSize / numBeforeChange;
+        int mapSize = mapGenerator.GetMapMainSize();
+        int step = mapSize / numBeforeChange;
 
         int x = 0, z = 0;
 
@@ -32,15 +34,15 @@ public class SpawnGeneratorScript : MonoBehaviour
 
         for (int i = 1; i < numSpawnPoints; i++)
         {
-            if (z < mapGenerator.mapSize && x < mapGenerator.mapSize)
+            if (z < mapSize && x == 0)
             {
                 z += step;
             }
-            else if (z == mapGenerator.mapSize && x < mapGenerator.mapSize)
+            else if (z == mapSize && x < mapSize)
             {
                 x += step;
             }
-            else if (z > 0 && x == mapGenerator.mapSize)
+            else if (z > 0 && x == mapSize)
             {
                 z -= step;
             }
@@ -49,8 +51,8 @@ public class SpawnGeneratorScript : MonoBehaviour
                 x -= step;
             }
 
-            var newX = x * mapGenerator.mapSpacing - 10;
-            var newZ = z * mapGenerator.mapSpacing - 10;
+            var newX = x - 10;
+            var newZ = z - 10;
             
             spawnPositions[i] = new Vector3(Mathf.Clamp(newX, 0, 790), 30, Mathf.Clamp(newZ, 0, 790));
         }

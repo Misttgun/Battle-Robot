@@ -42,7 +42,7 @@ namespace BattleRobo
                 }
             }
 
-            int mMapSize = getMapMainSize();
+            int mMapSize = GetMapMainSize();
             float halfMapSize = (float) mMapSize / 2;
             envExt.transform.localScale = new Vector3(mMapSize, height, mMapSize);
             envExt.transform.position = new Vector3(halfMapSize, -height / 5, halfMapSize);
@@ -52,12 +52,12 @@ namespace BattleRobo
             lake.transform.position = new Vector3(halfMapSize, lake.transform.position.y, halfMapSize);
         }
 
-        public int getMapMainSize()
+        public int GetMapMainSize()
         {
             return mapSize * mapSpacing;
         }
 
-        public float getHeight()
+        public float GetHeight()
         {
             return height;
         }

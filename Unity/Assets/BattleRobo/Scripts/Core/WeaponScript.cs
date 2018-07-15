@@ -38,14 +38,6 @@ namespace BattleRobo
                 playerAnimator.SetLayerWeight(currentGun.animLayer, 0);
         }
 
-//        private void Update()
-//        {
-//            if (!playerPhotonView) //player photon view is null
-//                return;
-//
-//            playerAnimator.SetLayerWeight(currentGun.animLayer, 1);
-//        }
-
         public bool CanFire()
         {
             return Time.time >= nextTimeToFire;

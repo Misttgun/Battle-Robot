@@ -43,7 +43,7 @@ public class PathGenerator : MonoBehaviour
     // placement du chemin du vehicule en fon ction de la taille de la map 
     private void pathTransform()
     {
-        m = mapGenerator.getMapMainSize();
+        m = mapGenerator.GetMapMainSize();
   
         vehicle.transform.position = new Vector3(0, 40 , 0);
         
