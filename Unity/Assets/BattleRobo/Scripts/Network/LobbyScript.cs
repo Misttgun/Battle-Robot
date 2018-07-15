@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Random = UnityEngine.Random;
 
 namespace BattleRobo
 {
@@ -51,7 +52,8 @@ namespace BattleRobo
 
             if (PhotonNetwork.isMasterClient)
             {
-                int seed = 42;
+                Random.InitState(Convert.ToInt32(Time.realtimeSinceStartup));
+                int seed = Random.Range(1, 100);
                 Hashtable properties = new Hashtable {{"seed", seed}, {"timer", countDowntimer}};
                 PhotonNetwork.room.SetCustomProperties(properties);
             }

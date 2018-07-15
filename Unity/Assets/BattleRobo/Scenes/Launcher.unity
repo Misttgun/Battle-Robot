@@ -584,7 +584,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAuthenticationServerEnabled: 1
   ip: 51.38.235.234
-  useHttps: 0
+  useHttps: 1
   timeout: 5000
 --- !u!4 &603657389
 Transform:
