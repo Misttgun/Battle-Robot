@@ -141,6 +141,7 @@ namespace BattleRobo
                 var consommable = item.GetConsommable();
                 consommableHolder.SetConsommable(consommable);
                 weaponHolder.SetWeapon(null, 0f);
+                playerUI.SetAmmoCounter(inventory[index].GetStackSize());
             }
 
             else
@@ -216,6 +217,7 @@ namespace BattleRobo
                         var consommableId = playerObject.GetConsommable().GetId();
                         weaponHolder.SetWeapon(null, 0f);
                         consommableHolder.EquipConsommable(consommableId);
+                        playerUI.SetAmmoCounter(inventory[slotIndex].GetStackSize());
                     }
                 }
             }
@@ -247,7 +249,6 @@ namespace BattleRobo
 
         public void Drop(Vector3 position, int index)
         {
-            Debug.Log("Object is drop");
             var playerObject = inventory[index].GetItem();
 
             if (!playerObject)
@@ -314,7 +315,14 @@ namespace BattleRobo
             if (item.isConsommable())
             {
                 itemSlot.Use();
-            
+
+                var stackSize = inventory[index].GetStackSize();
+
+                if (stackSize == 0)
+                    stackSize = -1;
+
+                playerUI.SetAmmoCounter(stackSize);
+
                 // - remove ui sprite if stack is empty
                 if (itemSlot.GetStackSize() == 0)
                 {
