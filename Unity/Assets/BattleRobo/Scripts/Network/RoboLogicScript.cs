@@ -314,10 +314,7 @@ namespace BattleRobo
                 var newHealth = photonView.GetHealth() + hot;
                 var newShield = photonView.GetShield() + sot;
 
-                // - limit heal and shield
-                if (newHealth > PlayerStats.maxHealth)
-                    newShield += newHealth - PlayerStats.maxHealth;
-
+                newHealth = Math.Min(newHealth, PlayerStats.maxHealth);
                 newShield = Math.Min(newShield, PlayerStats.maxShield);
 
                 photonView.SetHealth((int) newHealth);
