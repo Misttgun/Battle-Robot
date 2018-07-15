@@ -240,7 +240,12 @@ namespace BattleRobo
                 {
                     var consommable = consommableHolder.currentConsommable;
 
-                    photonView.RPC("ShootRPC", PhotonTargets.AllViaServer, playerID);
+                    // - cancel use if the player is full life
+                    var cancel_use = (consommable.GetHealth() > 0 && consommable.GetShield() == 0 && photonView.GetHealth() == PlayerStats.maxHealth);
+                    cancel_use = cancel_use || (consommable.GetShield() > 0 && consommable.GetHealth() == 0 && photonView.GetShield() == PlayerStats.maxShield);
+
+                    if (!cancel_use)
+                        photonView.RPC("ShootRPC", PhotonTargets.AllViaServer, playerID);
                 }
             }
             
