@@ -484,7 +484,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapGenerator: {fileID: 0}
   spawnPositions: []
-  numSpawnPoints: 4
+  numSpawnPoints: 64
 --- !u!114 &114859302497117012
 MonoBehaviour:
   m_ObjectHideFlags: 1
