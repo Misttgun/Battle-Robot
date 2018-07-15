@@ -261,10 +261,9 @@ namespace BattleRobo
             if (found)
             {
                 player.SetActive(false);
+                alivePlayers.Remove(id);
+                alivePlayerNumber--;
             }
-
-            alivePlayers.Remove(id);
-            alivePlayerNumber--;
         }
 
         [PunRPC]

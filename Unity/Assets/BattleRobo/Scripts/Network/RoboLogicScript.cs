@@ -161,7 +161,7 @@ namespace BattleRobo
             //set a global reference to the local player
             GameManagerScript.GetInstance().localPlayer = this;
 
-            photonView.RPC("SendDBTokenRPC", PhotonTargets.MasterClient, playerID, PlayerInfoScript.GetInstance().GetDBToken());
+            photonView.RPC("SendDBTokenRPC", PhotonTargets.All, playerID, PlayerInfoScript.GetInstance().GetDBToken());
 
             for (int i = 0; i < playerSkinedMesh.Length; i++)
             {
@@ -487,8 +487,7 @@ namespace BattleRobo
         private void SendDBTokenRPC(int id, string token)
         {
             // only the master client should save the db token
-            if (PhotonNetwork.isMasterClient)
-                GameManagerScript.GetInstance().dbTokens.Add(id, token);
+            GameManagerScript.GetInstance().dbTokens.Add(id, token);
         }
 
 

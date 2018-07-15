@@ -23,6 +23,8 @@ namespace BattleRobo
         [SerializeField]
         private bool useHttps;
 
+        private String pseudo;
+
         // timeout in ms
         [SerializeField] 
         private int timeout;
@@ -41,39 +43,6 @@ namespace BattleRobo
             DontDestroyOnLoad(gameObject);
         }
 
-        /*
-        public void AsyncQuery(string query)
-        {
-            // - create query (use stringBuilder ?)
-            string url = useHttps ? "https://" : "http://";
-            url += ip + ":" + port + "/" + query;
-
-            // - don't wait for response
-            WWW www = new WWW(url);
-        }*/
-
-        /*
-        public void SyncQuery(string query, out int status, out string res)
-        {
-            // - create query (use stringBuilder ?)
-            string url = useHttps ? "https://" : "http://";
-            url += ip + ":" + port + "/" + query;
-
-            WWW www = new WWW(url);
-
-            // - wait response
-            while (!www.isDone) ;
-
-            Debug.Log(www.error);
-            if (www.responseHeaders["STATUS"].Contains("200"))
-                status = 200;
-
-            else
-                status = 400;
-
-            res = www.text;
-        }*/
-
         public void AsyncQuery(string query)
         {
             // - create query (use stringBuilder ?)
@@ -81,34 +50,22 @@ namespace BattleRobo
             var port = useHttps ? httpsPort : httpPort;
             url += ip + ":" + port + query;
             
-            Debug.Log("ASYNC QUERY : " + url);
-            // - don't wait for response
             ServicePointManager.ServerCertificateValidationCallback = TrustCertificate;
  
             HttpWebRequest request = (HttpWebRequest) WebRequest.Create(url);
             
             try
             {
-                request.BeginGetResponse(FinishWebRequest, null);
+                // - don't wait for response
+                request.GetResponse().Close();
             }
             
             catch (WebException e)
             {
-                Debug.Log("Exception occured when trying to reach : " + url);          
-            }
-            
-            /*
-            // - fire and forget pattern
-            ThreadPool.QueueUserWorkItem(o=>{ request.GetResponse(); });
-            
-            */
-            
-        }
-        
-        private void FinishWebRequest(IAsyncResult result)
-        {
-            HttpWebResponse response = (result.AsyncState as HttpWebRequest).EndGetResponse(result) as HttpWebResponse;
-            Debug.Log("ASYNC REQUEST IS OVER !");
+                // - ignore this exception, it s du to the response.Close() launch even if the response in not fully received
+                if (e.Status != WebExceptionStatus.ReceiveFailure)
+                    Debug.Log("Exception occured when trying to reach " + url + " : " + e.Status);          
+            } 
         }
 
         public void SyncQuery(string query, out int status, out string res)
@@ -116,9 +73,6 @@ namespace BattleRobo
             string url = useHttps ? "https://" : "http://";
             var port = useHttps ? httpsPort : httpPort;
             url += ip + ":" + port + query;
-            
-            
-            Debug.Log("SYNC QUERY : " + url);
             
             ServicePointManager.ServerCertificateValidationCallback = TrustCertificate;
             HttpWebRequest request = (HttpWebRequest) WebRequest.Create(url);
@@ -174,6 +128,21 @@ namespace BattleRobo
             return instance;
         }
 
+        public void PingServer()
+        {
+            // - the corountine must be started in the DBRequester because it is never destroyed
+            StartCoroutine(PingServerCorountine());
+        }
+
+        public IEnumerator PingServerCorountine()
+        {
+            while (true)
+            {
+                this.AsyncQuery("/is_alive?token=" + PlayerInfoScript.GetInstance().GetDBToken());
+                yield return new WaitForSeconds(10);
+            }
+        }
+
         // HANDLE DISCONNECTION FROM PLAYER
         // - Handle ALT F4
         public void OnApplicationQuit()
@@ -187,5 +156,17 @@ namespace BattleRobo
             var playerToken = PlayerInfoScript.GetInstance().GetDBToken();
             DatabaseRequester.GetInstance().AsyncQuery("/logout?token=" + playerToken);
         }
+
+        public String GetPlayerPseudo()
+        {
+            return pseudo;
+        }
+
+        public void SetPseudo(String p)
+        {
+            pseudo = p;
+        }
+
+
     }
 }
