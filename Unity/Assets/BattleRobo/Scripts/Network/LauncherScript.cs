@@ -32,9 +32,6 @@ namespace BattleRobo.Networking
         [SerializeField]
         private Text error;
 
-        [SerializeField]
-        private PlayerInfoScript playerInfo;
-
         // - save previous panel for the back button
         private GameObject lastPanel;
 
@@ -69,7 +66,7 @@ namespace BattleRobo.Networking
         /// - If already connected, we attempt to join a random room.
         /// - Esle, connect this application instance to Photon Cloud Network
         /// </summary>
-        public void Connect()
+        public void Connect(string pseudo, string token)
         {
             progressLabel.SetActive(true);
             controlPanel.SetActive(false);
@@ -77,24 +74,26 @@ namespace BattleRobo.Networking
             // We try to connect to server
             PhotonNetwork.PhotonServerSettings.HostType = ServerSettings.HostingOption.BestRegion;
             PhotonNetwork.ConnectToBestCloudServer(GameVersion);
+
+            // - set up DatabaseRequester
+            DatabaseRequester.SetDBToken(token);
+            DatabaseRequester.GetInstance().PingServer();
+            DatabaseRequester.SetPseudo(pseudo);
         }
 
         public void Create()
         {
             int status;
             string response;
-            string query = "/add_player?pseudo=" + createPseudo.text + "&pass=" + createPassword.text;
 
-            DatabaseRequester.GetInstance().SyncQuery(query, out status, out response);
+            DatabaseRequester.AddPlayer(createPseudo.text, createPassword.text, out status, out response);
 
             // - player is add successfully
             if (status == 200)
             {
                 createPanel.SetActive(false);
-                playerInfo.SetDBToken(response);
-                Connect();
-                DatabaseRequester.GetInstance().PingServer();
-                DatabaseRequester.GetInstance().SetPseudo(createPseudo.text);
+                Connect(createPseudo.text, response);
+                
             }
 
             // - can't add player
@@ -109,18 +108,15 @@ namespace BattleRobo.Networking
         {
             int status;
             string response;
-            string query = "/auth?pseudo=" + connectPseudo.text + "&pass=" + connectPassword.text;
 
-            DatabaseRequester.GetInstance().SyncQuery(query, out status, out response);
-            
+            DatabaseRequester.Authenticate(connectPseudo.text, connectPassword.text, out status, out response);
+
             // - player authenticate successfully
             if (status == 200)
             {
-                Connect();
-                playerInfo.SetDBToken(response);
-                DatabaseRequester.GetInstance().PingServer();
-                DatabaseRequester.GetInstance().SetPseudo(connectPseudo.text);
+                Connect(connectPseudo.text, response);
             }
+
             // - can't add player
             else
             {

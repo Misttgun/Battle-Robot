@@ -73,8 +73,9 @@ namespace BattleRobo
         /// </summary>
         public override void OnDisconnectedFromPhoton()
         {
-            var playerToken = PlayerInfoScript.GetInstance().GetDBToken();
-            DatabaseRequester.GetInstance().AsyncQuery("/logout?token=" + playerToken);
+            DatabaseRequester.Logout();
+            DatabaseRequester.SetDBToken(null);
+            DatabaseRequester.SetPseudo(null);
 
             //switch from the online to the offline scene after connection is closed
             if (SceneManager.GetActiveScene().buildIndex != 0)
@@ -112,9 +113,7 @@ namespace BattleRobo
         /// </summary>
         public void Quit()
         {
-            // We quit the application
-            var playerToken = PlayerInfoScript.GetInstance().GetDBToken();
-            DatabaseRequester.GetInstance().AsyncQuery("/logout?token=" + playerToken);
+            DatabaseRequester.Logout();
             Application.Quit();
         }
 

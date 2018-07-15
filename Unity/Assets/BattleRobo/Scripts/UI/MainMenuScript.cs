@@ -86,7 +86,7 @@ namespace BattleRobo
             string response;
             bool hasFoundPlayer = false;
 
-            DatabaseRequester.GetInstance().SyncQuery("/leaderboard?token=" + PlayerInfoScript.GetInstance().GetDBToken(), out status, out response);
+            DatabaseRequester.Leaderboard(out status, out response);
 
             // - leaderboard is loaded successfully
             if (status == 200)
@@ -115,7 +115,7 @@ namespace BattleRobo
                         playedText.text = row[3];
                         scoreText.text = row[4];
                         
-                        if (System.String.Equals(row[0], DatabaseRequester.GetInstance().GetPlayerPseudo(), System.StringComparison.OrdinalIgnoreCase))
+                        if (System.String.Equals(row[0], DatabaseRequester.GetPlayerPseudo(), System.StringComparison.OrdinalIgnoreCase))
                         {
                             rankText.color = playerColor;
                             playerText.color = playerColor;
@@ -128,6 +128,8 @@ namespace BattleRobo
                     }
                 }
 
+                Debug.Log(DatabaseRequester.GetPlayerPseudo() + " :: " + DatabaseRequester.GetDBToken());
+
                 if (hasFoundPlayer)
                 {
                     leaderboardRows[10].SetActive(false);
@@ -135,8 +137,9 @@ namespace BattleRobo
 
                 else
                 {
-                    var row = rows[10].Split(',');
                     leaderboardRows[10].SetActive(true);
+                    var row = rows[10].Split(',');
+
                     GameObject leaderboardRow = leaderboardRows[10];
 
                     Text rankText = (Text)leaderboardRow.transform.GetChild(0).GetComponent("Text");

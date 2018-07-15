@@ -122,9 +122,7 @@ namespace BattleRobo
         
         private void SetPlayerStats(int kills, int win, string token)
         {
-            string query = "/update_player?token=" + token + "&kill=" + kills + "&win=" + win;
-
-            DatabaseRequester.GetInstance().AsyncQuery(query);
+            DatabaseRequester.SetPlayerStat(kills, win, token);
         }
     }
 }

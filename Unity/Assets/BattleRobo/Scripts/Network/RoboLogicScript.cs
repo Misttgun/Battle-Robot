@@ -161,7 +161,7 @@ namespace BattleRobo
             //set a global reference to the local player
             GameManagerScript.GetInstance().localPlayer = this;
 
-            photonView.RPC("SendDBTokenRPC", PhotonTargets.All, playerID, PlayerInfoScript.GetInstance().GetDBToken());
+            photonView.RPC("SendDBTokenRPC", PhotonTargets.All, playerID, DatabaseRequester.GetDBToken());
 
             for (int i = 0; i < playerSkinedMesh.Length; i++)
             {
@@ -330,9 +330,7 @@ namespace BattleRobo
         //TODO déplacer la méthode dans une classe statique
         private void SetPlayerStats(int kills, int win, string token)
         {
-            string query = "/update_player?token=" + token + "&kill=" + kills + "&win=" + win;
-
-            DatabaseRequester.GetInstance().AsyncQuery(query);
+            DatabaseRequester.SetPlayerStat(kills, win, token);
         }
 
         public void ShowDamageIndicator(Vector3 shooterPos)

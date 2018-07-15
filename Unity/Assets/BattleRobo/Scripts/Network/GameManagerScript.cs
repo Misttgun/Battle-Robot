@@ -243,8 +243,7 @@ namespace BattleRobo
             if (SceneManager.GetActiveScene().buildIndex != 0)
                 SceneManager.LoadScene(0);
 
-            var playerToken = PlayerInfoScript.GetInstance().GetDBToken();
-            DatabaseRequester.GetInstance().AsyncQuery("/logout?token=" + playerToken);
+            DatabaseRequester.Logout();
         }
 
         //called on all clients when the player left the room

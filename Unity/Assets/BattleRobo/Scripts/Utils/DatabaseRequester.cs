@@ -23,7 +23,9 @@ namespace BattleRobo
         [SerializeField]
         private bool useHttps;
 
-        private String pseudo;
+
+        private static String pseudo;
+        private static string dbToken;
 
         // timeout in ms
         [SerializeField] 
@@ -59,10 +61,10 @@ namespace BattleRobo
                 // - don't wait for response
                 request.GetResponse().Close();
             }
-            
+
             catch (WebException e)
             {
-                // - ignore this exception, it s du to the response.Close() launch even if the response in not fully received
+                // - ignore this exception, due to the response.Close() launch even if the response in not fully received
                 if (e.Status != WebExceptionStatus.ReceiveFailure)
                     Debug.Log("Exception occured when trying to reach " + url + " : " + e.Status);          
             } 
@@ -138,7 +140,7 @@ namespace BattleRobo
         {
             while (true)
             {
-                this.AsyncQuery("/is_alive?token=" + PlayerInfoScript.GetInstance().GetDBToken());
+                this.AsyncQuery("/is_alive?token=" + dbToken);
                 yield return new WaitForSeconds(10);
             }
         }
@@ -147,26 +149,64 @@ namespace BattleRobo
         // - Handle ALT F4
         public void OnApplicationQuit()
         {
-            var playerToken = PlayerInfoScript.GetInstance().GetDBToken();
-            DatabaseRequester.GetInstance().AsyncQuery("/logout?token=" + playerToken);
+            DatabaseRequester.Logout();
         }
 
         public void Quit()
         {
-            var playerToken = PlayerInfoScript.GetInstance().GetDBToken();
-            DatabaseRequester.GetInstance().AsyncQuery("/logout?token=" + playerToken);
+            DatabaseRequester.Logout();
         }
 
-        public String GetPlayerPseudo()
+        public static void SetPlayerStat(int kills, int win, string token)
+        {
+            string query = "/update_player?token=" + token + "&kill=" + kills + "&win=" + win;
+
+            instance.AsyncQuery(query);
+        }
+
+        public static void Logout()
+        {
+            instance.AsyncQuery("/logout?token=" + dbToken);
+        }
+
+        public static void AddPlayer(string pseudo, string password, out int status, out string response)
+        {
+            string query = "/add_player?pseudo=" + pseudo + "&pass=" + password;
+
+            instance.SyncQuery(query, out status, out response);
+        }
+
+        public static void Authenticate(string pseudo, string password, out int status, out string response)
+        {
+            string query = "/auth?pseudo=" + pseudo + "&pass=" + password;
+
+            instance.SyncQuery(query, out status, out response);
+        }
+
+        public static void Leaderboard(out int status, out string response)
+        {
+            instance.SyncQuery("/leaderboard?token=" + dbToken, out status, out response);
+        }
+
+
+        public static String GetPlayerPseudo()
         {
             return pseudo;
         }
 
-        public void SetPseudo(String p)
+        public static void SetPseudo(String p)
         {
             pseudo = p;
         }
 
+        public static void SetDBToken(string token)
+        {
+            DatabaseRequester.dbToken = token;
+        }
 
+        public static string GetDBToken()
+        {
+            return dbToken;
+        }
     }
 }

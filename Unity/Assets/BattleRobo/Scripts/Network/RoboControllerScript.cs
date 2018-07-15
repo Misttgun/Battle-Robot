@@ -746,9 +746,7 @@ namespace BattleRobo
 
         private void SetPlayerStats(int kills, int win, string token)
         {
-            string query = "/update_player?token=" + token + "&kill=" + kills + "&win=" + win;
-
-            DatabaseRequester.GetInstance().AsyncQuery(query);
+            DatabaseRequester.SetPlayerStat(kills, win, token);
         }
         
         public void ClientMovement(float inputX, float inputY, bool isJumping, Vector2 mouseInput)
@@ -851,7 +849,7 @@ namespace BattleRobo
             //set name in the UI
             uiScript.playerNameText.text = PhotonNetwork.player.NickName;
             
-            myPhotonView.RPC("SendDBTokenRPC", PhotonTargets.MasterClient, playerID, PlayerInfoScript.GetInstance().GetDBToken());
+            myPhotonView.RPC("SendDBTokenRPC", PhotonTargets.MasterClient, playerID, DatabaseRequester.GetDBToken());
         }
 
         private void UpdateNetworkHeadRotation()
