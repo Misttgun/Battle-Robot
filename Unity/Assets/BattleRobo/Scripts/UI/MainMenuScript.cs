@@ -275,8 +275,10 @@ namespace BattleRobo
                     GameObject skinRow = skinRows[i];
 
                     Text nameText = (Text)skinRow.transform.GetChild(1).GetComponent("Text");
+                    Button skinButton = (Button)skinRow.transform.GetChild(2).GetComponent("Button");
 
                     nameText.text = row[1];
+                    skinButton.onClick.AddListener(delegate { SetSkin(row[0]); });
                 }
             }
         }
@@ -290,6 +292,12 @@ namespace BattleRobo
 
             if (status == 200)
                 row.SetActive(false);
+        }
+
+        private void SetSkin(string skin_id)
+        {
+            int id = System.Int32.Parse(skin_id);
+            PlayerPrefs.SetInt("prefab", id);
         }
 
         private void OnEnable()
