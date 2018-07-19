@@ -329,25 +329,28 @@ namespace BattleRobo
         {
             var hot = health / seconds;
             var sot = shield / seconds;
+            var tick = 0;
 
-            for (var tick = 0; tick < seconds; tick++)
+            while (tick < seconds)
             {
                 if (isInPause)
                 {
-                    tick--;
-                    continue;
+                    yield return waitOneSec;
                 }
 
-                var newHealth = photonView.GetHealth() + hot;
-                var newShield = photonView.GetShield() + sot;
+                else
+                {
+                    var newHealth = photonView.GetHealth() + hot;
+                    var newShield = photonView.GetShield() + sot;
 
-                newHealth = Math.Min(newHealth, PlayerStats.maxHealth);
-                newShield = Math.Min(newShield, PlayerStats.maxShield);
+                    newHealth = Math.Min(newHealth, PlayerStats.maxHealth);
+                    newShield = Math.Min(newShield, PlayerStats.maxShield);
 
-                photonView.SetHealth((int) newHealth);
-                photonView.SetShield((int) newShield);
-
-                yield return waitOneSec;
+                    photonView.SetHealth((int)newHealth);
+                    photonView.SetShield((int)newShield);
+                    tick++;
+                    yield return waitOneSec;
+                }
             }
         }
 
