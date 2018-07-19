@@ -22,7 +22,7 @@ namespace BattleRobo
         private LevelGeneratorScript mapGenerator;
 
         [SerializeField]
-        private const float LerpTime = 0.5f;
+        private float LerpTime = 0.5f;
 
         public int stormDmg = 2;
 
