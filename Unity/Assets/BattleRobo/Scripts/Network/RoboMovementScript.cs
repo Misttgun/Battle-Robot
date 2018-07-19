@@ -286,7 +286,7 @@ namespace BattleRobo
                     if (doubleJump)
                     {
                         doubleJump = false;
-                        moveDirection.y = flyForce / 1.5f;
+                        moveDirection.y = flyForce;
                     }
                 }
             }

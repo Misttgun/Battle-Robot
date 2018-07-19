@@ -5522,7 +5522,7 @@ MonoBehaviour:
   aimSensitivity: 5
   speed: 9
   gravity: 20
-  flyForce: 20
+  flyForce: 15
   controller: {fileID: 143230510138537418}
   roboHead: {fileID: 4659950004895422}
   roboLogic: {fileID: 114366915182477312}
