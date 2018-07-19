@@ -256,7 +256,8 @@ namespace BattleRobo
             // - Update ammo counter
             if (playerObject.IsWeapon())
             {
-                var ammoCounter = weaponHolder.currentWeapon == playerObject.GetWeapon() ? weaponHolder.currentWeapon.currentAmmo : playerObject.GetWeapon().currentAmmo;
+                // only update ammoCounter if we are droping the current weapon
+                var ammoCounter = (index == currentSlotIndex) ? weaponHolder.currentWeapon.currentAmmo : playerObject.GetWeapon().currentAmmo;
 
                 playerView.RPC("UpdateWeapon", PhotonTargets.AllViaServer, playerObject.GetLootTrackerIndex(), ammoCounter);
 
