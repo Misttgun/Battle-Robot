@@ -58,7 +58,7 @@ namespace BattleRobo
         /// </summary>
         public void TakeDamage(int hitPoint, int killerID = -1)
         {
-            if (!PhotonNetwork.isMasterClient)
+            if (!PhotonNetwork.isMasterClient || GameManagerScript.GetInstance().IsGamePause())
                 return;
 
             int damage = (int)(hitPoint * damageMultiplicator);

@@ -300,6 +300,11 @@ Prefab:
       propertyPath: instantiationId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114851602941090778, guid: 9c1da32c83a945948a9508812c27b536,
+        type: 2}
+      propertyPath: numSpawnPoints
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9c1da32c83a945948a9508812c27b536, type: 2}
   m_IsPrefabParent: 0
@@ -567,12 +572,12 @@ Prefab:
     - target: {fileID: 224762136155362918, guid: 7d6e197adb213ca498df5bfeaaeb0447,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 487
+      value: 484
       objectReference: {fileID: 0}
     - target: {fileID: 224762136155362918, guid: 7d6e197adb213ca498df5bfeaaeb0447,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 274
+      value: 272.5
       objectReference: {fileID: 0}
     - target: {fileID: 224762136155362918, guid: 7d6e197adb213ca498df5bfeaaeb0447,
         type: 2}
@@ -716,22 +721,22 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114822890940300948, guid: d3ccad306abfbec49ae7e8e7672c5a40,
+    - target: {fileID: 114948700168133992, guid: d3ccad306abfbec49ae7e8e7672c5a40,
         type: 2}
       propertyPath: viewIdField
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114822890940300948, guid: d3ccad306abfbec49ae7e8e7672c5a40,
+    - target: {fileID: 114948700168133992, guid: d3ccad306abfbec49ae7e8e7672c5a40,
         type: 2}
       propertyPath: instantiationId
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 114948700168133992, guid: d3ccad306abfbec49ae7e8e7672c5a40,
+    - target: {fileID: 114822890940300948, guid: d3ccad306abfbec49ae7e8e7672c5a40,
         type: 2}
       propertyPath: viewIdField
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114948700168133992, guid: d3ccad306abfbec49ae7e8e7672c5a40,
+    - target: {fileID: 114822890940300948, guid: d3ccad306abfbec49ae7e8e7672c5a40,
         type: 2}
       propertyPath: instantiationId
       value: 3

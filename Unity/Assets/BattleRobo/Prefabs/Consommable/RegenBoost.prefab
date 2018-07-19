@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f4db6ad919128b40af4b6446c58e12c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 4
+  id: 5
   maxStackSize: 5
   itemSprite: {fileID: 21300000, guid: f69bcf4c0eef6b14bb913385a117e7d0, type: 3}
   weaponScript: {fileID: 0}

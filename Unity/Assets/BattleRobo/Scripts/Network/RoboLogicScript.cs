@@ -332,6 +332,12 @@ namespace BattleRobo
 
             for (var tick = 0; tick < seconds; tick++)
             {
+                if (isInPause)
+                {
+                    tick--;
+                    continue;
+                }
+
                 var newHealth = photonView.GetHealth() + hot;
                 var newShield = photonView.GetShield() + sot;
 

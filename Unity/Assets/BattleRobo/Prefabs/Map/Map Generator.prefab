@@ -416,7 +416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sizing: 2
-  waitTime: 0.5
+  waitTime: 0.25
   stormTimer: 30
   mapGenerator: {fileID: 114893382746955742}
   stormDmg: 1
