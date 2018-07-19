@@ -9,10 +9,11 @@ namespace BattleRobo
 
         [SerializeField]
         private float damageMultiplicator;
-        
+
         //safe zone variables
         [HideInInspector]
         public bool inStorm;
+
         private const float waitingTime = 1f;
         private float timer;
 
@@ -23,9 +24,9 @@ namespace BattleRobo
         private void Update()
         {
             //take storm and water damage only on the master client
-            if (!PhotonNetwork.isMasterClient) 
+            if (!PhotonNetwork.isMasterClient)
                 return;
-            
+
             timer += Time.deltaTime;
 
             //apply damage to player in the storm
@@ -61,7 +62,7 @@ namespace BattleRobo
             if (!PhotonNetwork.isMasterClient || GameManagerScript.GetInstance().IsGamePause())
                 return;
 
-            int damage = (int)(hitPoint * damageMultiplicator);
+            int damage = (int) (hitPoint * damageMultiplicator);
 
             //store network variables temporary
             int health = playerPhotonView.GetHealth();
@@ -71,24 +72,23 @@ namespace BattleRobo
             if (shield > 0 && killerID != -1)
             {
                 var shieldDamage = shield - damage;
-                
+
                 if (shieldDamage < 0)
                 {
                     playerPhotonView.SetShield(0);
                     playerPhotonView.SetHealth(health + shieldDamage);
                 }
-
                 else
+                {
                     playerPhotonView.SetShield(shieldDamage);
-                
-                return;
+                }
             }
 
-            //if player is already dead, but we can still shoot him... don't ask me why
-            if (health <= 0)
-            {
-                return;
-            }
+//            //if player is already dead, but we can still shoot him... don't ask me why
+//            if (health <= 0)
+//            {
+//                return;
+//            }
 
             //substract health by damage
             //locally for now, to only have one update later on
