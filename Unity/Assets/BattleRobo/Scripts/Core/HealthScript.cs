@@ -92,7 +92,8 @@ namespace BattleRobo
 
             //substract health by damage
             //locally for now, to only have one update later on
-            health -= damage;
+            else 
+                health -= damage;
 
             //the player is dead
             if (health <= 0)
