@@ -45,6 +45,9 @@ namespace BattleRobo
         private List<GameObject> skinRows;
 
         [SerializeField]
+        private Text playerCurrency;
+
+        [SerializeField]
         private Color playerColor;
 
         private void Start()
@@ -207,6 +210,21 @@ namespace BattleRobo
         {
             int status;
             string response;
+            int currency;
+            
+            // - get player currency
+            DatabaseRequester.Currency(out status, out response);
+
+            if (status == 200)
+            { 
+                currency = System.Int32.Parse(response);
+            }
+
+            else
+            {
+                return;
+            }
+
 
             DatabaseRequester.Market(out status, out response);
 
@@ -240,6 +258,7 @@ namespace BattleRobo
                     nameText.text = row[1];
                     costText.text = row[2];
                     buyButton.onClick.AddListener(delegate { BuySkin(row[0], marketRow); });
+                    buyButton.interactable = currency > System.Int32.Parse(row[2]);
                 }
             }
         }

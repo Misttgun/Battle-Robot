@@ -216,6 +216,11 @@ namespace BattleRobo
             instance.SyncQuery("/buy?token=" + dbToken + "&skin_id=" + skin_id, out status, out response);
         }
 
+        public static void Currency(out int status, out string response)
+        {
+            instance.SyncQuery("/get_currency?token=" + dbToken, out status, out response);
+        }
+
         public static String GetPlayerPseudo()
         {
             return pseudo;
