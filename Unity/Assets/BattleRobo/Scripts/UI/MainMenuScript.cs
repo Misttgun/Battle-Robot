@@ -218,6 +218,7 @@ namespace BattleRobo
             if (status == 200)
             { 
                 currency = System.Int32.Parse(response);
+                playerCurrency.text = currency.ToString();
             }
 
             else
@@ -276,28 +277,64 @@ namespace BattleRobo
                 var csv_text = response;
                 var rows = csv_text.Split('\n');
 
-
                 for (int i = 0; i < skinRows.Count; i++)
                 {
-                    // - no more skin to buy
-                    if (i >= rows.Length || string.Equals(rows[i], ""))
-                    {
-                        skinRows[i].SetActive(false);
-                        continue;
-                    }
-
-
-                    skinRows[i].SetActive(true);
-
-                    var row = rows[i].Split(',');
-
                     GameObject skinRow = skinRows[i];
 
+                    Text idText = (Text)skinRow.transform.GetChild(0).GetComponent("Text");
                     Text nameText = (Text)skinRow.transform.GetChild(1).GetComponent("Text");
                     Button skinButton = (Button)skinRow.transform.GetChild(2).GetComponent("Button");
 
-                    nameText.text = row[1];
-                    skinButton.onClick.AddListener(delegate { SetSkin(row[0]); });
+                    if (i == 0)
+                    {
+                        skinButton.onClick.AddListener(delegate { SetSkin("0"); });
+                        if (PlayerPrefs.GetInt("prefab") == 0)
+                        {
+                            idText.color = playerColor;
+                            nameText.color = playerColor;
+                            skinButton.interactable = false;
+                        }
+
+                        else
+                        {
+                            idText.color = Color.white;
+                            nameText.color = Color.white;
+                            skinButton.interactable = true;
+                        }
+                    }
+
+                    else
+                    {
+                        var j = i - 1;
+
+                        // - no more skin to buy
+                        if (j >= rows.Length || string.Equals(rows[j], ""))
+                        {
+                            skinRows[i].SetActive(false);
+                            continue;
+                        }
+
+                        skinRows[i].SetActive(true);
+                        var row = rows[j].Split(',');
+
+                        nameText.text = row[1];
+                        skinButton.onClick.AddListener(delegate { SetSkin(row[0]); });
+
+                        if (row[0] == PlayerPrefs.GetInt("prefab").ToString())
+                        {
+                            idText.color = playerColor;
+                            nameText.color = playerColor;
+                            skinButton.interactable = false;
+                        }
+
+                        else
+                        {
+                            idText.color = Color.white;
+                            nameText.color = Color.white;
+                            skinButton.interactable = true;
+                        }
+
+                    }
                 }
             }
         }
@@ -310,13 +347,66 @@ namespace BattleRobo
             DatabaseRequester.Buy(skin_id, out status, out response);
 
             if (status == 200)
+            {
                 row.SetActive(false);
+                var cost = System.Int32.Parse(((Text)row.transform.GetChild(2).GetComponent("Text")).text);
+                int currentCurrency = UpdateCurrency(cost);
+                UpdateBuyButton(currentCurrency);
+            }
+        }
+
+        public int UpdateCurrency(int cost)
+        {
+            int currentCurrency = System.Int32.Parse(playerCurrency.text);
+            currentCurrency -= cost;
+
+            playerCurrency.text = currentCurrency.ToString();
+
+            return currentCurrency;
+        }
+
+        public void UpdateBuyButton(int currentCurrency)
+        {
+            for (int i = 0; i < marketRows.Count; i++)
+            {
+        
+                GameObject marketRow = marketRows[i];
+
+                Text costText = (Text)marketRow.transform.GetChild(2).GetComponent("Text");
+                Button buyButton = (Button)marketRow.transform.GetChild(3).GetComponent("Button");
+
+                buyButton.interactable = currentCurrency > System.Int32.Parse(costText.text);
+            }
         }
 
         private void SetSkin(string skin_id)
         {
             int id = System.Int32.Parse(skin_id);
             PlayerPrefs.SetInt("prefab", id);
+
+            for (int i = 0; i < skinRows.Count; i++)
+            {
+                GameObject skinRow = skinRows[i];
+
+                Text idText = (Text)skinRow.transform.GetChild(0).GetComponent("Text");
+                Text nameText = (Text)skinRow.transform.GetChild(1).GetComponent("Text");
+                Button skinButton = (Button)skinRow.transform.GetChild(2).GetComponent("Button");
+
+                
+                if (i == id)
+                {
+                    idText.color = playerColor;
+                    nameText.color = playerColor;
+                    skinButton.interactable = false;
+                }
+
+                else
+                {
+                    idText.color = Color.white;
+                    nameText.color = Color.white;
+                    skinButton.interactable = true;
+                }
+            }
         }
 
         private void OnEnable()
