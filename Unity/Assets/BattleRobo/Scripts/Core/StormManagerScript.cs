@@ -21,11 +21,13 @@ namespace BattleRobo
         [SerializeField]
         private LevelGeneratorScript mapGenerator;
 
+        [SerializeField]
+        private const float LerpTime = 0.5f;
+
         public int stormDmg = 2;
 
         private float stormSize; // à calculer avec la taille de la map generator
         private Vector3 size;
-        private const float LerpTime = 0.5f;
         private float currentLerpTime;
 
         private float timer;
@@ -82,7 +84,7 @@ namespace BattleRobo
                     StormManageScale();
 
                     timer = waitTime;
-                } 
+                }
                 else
                 {
                     timer -= Time.deltaTime;
