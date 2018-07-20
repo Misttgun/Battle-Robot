@@ -54,7 +54,7 @@ namespace BattleRobo
             StormTransform(); // donner la taille de départ de la zone
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (GameManagerScript.ready && !startTimer)
             {
@@ -74,7 +74,7 @@ namespace BattleRobo
             {
                 if (stormTimer > 0)
                 {
-                    stormTimer -= Time.deltaTime;
+                    stormTimer -= Time.fixedDeltaTime;
 
                     timer = stormTimer;
                 }
@@ -87,13 +87,13 @@ namespace BattleRobo
                 }
                 else
                 {
-                    timer -= Time.deltaTime;
+                    timer -= Time.fixedDeltaTime;
                 }
             }
 
             if (lerping)
             {
-                currentLerpTime += Time.deltaTime;
+                currentLerpTime += Time.fixedDeltaTime;
                 if (currentLerpTime > LerpTime)
                 {
                     currentLerpTime = LerpTime;
