@@ -252,9 +252,9 @@ namespace BattleRobo
 
                     GameObject marketRow = marketRows[i];
 
-                    Text nameText = (Text)marketRow.transform.GetChild(1).GetComponent("Text");
-                    Text costText = (Text)marketRow.transform.GetChild(2).GetComponent("Text");
-                    Button buyButton = (Button)marketRow.transform.GetChild(3).GetComponent("Button");
+                    Text nameText = (Text)marketRow.transform.GetChild(0).GetComponent("Text");
+                    Text costText = (Text)marketRow.transform.GetChild(1).GetComponent("Text");
+                    Button buyButton = (Button)marketRow.transform.GetChild(2).GetComponent("Button");
 
                     nameText.text = row[1];
                     costText.text = row[2];

@@ -420,7 +420,7 @@ MonoBehaviour:
   stormTimer: 30
   mapGenerator: {fileID: 114893382746955742}
   LerpTime: 0.25
-  stormDmg: 1
+  stormDmg: 0
 --- !u!114 &114250167767592932
 MonoBehaviour:
   m_ObjectHideFlags: 1
