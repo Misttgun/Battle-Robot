@@ -234,23 +234,27 @@ namespace BattleRobo
             {
                 var csv_text = response;
                 var rows = csv_text.Split('\n');
-
                 
+                // - Disable all rows by default
                 for (int i = 0; i < marketRows.Count; i++)
                 {
-                    // - no more skin to buy
-                    if (i >= rows.Length || string.Equals(rows[i], ""))
-                    {
-                        marketRows[i].SetActive(false);
-                        continue;
-                    }
+                    marketRows[i].SetActive(false);
+                }
 
-
-                    marketRows[i].SetActive(true);
-
+                for (int i = 0; i < rows.Length; i++)
+                {
                     var row = rows[i].Split(',');
 
-                    GameObject marketRow = marketRows[i];
+
+                    if (row[0].Equals(""))
+                        continue;
+
+                    Debug.Log(row[0] + " " + row[1] + " " + row[2]);
+
+                    int id = (System.Int32.Parse(row[0]) - 1) % 3;
+
+                    marketRows[id].SetActive(true);
+                    GameObject marketRow = marketRows[id];
 
                     Text nameText = (Text)marketRow.transform.GetChild(0).GetComponent("Text");
                     Text costText = (Text)marketRow.transform.GetChild(1).GetComponent("Text");
@@ -259,7 +263,7 @@ namespace BattleRobo
                     nameText.text = row[1];
                     costText.text = row[2];
                     buyButton.onClick.AddListener(delegate { BuySkin(row[0], marketRow); });
-                    buyButton.interactable = currency > System.Int32.Parse(row[2]);
+                    buyButton.interactable = currency >= System.Int32.Parse(row[2]);
                 }
             }
         }
@@ -349,7 +353,7 @@ namespace BattleRobo
             if (status == 200)
             {
                 row.SetActive(false);
-                var cost = System.Int32.Parse(((Text)row.transform.GetChild(2).GetComponent("Text")).text);
+                var cost = System.Int32.Parse(((Text)row.transform.GetChild(1).GetComponent("Text")).text);
                 int currentCurrency = UpdateCurrency(cost);
                 UpdateBuyButton(currentCurrency);
             }
@@ -369,13 +373,15 @@ namespace BattleRobo
         {
             for (int i = 0; i < marketRows.Count; i++)
             {
-        
+                if (marketRows[i].GetActive() == false)
+                    continue;
+
                 GameObject marketRow = marketRows[i];
 
-                Text costText = (Text)marketRow.transform.GetChild(2).GetComponent("Text");
-                Button buyButton = (Button)marketRow.transform.GetChild(3).GetComponent("Button");
+                Text costText = (Text)marketRow.transform.GetChild(1).GetComponent("Text");
+                Button buyButton = (Button)marketRow.transform.GetChild(2).GetComponent("Button");
 
-                buyButton.interactable = currentCurrency > System.Int32.Parse(costText.text);
+                buyButton.interactable = currentCurrency >= System.Int32.Parse(costText.text);
             }
         }
 
