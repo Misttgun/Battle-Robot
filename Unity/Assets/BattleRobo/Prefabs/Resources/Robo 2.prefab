@@ -3735,7 +3735,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294901759
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -5865,7 +5865,6 @@ MonoBehaviour:
   playerCameraTransform: {fileID: 4653284019728968}
   playerCamera: {fileID: 20991928261766106}
   playerCameraAudio: {fileID: 81128158641453910}
-  depthCamera: {fileID: 0}
   animator: {fileID: 95058525888876002}
   thrusters: {fileID: 1835074231656208}
   uiScript: {fileID: 114721101240183418}

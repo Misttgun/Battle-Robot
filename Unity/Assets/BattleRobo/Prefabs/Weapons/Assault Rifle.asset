@@ -11,10 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6417b7f17e7853247a97b4a4945dd6c1, type: 3}
   m_Name: Assault Rifle
   m_EditorClassIdentifier: 
-  magazineSize: 30
-  damage: 20
+  magazineSize: 40
+  damage: 30
   range: 200
-  fireRate: 1
+  fireRate: 0.5
   gunName: M416
   animLayer: 3
   gunId: 1
