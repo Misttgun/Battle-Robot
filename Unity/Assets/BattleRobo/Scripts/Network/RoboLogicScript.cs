@@ -25,12 +25,6 @@ namespace BattleRobo
         /// </summary>
         [SerializeField]
         private AudioListener playerCameraAudio;
-        
-        /// <summary>
-        /// The weapon depth camera.
-        /// </summary>
-        [SerializeField]
-        private Camera depthCamera;
 
         /// <summary>
         /// The player animator.
@@ -150,9 +144,6 @@ namespace BattleRobo
             //activate camera only for this player
             playerCamera.enabled = true;
             playerCameraAudio.enabled = true;
-            
-            //activate depth camera only for this player
-            depthCamera.enabled = true;
 
             //set name in the UI
             uiScript.playerNameText.text = photonView.GetName();
