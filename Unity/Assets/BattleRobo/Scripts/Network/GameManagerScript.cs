@@ -100,7 +100,7 @@ namespace BattleRobo
         private bool deactivate;
 
         private float pauseTimer;
-        private string[] prefabs = { "Robo 1", "Robo 2", "Robo 3", "Robo 4" };
+        private readonly string[] prefabs = {"Robo 1", "Robo 2", "Robo 3", "Robo 4"};
 
         private void Awake()
         {

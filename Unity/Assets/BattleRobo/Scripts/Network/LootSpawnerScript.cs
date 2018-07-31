@@ -40,7 +40,11 @@ namespace BattleRobo
             if (obj != null)
                 return;
 
-            var spawPosition = new Vector3(transform.position.x, transform.position.y + 2.55f, transform.position.z);
+            var posX = transform.position.x + transform.lossyScale.x / 2;
+            var posY = transform.position.y + transform.lossyScale.y;
+            var poxZ = transform.position.z + transform.lossyScale.z / 2;
+
+            var spawPosition = new Vector3(posX, posY + 0.1f, poxZ);
 
             //use the poolmanager to spawn the loot on top of the plateforme
             obj = PoolManagerScript.Spawn(prefabs[index], spawPosition, prefabs[index].gameObject.transform.localRotation);

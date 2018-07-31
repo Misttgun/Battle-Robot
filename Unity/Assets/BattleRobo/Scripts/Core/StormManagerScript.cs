@@ -19,14 +19,13 @@ namespace BattleRobo
         private float stormTimer;
 
         [SerializeField]
-        private LevelGeneratorScript mapGenerator;
-
-        [SerializeField]
         private float LerpTime = 0.5f;
+        
+        [SerializeField]
+        private float stormSize;
 
         public int stormDmg = 2;
-
-        private float stormSize; // à calculer avec la taille de la map generator
+        
         private Vector3 size;
         private float currentLerpTime;
 
@@ -39,8 +38,6 @@ namespace BattleRobo
         private float endSize;
 
         private bool stormActive;
-        private float h;
-        private int m;
 
         private void Awake()
         {
@@ -101,8 +98,8 @@ namespace BattleRobo
                 }
 
                 float ratio = currentLerpTime / LerpTime;
-                stormSize = Mathf.Clamp(Mathf.Lerp(startSize, endSize, ratio), sizing, 10000f); //1000f peut etre changer
-                transform.localScale = new Vector3(stormSize, stormSize * h, stormSize);
+                stormSize = Mathf.Clamp(Mathf.Lerp(startSize, endSize, ratio), 0, 10000f); //1000f peut etre changer
+                transform.localScale = new Vector3(stormSize, stormSize , stormSize);
             }
         }
 
@@ -116,12 +113,9 @@ namespace BattleRobo
 
         private void StormTransform() //taille de la storm
         {
-            m = mapGenerator.GetMapMainSize();
-            h = mapGenerator.GetHeight() / 6;
-            stormSize = m + m / 5;
-            float stormCenterPos = (float) m / 2;
-            transform.localScale = new Vector3(stormSize, stormSize * h, stormSize);
-            transform.position = new Vector3(stormCenterPos, h / 2, stormCenterPos);
+            transform.localScale = new Vector3(stormSize, stormSize, stormSize);
+            //TODO Enlever les valeur en dur
+            transform.position = new Vector3(200f, 0, 200f);
         }
 
         private void OnTriggerExit(Collider other)
