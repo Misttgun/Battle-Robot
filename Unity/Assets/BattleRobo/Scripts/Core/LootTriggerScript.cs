@@ -16,12 +16,6 @@ namespace BattleRobo
 		[SerializeField]
 		private MeshRenderer meshRenderer;
 		
-		//[SerializeField]
-		//private LootScript lootScript;
-
-		[SerializeField]
-		private GameObject weaponLight;
-		
 		//variable qui compte le nombre de trigger en collision avec le loot
 		private int count;
 	
@@ -66,7 +60,6 @@ namespace BattleRobo
             if (consommableScript)
                 consommableScript.enabled = true;
 			meshRenderer.enabled = true;
-			weaponLight.SetActive(true);
 		}
 
 		private void OnTriggerExit(Collider other)
@@ -92,7 +85,6 @@ namespace BattleRobo
 			}
 			
 			meshRenderer.enabled = false;
-			weaponLight.SetActive(false);
 		}
 	}
 }
